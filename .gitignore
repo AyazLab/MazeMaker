@@ -18,3 +18,14 @@ MazeMaker/obj/Release/MazeMaker.Main.resources
 MazeMaker/obj/Release/MazeMaker.pdb
 MazeMaker/obj/Release/MazeMaker.Properties.Resources.resources
 MazeMaker/obj/Release/MazeMaker.ResizeMazeDialog.resources
+MazeMaker/bin/Debug/MazeLib.dll
+MazeMaker/bin/Debug/MazeLib.pdb
+MazeMaker/bin/Debug/MazeMaker.exe
+MazeMaker/bin/Debug/MazeMaker.exe.config
+MazeMaker/bin/Debug/MazeMaker.pdb
+MazeMaker/bin/Release/MazeMaker.exe.config
+MazeMaker/obj/Debug/MazeMaker.csproj.CoreCompileInputs.cache
+MazeMaker/obj/Debug/MazeMaker.csproj.FileListAbsolute.txt
+MazeMaker/obj/Debug/MazeMaker.csprojAssemblyReference.cache
+MazeMaker/obj/Debug/MazeMaker.exe
+MazeMaker/obj/Debug/MazeMaker.pdb

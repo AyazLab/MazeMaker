@@ -22,3 +22,27 @@ D:\VSStudio\Visual Studio 2013\Projects\MazeMaker\MazeMaker\obj\Debug\MazeMaker.
 D:\VSStudio\Visual Studio 2013\Projects\MazeMaker\MazeMaker\obj\Debug\MazeMaker.ResizeMazeDialog.resources
 D:\VSStudio\Visual Studio 2013\Projects\MazeMaker\MazeMaker\obj\Debug\MazeMaker.csproj.CoreCompileInputs.cache
 D:\VSStudio\Visual Studio 2013\Projects\MazeMaker\MazeMaker\obj\Debug\MazeMaker.csproj.CopyComplete
+D:\GitHub\MazeMaker\MazeMaker\bin\Debug\MazeMaker.exe.config
+D:\GitHub\MazeMaker\MazeMaker\bin\Debug\MazeMaker.exe
+D:\GitHub\MazeMaker\MazeMaker\bin\Debug\MazeMaker.pdb
+D:\GitHub\MazeMaker\MazeMaker\bin\Debug\MazeLib.dll
+D:\GitHub\MazeMaker\MazeMaker\bin\Debug\MazeLib.pdb
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.csprojAssemblyReference.cache
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.About.resources
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.GetAngle.resources
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.LogProcessor.resources
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.Main.resources
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.Help.resources
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.MazeGen.resources
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.MazeListBuilder.resources
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.MazeMakerCollectionEditor.resources
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.Properties.Resources.resources
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.QuickRunSettingsDialog.resources
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.Register.resources
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.ResizeMazeDialog.resources
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.Splash.resources
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.csproj.GenerateResource.cache
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.csproj.CoreCompileInputs.cache
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.csproj.CopyComplete
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.exe
+D:\GitHub\MazeMaker\MazeMaker\obj\Debug\MazeMaker.pdb
