@@ -1,0 +1,245 @@
+
+
+3.0.5
+When closing maze list files, handle an issue for not having a current maze 
+
+3.0.3
+For release versioning, recompiled.
+
+3.0.2
+Fixed an issue related to command line processing
+
+-3.0.0.0
+	New: Completely revised new xml based flexible file format (save/load functionality and backwards compatibility)
+	New: Added Undo/redo Functionality
+	New: Added Multiple item selection Copy & Paste of items
+	New: Added Support for Multi-Copy between different mazes
+	New: Right-click interaction and context menu
+	New: MazeWalker perspective settings are now available for each maze (under maze global settings) file
+		Including 3rd person avatar
+	New: ActiveRegion Maze Item (programmable area to perform various actions) Display moveto and activateobject when selected.
+	New: Multiple StartPos can be defined. Random selection feature available.
+	Added ability to rotate items
+	Added support for curved walls
+	Added ability to move objects to top or bottom of maze item list
+	Added ability to generate circular mazes using the MazeWizard
+	Added support for changing of visual theme within MazeMaker
+	Dynamic models now referred to as Dynamic Objects
+	Dynamic Object (interactive programmable items) When selected, shows move to position and highlight/activate radii
+	End Regions when selected now point to Move to positions
+	Active Regions when selected point to Move to Positions and activated objects
+	Canvas navigation pad updated with zoom controls (upper right corner)
+	Left pane item tree can make multi select/deselect using ctrl (control) key
+	Floor vertices now editiable, but linked (allows for creating ramps)
+	Ensure the Walls and mazeitems are unselected properly + fixed priority for floors vs end regions in selection
+	Added ability to cancel when closing mazemaker
+	Added pan and zoom functions for touchscreen controls
+		Middle click now pans
+	Various minor UI improvements
+
+2.12.0.0
+	Maze editable view (large canvas) enabled and current edit area can be moved left/right/up/down with keys top right
+	Keyboard shortcut for scrolling canvas is Shift + Cursor Up/Down/Left/Right keys (press shift key and one of cursor buttons to move at one of the four directions ) 
+	Canvas offset is displayed at the bottom toolstrip
+	Current mouse position is displayed at the bottom toolstrip
+	Ceiling Height for Floor
+	Scale to be saved in double precision
+	Coordinate axis displayed on bottom right
+	Drag and drop of maze items updated
+
+2.11.0.0
+	Copy paste of objects
+	Start position: New angle setting for pitch (up-down) 
+					New random angle setting for both pitch (up-down) and yaw (left-right)
+    Shrink and Expand mazes with keyboard shortcuts Ctrl/- and Ctrl/+ respectively 
+
+2.10.0.0
+	Multiple choice item in maze lists
+	Flip option for wall textures
+
+2.9.0.0
+	New features in dynamic model properties related to audio playback
+	New splash screen during startup
+
+2.8.0.0
+	Revised all maze item properties
+	ID and name for all maze items
+	Version checker address updated
+
+-2.7.6.0
+	Added context menu to left pane tree view for child items of Wall and Floor. Move up/down/top/bottom for reordering. This can be necessary for larger items inserted last can cover older smaller items. Moving will help showing all. 
+	Removing maze item keyboard shortcut changed to ctrl+delete 
+
+-2.7.5.0
+-2.7.0.0
+	New Maze Wizard
+	Revised maze properties editing and updated maze file format
+	Keyboard shortcuts for all tools
+	MazeListbuilder updated: new image item that presents a selected image file when running mazelists.
+	Manual menu item under top menu help.
+
+
+-2.6.0.0
+	Updated to work with .NET Framework 4.0
+	About box- version check mechanism updated and standardized	
+
+-2.5.0.3
+	Skybox image selection at Texture Collection editor
+	Fixed a problem where all audio items were marked disabled
+	About box (launch with timer, show new update in red, etc.)s
+	Minor improvements
+
+-2.5.0.0
+	Rebuild with Visual Studio 2012
+	Updated to work with .NET Framework 4.5
+
+-2.4.2.0
+    About box: error handling and fixed update link
+	Dynamic object; testing if objects are in use -> now also includes checking changeto field
+
+-2.4.1.0
+	MazeList: TextItem now has background image property field and text display type
+
+-2.4.0.0
+	MazeLib integration
+	Dynamic object active radius format changed to double
+	Display line numbers of errors (if any) during maze loading
+
+-2.3.1.0
+	Added randomization option for start position viewing angle
+	Removes files from previous list if can not be opened
+
+-2.3.0.1
+	About dialog box (control if version checking is successful)	 
+
+-2.3.0.0
+	Read/Write new maze file format
+	Audio Collection editor
+	Updated maze properties
+	Updated Dynamic Model properties
+	Recent Files list
+	Updated about dialog box (also checks for new version)
+	MazeUpdate option in top menu>help
+	Visibile option for wall and floor items (if set to false, items are still in maze but not rendered)
+
+-2.2.0.26
+	PNG image format support (can be used for textures)
+
+-2.2.0.25
+	Visual Studio 2010 build
+
+-2.2.0.20
+	Help content updated
+	Shift+Space keyboard shortcut to cycle through objects
+	During drawing, auto-selection is updated to use any hot-point
+	Scaling method is updated. Changing the scale (default 17) will also be reflected visually 
+	Use Tools>Enlarge or Tools>Shrink to modify scale-maze coordinates relationship
+
+-2.2.0.17
+	MazeListBuilder window can be enlarged.
+	Toolstrip location is re-set after argument file is opened.
+
+-2.2.0.16
+	Limit mouse drag to gridsize or more (to eliminate unintended movement of items by clicking)
+
+-2.2.0.15
+	List item numbers added for the Maze List Builder 
+	Hold shift to disable snap to grid (otherwise enabled)
+
+-2.2.0.14
+	Snap-to-grid while drawing walls
+
+-2.2.0.13
+	Move Light with enlarge/shrink
+	Move StaticObjects with enlarge/shrink
+	Move DynamicObjects with enlarge/shrink
+	Multiple end regions
+	
+-2.2.0.12
+	Changed Start Position Toolbar Icon
+	Fixed selection that is close to wall
+	Fixed selection of static models from left pane
+	Fixed selection of dynamic models from left pane
+	Fixed add model (if cancel is hit at file selection no model is added)
+	Fixed add texture (if cancel is hit at file selection no model is added)
+
+-2.2.0.11
+	Multi- selection implemented (selected items common properties appear on the side pane). Use ctrl to select more
+	Multi- unselect implemented. A second click to already selected item unselects it.
+	Delete button removes all selected items
+	Ctrl+cursor moves all selected items
+	Left Pane (tree view) lists all available maze objects (Click on any item will select it)
+	List toolbar menu item (next to collections) toggles left pane
+	View>Left Pane tope menu item
+
+-2.2.0.10
+	Null option for Texture List (For dropdown Texture list for wall, floor, etc.) to be able clear selected texture
+	Null option for Model List (For dropdown Static and Dynamic Models) to be able to clear selected model
+	Final Check (before each save) for any removed texture that are left selected in objects (walls/floors)
+	Final Check (before each save) for any removed models that are left selected in objects (static/dynamic models)
+	UnSelect now removes selection of light
+	Ctrl+Space now scrolls throught light, static models and dynamic models
+	CollectionEditor: Remove button (any prior selected texture/model is removed) will also clear image preview	
+
+-2.2.0.9
+	Enumaration of Light property
+	Use enum for propertygrid custom options
+	Image preview for texture collection
+	F5 shortcuts for quick run
+
+-2.2.0.8
+	Enumaration for dynamic objects
+	Reconfiguration of wall and floor properties
+
+-2.2.0.7
+	If texture is not in use, save it with a space at the end to indicate its status
+	Saving Static and Dynamic models, if no model is defined, save model number as -1.
+	Do not change maze Y coordinate for floor and models
+
+-2.2.0.6
+	If model file is not in use, save it with a space at the end to indicate its status.
+
+-2.2.0.5
+	Quick Run toolstrip button, configuration 
+	Autofix placement also moves lights
+
+-2.2.0.4
+	New Keyboard surtcuts (Escape, delete, CTRL + W, L, P, M, D)
+	Load light (new format with 4 lines)
+	Set light limit to from 5 to 8
+	Can move static and dynamic objects
+
+
+-2.2.0.3
+	Edit->CollectionEditor (Edit Texture and Model Collections from top menu)
+	Static and Dynamic Model Paint: Add 's' or 'd' if a model is selected
+	Object selection (picking) algorithm updated. (Main.cs > CheckSelection)
+	Light object: new properties: attenuation and type
+
+-2.2.0.2
+	Read/Write Static Models
+	Read/Write Dynamic Models
+
+-2.1.0.3
+	Add list feature to logprocessor tool: it generates a list of path length and maze times for each maze that it is processing..
+
+
+-2.1.0.2
+	FIX: Paste wall objects. (Texture class within Wall was not serializable)
+	MazeListBuilder Tool: Add save/save as, status bar and current file..
+
+-2.1.0.1
+	FIX: MazeListBuilder; close file handle after opening..
+
+-2.1.0.0
+	Light objects
+	Texture indexing
+	Can load common image file formats (automatically converted if not compatible with mazewalker)
+	New file format
+	Rotate objects (90,180,270 and custom angle..)
+	Copy/paste
+	Move objects with mouse
+	
+
+-2.0.1.7
+	Enable Y (Maze Space) values other then -1,1 during conversion

@@ -1,0 +1,377 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CFD962F3-A88A-46A4-A998-DEA1AD7BC4C6}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MazeMaker</RootNamespace>
+    <AssemblyName>MazeMaker</AssemblyName>
+    <ApplicationIcon>mazemaker1.ico</ApplicationIcon>
+    <GenerateManifests>false</GenerateManifests>
+    <SignManifests>false</SignManifests>
+    <ManifestCertificateThumbprint>2EFC9CFE2826CF591A7BEEA288CF24170DC2463F</ManifestCertificateThumbprint>
+    <ManifestKeyFile>MazeMaker2_TemporaryKey.pfx</ManifestKeyFile>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>C:\MMM\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NSIS|AnyCPU'">
+    <OutputPath>..\..\Setup\Files\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BuilderItems.cs" />
+    <Compile Include="CurrentSettings.cs" />
+    <Compile Include="GetAngle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GetAngle.Designer.cs">
+      <DependentUpon>GetAngle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Kayit.cs" />
+    <Compile Include="LogProcessor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LogProcessor.Designer.cs">
+      <DependentUpon>LogProcessor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Help.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Help.Designer.cs">
+      <DependentUpon>Help.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MazeGen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MazeGen.Designer.cs">
+      <DependentUpon>MazeGen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MazeListBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MazeListBuilder.Designer.cs">
+      <DependentUpon>MazeListBuilder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MazeMakerCollectionEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MazeMakerCollectionEditor.Designer.cs">
+      <DependentUpon>MazeMakerCollectionEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResizeMazeDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResizeMazeDialog.Designer.cs">
+      <DependentUpon>ResizeMazeDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Splash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Splash.designer.cs">
+      <DependentUpon>Splash.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GetAngle.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GetAngle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LogProcessor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LogProcessor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Help.resx">
+      <DependentUpon>Help.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MazeGen.resx">
+      <DependentUpon>MazeGen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MazeListBuilder.resx">
+      <DependentUpon>MazeListBuilder.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MazeMakerCollectionEditor.resx">
+      <DependentUpon>MazeMakerCollectionEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QuickRunSettingsDialog.resx">
+      <DependentUpon>QuickRunSettingsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Register.resx">
+      <DependentUpon>Register.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="ResizeMazeDialog.resx">
+      <DependentUpon>ResizeMazeDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Splash.resx">
+      <DependentUpon>Splash.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="QuickRunSettings.cs" />
+    <Compile Include="QuickRunSettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QuickRunSettingsDialog.Designer.cs">
+      <DependentUpon>QuickRunSettingsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Register.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Register.Designer.cs">
+      <DependentUpon>Register.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\MazeSuite_MouseOver.png" />
+    <None Include="Res\MazeSuite.png" />
+    <None Include="Res\MazeMakerSplash1.png" />
+    <None Include="Res\Static1.png" />
+    <None Include="Res\Wizard2.png" />
+    <None Include="Res\Wizard1.png" />
+    <None Include="Res\mazemaker1.ico" />
+    <None Include="Res\mazeMaker_500.png" />
+    <None Include="Res\Keyboard.htm" />
+    <Content Include="Changes.txt" />
+    <None Include="Res\collections1a.bmp" />
+    <None Include="Res\collections1.bmp" />
+    <None Include="Res\list1.bmp" />
+    <None Include="Res\favicon.ico" />
+    <None Include="Res\AddingFloors.htm" />
+    <None Include="Res\AddingWalls.htm" />
+    <None Include="Res\Applyingtextures.htm" />
+    <None Include="Res\Dynamicmodels.htm" />
+    <None Include="Res\Editmaze.htm" />
+    <None Include="Res\Endregion.htm" />
+    <None Include="Res\Lights.htm" />
+    <Content Include="mazemaker1.ico" />
+    <None Include="Resources\mazegen.png" />
+    <None Include="Resources\mazegen1.png" />
+    <None Include="Resources\mazegen2.png" />
+    <None Include="Res\Blank1.png" />
+    <None Include="Res\Dynamic1.png" />
+    <None Include="Res\link.png" />
+    <None Include="Resources\buttonUp.png" />
+    <None Include="Resources\buttonDown.png" />
+    <None Include="Resources\buttonLeft.png" />
+    <None Include="Resources\buttonRight.png" />
+    <None Include="Resources\buttonUp_onclick.png" />
+    <None Include="Resources\buttonDown_mouseover.png" />
+    <None Include="Resources\buttonDown_onclick.png" />
+    <None Include="Resources\buttonLeft_mouseover.png" />
+    <None Include="Resources\buttonLeft_onclick.png" />
+    <None Include="Resources\buttonRight_mouseover.png" />
+    <None Include="Resources\buttonRight_onclick.png" />
+    <None Include="Resources\buttonUp_mouseover.png" />
+    <None Include="Resources\buttonCenter_onclick.png" />
+    <None Include="Resources\buttonCenter.png" />
+    <None Include="Resources\buttonCenter_mouseover.png" />
+    <None Include="Resources\wall.png" />
+    <None Include="Resources\floor.png" />
+    <None Include="Resources\static_object.png" />
+    <None Include="Resources\dynamic_object.png" />
+    <None Include="Resources\XYZ_grid.png" />
+    <None Include="Resources\navControl_BG.png" />
+    <None Include="Resources\circMazeLogo.png" />
+    <None Include="Resources\rectMazeLogo.png" />
+    <None Include="Resources\rectMazeBG.png" />
+    <None Include="Resources\circMazeBG.png" />
+    <None Include="Resources\mazeMakerBG.png" />
+    <None Include="Resources\floorIcon.png" />
+    <None Include="Resources\ActiveRegion.png" />
+    <None Include="Resources\EndRegion.png" />
+    <None Include="Resources\curvedWallIcon.png" />
+    <None Include="Resources\buttonZoomIn_MouseDown.png" />
+    <None Include="Resources\buttonZoomIn_Mouseover.png" />
+    <None Include="Resources\buttonZoomOut.png" />
+    <None Include="Resources\buttonZoomOut_MouseDown.png" />
+    <None Include="Resources\buttonZoomOut_MouseOver.png" />
+    <None Include="Resources\buttonZoomIn.png" />
+    <None Include="Resources\panIcon.png" />
+    <None Include="Resources\mazeWizardIcon.png" />
+    <None Include="Resources\forumicon.png" />
+    <None Include="Resources\forumicon1.png" />
+    <Content Include="Res\Logo.ico" />
+    <None Include="Res\logo1.bmp" />
+    <Content Include="Res\MazeList.ico" />
+    <None Include="Res\Textures.htm" />
+    <None Include="Res\Texturecollection.htm" />
+    <None Include="Res\Testingamaze.htm" />
+    <None Include="Res\Staticmodels.htm" />
+    <None Include="Res\Startposition.htm" />
+    <None Include="Res\Selectingobjects.htm" />
+    <None Include="Res\Removingitems.htm" />
+    <None Include="Res\Models.htm" />
+    <None Include="Res\Modelcollection.htm" />
+    <None Include="Res\Play1.bmp" />
+    <None Include="Res\Tools.htm" />
+    <None Include="Res\MazeListBuilder.htm" />
+    <None Include="Res\del.bmp" />
+    <None Include="Res\arr_down.bmp" />
+    <None Include="Res\arr_up.bmp" />
+    <None Include="Res\remove.bmp" />
+    <None Include="Res\add.bmp" />
+    <None Include="Res\GettingStarted.htm" />
+    <None Include="Res\W_home.bmp" />
+    <None Include="Res\W_forward.bmp" />
+    <None Include="Res\W_back.bmp" />
+    <None Include="Res\introduction.htm" />
+    <None Include="Res\home.htm" />
+    <None Include="Res\saveas.bmp" />
+    <None Include="Res\cross.cur" />
+    <None Include="Res\wall.cur" />
+    <None Include="Res\floor.cur" />
+    <None Include="Res\end.cur" />
+    <None Include="Res\logo.bmp" />
+    <None Include="Res\back.bmp" />
+    <None Include="Res\normal.bmp" />
+    <None Include="Res\start.bmp" />
+    <None Include="Res\floor.bmp" />
+    <None Include="Res\end.bmp" />
+    <None Include="Res\delete.bmp" />
+    <None Include="Res\wall.bmp" />
+    <None Include="Res\new.bmp" />
+    <None Include="Res\save.bmp" />
+    <None Include="Res\open.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MazeLib\MazeLib\MazeLib.csproj">
+      <Project>{92c771ec-482b-4b02-9892-69a64eab9f64}</Project>
+      <Name>MazeLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

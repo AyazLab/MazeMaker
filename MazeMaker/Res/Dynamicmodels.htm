@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title></title>
+		<meta name="GENERATOR" content="Microsoft Visual Studio .NET 7.1">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</head>
+	<body>
+		<P>
+			<a href="Home.htm">Home</a> &gt; <a href="Models.htm">Models</a> &gt; Dynamic Models
+			<br>
+			<br>
+			Dynamic Models are objects the user can interact with to complete the maze, in addition to making the maze seem more realistic. To add a Dynamic Object, select the "Dynamic" tool from the toolbar, and click in the Maze Editor to place an object there. Afterward, you must give it a Model for it to represent. When the Dynamic Model is assigned a model from the <a href=modelcollection.htm>model collection</a>, a "D" will appear in the circle representing the Dynamic Model in the Maze Editor, to show that it has been assigned a model. There must be items in the <a href=modelcollection.htm>model collection</a> in order to use Static or Dynamic Models. 
+			<br><br>
+			Dynamic Models allow many types of user interaction. Aside from collisions, Dynamic Models can move, rotate, 
+            grow, shrink, change into another Model, or disappear (use the "Model Action" property for the object). They can be triggered by the user's proximity to the object (set "TriggerType" to "Proximity") or by completing a test (using readings from external sensors, select "Test" for "TriggerType"), or both. 
+            Growing and shrinking is done by changing the &quot;ModelScale&quot; and &quot;End Scale&quot; 
+            parameters. When the Model moves, rotates, or changes size, it does so with a 
+            smooth, linear transition. <br /> <ul>Other notes:
+		<li>"HighlightStyle" only matters if "Criteria" is "Test" or "Proximity and Test"</li>
+		<li>&quot;ActionTime&quot;, &quot;End Point&quot;, &quot;End Rotation&quot;, and &quot;End Scale&quot; only matter if 
+            &quot;TriggerAction&quot; is set to &quot;Move/Rotate&quot; or &quot;Change Model&quot;</li>
+        <li>When a Dynamic Model is moving, it cannot move the player, unless it moves 
+            downward under the player (in this case, gravity does the moving)</li>
+        <li>When a 
+            platform is moving upward under a player, the player can stay on by constantly jumping</li>
+		</ul>
+		</P>
+		<P>
+		</P>
+		        <br><br><br><br><br><br>
+        <hr>
+        <font size=2 color =red>Pre-release document, subject to change. Please see www.mazesuite.com for more information </font>
+        <br>
+        <font size=1>Copyright &copy 2010 Drexel University </font>
+	</body>
+</html>
