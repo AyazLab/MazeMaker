@@ -1,4 +1,6 @@
-
+3.1.0
+Moved codebase to Github
+For release version
 
 3.0.5
 When closing maze list files, handle an issue for not having a current maze 

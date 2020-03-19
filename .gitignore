@@ -50,3 +50,7 @@ MazeMaker/obj/NSIS/MazeMaker.Register.resources
 MazeMaker/obj/NSIS/MazeMaker.ResizeMazeDialog.resources
 MazeMaker/obj/NSIS/MazeMaker.Splash.resources
 MazeMaker/obj/NSIS/TempPE/Properties.Resources.Designer.cs.dll
+*.cache
+.vs/MazeMaker/v16/.suo
+*.pdb
+*.cache
