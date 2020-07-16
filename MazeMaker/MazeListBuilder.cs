@@ -49,12 +49,12 @@ namespace MazeMaker
         private void toolStrip_open_Click(object sender, EventArgs e)
         {
             OpenFileDialog a = new OpenFileDialog();
-            a.Filter = "Maze List files | *.mel";
+            a.Filter = "Maze List files | *.xml";
             a.FilterIndex = 1;
             a.RestoreDirectory = true;
             if (a.ShowDialog() == DialogResult.OK)
             {
-                ReadFromFile(a.FileName);
+                ReadFromFileXml(a.FileName);
             } 
         }
 
@@ -67,7 +67,7 @@ namespace MazeMaker
             }
             else
             {
-                WriteToFile(curFilename);
+                WriteToFileXml(curFilename);
             }
         }
         private void toolStrip_SaveAs_Click(object sender, EventArgs e)
@@ -208,6 +208,10 @@ namespace MazeMaker
             Close();
         }
 
+        private bool WriteToFileXml(string inp)
+        {
+            return false;
+        }
         private bool  WriteToFile(string inp)
         {
             StreamWriter fp = new StreamWriter(inp);
@@ -251,6 +255,11 @@ namespace MazeMaker
         public void Updated(object e, ListChangedEventArgs c)
         {
             ReloadList();
+        }
+
+        private bool ReadFromFileXml(string inp)
+        {
+            return false;
         }
 
         public bool ReadFromFile(string inp)
