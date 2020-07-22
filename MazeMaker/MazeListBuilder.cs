@@ -50,12 +50,12 @@ namespace MazeMaker
         private void toolStrip_open_Click(object sender, EventArgs e)
         {
             OpenFileDialog a = new OpenFileDialog();
-            a.Filter = "Maze List files | *.xml";
+            //a.Filter = "Maze List files | *.xml | Maze List files | *.mel";
             a.FilterIndex = 1;
             a.RestoreDirectory = true;
             if (a.ShowDialog() == DialogResult.OK)
             {
-                ReadFromXml(a.FileName);
+                ReadFromFile(a.FileName);
             } 
         }
 
@@ -80,7 +80,7 @@ namespace MazeMaker
         private void DoSaveAs()
         {
             SaveFileDialog a = new SaveFileDialog();
-            a.Filter = "Maze List files | *.mel";
+            // a.Filter = "Maze List files | *.mel";
             a.Filter = "XML-File | *.xml";
             a.FilterIndex = 1;
             a.RestoreDirectory = true;
@@ -386,7 +386,7 @@ namespace MazeMaker
         public bool ReadFromFile(string inp)
         {
             string ext = inp.Substring(inp.Length - 3, 3);
-            
+
             if (ext == "mel")
             {
                 ReadFromMel(inp);
@@ -394,6 +394,11 @@ namespace MazeMaker
             else if (ext == "xml")
             {
                 ReadFromXml(inp);
+            }
+            else
+            {
+                MessageBox.Show("Not mel or xml file!", "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
 
             return true;
