@@ -81,7 +81,8 @@ namespace MazeMaker
         {
             SaveFileDialog a = new SaveFileDialog();
             // a.Filter = "Maze List files | *.mel";
-            a.Filter = "XML-File | *.xml";
+            // a.Filter = "XML-File | *.xml";
+            a.Filter = "Maze List files | *.mel | XML-File | *.xml";
             a.FilterIndex = 1;
             a.RestoreDirectory = true;
             if (a.ShowDialog() == DialogResult.OK)
@@ -279,40 +280,60 @@ namespace MazeMaker
 
         private bool WriteToFile(string inp)
         {
-            WriteToXml(inp);
+            string fileExt = Path.GetExtension(inp).ToLower();
 
-            //StreamWriter fp = new StreamWriter(inp);
-            //if (fp == null)
-            //{
-            //    return false;
-            //}
-            //fp.WriteLine("Maze List File 1.2");
+            switch (fileExt)
+            {
+                case ".xml":
+                    WriteToXml(inp);
+                    break;
 
-            //foreach (MyBuilderItem a in myItems)
-            //{
+                case ".mel":
+                    WriteToMel(inp);
+                    break;
 
-            //    fp.Write(a.Type + "\t" );
-            //    if(a.Type == ItemType.Maze)
-            //    {
-            //        fp.Write(a.Value); 
-            //    }
-            //    else if (a.Type == ItemType.Text)
-            //    {
-            //        MazeList_TextItem aa = (MazeList_TextItem)a;
-            //        fp.Write(aa.Value + "\t" + aa.TextDisplayType + "\t" + aa.LifeTime + "\t" + aa.X + "\t" + aa.Y + "\t ");
-            //    }
-            //    else if (a.Type == ItemType.Image)
-            //    {
-            //        MazeList_ImageItem aa = (MazeList_ImageItem)a;
-            //        fp.Write(aa.Value + "\t" + aa.TextDisplayType + "\t" + aa.LifeTime + "\t" + aa.X + "\t" + aa.Y + "\t" + aa.Image);
-            //    }
-            //    else if(a.Type == ItemType.MultipleChoice)
-            //    {
-            //        MazeList_MultipleChoiceItem aa = (MazeList_MultipleChoiceItem)a;
-            //        fp.Write(aa.GetString() + "\t" + aa.TextDisplayType + "\t" + aa.LifeTime + "\t" + aa.X + "\t" + aa.Y + "\t ");
-            //    }
-            //    fp.Write("\n");
-            //}
+                default:
+                    WriteToXml(inp);
+                    break;
+            }
+
+            return true;
+        }
+
+        private bool WriteToMel(string inp)
+        {
+            StreamWriter fp = new StreamWriter(inp);
+            if (fp == null)
+            {
+                return false;
+            }
+            fp.WriteLine("Maze List File 1.2");
+
+            foreach (MyBuilderItem a in myItems)
+            {
+
+                fp.Write(a.Type + "\t");
+                if (a.Type == ItemType.Maze)
+                {
+                    fp.Write(a.Value);
+                }
+                else if (a.Type == ItemType.Text)
+                {
+                    MazeList_TextItem aa = (MazeList_TextItem)a;
+                    fp.Write(aa.Value + "\t" + aa.TextDisplayType + "\t" + aa.LifeTime + "\t" + aa.X + "\t" + aa.Y + "\t ");
+                }
+                else if (a.Type == ItemType.Image)
+                {
+                    MazeList_ImageItem aa = (MazeList_ImageItem)a;
+                    fp.Write(aa.Value + "\t" + aa.TextDisplayType + "\t" + aa.LifeTime + "\t" + aa.X + "\t" + aa.Y + "\t" + aa.Image);
+                }
+                else if (a.Type == ItemType.MultipleChoice)
+                {
+                    MazeList_MultipleChoiceItem aa = (MazeList_MultipleChoiceItem)a;
+                    fp.Write(aa.GetString() + "\t" + aa.TextDisplayType + "\t" + aa.LifeTime + "\t" + aa.X + "\t" + aa.Y + "\t ");
+                }
+                fp.Write("\n");
+            }
 
             //fp.Close();
 
@@ -385,20 +406,22 @@ namespace MazeMaker
 
         public bool ReadFromFile(string inp)
         {
-            string ext = inp.Substring(inp.Length - 3, 3);
+            string fileExt = Path.GetExtension(inp).ToLower();
 
-            if (ext == "mel")
+            switch (fileExt)
             {
-                ReadFromMel(inp);
-            }
-            else if (ext == "xml")
-            {
-                ReadFromXml(inp);
-            }
-            else
-            {
-                MessageBox.Show("Not mel or xml file!", "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                case ".xml":
+                    ReadFromXml(inp);
+                    break;
+
+                case ".mel":
+                    ReadFromMel(inp);
+                    break;
+
+                default:
+                    MessageBox.Show("Not mel or xml file!", "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                    break;
             }
 
             return true;
