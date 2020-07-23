@@ -411,20 +411,15 @@ namespace MazeMaker
             switch (fileExt)
             {
                 case ".xml":
-                    ReadFromXml(inp);
-                    break;
+                    return ReadFromXml(inp);
 
                 case ".mel":
-                    ReadFromMel(inp);
-                    break;
+                    return ReadFromMel(inp);
 
                 default:
                     MessageBox.Show("Not mel or xml file!", "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
-                    break;
             }
-
-            return true;
         }
 
         public bool ReadFromMel(string inp)
