@@ -82,7 +82,7 @@ namespace MazeMaker
             SaveFileDialog a = new SaveFileDialog();
             // a.Filter = "Maze List files | *.mel";
             // a.Filter = "XML-File | *.xml";
-            a.Filter = "Maze List files | *.mel | XML-File | *.xml";
+            a.Filter = "Maze List files|*.mel|XML-File|*.xml";
             a.FilterIndex = 1;
             a.RestoreDirectory = true;
             if (a.ShowDialog() == DialogResult.OK)
@@ -280,7 +280,7 @@ namespace MazeMaker
 
         private bool WriteToFile(string inp)
         {
-            string fileExt = Path.GetExtension(inp).ToLower();
+            string fileExt = Path.GetExtension(inp);
 
             switch (fileExt)
             {
@@ -335,7 +335,7 @@ namespace MazeMaker
                 fp.Write("\n");
             }
 
-            //fp.Close();
+            fp.Close();
 
             return true;
         }
@@ -406,7 +406,7 @@ namespace MazeMaker
 
         public bool ReadFromFile(string inp)
         {
-            string fileExt = Path.GetExtension(inp).ToLower();
+            string fileExt = Path.GetExtension(inp);
 
             switch (fileExt)
             {
