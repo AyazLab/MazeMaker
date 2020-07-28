@@ -50,7 +50,7 @@ namespace MazeMaker
         private void toolStrip_open_Click(object sender, EventArgs e)
         {
             OpenFileDialog a = new OpenFileDialog();
-            a.Filter = "MazeList File (*.melx,*.mel)|*.melx;*.mel";
+            a.Filter = "MazeList File (*.melx,*.mel)|*.melx;*.mel|All Files|*.*";
             a.FilterIndex = 1;
             a.RestoreDirectory = true;
             if (a.ShowDialog() == DialogResult.OK)
