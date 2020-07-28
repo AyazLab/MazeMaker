@@ -50,7 +50,7 @@ namespace MazeMaker
         private void toolStrip_open_Click(object sender, EventArgs e)
         {
             OpenFileDialog a = new OpenFileDialog();
-            //a.Filter = "Maze List files | *.xml | Maze List files | *.mel";
+            a.Filter = "MazeList File (*.melx,*.mel)|*.melx;*.mel";
             a.FilterIndex = 1;
             a.RestoreDirectory = true;
             if (a.ShowDialog() == DialogResult.OK)
@@ -82,7 +82,7 @@ namespace MazeMaker
             SaveFileDialog a = new SaveFileDialog();
             // a.Filter = "Maze List files | *.mel";
             // a.Filter = "XML-File | *.xml";
-            a.Filter = "Maze List files|*.mel|XML-File|*.xml";
+            a.Filter = "MazeList XML-File|*.melx|Maze List files|*.mel";
             a.FilterIndex = 1;
             a.RestoreDirectory = true;
             if (a.ShowDialog() == DialogResult.OK)
@@ -280,11 +280,15 @@ namespace MazeMaker
 
         private bool WriteToFile(string inp)
         {
-            string fileExt = Path.GetExtension(inp);
+            string fileExt = Path.GetExtension(inp).ToLower();
 
             switch (fileExt)
             {
                 case ".xml":
+                    WriteToXml(inp);
+                    break;
+
+                case ".melx":
                     WriteToXml(inp);
                     break;
 
@@ -406,18 +410,21 @@ namespace MazeMaker
 
         public bool ReadFromFile(string inp)
         {
-            string fileExt = Path.GetExtension(inp);
+            string fileExt = Path.GetExtension(inp).ToLower();
 
             switch (fileExt)
             {
                 case ".xml":
                     return ReadFromXml(inp);
 
+                case ".melx":
+                    return ReadFromXml(inp);
+
                 case ".mel":
                     return ReadFromMel(inp);
 
                 default:
-                    MessageBox.Show("Not mel or xml file!", "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Not mel or melx file!", "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
             }
         }
