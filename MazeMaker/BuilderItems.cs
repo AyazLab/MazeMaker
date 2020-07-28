@@ -15,7 +15,7 @@ namespace MazeMaker
 {
     public enum ItemType
     {
-        Maze,Text, Image, MultipleChoice
+        Maze, Text, Image, MultipleChoice
     }
 
     public class MyBuilderItem : Object
@@ -68,7 +68,7 @@ namespace MazeMaker
         }
         public MazeList_TextItem()
         {
-            this.Value = "Enter message here!..";
+           this.Value = "Enter message here!..";
            this.Type = ItemType.Text;
         }
 
