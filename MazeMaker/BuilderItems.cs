@@ -177,10 +177,36 @@ namespace MazeMaker
         [Category("General")]
         [Description("Specify an image filename to be displayed")]
         [DisplayName("Image")]
+        [TypeConverter(typeof(ImageConverter))]
         public string Image
         {
             get { return image; }
             set { image = value; }
+        }
+
+        public class ImageConverter : StringConverter
+        {
+            public override Boolean GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
+
+            public override TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+            {
+                List<String> list = new List<String>();
+
+                foreach (MyBuilderItem item in MazeListBuilder.myItems)
+                {
+                    if (item.Type == ItemType.Image)
+                    {
+                        MazeList_ImageItem image = (MazeList_ImageItem)item;
+
+                        if (image.Image != "")
+                        {
+                            list.Add(image.Image);
+                        }
+                    }
+                }
+
+                return new StandardValuesCollection(list);
+            }
         }
     }
 

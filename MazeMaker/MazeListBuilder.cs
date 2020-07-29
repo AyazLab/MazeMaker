@@ -15,7 +15,7 @@ namespace MazeMaker
     public partial class MazeListBuilder : Form
     {
 
-        List<MyBuilderItem> myItems = new List<MyBuilderItem>();
+        public static List<MyBuilderItem> myItems = new List<MyBuilderItem>();
 
         String curFilename = "";
 
