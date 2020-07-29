@@ -14,7 +14,6 @@ namespace MazeMaker
 {
     public partial class MazeListBuilder : Form
     {
-
         public static List<MyBuilderItem> myItems = new List<MyBuilderItem>();
 
         String curFilename = "";
@@ -119,7 +118,7 @@ namespace MazeMaker
                     //listBox1.Items.Add("TEXT MESSAGE");
                     break;
                 case 2:
-                    myItems.Add(new MazeList_ImageItem()); 
+                    myItems.Add(new MazeList_ImageItem());
                     break;
                 case 3:
                     myItems.Add(new MazeList_MultipleChoiceItem(new ListChangedEventHandler(Updated)));
@@ -216,6 +215,9 @@ namespace MazeMaker
             XmlDocument xml = new XmlDocument();
             XmlElement mzLs = xml.CreateElement("MazeList");
 
+            XmlElement imageLibrary = xml.CreateElement("ImageLibrary");
+            int imageID = 100;
+
             foreach (MyBuilderItem item in myItems)
             {
                 XmlElement mz = xml.CreateElement(item.Type.ToString());
@@ -241,7 +243,15 @@ namespace MazeMaker
                     mz.SetAttribute("LifeTime", image.LifeTime.ToString());
                     mz.SetAttribute("x", image.X.ToString());
                     mz.SetAttribute("y", image.Y.ToString());
-                    mz.SetAttribute("image", image.Image.ToString());
+
+                    XmlElement imageLibraryItem = xml.CreateElement("Image");
+                    imageLibraryItem.SetAttribute("imageid", imageID.ToString());
+                    imageLibraryItem.SetAttribute("file", image.Image.ToString());
+
+                    imageLibrary.AppendChild(imageLibraryItem);
+
+                    mz.SetAttribute("image", imageID.ToString());
+                    imageID += 1;
                 }
                 else if (item.Type == ItemType.MultipleChoice)
                 {
