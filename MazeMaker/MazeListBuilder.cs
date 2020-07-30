@@ -214,72 +214,192 @@ namespace MazeMaker
         {
             XmlDocument xml = new XmlDocument();
             XmlElement mzLs = xml.CreateElement("MazeList");
+            List<XmlElement> mzLsItems = new List<XmlElement>();
 
+            XmlElement mazeLibrary = xml.CreateElement("MazeLibrary");
             XmlElement imageLibrary = xml.CreateElement("ImageLibrary");
-            int imageID = 100;
+            XmlElement audioLibrary = xml.CreateElement("AudioLibrary");
+
+            Dictionary<string, string> mazeLibraryItems = new Dictionary<string, string>();
+            Dictionary<string, string> imageLibraryItems = new Dictionary<string, string>();
+            Dictionary<string, string> audioLibraryItems = new Dictionary<string, string>();
+
+            int mazeIDCounter = 100;
+            int imageIDCounter = 100;
+            int audioIDCounter = 100;
 
             foreach (MyBuilderItem item in myItems)
             {
                 XmlElement mz = xml.CreateElement(item.Type.ToString());
 
-                if (item.Type == ItemType.Maze)
+                switch (item.Type)
                 {
-                    mz.InnerText = item.Value;
-                }
-                else if (item.Type == ItemType.Text)
-                {
-                    MazeList_TextItem text = (MazeList_TextItem)item;
-                    mz.InnerText = text.Value;
-                    mz.SetAttribute("TextDisplayType", text.TextDisplayType.ToString());
-                    mz.SetAttribute("LifeTime", text.LifeTime.ToString());
-                    mz.SetAttribute("x", text.X.ToString());
-                    mz.SetAttribute("y", text.Y.ToString());
-                }
-                else if (item.Type == ItemType.Image)
-                {
-                    MazeList_ImageItem image = (MazeList_ImageItem)item;
-                    mz.InnerText = image.Value;
-                    mz.SetAttribute("TextDisplayType", image.TextDisplayType.ToString());
-                    mz.SetAttribute("LifeTime", image.LifeTime.ToString());
-                    mz.SetAttribute("x", image.X.ToString());
-                    mz.SetAttribute("y", image.Y.ToString());
-
-                    XmlElement imageLibraryItem = xml.CreateElement("Image");
-                    imageLibraryItem.SetAttribute("imageid", imageID.ToString());
-                    imageLibraryItem.SetAttribute("file", image.Image.ToString());
-
-                    imageLibrary.AppendChild(imageLibraryItem);
-
-                    mz.SetAttribute("image", imageID.ToString());
-                    imageID += 1;
-                }
-                else if (item.Type == ItemType.MultipleChoice)
-                {
-                    MazeList_MultipleChoiceItem mc = (MazeList_MultipleChoiceItem)item;
-                    bool isQuestion = true;
-                    foreach (string value in mc.Value)
-                    {
-                        if (isQuestion)
+                    case ItemType.Maze:
+                        XmlElement mazeLibraryItem = xml.CreateElement("Maze");
+                        int mazeID = mazeIDCounter;
+                        if (mazeLibraryItems.ContainsKey(item.Value))
                         {
-                            XmlElement question = xml.CreateElement("Question");
-                            question.InnerText = value;
-                            mz.AppendChild(question);
-                            isQuestion = false;
+                            mazeID = Convert.ToInt32(mazeLibraryItems[item.Value]);
                         }
                         else
                         {
-                            XmlElement choice = xml.CreateElement("Choice");
-                            choice.InnerText = value;
-                            mz.AppendChild(choice);
+                            mazeLibraryItems[item.Value] = mazeID.ToString();
+                            mazeIDCounter++;
+
+                            mazeLibraryItem.SetAttribute("ID", mazeID.ToString());
+                            mazeLibraryItem.SetAttribute("File", item.Value);
+
+                            mazeLibrary.AppendChild(mazeLibraryItem);
                         }
-                    }
-                    mz.SetAttribute("TextDisplayType", mc.TextDisplayType.ToString());
-                    mz.SetAttribute("LifeTime", mc.LifeTime.ToString());
-                    mz.SetAttribute("x", mc.X.ToString());
-                    mz.SetAttribute("y", mc.Y.ToString());
+                        mz.InnerText = mazeID.ToString();
+                        break;
+
+                    case ItemType.Text:
+                        MazeList_TextItem text = (MazeList_TextItem)item;
+                        mz.InnerText = text.Value;
+                        mz.SetAttribute("TextDisplayType", text.TextDisplayType.ToString());
+                        mz.SetAttribute("LifeTime", text.LifeTime.ToString());
+                        mz.SetAttribute("X", text.X.ToString());
+                        mz.SetAttribute("Y", text.Y.ToString());
+
+                        XmlElement audioLibraryItem = xml.CreateElement("Audio");
+                        int audioID = audioIDCounter;
+                        if (audioLibraryItems.ContainsKey(text.Audio))
+                        {
+                            audioID = Convert.ToInt32(audioLibraryItems[text.Audio]);
+                        }
+                        else if (text.Audio != "")
+                        {
+                            audioLibraryItems[text.Audio] = audioID.ToString();
+                            audioIDCounter++;
+
+                            audioLibraryItem.SetAttribute("ID", audioID.ToString());
+                            audioLibraryItem.SetAttribute("File", text.Audio);
+
+                            audioLibrary.AppendChild(audioLibraryItem);
+                        }
+                        mz.SetAttribute("Audio", audioID.ToString());
+                        if (text.Audio == "")
+                        {
+                            mz.SetAttribute("Audio", "");
+                        }
+
+                        mz.SetAttribute("FontSize", text.FontSize);
+                        break;
+
+                    case ItemType.Image:
+                        MazeList_ImageItem image = (MazeList_ImageItem)item;
+                        mz.InnerText = image.Value;
+                        mz.SetAttribute("TextDisplayType", image.TextDisplayType.ToString());
+                        mz.SetAttribute("LifeTime", image.LifeTime.ToString());
+                        mz.SetAttribute("X", image.X.ToString());
+                        mz.SetAttribute("Y", image.Y.ToString());
+
+                        XmlElement imageLibraryItem = xml.CreateElement("Image");
+                        int imageID = imageIDCounter;
+                        if (imageLibraryItems.ContainsKey(image.Image.ToString()))
+                        {
+                            imageID = Convert.ToInt32(imageLibraryItems[image.Image.ToString()]);
+                        }
+                        else if (image.Image.ToString() != "")
+                        {
+                            imageLibraryItems[image.Image.ToString()] = imageID.ToString();
+                            imageIDCounter++;
+
+                            imageLibraryItem.SetAttribute("ID", imageID.ToString());
+                            imageLibraryItem.SetAttribute("File", image.Image.ToString());
+
+                            imageLibrary.AppendChild(imageLibraryItem);
+                        }
+                        mz.SetAttribute("Image", imageID.ToString());
+                        if (image.Image.ToString() == "")
+                        {
+                            mz.SetAttribute("Image", "");
+                        }
+
+                        audioLibraryItem = xml.CreateElement("Audio");
+                        audioID = audioIDCounter;
+                        if (audioLibraryItems.ContainsKey(image.Audio))
+                        {
+                            audioID = Convert.ToInt32(audioLibraryItems[image.Audio]);
+                        }
+                        else if (image.Audio != "")
+                        {
+                            audioLibraryItems[image.Audio] = audioID.ToString();
+                            audioIDCounter++;
+
+                            audioLibraryItem.SetAttribute("ID", audioID.ToString());
+                            audioLibraryItem.SetAttribute("File", image.Audio);
+
+                            audioLibrary.AppendChild(audioLibraryItem);
+                        }
+                        mz.SetAttribute("Audio", audioID.ToString());
+                        if (image.Audio == "")
+                        {
+                            mz.SetAttribute("Audio", "");
+                        }
+                        break;
+
+                    case ItemType.MultipleChoice:
+                        MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)item;
+                        bool isQuestion = true;
+                        foreach (string value in multipleChoice.Value)
+                        {
+                            if (isQuestion)
+                            {
+                                XmlElement question = xml.CreateElement("Question");
+                                question.InnerText = value;
+                                mz.AppendChild(question);
+                                isQuestion = false;
+                            }
+                            else
+                            {
+                                XmlElement choice = xml.CreateElement("Choice");
+                                choice.InnerText = value;
+                                mz.AppendChild(choice);
+                            }
+                        }
+                        mz.SetAttribute("TextDisplayType", multipleChoice.TextDisplayType.ToString());
+                        mz.SetAttribute("LifeTime", multipleChoice.LifeTime.ToString());
+                        mz.SetAttribute("X", multipleChoice.X.ToString());
+                        mz.SetAttribute("Y", multipleChoice.Y.ToString());
+
+                        audioLibraryItem = xml.CreateElement("Audio");
+                        audioID = audioIDCounter;
+                        if (audioLibraryItems.ContainsKey(multipleChoice.Audio))
+                        {
+                            audioID = Convert.ToInt32(audioLibraryItems[multipleChoice.Audio]);
+                        }
+                        else if (multipleChoice.Audio != "")
+                        {
+                            audioLibraryItems[multipleChoice.Audio] = audioID.ToString();
+                            audioIDCounter++;
+
+                            audioLibraryItem.SetAttribute("ID", audioID.ToString());
+                            audioLibraryItem.SetAttribute("File", multipleChoice.Audio);
+
+                            audioLibrary.AppendChild(audioLibraryItem);
+                        }
+                        mz.SetAttribute("Audio", audioID.ToString());
+                        if (multipleChoice.Audio == "")
+                        {
+                            mz.SetAttribute("Audio", "");
+                        }
+                        break;
+
+                    default:
+                        break;
                 }
 
-                mzLs.AppendChild(mz);
+                mzLsItems.Add(mz);
+            }
+
+            mzLs.AppendChild(mazeLibrary);
+            mzLs.AppendChild(imageLibrary);
+            mzLs.AppendChild(audioLibrary);
+            foreach (XmlElement mzLsItem in mzLsItems)
+            {
+                mzLs.AppendChild(mzLsItem);
             }
 
             xml.AppendChild(mzLs);

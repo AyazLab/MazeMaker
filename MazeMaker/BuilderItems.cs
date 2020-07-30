@@ -112,13 +112,34 @@ namespace MazeMaker
 
         private string backgroundImage= "";
         [Category("Display")]
-        [Description("Specify and image name for background")]
+        [Description("Specify an image name for background")]
         [DisplayName("Background Image")]
         [Browsable(false)]
         public string BackgroundImage
         {
             get { return backgroundImage; }
             set { backgroundImage = value; }
+        }
+
+        private string audio = "";
+        [Category("General")]
+        [Description("Specify an audio filename to be played")]
+        [DisplayName("Audio")]
+        [TypeConverter(typeof(audioConverter))]
+        public string Audio
+        {
+            get { return audio; }
+            set { audio = value; }
+        }
+
+        private string fontSize = "";
+        [Category("General")]
+        [Description("Specify an font size to be displayed")]
+        [DisplayName("FontSize")]
+        public string FontSize
+        {
+            get { return fontSize; }
+            set { fontSize = value; }
         }
     }
 
@@ -184,29 +205,15 @@ namespace MazeMaker
             set { image = value; }
         }
 
-        public class ImageConverter : StringConverter
+        private string audio = "";
+        [Category("General")]
+        [Description("Specify an audio filename to be played")]
+        [DisplayName("Audio")]
+        [TypeConverter(typeof(audioConverter))]
+        public string Audio
         {
-            public override Boolean GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
-
-            public override TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
-            {
-                List<String> list = new List<String>();
-
-                foreach (MyBuilderItem item in MazeListBuilder.myItems)
-                {
-                    if (item.Type == ItemType.Image)
-                    {
-                        MazeList_ImageItem image = (MazeList_ImageItem)item;
-
-                        if (image.Image != "")
-                        {
-                            list.Add(image.Image);
-                        }
-                    }
-                }
-
-                return new StandardValuesCollection(list);
-            }
+            get { return audio; }
+            set { audio = value; }
         }
     }
 
@@ -338,9 +345,84 @@ namespace MazeMaker
             get { return backgroundImage; }
             set { backgroundImage = value; }
         }
+
+        private string audio = "";
+        [Category("General")]
+        [Description("Specify an audio filename to be played")]
+        [DisplayName("Audio")]
+        [TypeConverter(typeof(audioConverter))]
+        public string Audio
+        {
+            get { return audio; }
+            set { audio = value; }
+        }
     }
 
+    public class ImageConverter : StringConverter
+    {
+        public override Boolean GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
 
+        public override TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        {
+            List<String> images = new List<String>();
 
+            foreach (MyBuilderItem item in MazeListBuilder.myItems)
+            {
+                if (item.Type == ItemType.Image)
+                {
+                    MazeList_ImageItem image = (MazeList_ImageItem)item;
 
+                    if (image.Image != "" && !images.Contains(image.Image))
+                    {
+                        images.Add(image.Image);
+                    }
+                }
+            }
+
+            return new StandardValuesCollection(images);
+        }
+    }
+
+    public class audioConverter : StringConverter
+    {
+        public override Boolean GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
+
+        public override TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        {
+            List<String> audios = new List<String>();
+
+            foreach (MyBuilderItem item in MazeListBuilder.myItems)
+            {
+                string audio = "";
+
+                switch (item.Type)
+                {
+                    case ItemType.Text:
+                        MazeList_TextItem text = (MazeList_TextItem)item;
+                        audio = text.Audio;
+                        break;
+
+                    case ItemType.Image:
+                        MazeList_ImageItem image = (MazeList_ImageItem)item;
+                        audio = image.Audio;
+                        break;
+
+                    case ItemType.MultipleChoice:
+                        MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)item;
+                        audio = multipleChoice.Audio;
+                        break;
+
+                    default:
+                        break;
+                }
+
+                if (audio != "" && !audios.Contains(audio))
+                {
+                    audios.Add(audio);
+                }
+            }
+
+            return new StandardValuesCollection(audios);
+        }
+    }
 }
