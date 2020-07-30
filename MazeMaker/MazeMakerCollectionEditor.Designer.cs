@@ -42,34 +42,35 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.buttonAddFromUserLib = new System.Windows.Forms.Button();
             this.buttonAddFromStandard = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // listBoxCollection
             // 
             this.listBoxCollection.FormattingEnabled = true;
-            this.listBoxCollection.ItemHeight = 16;
-            this.listBoxCollection.Location = new System.Drawing.Point(4, 15);
-            this.listBoxCollection.Margin = new System.Windows.Forms.Padding(4);
+            this.listBoxCollection.ItemHeight = 20;
+            this.listBoxCollection.Location = new System.Drawing.Point(4, 19);
+            this.listBoxCollection.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.listBoxCollection.Name = "listBoxCollection";
-            this.listBoxCollection.Size = new System.Drawing.Size(259, 276);
+            this.listBoxCollection.Size = new System.Drawing.Size(291, 344);
             this.listBoxCollection.TabIndex = 0;
             this.listBoxCollection.SelectedIndexChanged += new System.EventHandler(this.listBoxCollection_SelectedIndexChanged);
             // 
             // propertyGrid1
             // 
-            this.propertyGrid1.Location = new System.Drawing.Point(272, 174);
-            this.propertyGrid1.Margin = new System.Windows.Forms.Padding(4);
+            this.propertyGrid1.Location = new System.Drawing.Point(306, 218);
+            this.propertyGrid1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(305, 229);
+            this.propertyGrid1.Size = new System.Drawing.Size(343, 286);
             this.propertyGrid1.TabIndex = 1;
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(477, 410);
-            this.buttonClose.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonClose.Location = new System.Drawing.Point(537, 512);
+            this.buttonClose.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(100, 28);
+            this.buttonClose.Size = new System.Drawing.Size(112, 35);
             this.buttonClose.TabIndex = 2;
             this.buttonClose.Text = "Cancel";
             this.buttonClose.UseVisualStyleBackColor = true;
@@ -78,10 +79,10 @@
             // buttonAdd
             // 
             this.buttonAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonAdd.Location = new System.Drawing.Point(4, 295);
-            this.buttonAdd.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonAdd.Location = new System.Drawing.Point(4, 369);
+            this.buttonAdd.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonAdd.Name = "buttonAdd";
-            this.buttonAdd.Size = new System.Drawing.Size(123, 28);
+            this.buttonAdd.Size = new System.Drawing.Size(138, 35);
             this.buttonAdd.TabIndex = 3;
             this.buttonAdd.Text = "Add";
             this.buttonAdd.UseVisualStyleBackColor = true;
@@ -90,10 +91,10 @@
             // buttonRemove
             // 
             this.buttonRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRemove.Location = new System.Drawing.Point(134, 295);
-            this.buttonRemove.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonRemove.Location = new System.Drawing.Point(151, 369);
+            this.buttonRemove.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonRemove.Name = "buttonRemove";
-            this.buttonRemove.Size = new System.Drawing.Size(130, 28);
+            this.buttonRemove.Size = new System.Drawing.Size(146, 35);
             this.buttonRemove.TabIndex = 4;
             this.buttonRemove.Text = "Remove";
             this.buttonRemove.UseVisualStyleBackColor = true;
@@ -101,10 +102,10 @@
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(369, 410);
-            this.buttonOk.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonOk.Location = new System.Drawing.Point(415, 512);
+            this.buttonOk.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonOk.Name = "buttonOk";
-            this.buttonOk.Size = new System.Drawing.Size(100, 28);
+            this.buttonOk.Size = new System.Drawing.Size(112, 35);
             this.buttonOk.TabIndex = 5;
             this.buttonOk.Text = "OK";
             this.buttonOk.UseVisualStyleBackColor = true;
@@ -112,9 +113,10 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(272, 15);
+            this.pictureBox1.Location = new System.Drawing.Point(306, 19);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(305, 152);
+            this.pictureBox1.Size = new System.Drawing.Size(343, 190);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
@@ -124,9 +126,10 @@
             this.checkBoxCopy.AutoSize = true;
             this.checkBoxCopy.Checked = true;
             this.checkBoxCopy.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxCopy.Location = new System.Drawing.Point(4, 382);
+            this.checkBoxCopy.Location = new System.Drawing.Point(4, 478);
+            this.checkBoxCopy.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.checkBoxCopy.Name = "checkBoxCopy";
-            this.checkBoxCopy.Size = new System.Drawing.Size(268, 21);
+            this.checkBoxCopy.Size = new System.Drawing.Size(298, 24);
             this.checkBoxCopy.TabIndex = 7;
             this.checkBoxCopy.Text = "Copy the addition to the \'User Library\'";
             this.toolTip1.SetToolTip(this.checkBoxCopy, "Copies texture and model files to the user library");
@@ -134,22 +137,24 @@
             // 
             // buttonUserLibrary
             // 
-            this.buttonUserLibrary.Location = new System.Drawing.Point(4, 410);
+            this.buttonUserLibrary.Location = new System.Drawing.Point(107, 507);
+            this.buttonUserLibrary.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.buttonUserLibrary.Name = "buttonUserLibrary";
-            this.buttonUserLibrary.Size = new System.Drawing.Size(123, 28);
+            this.buttonUserLibrary.Size = new System.Drawing.Size(86, 30);
             this.buttonUserLibrary.TabIndex = 8;
-            this.buttonUserLibrary.Text = "User Library";
+            this.buttonUserLibrary.Text = "User";
             this.toolTip1.SetToolTip(this.buttonUserLibrary, "Open User Library Folder");
             this.buttonUserLibrary.UseVisualStyleBackColor = true;
             this.buttonUserLibrary.Click += new System.EventHandler(this.buttonUserLibrary_Click);
             // 
             // buttonStandardLibrary
             // 
-            this.buttonStandardLibrary.Location = new System.Drawing.Point(133, 410);
+            this.buttonStandardLibrary.Location = new System.Drawing.Point(199, 505);
+            this.buttonStandardLibrary.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.buttonStandardLibrary.Name = "buttonStandardLibrary";
-            this.buttonStandardLibrary.Size = new System.Drawing.Size(130, 28);
+            this.buttonStandardLibrary.Size = new System.Drawing.Size(100, 35);
             this.buttonStandardLibrary.TabIndex = 9;
-            this.buttonStandardLibrary.Text = "Standard Library";
+            this.buttonStandardLibrary.Text = "Standard";
             this.toolTip1.SetToolTip(this.buttonStandardLibrary, "Open Standard Library Folder");
             this.buttonStandardLibrary.UseVisualStyleBackColor = true;
             this.buttonStandardLibrary.Click += new System.EventHandler(this.buttonStandardLibrary_Click);
@@ -157,10 +162,10 @@
             // buttonAddFromUserLib
             // 
             this.buttonAddFromUserLib.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonAddFromUserLib.Location = new System.Drawing.Point(4, 331);
-            this.buttonAddFromUserLib.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonAddFromUserLib.Location = new System.Drawing.Point(4, 414);
+            this.buttonAddFromUserLib.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonAddFromUserLib.Name = "buttonAddFromUserLib";
-            this.buttonAddFromUserLib.Size = new System.Drawing.Size(123, 44);
+            this.buttonAddFromUserLib.Size = new System.Drawing.Size(138, 55);
             this.buttonAddFromUserLib.TabIndex = 10;
             this.buttonAddFromUserLib.Text = "Add From User Library";
             this.buttonAddFromUserLib.UseVisualStyleBackColor = true;
@@ -169,20 +174,30 @@
             // buttonAddFromStandard
             // 
             this.buttonAddFromStandard.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonAddFromStandard.Location = new System.Drawing.Point(133, 331);
-            this.buttonAddFromStandard.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonAddFromStandard.Location = new System.Drawing.Point(150, 414);
+            this.buttonAddFromStandard.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonAddFromStandard.Name = "buttonAddFromStandard";
-            this.buttonAddFromStandard.Size = new System.Drawing.Size(131, 44);
+            this.buttonAddFromStandard.Size = new System.Drawing.Size(147, 55);
             this.buttonAddFromStandard.TabIndex = 11;
             this.buttonAddFromStandard.Text = "Add From Standard Library";
             this.buttonAddFromStandard.UseVisualStyleBackColor = true;
             this.buttonAddFromStandard.Click += new System.EventHandler(this.buttonAddFromStandard_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(0, 512);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(105, 20);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Open LIbrary:";
+            // 
             // MazeMakerCollectionEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 447);
+            this.ClientSize = new System.Drawing.Size(652, 539);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonAddFromStandard);
             this.Controls.Add(this.buttonAddFromUserLib);
             this.Controls.Add(this.buttonStandardLibrary);
@@ -196,11 +211,11 @@
             this.Controls.Add(this.propertyGrid1);
             this.Controls.Add(this.listBoxCollection);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(602, 487);
+            this.MaximumSize = new System.Drawing.Size(674, 595);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(602, 487);
+            this.MinimumSize = new System.Drawing.Size(674, 595);
             this.Name = "MazeMakerCollectionEditor";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -227,5 +242,6 @@
         private System.Windows.Forms.Button buttonStandardLibrary;
         private System.Windows.Forms.Button buttonAddFromUserLib;
         private System.Windows.Forms.Button buttonAddFromStandard;
+        private System.Windows.Forms.Label label1;
     }
 }
