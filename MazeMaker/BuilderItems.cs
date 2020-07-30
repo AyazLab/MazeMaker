@@ -60,8 +60,7 @@ namespace MazeMaker
     }
 
    public class MazeList_TextItem : MyBuilderItem
-    {
-
+   {
         public enum DisplayType
         {
             OnFramedDialog, OnBackground
@@ -214,6 +213,16 @@ namespace MazeMaker
         {
             get { return audio; }
             set { audio = value; }
+        }
+
+        private string fontSize = "";
+        [Category("General")]
+        [Description("Specify an font size to be displayed")]
+        [DisplayName("FontSize")]
+        public string FontSize
+        {
+            get { return fontSize; }
+            set { fontSize = value; }
         }
     }
 

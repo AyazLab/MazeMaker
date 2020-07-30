@@ -251,7 +251,7 @@ namespace MazeMaker
 
                             mazeLibrary.AppendChild(mazeLibraryItem);
                         }
-                        mz.InnerText = mazeID.ToString();
+                        mz.SetAttribute("ID", mazeID.ToString());
                         break;
 
                     case ItemType.Text:
@@ -264,11 +264,11 @@ namespace MazeMaker
 
                         XmlElement audioLibraryItem = xml.CreateElement("Audio");
                         int audioID = audioIDCounter;
-                        if (audioLibraryItems.ContainsKey(text.Audio))
+                        if (audioLibraryItems.ContainsKey(text.Audio)) // duplicate audio, reuse ID
                         {
                             audioID = Convert.ToInt32(audioLibraryItems[text.Audio]);
                         }
-                        else if (text.Audio != "")
+                        else if (text.Audio != "") // audio not duplicate and audio not empty
                         {
                             audioLibraryItems[text.Audio] = audioID.ToString();
                             audioIDCounter++;
@@ -279,7 +279,7 @@ namespace MazeMaker
                             audioLibrary.AppendChild(audioLibraryItem);
                         }
                         mz.SetAttribute("Audio", audioID.ToString());
-                        if (text.Audio == "")
+                        if (text.Audio == "") // audio empty
                         {
                             mz.SetAttribute("Audio", "");
                         }
