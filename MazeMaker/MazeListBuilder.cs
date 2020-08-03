@@ -16,7 +16,7 @@ namespace MazeMaker
     {
         public static List<MyBuilderItem> myItems = new List<MyBuilderItem>();
 
-        String curFilename = "";
+        string curFilename = "";
 
         public MazeListBuilder()
         {
@@ -26,14 +26,18 @@ namespace MazeMaker
 
         private void ReloadList()
         {
-            listBox1.Items.Clear();
+            treeViewMazeList.BeginUpdate();
+            treeViewMazeList.Nodes.Clear();
+
             int i = 1;
             foreach(MyBuilderItem a in myItems)
             {
-                listBox1.Items.Add(i.ToString() + ") " + a.ToString());
+                treeViewMazeList.Nodes.Add(i.ToString() + ") " + a.ToString());
                 i++;
             }
-            propertyGrid1.SelectedObject = null;
+
+            //propertyGrid1.SelectedObject = null;
+            treeViewMazeList.EndUpdate();
         }
 
         private void MazeListBuilder_Load(object sender, EventArgs e)
@@ -135,14 +139,14 @@ namespace MazeMaker
             //listBox1.Items[cur - 1] = listBox1.Items[cur];
             //listBox1.Items[cur] = temp;
             //listBox1.SelectedIndex -= 1;
-            MyBuilderItem temp;
-            int cur = listBox1.SelectedIndex;
-            temp = myItems[cur - 1];
-            myItems[cur - 1] = myItems[cur];
-            myItems[cur] = temp;
-            ReloadList();
-            listBox1.SelectedIndex = cur - 1;
 
+            //MyBuilderItem temp;
+            //int cur = listBox1.SelectedIndex;
+            //temp = myItems[cur - 1];
+            //myItems[cur - 1] = myItems[cur];
+            //myItems[cur] = temp;
+            //ReloadList();
+            //listBox1.SelectedIndex = cur - 1;
         }
 
         private void L_Down_Click(object sender, EventArgs e)
@@ -153,56 +157,51 @@ namespace MazeMaker
             //listBox1.Items[cur + 1] = listBox1.Items[cur];
             //listBox1.Items[cur] = temp;
             //listBox1.SelectedIndex += 1;
-            MyBuilderItem temp;
-            int cur = listBox1.SelectedIndex;
-            temp = myItems[cur + 1];
-            myItems[cur + 1] = myItems[cur];
-            myItems[cur] = temp;
-            ReloadList();
-            listBox1.SelectedIndex = cur + 1;
+
+            //MyBuilderItem temp;
+            //int cur = listBox1.SelectedIndex;
+            //temp = myItems[cur + 1];
+            //myItems[cur + 1] = myItems[cur];
+            //myItems[cur] = temp;
+            //ReloadList();
+            //listBox1.SelectedIndex = cur + 1;
         }
 
         private void L_Del_Click(object sender, EventArgs e)
         {
-            //listBox1.Items.RemoveAt(listBox1.SelectedIndex);
-            myItems.RemoveAt(listBox1.SelectedIndex);
+            myItems.RemoveAt(treeViewMazeList.Nodes.IndexOf(treeViewMazeList.SelectedNode));
             ReloadList();
-            
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void treeViewMazeList_AfterSelect(object sender, EventArgs e)
         {
             L_Del.Enabled = false;
             L_Up.Enabled = false;
             L_Down.Enabled = false;
-            
-            if (listBox1.SelectedIndex >= 0)
+
+            int selectedIndex = treeViewMazeList.Nodes.IndexOf(treeViewMazeList.SelectedNode);
+            if (selectedIndex >= 0)
             {
                 L_Del.Enabled = true;
-                if (listBox1.SelectedIndex > 0)
+                if (selectedIndex > 0)
                 {
                     L_Up.Enabled = true;
                 }
-                if (listBox1.SelectedIndex < listBox1.Items.Count - 1)
+                if (selectedIndex < treeViewMazeList.Nodes.Count - 1)
                 {
                     L_Down.Enabled = true;
                 }
-                propertyGrid1.SelectedObject = myItems[listBox1.SelectedIndex];
+                propertyGrid1.SelectedObject = myItems[selectedIndex];
             }
             
  
         }
 
-        private void listBox1_Leave(object sender, EventArgs e)
-        {
-            
-        }
-
         private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            int cur = listBox1.SelectedIndex;
-            ReloadList();
-            listBox1.SelectedIndex = cur;
+            //int cur = listBox1.SelectedIndex;
+            ReloadList();       
+            //listBox1.SelectedIndex = cur;
         }
 
         private void closeButton_Click(object sender, EventArgs e)
@@ -688,14 +687,9 @@ namespace MazeMaker
 
         private void MazeListBuilder_Resize(object sender, EventArgs e)
         {
-            listBox1.Width = L_Up.Left - listBox1.Left - 10;
-            listBox1.Height = closeButton.Top - listBox1.Top - 10;
-            propertyGrid1.Height = listBox1.Height;
+            //listBox1.Width = L_Up.Left - listBox1.Left - 10;
+            //listBox1.Height = closeButton.Top - listBox1.Top - 10;
+            //propertyGrid1.Height = listBox1.Height;
         }
-
-
-
-
-
     }
 }
