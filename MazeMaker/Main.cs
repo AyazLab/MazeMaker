@@ -1010,8 +1010,8 @@ namespace MazeMaker
             preChangeMaze = null;
 
             resetUndoBuffer();
-
         }
+
         public bool OpenTheFile(string inp)
         {
             if (File.Exists(inp)==false)
@@ -1054,7 +1054,7 @@ namespace MazeMaker
             else if (iExt == 2) // .mel
             {
                 MazeListBuilder dia = new MazeListBuilder();
-                dia.ReadFromFile(inp);
+                dia.ReadFromFile(inp, false);
                 dia.ShowDialog();
             }
             
@@ -4456,7 +4456,7 @@ namespace MazeMaker
                 else if (ext == 2)
                 {
                     MazeListBuilder dia = new MazeListBuilder();
-                    dia.ReadFromFile(a[0]);
+                    dia.ReadFromFile(a[0], false);
                     dia.ShowDialog();                    
                 }
             }
