@@ -14,11 +14,23 @@ namespace MazeMaker
     public partial class MazeMakerCollectionEditor : Form
     {
         List<Texture> curListT;
-        List<Model> curListM;
         List<Texture> curListT2;
+
+        List<Model> curListM;
         List<Model> curListM2;
+        
         List<Audio> curListA;
         List<Audio> curListA2;
+
+        public string GetSelectedImage()
+        {
+            ShowDialog();
+
+            Texture texture = (Texture)listBoxCollection.SelectedItem;
+            string image = texture.name;
+            
+            return image;
+        }
 
         public MazeMakerCollectionEditor(ref List<Texture> inp)
         {

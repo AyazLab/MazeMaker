@@ -8,6 +8,8 @@ using System.Text;
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Forms;
+using System.Drawing.Design;
+using System.Windows.Forms.Design;
 
 #endregion
 
@@ -47,7 +49,6 @@ namespace MazeMaker
         {
             return "[" + type + "] - " + valueIN;
         }
-
     }
     public class MazeList_MazeItem : MyBuilderItem
     {
@@ -56,7 +57,6 @@ namespace MazeMaker
             this.Value = inp;
             this.Type = ItemType.Maze;
         }
-
     }
 
    public class MazeList_TextItem : MyBuilderItem
@@ -144,11 +144,11 @@ namespace MazeMaker
 
     public class MazeList_ImageItem : MyBuilderItem
     {
-
         public enum DisplayType
         {
             OnFramedDialog, OnBackground
         }
+
         public MazeList_ImageItem()
         {
             this.Value = "Enter caption here!..";
@@ -197,7 +197,8 @@ namespace MazeMaker
         [Category("General")]
         [Description("Specify an image filename to be displayed")]
         [DisplayName("Image")]
-        [TypeConverter(typeof(ImageConverter))]
+        [Editor(typeof(ImageEditor), typeof(UITypeEditor))]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
         public string Image
         {
             get { return image; }
@@ -228,11 +229,11 @@ namespace MazeMaker
 
     public class MazeList_MultipleChoiceItem : MyBuilderItem
     {
-
         public enum DisplayType
         {
             OnFramedDialog, OnBackground
         }
+
         public MazeList_MultipleChoiceItem()
         {
             //this.Value = "Enter message here!..";
@@ -253,7 +254,6 @@ namespace MazeMaker
             items.ListChanged += updated;
         }
 
-    
         public override string ToString()
         {
             return "[" + this.Type + "] - " + GetString();
@@ -367,28 +367,68 @@ namespace MazeMaker
         }
     }
 
-    public class ImageConverter : StringConverter
+    class ImageEditor : UITypeEditor
     {
-        public override Boolean GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
+        List<Texture> images = new List<Texture>();
 
-        public override TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
         {
-            List<String> images = new List<String>();
+            return UITypeEditorEditStyle.Modal;
+        }
 
-            foreach (MyBuilderItem item in MazeListBuilder.myItems)
+        public override object EditValue(ITypeDescriptorContext context, System.IServiceProvider provider, object value)
+        {
+            //IWindowsFormsEditorService svc = provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
+
+            if (MazeListBuilder.madeChanges)
             {
-                if (item.Type == ItemType.Image)
+                foreach (MyBuilderItem item in MazeListBuilder.myItems)
                 {
-                    MazeList_ImageItem image = (MazeList_ImageItem)item;
-
-                    if (image.Image != "" && !images.Contains(image.Image))
+                    if (item.Type == ItemType.Image)
                     {
-                        images.Add(image.Image);
+                        MazeList_ImageItem image = (MazeList_ImageItem)item;
+                        string file = image.Image;
+
+                        if (file != "")
+                        {
+                            Texture texture = new Texture(file);
+
+                            if (!images.Contains(texture))
+                            {
+                                images.Add(texture);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                images = new List<Texture>();
+                foreach (MyBuilderItem item in MazeListBuilder.myItems)
+                {
+                    if (item.Type == ItemType.Image)
+                    {
+                        MazeList_ImageItem image = (MazeList_ImageItem)item;
+                        string file = image.Image;
+
+                        if (file != "")
+                        {
+                            images.Add(new Texture(file));
+                        }
                     }
                 }
             }
 
-            return new StandardValuesCollection(images);
+            //if (svc != null)
+            //{
+            //    MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref images);
+            //    svc.ShowDialog(mmce);
+            //}
+
+            MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref images);
+            value = mmce.GetSelectedImage();
+
+            return value;
         }
     }
 

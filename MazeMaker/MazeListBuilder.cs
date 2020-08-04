@@ -19,7 +19,7 @@ namespace MazeMaker
 
         string curFilename = "";
 
-        bool madeChanges = false;
+        public static bool madeChanges = false;
 
         public MazeListBuilder()
         {
@@ -144,11 +144,14 @@ namespace MazeMaker
             switch(comboBox1.SelectedIndex)
             {
                 case 0:
+                    //MazeMakerCollectionEditor a = new MazeMakerCollectionEditor(ref curMaze.cImages);
+                    //a.ShowDialog();
                     //Maze
                     OpenFileDialog a = new OpenFileDialog();
                     a.Filter = "Maze files | *.maz";
                     a.FilterIndex = 1;
                     a.RestoreDirectory = true;
+
                     if (a.ShowDialog() == DialogResult.OK)
                     {
                         //listView1.Items.Add((listView1.Items.Count + 1).ToString());
@@ -156,16 +159,18 @@ namespace MazeMaker
                         int i = a.FileName.LastIndexOf("\\");
                         //int count = listBox1.Items.Count;
                         myItems.Add(new MazeList_MazeItem(a.FileName.Substring(i + 1)));
-                                              
-                    } 
+                    }
                     break;
+
                 case 1:
                     myItems.Add(new MazeList_TextItem());  
                     //listBox1.Items.Add("TEXT MESSAGE");
                     break;
+
                 case 2:
                     myItems.Add(new MazeList_ImageItem());
                     break;
+
                 case 3:
                     myItems.Add(new MazeList_MultipleChoiceItem(new ListChangedEventHandler(Updated)));
                     break;
