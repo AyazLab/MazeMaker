@@ -17,7 +17,7 @@ namespace MazeMaker
 {
     public enum ItemType
     {
-        Maze, Text, Image, MultipleChoice
+        MazeOptions, Maze, Text, Image, MultipleChoice
     }
 
     public class MyBuilderItem : Object
@@ -45,11 +45,76 @@ namespace MazeMaker
             get { return type; }
             set { type = value; }
         }
+
         public override string ToString()
         {
             return "[" + type + "] - " + valueIN;
         }
     }
+
+    public class MazeList_MazeOptionsItem : MyBuilderItem
+    {
+        public MazeList_MazeOptionsItem()
+        {
+            Type = ItemType.MazeOptions;
+        }
+
+        protected new string valueIN = "";
+        [Category("General")]
+        [Description("Value of the Item")]
+        [Browsable(false)]
+        public new string Value
+        {
+            get { return valueIN; }
+            set { valueIN = value; }
+        }
+
+        private bool? fullScreen;
+        [Category("General")]
+        [DisplayName("Full Screen")]
+        public bool? FullScreen
+        {
+            get { return fullScreen; }
+            set { fullScreen = value; }
+        }
+
+        private bool? comPort;
+        [Category("General")]
+        [DisplayName("COM_Port")]
+        public bool? ComPort
+        {
+            get { return comPort; }
+            set { comPort = value; }
+        }
+
+        private bool? lsl;
+        [Category("General")]
+        [DisplayName("LSL")]
+        public bool? Lsl
+        {
+            get { return lsl; }
+            set { lsl = value; }
+        }
+
+        private bool? lpt;
+        [Category("General")]
+        [DisplayName("LPT")]
+        public bool? Lpt
+        {
+            get { return lpt; }
+            set { lpt = value; }
+        }
+
+        private string fontSize = "";
+        [Category("General")]
+        [DisplayName("Font Size")]
+        public string FontSize
+        {
+            get { return fontSize; }
+            set { fontSize = value; }
+        }
+    }
+
     public class MazeList_MazeItem : MyBuilderItem
     {
         public MazeList_MazeItem(string inp)
@@ -57,10 +122,37 @@ namespace MazeMaker
             this.Value = inp;
             this.Type = ItemType.Maze;
         }
+
+        private string defaultStartPosition = "";
+        [Category("General")]
+        [DisplayName("Default Start Position")]
+        public string DefaultStartPosition
+        {
+            get { return defaultStartPosition; }
+            set { defaultStartPosition = value; }
+        }
+
+        private string startMessage = "";
+        [Category("General")]
+        [DisplayName("Default Start Position")]
+        public string StartMessage
+        {
+            get { return startMessage; }
+            set { startMessage = value; }
+        }
+
+        private string timeout = "";
+        [Category("General")]
+        [DisplayName("Default Start Position")]
+        public string Timeout
+        {
+            get { return timeout; }
+            set { timeout = value; }
+        }
     }
 
-   public class MazeList_TextItem : MyBuilderItem
-   {
+    public class MazeList_TextItem : MyBuilderItem
+    {
         public enum DisplayType
         {
             OnFramedDialog, OnBackground
@@ -191,6 +283,16 @@ namespace MazeMaker
         {
             get { return showlike; }
             set { showlike = value; }
+        }
+
+        private string backgroundColor = "";
+        [Category("General")]
+        [Description("Set background color using color name or RGB values seperated by a comma: white or 255, 255, 255")]
+        [DisplayName("Background Color")]
+        public string BackgroundColor
+        {
+            get { return backgroundColor; }
+            set { backgroundColor = value; }
         }
 
         private string image = "";

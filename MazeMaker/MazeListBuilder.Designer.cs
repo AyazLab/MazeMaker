@@ -33,6 +33,7 @@ namespace MazeMaker
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Append = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_New = new System.Windows.Forms.ToolStripButton();
             this.toolStrip_SaveAs = new System.Windows.Forms.ToolStripButton();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.add = new System.Windows.Forms.Button();
@@ -46,7 +47,6 @@ namespace MazeMaker
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStrip_Status = new System.Windows.Forms.ToolStripStatusLabel();
             this.treeViewMazeList = new System.Windows.Forms.TreeView();
-            this.toolStripButton_New = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -78,9 +78,9 @@ namespace MazeMaker
             // 
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton_New,
             this.toolStrip_open,
             this.toolStripButton_Append,
-            this.toolStripButton_New,
             this.toolStripSeparator1,
             this.toolStrip_save,
             this.toolStrip_SaveAs});
@@ -99,6 +99,15 @@ namespace MazeMaker
             this.toolStripButton_Append.Size = new System.Drawing.Size(98, 36);
             this.toolStripButton_Append.Text = "Append";
             this.toolStripButton_Append.Click += new System.EventHandler(this.toolStripButton_Append_Click);
+            // 
+            // toolStripButton_New
+            // 
+            this.toolStripButton_New.Image = global::MazeMaker.Properties.Resources._new;
+            this.toolStripButton_New.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_New.Name = "toolStripButton_New";
+            this.toolStripButton_New.Size = new System.Drawing.Size(75, 36);
+            this.toolStripButton_New.Text = "New";
+            this.toolStripButton_New.Click += new System.EventHandler(this.toolStripButton_New_Click);
             // 
             // toolStrip_SaveAs
             // 
@@ -234,15 +243,6 @@ namespace MazeMaker
             this.treeViewMazeList.Size = new System.Drawing.Size(309, 291);
             this.treeViewMazeList.TabIndex = 12;
             this.treeViewMazeList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMazeList_AfterSelect);
-            // 
-            // toolStripButton_New
-            // 
-            this.toolStripButton_New.Image = global::MazeMaker.Properties.Resources._new;
-            this.toolStripButton_New.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_New.Name = "toolStripButton_New";
-            this.toolStripButton_New.Size = new System.Drawing.Size(75, 36);
-            this.toolStripButton_New.Text = "New";
-            this.toolStripButton_New.Click += new System.EventHandler(this.toolStripButton_New_Click);
             // 
             // MazeListBuilder
             // 
