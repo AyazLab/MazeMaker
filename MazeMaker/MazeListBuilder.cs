@@ -181,47 +181,25 @@ namespace MazeMaker
         private void L_Up_Click(object sender, EventArgs e)
         {
             madeChanges = true;
-            //Object temp;
-            //int cur = listBox1.SelectedIndex;
-            //temp = listBox1.Items[cur-1];
-            //listBox1.Items[cur - 1] = listBox1.Items[cur];
-            //listBox1.Items[cur] = temp;
-            //listBox1.SelectedIndex -= 1;
 
-            MyBuilderItem temp;
-            int cur = treeViewMazeList.Nodes.IndexOf(treeViewMazeList.SelectedNode);
-            temp = myItems[cur - 1];
-            myItems[cur - 1] = myItems[cur];
-            myItems[cur] = temp;
+            int selectedIndex = treeViewMazeList.Nodes.IndexOf(treeViewMazeList.SelectedNode);
+            MyBuilderItem temp = myItems[selectedIndex - 1];
+            myItems[selectedIndex - 1] = myItems[selectedIndex];
+            myItems[selectedIndex] = temp;
             ReloadList();
-            //listBox1.SelectedIndex = cur - 1;
-
-            L_Del.Enabled = false;
-            L_Up.Enabled = false;
-            L_Down.Enabled = false;
+            treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[selectedIndex - 1];
         }
 
         private void L_Down_Click(object sender, EventArgs e)
         {
             madeChanges = true;
-            //Object temp;
-            //int cur = listBox1.SelectedIndex;
-            //temp = listBox1.Items[cur + 1];
-            //listBox1.Items[cur + 1] = listBox1.Items[cur];
-            //listBox1.Items[cur] = temp;
-            //listBox1.SelectedIndex += 1;
 
-            MyBuilderItem temp;
-            int cur = treeViewMazeList.Nodes.IndexOf(treeViewMazeList.SelectedNode);
-            temp = myItems[cur + 1];
-            myItems[cur + 1] = myItems[cur];
-            myItems[cur] = temp;
+            int selectedIndex = treeViewMazeList.Nodes.IndexOf(treeViewMazeList.SelectedNode);
+            MyBuilderItem temp = myItems[selectedIndex + 1];
+            myItems[selectedIndex + 1] = myItems[selectedIndex];
+            myItems[selectedIndex] = temp;
             ReloadList();
-            //listBox1.SelectedIndex = cur + 1;
-
-            L_Del.Enabled = false;
-            L_Up.Enabled = false;
-            L_Down.Enabled = false;
+            treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[selectedIndex + 1];
         }
 
         private void L_Del_Click(object sender, EventArgs e)
