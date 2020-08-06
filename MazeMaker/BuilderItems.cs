@@ -351,6 +351,42 @@ namespace MazeMaker
         }
     }
 
+    public class ValueRet
+    {
+        public override string ToString()
+        {
+            return Value;
+        }
+
+        public ValueRet()
+        {
+
+        }
+
+        public ValueRet(string value)
+        {
+            Value = value;
+        }
+
+        string value = "";
+        [Category("General")]
+        [DisplayName("Answer")]
+        public string Value
+        {
+            get { return value; }
+            set { this.value = value; }
+        }
+
+        string ret = "";
+        [Category("General")]
+        [Description("Return")]
+        public string Ret
+        {
+            get { return ret; }
+            set { ret = value; }
+        }
+    }
+
     public class MazeList_MultipleChoiceItem : MyBuilderItem
     {
         public enum DisplayType
@@ -362,18 +398,18 @@ namespace MazeMaker
         {
             //this.Value = "Enter message here!..";
             this.Type = ItemType.MultipleChoice;
-            items.Add("Question?");
-            items.Add("Option1");
-            items.Add("Option2");
+            items.Add(new ValueRet("Question?"));
+            items.Add(new ValueRet("Option1"));
+            items.Add(new ValueRet("Option2"));
             GetString();
         }
 
         public MazeList_MultipleChoiceItem(ListChangedEventHandler updated)
         {
             this.Type = ItemType.MultipleChoice;
-            items.Add("Question?");
-            items.Add("Option1");
-            items.Add("Option2");
+            items.Add(new ValueRet("Question?"));
+            items.Add(new ValueRet("Option1"));
+            items.Add(new ValueRet("Option2"));
             GetString();
             items.ListChanged += updated;
         }
@@ -392,7 +428,7 @@ namespace MazeMaker
                items.Clear();
                for (int i = 0; i < val.Length; i++)
                {
-                   items.Add(val[i]);
+                   items.Add(new ValueRet(val[i]));
                }
                GetString();
 
@@ -407,17 +443,26 @@ namespace MazeMaker
 
         public string GetString()
         {
-            
             string[] arr = new string[items.Count];
-            items.CopyTo(arr, 0);
+            //int i = 0;
+            //foreach (ValueRet item in items)
+            //{
+            //    arr[i] = item.Value;
+            //    i++;
+            //}
+            for (int i = 0; i < items.Count; i++)
+            {
+                arr[i] = items[i].Value;
+            }
+            //items.CopyTo(arr, 0);
             this.valueIN = string.Join("\\a", arr);
             return this.valueIN;
         }
 
-        BindingList<string> items = new BindingList<string>(); 
+        BindingList<ValueRet> items = new BindingList<ValueRet>(); 
         [Category("General")]
         [Description("Value of the Item")]
-        public new BindingList<string> Value
+        public new BindingList<ValueRet> Value
         {
             get 
             { 

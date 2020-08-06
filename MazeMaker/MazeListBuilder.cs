@@ -448,19 +448,24 @@ namespace MazeMaker
                     case ItemType.MultipleChoice:
                         MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)item;
                         bool isQuestion = true;
-                        foreach (string value in multipleChoice.Value)
+                        foreach (ValueRet vr in multipleChoice.Value)
                         {
                             if (isQuestion)
                             {
                                 XmlElement question = melx.CreateElement("Question");
-                                question.InnerText = value;
+                                question.InnerText = vr.Value;
+                                if (vr.Ret != "")
+                                {
+                                    question.SetAttribute("Ret", vr.Ret);
+                                }
                                 mz.AppendChild(question);
                                 isQuestion = false;
                             }
                             else
                             {
                                 XmlElement choice = melx.CreateElement("Choice");
-                                choice.InnerText = value;
+                                choice.InnerText = vr.Value;
+                                choice.SetAttribute("Ret", vr.Ret);
                                 mz.AppendChild(choice);
                             }
                         }
@@ -725,7 +730,9 @@ namespace MazeMaker
                                     multipleChoice.Value.Clear();
                                     foreach (XmlElement node in listItem.ChildNodes)
                                     {
-                                        multipleChoice.Value.Add(node.InnerText);
+                                        ValueRet vr = new ValueRet(node.InnerText);
+                                        vr.Ret = node.GetAttribute("Ret");
+                                        multipleChoice.Value.Add(vr);
                                     }
                                     multipleChoice.TextDisplayType = (MazeList_MultipleChoiceItem.DisplayType)Enum.Parse(typeof(MazeList_MultipleChoiceItem.DisplayType), listItem.GetAttribute("TextDisplayType"));
                                     multipleChoice.LifeTime = Convert.ToInt64(listItem.GetAttribute("LifeTime"));
