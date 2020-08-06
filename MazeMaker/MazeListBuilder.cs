@@ -385,6 +385,7 @@ namespace MazeMaker
                             mz.SetAttribute("Audio", "");
                         }
 
+                        mz.SetAttribute("AudioOnUnhighlight", text.AudioOnUnhighlight);
                         mz.SetAttribute("FontSize", text.FontSize);
                         break;
 
@@ -440,6 +441,8 @@ namespace MazeMaker
                         {
                             mz.SetAttribute("Audio", "");
                         }
+
+                        mz.SetAttribute("AudioOnUnhighlight", image.AudioOnUnhighlight);
                         break;
 
                     case ItemType.MultipleChoice:
@@ -487,6 +490,8 @@ namespace MazeMaker
                         {
                             mz.SetAttribute("Audio", "");
                         }
+
+                        mz.SetAttribute("AudioOnUnhighlight", multipleChoice.AudioOnUnhighlight);
                         break;
 
                     default:
@@ -683,6 +688,7 @@ namespace MazeMaker
                                     }
                                     text.Audio = file;
 
+                                    text.AudioOnUnhighlight = listItem.GetAttribute("AudioOnUnhighlight");
                                     text.FontSize = listItem.GetAttribute("FontSize");
                                     myItems.Add(text);
                                     break;
@@ -710,6 +716,7 @@ namespace MazeMaker
                                     }
                                     image.Audio = file;
 
+                                    image.AudioOnUnhighlight = listItem.GetAttribute("AudioOnUnhighlight");
                                     myItems.Add(image);
                                     break;
 
@@ -732,6 +739,7 @@ namespace MazeMaker
                                     }
                                     multipleChoice.Audio = file;
 
+                                    multipleChoice.AudioOnUnhighlight = listItem.GetAttribute("AudioOnUnhighlight");
                                     myItems.Add(multipleChoice);
                                     break;
 

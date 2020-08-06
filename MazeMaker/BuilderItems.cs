@@ -134,7 +134,7 @@ namespace MazeMaker
 
         private string startMessage = "";
         [Category("General")]
-        [DisplayName("Default Start Position")]
+        [DisplayName("Start Message")]
         public string StartMessage
         {
             get { return startMessage; }
@@ -143,7 +143,7 @@ namespace MazeMaker
 
         private string timeout = "";
         [Category("General")]
-        [DisplayName("Default Start Position")]
+        [DisplayName("Timeout")]
         public string Timeout
         {
             get { return timeout; }
@@ -221,6 +221,17 @@ namespace MazeMaker
         {
             get { return audio; }
             set { audio = value; }
+        }
+
+        private string audioOnUnhighlight;
+        [Category("General")]
+        [Description("Descibes behavior for Audio play back when highlight ends")]
+        [DisplayName("Audio On Unhighlight")]
+        [TypeConverter(typeof(audioOnUnhighlightConverter))]
+        public string AudioOnUnhighlight
+        {
+            get { return audioOnUnhighlight; }
+            set { audioOnUnhighlight = value; }
         }
 
         private string fontSize = "";
@@ -316,6 +327,17 @@ namespace MazeMaker
         {
             get { return audio; }
             set { audio = value; }
+        }
+
+        private string audioOnUnhighlight;
+        [Category("General")]
+        [Description("Descibes behavior for Audio play back when highlight ends")]
+        [DisplayName("Audio On Unhighlight")]
+        [TypeConverter(typeof(audioOnUnhighlightConverter))]
+        public string AudioOnUnhighlight
+        {
+            get { return audioOnUnhighlight; }
+            set { audioOnUnhighlight = value; }
         }
 
         private string fontSize = "";
@@ -467,6 +489,17 @@ namespace MazeMaker
             get { return audio; }
             set { audio = value; }
         }
+
+        private string audioOnUnhighlight;
+        [Category("General")]
+        [Description("Descibes behavior for Audio play back when highlight ends")]
+        [DisplayName("Audio On Unhighlight")]
+        [TypeConverter(typeof(audioOnUnhighlightConverter))]
+        public string AudioOnUnhighlight
+        {
+            get { return audioOnUnhighlight; }
+            set { audioOnUnhighlight = value; }
+        }
     }
 
     class ImageEditor : UITypeEditor
@@ -574,6 +607,23 @@ namespace MazeMaker
             }
 
             return new StandardValuesCollection(audios);
+        }
+    }
+
+    public class audioOnUnhighlightConverter : StringConverter
+    {
+        public override Boolean GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
+
+        public override TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        {
+            List<String> audioOnUnhighlightTypes = new List<String>();
+
+            audioOnUnhighlightTypes.Add("Stop");
+            audioOnUnhighlightTypes.Add("Pause");
+            audioOnUnhighlightTypes.Add("Continue");
+            audioOnUnhighlightTypes.Add("VolumeByDistance");
+
+            return new StandardValuesCollection(audioOnUnhighlightTypes);
         }
     }
 }
