@@ -17,7 +17,7 @@ namespace MazeMaker
 {
     public enum ItemType
     {
-        MazeOptions, Maze, Text, Image, MultipleChoice
+        MazeListOptions, Maze, Text, Image, MultipleChoice
     }
 
     public class MyBuilderItem : Object
@@ -27,19 +27,20 @@ namespace MazeMaker
 
         }
 
-        protected string valueIN = "";
+        protected string text = "";
         [Category("General")]
-        [Description("Value of the Item")]
-        public string Value
+        [Description("Text")]
+        public string Text
         {
-            get { return valueIN; }
-            set { valueIN = value; }
+            get { return text; }
+            set { text = value; }
         }
 
         private ItemType type;
         [Category("General")]
         [Description("Type of the Item")]
         [ReadOnly(true)]
+        [Browsable(false)]
         public ItemType Type
         {
             get { return type; }
@@ -48,25 +49,23 @@ namespace MazeMaker
 
         public override string ToString()
         {
-            return "[" + type + "] - " + valueIN;
+            return "[" + type + "] - " + text;
         }
     }
 
-    public class MazeList_MazeOptionsItem : MyBuilderItem
+    public class MazeList_MazeListOptionsItem : MyBuilderItem
     {
-        public MazeList_MazeOptionsItem()
+        public MazeList_MazeListOptionsItem()
         {
-            Type = ItemType.MazeOptions;
+            Type = ItemType.MazeListOptions;
         }
 
-        protected new string valueIN = "";
-        [Category("General")]
-        [Description("Value of the Item")]
+        protected new string text = "";
         [Browsable(false)]
-        public new string Value
+        public new string Text
         {
-            get { return valueIN; }
-            set { valueIN = value; }
+            get { return text; }
+            set { text = value; }
         }
 
         private bool? fullScreen;
@@ -113,14 +112,36 @@ namespace MazeMaker
             get { return fontSize; }
             set { fontSize = value; }
         }
+
+        public override string ToString()
+        {
+            return "[" + Type + "]";
+        }
     }
 
     public class MazeList_MazeItem : MyBuilderItem
     {
         public MazeList_MazeItem(string inp)
         {
-            this.Value = inp;
+            this.Maze = inp;
             this.Type = ItemType.Maze;
+        }
+
+        protected new string text = "";
+        [Browsable(false)]
+        public new string Text
+        {
+            get { return text; }
+            set { text = value; }
+        }
+
+        string maze = "";
+        [Category("General")]
+        [Description("Specify an maze filename to be shown")]
+        public string Maze
+        {
+            get { return maze; }
+            set { maze = value; }
         }
 
         private string defaultStartPosition = "";
@@ -149,6 +170,11 @@ namespace MazeMaker
             get { return timeout; }
             set { timeout = value; }
         }
+
+        public override string ToString()
+        {
+            return "[" + Type + "] - " + maze;
+        }
     }
 
     public class MazeList_TextItem : MyBuilderItem
@@ -159,7 +185,7 @@ namespace MazeMaker
         }
         public MazeList_TextItem()
         {
-           this.Value = "Enter message here!..";
+           this.Text = "Enter message here!..";
            this.Type = ItemType.Text;
         }
 
@@ -213,7 +239,7 @@ namespace MazeMaker
         }
 
         private string audio = "";
-        [Category("General")]
+        [Category("Highlight")]
         [Description("Specify an audio filename to be played")]
         [DisplayName("Audio")]
         [TypeConverter(typeof(audioConverter))]
@@ -224,7 +250,7 @@ namespace MazeMaker
         }
 
         private string audioOnUnhighlight;
-        [Category("General")]
+        [Category("Highlight")]
         [Description("Descibes behavior for Audio play back when highlight ends")]
         [DisplayName("Audio On Unhighlight")]
         [TypeConverter(typeof(audioOnUnhighlightConverter))]
@@ -254,7 +280,7 @@ namespace MazeMaker
 
         public MazeList_ImageItem()
         {
-            this.Value = "Enter caption here!..";
+            this.Text = "Enter caption here!..";
             this.Type = ItemType.Image;
         }
 
@@ -319,7 +345,7 @@ namespace MazeMaker
         }
 
         private string audio = "";
-        [Category("General")]
+        [Category("Highlight")]
         [Description("Specify an audio filename to be played")]
         [DisplayName("Audio")]
         [TypeConverter(typeof(audioConverter))]
@@ -330,7 +356,7 @@ namespace MazeMaker
         }
 
         private string audioOnUnhighlight;
-        [Category("General")]
+        [Category("Highlight")]
         [Description("Descibes behavior for Audio play back when highlight ends")]
         [DisplayName("Audio On Unhighlight")]
         [TypeConverter(typeof(audioOnUnhighlightConverter))]
@@ -351,35 +377,32 @@ namespace MazeMaker
         }
     }
 
-    public class ValueRet
+    public class TextReturn
     {
         public override string ToString()
         {
-            return Value;
+            return Text;
         }
 
-        public ValueRet()
+        public TextReturn()
         {
 
         }
 
-        public ValueRet(string value)
+        public TextReturn(string text)
         {
-            Value = value;
+            Text = text;
         }
 
-        string value = "";
-        [Category("General")]
-        [DisplayName("Answer")]
-        public string Value
+        string text = "";
+        public string Text
         {
-            get { return value; }
-            set { this.value = value; }
+            get { return text; }
+            set { this.text = value; }
         }
 
         string ret = "";
-        [Category("General")]
-        [Description("Return")]
+        [DisplayName("Return")]
         public string Ret
         {
             get { return ret; }
@@ -398,18 +421,18 @@ namespace MazeMaker
         {
             //this.Value = "Enter message here!..";
             this.Type = ItemType.MultipleChoice;
-            items.Add(new ValueRet("Question?"));
-            items.Add(new ValueRet("Option1"));
-            items.Add(new ValueRet("Option2"));
+            items.Add(new TextReturn("Question?"));
+            items.Add(new TextReturn("Option1"));
+            items.Add(new TextReturn("Option2"));
             GetString();
         }
 
         public MazeList_MultipleChoiceItem(ListChangedEventHandler updated)
         {
             this.Type = ItemType.MultipleChoice;
-            items.Add(new ValueRet("Question?"));
-            items.Add(new ValueRet("Option1"));
-            items.Add(new ValueRet("Option2"));
+            items.Add(new TextReturn("Question?"));
+            items.Add(new TextReturn("Option1"));
+            items.Add(new TextReturn("Option2"));
             GetString();
             items.ListChanged += updated;
         }
@@ -428,7 +451,7 @@ namespace MazeMaker
                items.Clear();
                for (int i = 0; i < val.Length; i++)
                {
-                   items.Add(new ValueRet(val[i]));
+                   items.Add(new TextReturn(val[i]));
                }
                GetString();
 
@@ -444,32 +467,28 @@ namespace MazeMaker
         public string GetString()
         {
             string[] arr = new string[items.Count];
-            //int i = 0;
-            //foreach (ValueRet item in items)
-            //{
-            //    arr[i] = item.Value;
-            //    i++;
-            //}
+
             for (int i = 0; i < items.Count; i++)
             {
-                arr[i] = items[i].Value;
+                arr[i] = items[i].Text;
             }
+
             //items.CopyTo(arr, 0);
-            this.valueIN = string.Join("\\a", arr);
-            return this.valueIN;
+            this.text = string.Join("\\a", arr);
+            return this.text;
         }
 
-        BindingList<ValueRet> items = new BindingList<ValueRet>(); 
+        BindingList<TextReturn> items = new BindingList<TextReturn>(); 
         [Category("General")]
-        [Description("Value of the Item")]
-        public new BindingList<ValueRet> Value
+        [Description("Text")]
+        public new BindingList<TextReturn> Text
         {
             get 
-            { 
+            {
                 return items; 
             }
             set
-            { 
+            {
                 items = value;
                 GetString();
             }
@@ -525,7 +544,7 @@ namespace MazeMaker
         }
 
         private string audio = "";
-        [Category("General")]
+        [Category("Highlight")]
         [Description("Specify an audio filename to be played")]
         [DisplayName("Audio")]
         [TypeConverter(typeof(audioConverter))]
@@ -536,7 +555,7 @@ namespace MazeMaker
         }
 
         private string audioOnUnhighlight;
-        [Category("General")]
+        [Category("Highlight")]
         [Description("Descibes behavior for Audio play back when highlight ends")]
         [DisplayName("Audio On Unhighlight")]
         [TypeConverter(typeof(audioOnUnhighlightConverter))]

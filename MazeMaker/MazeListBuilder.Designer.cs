@@ -40,7 +40,7 @@ namespace MazeMaker
             this.L_Up = new System.Windows.Forms.Button();
             this.L_Down = new System.Windows.Forms.Button();
             this.L_Del = new System.Windows.Forms.Button();
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.propertyGrid = new System.Windows.Forms.PropertyGrid();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.closeButton = new System.Windows.Forms.Button();
@@ -176,13 +176,13 @@ namespace MazeMaker
             // 
             // propertyGrid1
             // 
-            this.propertyGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.propertyGrid1.Location = new System.Drawing.Point(364, 103);
-            this.propertyGrid1.Margin = new System.Windows.Forms.Padding(4);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(320, 366);
-            this.propertyGrid1.TabIndex = 7;
-            this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
+            this.propertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.propertyGrid.Location = new System.Drawing.Point(364, 103);
+            this.propertyGrid.Margin = new System.Windows.Forms.Padding(4);
+            this.propertyGrid.Name = "propertyGrid1";
+            this.propertyGrid.Size = new System.Drawing.Size(320, 366);
+            this.propertyGrid.TabIndex = 7;
+            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
             // 
             // label1
             // 
@@ -254,7 +254,7 @@ namespace MazeMaker
             this.Controls.Add(this.closeButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.propertyGrid1);
+            this.Controls.Add(this.propertyGrid);
             this.Controls.Add(this.L_Del);
             this.Controls.Add(this.L_Down);
             this.Controls.Add(this.L_Up);
@@ -291,7 +291,7 @@ namespace MazeMaker
         private System.Windows.Forms.Button L_Up;
         private System.Windows.Forms.Button L_Down;
         private System.Windows.Forms.Button L_Del;
-        private System.Windows.Forms.PropertyGrid propertyGrid1;
+        private System.Windows.Forms.PropertyGrid propertyGrid;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button closeButton;

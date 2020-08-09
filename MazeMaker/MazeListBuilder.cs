@@ -30,28 +30,48 @@ namespace MazeMaker
 
         private void ReloadList()
         {
-            treeViewMazeList.BeginUpdate();
+            //treeViewMazeList.BeginUpdate();
             treeViewMazeList.Nodes.Clear();
 
-            int i = 1;
-            foreach(MyBuilderItem a in myItems)
+            for (int i = 0; i < myItems.Count; i++)
             {
-                treeViewMazeList.Nodes.Add(i.ToString() + ") " + a.ToString());
-                i++;
+                switch (i)
+                {
+                    case 0:
+                        treeViewMazeList.Nodes.Add(myItems[i].ToString());
+                        treeViewMazeList.Nodes.Add("ListItems");
+                        break;
+
+                    default:
+                        treeViewMazeList.Nodes[1].Nodes.Add(i.ToString() + ") " + myItems[i].ToString());
+                        break;
+                }
             }
 
+            treeViewMazeList.ExpandAll();
+
+            //int i = 1;
+            //foreach (MyBuilderItem a in myItems)
+            //{
+            //    treeViewMazeList.Nodes.Add(i.ToString() + ") " + a.ToString());
+            //    i++;
+            //}
+
             //propertyGrid1.SelectedObject = null;
-            treeViewMazeList.EndUpdate();
+
+            //treeViewMazeList.EndUpdate();
         }
 
         private void MazeListBuilder_Load(object sender, EventArgs e)
         {
-            comboBox1.Items.Add("Maze Options");
             comboBox1.Items.Add("Maze File");
             comboBox1.Items.Add("Text Display");
             comboBox1.Items.Add("Image Display");
             comboBox1.Items.Add("Multiple-Choice Display");
             comboBox1.SelectedIndex = 0;
+
+            myItems.Add(new MazeList_MazeListOptionsItem());
+            ReloadList();
         }
 
         private void toolStrip_open_Click(object sender, EventArgs e)
@@ -180,10 +200,6 @@ namespace MazeMaker
             switch(comboBox1.SelectedIndex)
             {
                 case 0:
-                    myItems.Add(new MazeList_MazeOptionsItem());
-                    break;
-
-                case 1:
                     //MazeMakerCollectionEditor a = new MazeMakerCollectionEditor(ref curMaze.cImages);
                     //a.ShowDialog();
                     
@@ -203,19 +219,20 @@ namespace MazeMaker
                     }
                     break;
 
-                case 2:
+                case 1:
                     myItems.Add(new MazeList_TextItem());  
                     //listBox1.Items.Add("TEXT MESSAGE");
                     break;
 
-                case 3:
+                case 2:
                     myItems.Add(new MazeList_ImageItem());
                     break;
 
-                case 4:
+                case 3:
                     myItems.Add(new MazeList_MultipleChoiceItem(new ListChangedEventHandler(Updated)));
                     break;
             }
+
             ReloadList();
         }
 
@@ -223,30 +240,30 @@ namespace MazeMaker
         {
             madeChanges = true;
 
-            int selectedIndex = treeViewMazeList.Nodes.IndexOf(treeViewMazeList.SelectedNode);
+            int selectedIndex = treeViewMazeList.Nodes[1].Nodes.IndexOf(treeViewMazeList.SelectedNode) + 1;
             MyBuilderItem temp = myItems[selectedIndex - 1];
             myItems[selectedIndex - 1] = myItems[selectedIndex];
             myItems[selectedIndex] = temp;
             ReloadList();
-            treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[selectedIndex - 1];
+            treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[1].Nodes[selectedIndex - 2];
         }
 
         private void L_Down_Click(object sender, EventArgs e)
         {
             madeChanges = true;
 
-            int selectedIndex = treeViewMazeList.Nodes.IndexOf(treeViewMazeList.SelectedNode);
+            int selectedIndex = treeViewMazeList.Nodes[1].Nodes.IndexOf(treeViewMazeList.SelectedNode) + 1;
             MyBuilderItem temp = myItems[selectedIndex + 1];
             myItems[selectedIndex + 1] = myItems[selectedIndex];
             myItems[selectedIndex] = temp;
             ReloadList();
-            treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[selectedIndex + 1];
+            treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[1].Nodes[selectedIndex];
         }
 
         private void L_Del_Click(object sender, EventArgs e)
         {
             madeChanges = true;
-            myItems.RemoveAt(treeViewMazeList.Nodes.IndexOf(treeViewMazeList.SelectedNode));
+            myItems.RemoveAt(treeViewMazeList.Nodes[1].Nodes.IndexOf(treeViewMazeList.SelectedNode) + 1);
             ReloadList();
 
             L_Del.Enabled = false;
@@ -260,19 +277,30 @@ namespace MazeMaker
             L_Up.Enabled = false;
             L_Down.Enabled = false;
 
-            int selectedIndex = treeViewMazeList.Nodes.IndexOf(treeViewMazeList.SelectedNode);
-            if (selectedIndex >= 0)
+            int selectedIndex = treeViewMazeList.Nodes[1].Nodes.IndexOf(treeViewMazeList.SelectedNode) + 1;
+            if (selectedIndex >= 1)
             {
                 L_Del.Enabled = true;
-                if (selectedIndex > 0)
+
+                if (selectedIndex > 1)
                 {
                     L_Up.Enabled = true;
                 }
-                if (selectedIndex < treeViewMazeList.Nodes.Count - 1)
+
+                if (selectedIndex < treeViewMazeList.Nodes[1].Nodes.Count)
                 {
                     L_Down.Enabled = true;
                 }
-                propertyGrid1.SelectedObject = myItems[selectedIndex];
+
+                propertyGrid.SelectedObject = myItems[selectedIndex];
+            }
+            else if (treeViewMazeList.Nodes[0].IsSelected)
+            {
+                propertyGrid.SelectedObject = myItems[0];
+            }
+            else if (treeViewMazeList.Nodes[1].IsSelected)
+            {
+                propertyGrid.SelectedObject = null;
             }
         }
 
@@ -331,43 +359,45 @@ namespace MazeMaker
 
                 switch (item.Type)
                 {
-                    case ItemType.MazeOptions:
-                        MazeList_MazeOptionsItem mazeOptions = (MazeList_MazeOptionsItem)item;
+                    case ItemType.MazeListOptions:
+                        MazeList_MazeListOptionsItem mazeListOptions = (MazeList_MazeListOptionsItem)item;
 
-                        if (mazeOptions.FullScreen.ToString() != "")
+                        if (mazeListOptions.FullScreen.ToString() != "")
                         {
                             XmlElement fullScreen = melx.CreateElement("FullScreen");
-                            fullScreen.InnerText = mazeOptions.FullScreen.ToString();
+                            fullScreen.InnerText = mazeListOptions.FullScreen.ToString();
                             mz.AppendChild(fullScreen);
                         }
 
-                        if (mazeOptions.ComPort.ToString() != "")
+                        if (mazeListOptions.ComPort.ToString() != "")
                         {
                             XmlElement comPort = melx.CreateElement("COM_Port");
-                            comPort.SetAttribute("Enabled", mazeOptions.ComPort.ToString());
+                            comPort.SetAttribute("Enabled", mazeListOptions.ComPort.ToString());
                             mz.AppendChild(comPort);
                         }
 
-                        if (mazeOptions.Lsl.ToString() != "")
+                        if (mazeListOptions.Lsl.ToString() != "")
                         {
                             XmlElement lsl = melx.CreateElement("LSL");
-                            lsl.SetAttribute("Enabled", mazeOptions.Lsl.ToString());
+                            lsl.SetAttribute("Enabled", mazeListOptions.Lsl.ToString());
                             mz.AppendChild(lsl);
                         }
 
-                        if (mazeOptions.Lpt.ToString() != "")
+                        if (mazeListOptions.Lpt.ToString() != "")
                         {
                             XmlElement lpt = melx.CreateElement("LPT");
-                            lpt.SetAttribute("Enabled", mazeOptions.Lpt.ToString());
+                            lpt.SetAttribute("Enabled", mazeListOptions.Lpt.ToString());
                             mz.AppendChild(lpt);
                         }
 
-                        if (mazeOptions.FontSize != "")
+                        if (mazeListOptions.FontSize != "")
                         {
                             XmlElement font = melx.CreateElement("Font");
-                            font.SetAttribute("Size", mazeOptions.FontSize);
+                            font.SetAttribute("Size", mazeListOptions.FontSize);
                             mz.AppendChild(font);
                         }
+
+                        mzLs.AppendChild(mz);
                         break;
 
                     case ItemType.Maze:
@@ -375,22 +405,22 @@ namespace MazeMaker
 
                         XmlElement mazeLibraryItem = melx.CreateElement("Maze");
                         int mazeID = mazeIDCounter;
-                        if (mazeLibraryItems.ContainsKey(maze.Value))
+                        if (mazeLibraryItems.ContainsKey(maze.Maze))
                         {
-                            mazeID = Convert.ToInt32(mazeLibraryItems[maze.Value]);
+                            mazeID = Convert.ToInt32(mazeLibraryItems[maze.Maze]);
                         }
                         else
                         {
-                            mazeLibraryItems[maze.Value] = mazeID.ToString();
+                            mazeLibraryItems[maze.Maze] = mazeID.ToString();
                             mazeIDCounter++;
 
                             mazeLibraryItem.SetAttribute("ID", mazeID.ToString());
-                            mazeLibraryItem.SetAttribute("File", maze.Value);
+                            mazeLibraryItem.SetAttribute("File", maze.Maze);
 
                             mazeLibrary.AppendChild(mazeLibraryItem);
                         }
                         mz.SetAttribute("ID", mazeID.ToString());
-                        if (maze.Value == "")
+                        if (maze.Maze == "")
                         {
                             mz.SetAttribute("ID", "");
                         }
@@ -402,7 +432,7 @@ namespace MazeMaker
 
                     case ItemType.Text:
                         MazeList_TextItem text = (MazeList_TextItem)item;
-                        mz.InnerText = text.Value;
+                        mz.InnerText = text.Text;
                         mz.SetAttribute("TextDisplayType", text.TextDisplayType.ToString());
                         mz.SetAttribute("LifeTime", text.LifeTime.ToString());
                         mz.SetAttribute("X", text.X.ToString());
@@ -436,7 +466,7 @@ namespace MazeMaker
 
                     case ItemType.Image:
                         MazeList_ImageItem image = (MazeList_ImageItem)item;
-                        mz.InnerText = image.Value;
+                        mz.InnerText = image.Text;
                         mz.SetAttribute("TextDisplayType", image.TextDisplayType.ToString());
                         mz.SetAttribute("LifeTime", image.LifeTime.ToString());
                         mz.SetAttribute("X", image.X.ToString());
@@ -493,15 +523,15 @@ namespace MazeMaker
                     case ItemType.MultipleChoice:
                         MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)item;
                         bool isQuestion = true;
-                        foreach (ValueRet vr in multipleChoice.Value)
+                        foreach (TextReturn vr in multipleChoice.Text)
                         {
                             if (isQuestion)
                             {
                                 XmlElement question = melx.CreateElement("Question");
-                                question.InnerText = vr.Value;
+                                question.InnerText = vr.Text;
                                 if (vr.Ret != "")
                                 {
-                                    question.SetAttribute("Ret", vr.Ret);
+                                    question.SetAttribute("Return", vr.Ret);
                                 }
                                 mz.AppendChild(question);
                                 isQuestion = false;
@@ -509,7 +539,7 @@ namespace MazeMaker
                             else
                             {
                                 XmlElement choice = melx.CreateElement("Choice");
-                                choice.InnerText = vr.Value;
+                                choice.InnerText = vr.Text;
                                 choice.SetAttribute("Ret", vr.Ret);
                                 mz.AppendChild(choice);
                             }
@@ -548,7 +578,10 @@ namespace MazeMaker
                         break;
                 }
 
-                listItems.AppendChild(mz);
+                if (mz.Name != "MazeListOptions")
+                {
+                    listItems.AppendChild(mz);
+                }
             }
 
             mzLs.AppendChild(mazeLibrary);
@@ -605,17 +638,17 @@ namespace MazeMaker
                 fp.Write(a.Type + "\t");
                 if (a.Type == ItemType.Maze)
                 {
-                    fp.Write(a.Value);
+                    fp.Write(a.Text);
                 }
                 else if (a.Type == ItemType.Text)
                 {
                     MazeList_TextItem aa = (MazeList_TextItem)a;
-                    fp.Write(aa.Value + "\t" + aa.TextDisplayType + "\t" + aa.LifeTime + "\t" + aa.X + "\t" + aa.Y + "\t ");
+                    fp.Write(aa.Text + "\t" + aa.TextDisplayType + "\t" + aa.LifeTime + "\t" + aa.X + "\t" + aa.Y + "\t ");
                 }
                 else if (a.Type == ItemType.Image)
                 {
                     MazeList_ImageItem aa = (MazeList_ImageItem)a;
-                    fp.Write(aa.Value + "\t" + aa.TextDisplayType + "\t" + aa.LifeTime + "\t" + aa.X + "\t" + aa.Y + "\t" + aa.Image);
+                    fp.Write(aa.Text + "\t" + aa.TextDisplayType + "\t" + aa.LifeTime + "\t" + aa.X + "\t" + aa.Y + "\t" + aa.Image);
                 }
                 else if (a.Type == ItemType.MultipleChoice)
                 {
@@ -649,6 +682,46 @@ namespace MazeMaker
             {
                 switch (mz.Name)
                 {
+                    case "MazeListOptions":
+                        if (myItems.Count != 0)
+                        {
+                            break;
+                        }
+
+                        MazeList_MazeListOptionsItem mazeListOptions = new MazeList_MazeListOptionsItem();
+
+                        foreach (XmlElement mazeListOption in mz.ChildNodes)
+                        {
+                            switch (mazeListOption.Name)
+                            {
+                                case "FullScreen":
+                                    mazeListOptions.FullScreen = bool.Parse(mazeListOption.InnerText);
+                                    break;
+
+                                case "COM_Port":
+                                    mazeListOptions.ComPort = bool.Parse(mazeListOption.GetAttribute("Enabled"));
+                                    break;
+
+                                case "LSL":
+                                    mazeListOptions.Lsl = bool.Parse(mazeListOption.GetAttribute("Enabled"));
+                                    break;
+
+                                case "LPT":
+                                    mazeListOptions.Lpt = bool.Parse(mazeListOption.GetAttribute("Enabled"));
+                                    break;
+
+                                case "Font":
+                                    mazeListOptions.FontSize = mazeListOption.GetAttribute("Size");
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        }
+
+                        myItems.Add(mazeListOptions);
+                        break;
+
                     case "MazeLibrary":
                         foreach (XmlElement mazeLibraryItem in mz.ChildNodes)
                         {
@@ -675,41 +748,6 @@ namespace MazeMaker
                         {
                             switch (listItem.Name)
                             {
-                                case "MazeOptions":
-                                    MazeList_MazeOptionsItem mazeOptions = new MazeList_MazeOptionsItem();
-
-                                    foreach (XmlElement mazeOption in listItem.ChildNodes)
-                                    {
-                                        switch (mazeOption.Name)
-                                        {
-                                            case "FullScreen":
-                                                mazeOptions.FullScreen = bool.Parse(mazeOption.InnerText);
-                                                break;
-
-                                            case "COM_Port":
-                                                mazeOptions.ComPort = bool.Parse(mazeOption.GetAttribute("Enabled"));
-                                                break;
-
-                                            case "LSL":
-                                                mazeOptions.Lsl = bool.Parse(mazeOption.GetAttribute("Enabled"));
-                                                break;
-
-                                            case "LPT":
-                                                mazeOptions.Lpt = bool.Parse(mazeOption.GetAttribute("Enabled"));
-                                                break;
-
-                                            case "Font":
-                                                mazeOptions.FontSize = mazeOption.GetAttribute("Size");
-                                                break;
-
-                                            default:
-                                                break;
-                                        }
-                                    }
-
-                                    myItems.Add(mazeOptions);
-                                    break;
-
                                 case "Maze":
                                     string file = listItem.GetAttribute("ID");
                                     if (mazeLibraryItems.ContainsKey(file))
@@ -726,7 +764,7 @@ namespace MazeMaker
 
                                 case "Text":
                                     MazeList_TextItem text = new MazeList_TextItem();
-                                    text.Value = listItem.InnerText;
+                                    text.Text = listItem.InnerText;
                                     text.TextDisplayType = (MazeList_TextItem.DisplayType)Enum.Parse(typeof(MazeList_TextItem.DisplayType), listItem.GetAttribute("TextDisplayType"));
                                     text.LifeTime = Convert.ToInt64(listItem.GetAttribute("LifeTime"));
                                     text.X = Convert.ToDouble(listItem.GetAttribute("X"));
@@ -746,7 +784,7 @@ namespace MazeMaker
 
                                 case "Image":
                                     MazeList_ImageItem image = new MazeList_ImageItem();
-                                    image.Value = listItem.InnerText;
+                                    image.Text = listItem.InnerText;
                                     image.TextDisplayType = (MazeList_ImageItem.DisplayType)Enum.Parse(typeof(MazeList_ImageItem.DisplayType), listItem.GetAttribute("TextDisplayType"));
                                     image.LifeTime = Convert.ToInt64(listItem.GetAttribute("LifeTime"));
                                     image.X = Convert.ToDouble(listItem.GetAttribute("X"));
@@ -773,12 +811,12 @@ namespace MazeMaker
 
                                 case "MultipleChoice":
                                     MazeList_MultipleChoiceItem multipleChoice = new MazeList_MultipleChoiceItem();
-                                    multipleChoice.Value.Clear();
+                                    multipleChoice.Text.Clear();
                                     foreach (XmlElement node in listItem.ChildNodes)
                                     {
-                                        ValueRet vr = new ValueRet(node.InnerText);
-                                        vr.Ret = node.GetAttribute("Ret");
-                                        multipleChoice.Value.Add(vr);
+                                        TextReturn vr = new TextReturn(node.InnerText);
+                                        vr.Ret = node.GetAttribute("Return");
+                                        multipleChoice.Text.Add(vr);
                                     }
                                     multipleChoice.TextDisplayType = (MazeList_MultipleChoiceItem.DisplayType)Enum.Parse(typeof(MazeList_MultipleChoiceItem.DisplayType), listItem.GetAttribute("TextDisplayType"));
                                     multipleChoice.LifeTime = Convert.ToInt64(listItem.GetAttribute("LifeTime"));
@@ -876,7 +914,7 @@ namespace MazeMaker
                     {
                         //Text Line
                         MazeList_TextItem aa = new MazeList_TextItem();
-                        aa.Value = parsed[1];
+                        aa.Text = parsed[1];
                         if (parsed[2].CompareTo(MazeList_TextItem.DisplayType.OnFramedDialog.ToString()) == 0 || parsed[2].CompareTo("OnDialog") == 0)
                         {
                             aa.TextDisplayType = MazeList_TextItem.DisplayType.OnFramedDialog;
@@ -903,7 +941,7 @@ namespace MazeMaker
                     {
                         //Image Line
                         MazeList_ImageItem aa = new MazeList_ImageItem();
-                        aa.Value = parsed[1];
+                        aa.Text = parsed[1];
                         if (parsed[2].CompareTo(MazeList_ImageItem.DisplayType.OnFramedDialog.ToString()) == 0 || parsed[2].CompareTo("OnDialog") == 0)
                         {
                             aa.TextDisplayType = MazeList_ImageItem.DisplayType.OnFramedDialog;
@@ -968,7 +1006,7 @@ namespace MazeMaker
         {
             treeViewMazeList.Width = L_Up.Left - treeViewMazeList.Left - 10;
             treeViewMazeList.Height = closeButton.Top - treeViewMazeList.Top - 10;
-            propertyGrid1.Height = treeViewMazeList.Height;
+            propertyGrid.Height = treeViewMazeList.Height;
         }
     }
 }
