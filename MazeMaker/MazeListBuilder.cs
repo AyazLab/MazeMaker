@@ -313,8 +313,14 @@ namespace MazeMaker
             ReloadList();
         }
 
+        Dictionary<string, string> mazeLibrary = new Dictionary<string, string>();
+
+        Dictionary<string, string> imageLibrary = new Dictionary<string, string>();
         List<Texture> images = new List<Texture>();
+
+        Dictionary<string, string> audioLibrary = new Dictionary<string, string>();
         List<Audio> audios = new List<Audio>();
+
         string OpenCollection(string type, string listItem)
         {
             switch (listItem)
@@ -338,7 +344,7 @@ namespace MazeMaker
 
                         case "Audio":
                             mmce = new MazeMakerCollectionEditor(ref audios);
-                            return mmce.GetTexture();
+                            return mmce.GetAudio();
 
                         default:
                             return "";
@@ -347,6 +353,11 @@ namespace MazeMaker
                 default:
                     return listItem;
             }
+        }
+
+        private void toolStripButton_Package_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void closeButton_Click(object sender, EventArgs e)
