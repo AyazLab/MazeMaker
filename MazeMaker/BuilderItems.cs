@@ -30,7 +30,7 @@ namespace MazeMaker
         }
 
         protected string text = "";
-        [Category("General")]
+        [Category("Text Display")]
         [Description("Text")]
         public string Text
         {
@@ -165,7 +165,7 @@ namespace MazeMaker
         }
 
         private string timeout = "";
-        [Category("General")]
+        [Category("Timing")]
         [DisplayName("Timeout")]
         public string Timeout
         {
@@ -185,6 +185,7 @@ namespace MazeMaker
         {
             OnFramedDialog, OnBackground
         }
+
         public MazeList_TextItem()
         {
            this.Text = "Enter message here!..";
@@ -211,17 +212,17 @@ namespace MazeMaker
             set { y = value; }
         }
 
-        private long lifeTime = 10000;
-        [Category("Display")]
+        private long duration = 10000;
+        [Category("Timing")]
         [Description("Time in milliseconds for the text to be displayed. If zero, waits until user clicks OK")]
-        public long LifeTime
+        public long Duration
         {
-            get { return lifeTime; }
-            set { lifeTime = value; }
+            get { return duration; }
+            set { duration = value; }
         }
 
         private DisplayType showlike = DisplayType.OnFramedDialog;
-        [Category("Display")]
+        [Category("Style")]
         [Description("Determines how the text is displayed")]
         public DisplayType TextDisplayType
         {
@@ -263,9 +264,9 @@ namespace MazeMaker
         }
 
         private string fontSize = "";
-        [Category("General")]
+        [Category("Text Display")]
         [Description("Specify an font size to be displayed")]
-        [DisplayName("FontSize")]
+        [DisplayName("Font Size")]
         public string FontSize
         {
             get { return fontSize; }
@@ -306,17 +307,17 @@ namespace MazeMaker
             set { y = value; }
         }
 
-        private long lifeTime = 1000;
-        [Category("Display")]
+        private long duration = 1000;
+        [Category("Timing")]
         [Description("Time in milliseconds for the text to be displayed. If zero, waits until user clicks OK")]
-        public long LifeTime
+        public long Duration
         {
-            get { return lifeTime; }
-            set { lifeTime = value; }
+            get { return duration; }
+            set { duration = value; }
         }
 
         private DisplayType showlike = DisplayType.OnFramedDialog;
-        [Category("Display")]
+        [Category("Style")]
         [Description("Determines how the text is displayed")]
         public DisplayType TextDisplayType
         {
@@ -325,7 +326,7 @@ namespace MazeMaker
         }
 
         private string backgroundColor = "";
-        [Category("General")]
+        [Category("Display")]
         [Description("Set background color using color name or RGB values seperated by a comma: white or 255, 255, 255")]
         [DisplayName("Background Color")]
         public string BackgroundColor
@@ -335,7 +336,7 @@ namespace MazeMaker
         }
 
         private string image = "";
-        [Category("General")]
+        [Category("Display")]
         [Description("Specify an image filename to be displayed")]
         [DisplayName("Image")]
         [TypeConverter(typeof(ImageConverter))]
@@ -368,9 +369,9 @@ namespace MazeMaker
         }
 
         private string fontSize = "";
-        [Category("General")]
+        [Category("Text Display")]
         [Description("Specify an font size to be displayed")]
-        [DisplayName("FontSize")]
+        [DisplayName("Font Size")]
         public string FontSize
         {
             get { return fontSize; }
@@ -480,7 +481,7 @@ namespace MazeMaker
         }
 
         BindingList<TextReturn> items = new BindingList<TextReturn>(); 
-        [Category("General")]
+        [Category("Text Display")]
         [Description("Text")]
         public new BindingList<TextReturn> Text
         {
@@ -515,17 +516,17 @@ namespace MazeMaker
             set { y = value; }
         }
 
-        private long lifeTime = 0;
-        [Category("Display")]
+        private long duration = 0;
+        [Category("Timing")]
         [Description("Time in milliseconds for the text to be displayed. If zero, waits until user clicks OK")]
-        public long LifeTime
+        public long Duration
         {
-            get { return lifeTime; }
-            set { lifeTime = value; }
+            get { return duration; }
+            set { duration = value; }
         }
 
         private DisplayType showlike = DisplayType.OnFramedDialog;
-        [Category("Display")]
+        [Category("Style")]
         [Description("Determines how the text is displayed")]
         public DisplayType TextDisplayType
         {

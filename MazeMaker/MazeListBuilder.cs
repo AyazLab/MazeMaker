@@ -490,7 +490,7 @@ namespace MazeMaker
                         MazeList_TextItem text = (MazeList_TextItem)item;
                         mz.InnerText = text.Text;
                         mz.SetAttribute("TextDisplayType", text.TextDisplayType.ToString());
-                        mz.SetAttribute("LifeTime", text.LifeTime.ToString());
+                        mz.SetAttribute("LifeTime", text.Duration.ToString());
                         mz.SetAttribute("X", text.X.ToString());
                         mz.SetAttribute("Y", text.Y.ToString());
 
@@ -524,7 +524,7 @@ namespace MazeMaker
                         MazeList_ImageItem image = (MazeList_ImageItem)item;
                         mz.InnerText = image.Text;
                         mz.SetAttribute("TextDisplayType", image.TextDisplayType.ToString());
-                        mz.SetAttribute("LifeTime", image.LifeTime.ToString());
+                        mz.SetAttribute("LifeTime", image.Duration.ToString());
                         mz.SetAttribute("X", image.X.ToString());
                         mz.SetAttribute("Y", image.Y.ToString());
                         mz.SetAttribute("BackgroundColor", image.BackgroundColor);
@@ -601,7 +601,7 @@ namespace MazeMaker
                             }
                         }
                         mz.SetAttribute("TextDisplayType", multipleChoice.TextDisplayType.ToString());
-                        mz.SetAttribute("LifeTime", multipleChoice.LifeTime.ToString());
+                        mz.SetAttribute("LifeTime", multipleChoice.Duration.ToString());
                         mz.SetAttribute("X", multipleChoice.X.ToString());
                         mz.SetAttribute("Y", multipleChoice.Y.ToString());
 
@@ -699,17 +699,17 @@ namespace MazeMaker
                 else if (a.Type == ItemType.Text)
                 {
                     MazeList_TextItem aa = (MazeList_TextItem)a;
-                    fp.Write(aa.Text + "\t" + aa.TextDisplayType + "\t" + aa.LifeTime + "\t" + aa.X + "\t" + aa.Y + "\t ");
+                    fp.Write(aa.Text + "\t" + aa.TextDisplayType + "\t" + aa.Duration + "\t" + aa.X + "\t" + aa.Y + "\t ");
                 }
                 else if (a.Type == ItemType.Image)
                 {
                     MazeList_ImageItem aa = (MazeList_ImageItem)a;
-                    fp.Write(aa.Text + "\t" + aa.TextDisplayType + "\t" + aa.LifeTime + "\t" + aa.X + "\t" + aa.Y + "\t" + aa.Image);
+                    fp.Write(aa.Text + "\t" + aa.TextDisplayType + "\t" + aa.Duration + "\t" + aa.X + "\t" + aa.Y + "\t" + aa.Image);
                 }
                 else if (a.Type == ItemType.MultipleChoice)
                 {
                     MazeList_MultipleChoiceItem aa = (MazeList_MultipleChoiceItem)a;
-                    fp.Write(aa.GetString() + "\t" + aa.TextDisplayType + "\t" + aa.LifeTime + "\t" + aa.X + "\t" + aa.Y + "\t ");
+                    fp.Write(aa.GetString() + "\t" + aa.TextDisplayType + "\t" + aa.Duration + "\t" + aa.X + "\t" + aa.Y + "\t ");
                 }
                 fp.Write("\n");
             }
@@ -822,7 +822,7 @@ namespace MazeMaker
                                     MazeList_TextItem text = new MazeList_TextItem();
                                     text.Text = listItem.InnerText;
                                     text.TextDisplayType = (MazeList_TextItem.DisplayType)Enum.Parse(typeof(MazeList_TextItem.DisplayType), listItem.GetAttribute("TextDisplayType"));
-                                    text.LifeTime = Convert.ToInt64(listItem.GetAttribute("LifeTime"));
+                                    text.Duration = Convert.ToInt64(listItem.GetAttribute("LifeTime"));
                                     text.X = Convert.ToDouble(listItem.GetAttribute("X"));
                                     text.Y = Convert.ToDouble(listItem.GetAttribute("Y"));
 
@@ -842,7 +842,7 @@ namespace MazeMaker
                                     MazeList_ImageItem image = new MazeList_ImageItem();
                                     image.Text = listItem.InnerText;
                                     image.TextDisplayType = (MazeList_ImageItem.DisplayType)Enum.Parse(typeof(MazeList_ImageItem.DisplayType), listItem.GetAttribute("TextDisplayType"));
-                                    image.LifeTime = Convert.ToInt64(listItem.GetAttribute("LifeTime"));
+                                    image.Duration = Convert.ToInt64(listItem.GetAttribute("LifeTime"));
                                     image.X = Convert.ToDouble(listItem.GetAttribute("X"));
                                     image.Y = Convert.ToDouble(listItem.GetAttribute("Y"));
                                     image.BackgroundColor = listItem.GetAttribute("Background Color");
@@ -875,7 +875,7 @@ namespace MazeMaker
                                         multipleChoice.Text.Add(vr);
                                     }
                                     multipleChoice.TextDisplayType = (MazeList_MultipleChoiceItem.DisplayType)Enum.Parse(typeof(MazeList_MultipleChoiceItem.DisplayType), listItem.GetAttribute("TextDisplayType"));
-                                    multipleChoice.LifeTime = Convert.ToInt64(listItem.GetAttribute("LifeTime"));
+                                    multipleChoice.Duration = Convert.ToInt64(listItem.GetAttribute("LifeTime"));
                                     multipleChoice.X = Convert.ToDouble(listItem.GetAttribute("X"));
                                     multipleChoice.Y = Convert.ToDouble(listItem.GetAttribute("Y"));
 
@@ -979,7 +979,7 @@ namespace MazeMaker
                         {
                             aa.TextDisplayType = MazeList_TextItem.DisplayType.OnBackground;
                         }
-                        aa.LifeTime = Int32.Parse(parsed[3]);
+                        aa.Duration = Int32.Parse(parsed[3]);
                         aa.X = Int32.Parse(parsed[4]);
                         aa.Y = Int32.Parse(parsed[5]);
 
@@ -1006,7 +1006,7 @@ namespace MazeMaker
                         {
                             aa.TextDisplayType = MazeList_ImageItem.DisplayType.OnBackground;
                         }
-                        aa.LifeTime = Int32.Parse(parsed[3]);
+                        aa.Duration = Int32.Parse(parsed[3]);
                         aa.X = Int32.Parse(parsed[4]);
                         aa.Y = Int32.Parse(parsed[5]);
 
@@ -1033,7 +1033,7 @@ namespace MazeMaker
                         {
                             aa.TextDisplayType = MazeList_MultipleChoiceItem.DisplayType.OnBackground;
                         }
-                        aa.LifeTime = Int32.Parse(parsed[3]);
+                        aa.Duration = Int32.Parse(parsed[3]);
                         aa.X = Int32.Parse(parsed[4]);
                         aa.Y = Int32.Parse(parsed[5]);
 
