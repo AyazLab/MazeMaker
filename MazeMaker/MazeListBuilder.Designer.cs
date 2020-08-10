@@ -32,10 +32,10 @@ namespace MazeMaker
             this.toolStrip_save = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton_Append = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_New = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_Append = new System.Windows.Forms.ToolStripButton();
             this.toolStrip_SaveAs = new System.Windows.Forms.ToolStripButton();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox = new System.Windows.Forms.ComboBox();
             this.add = new System.Windows.Forms.Button();
             this.L_Up = new System.Windows.Forms.Button();
             this.L_Down = new System.Windows.Forms.Button();
@@ -91,15 +91,6 @@ namespace MazeMaker
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton_Append
-            // 
-            this.toolStripButton_Append.Image = global::MazeMaker.Properties.Resources.add;
-            this.toolStripButton_Append.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Append.Name = "toolStripButton_Append";
-            this.toolStripButton_Append.Size = new System.Drawing.Size(98, 36);
-            this.toolStripButton_Append.Text = "Append";
-            this.toolStripButton_Append.Click += new System.EventHandler(this.toolStripButton_Append_Click);
-            // 
             // toolStripButton_New
             // 
             this.toolStripButton_New.Image = global::MazeMaker.Properties.Resources._new;
@@ -108,6 +99,15 @@ namespace MazeMaker
             this.toolStripButton_New.Size = new System.Drawing.Size(75, 36);
             this.toolStripButton_New.Text = "New";
             this.toolStripButton_New.Click += new System.EventHandler(this.toolStripButton_New_Click);
+            // 
+            // toolStripButton_Append
+            // 
+            this.toolStripButton_Append.Image = global::MazeMaker.Properties.Resources.add;
+            this.toolStripButton_Append.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Append.Name = "toolStripButton_Append";
+            this.toolStripButton_Append.Size = new System.Drawing.Size(98, 36);
+            this.toolStripButton_Append.Text = "Append";
+            this.toolStripButton_Append.Click += new System.EventHandler(this.toolStripButton_Append_Click);
             // 
             // toolStrip_SaveAs
             // 
@@ -120,13 +120,13 @@ namespace MazeMaker
             // 
             // comboBox1
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(9, 53);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(193, 24);
-            this.comboBox1.TabIndex = 1;
+            this.comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox.FormattingEnabled = true;
+            this.comboBox.Location = new System.Drawing.Point(9, 53);
+            this.comboBox.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBox.Name = "comboBox1";
+            this.comboBox.Size = new System.Drawing.Size(193, 24);
+            this.comboBox.TabIndex = 1;
             // 
             // add
             // 
@@ -174,15 +174,15 @@ namespace MazeMaker
             this.L_Del.TabIndex = 6;
             this.L_Del.Click += new System.EventHandler(this.L_Del_Click);
             // 
-            // propertyGrid1
+            // propertyGrid
             // 
             this.propertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.propertyGrid.Location = new System.Drawing.Point(364, 103);
             this.propertyGrid.Margin = new System.Windows.Forms.Padding(4);
-            this.propertyGrid.Name = "propertyGrid1";
+            this.propertyGrid.Name = "propertyGrid";
             this.propertyGrid.Size = new System.Drawing.Size(320, 366);
             this.propertyGrid.TabIndex = 7;
-            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
+            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_PropertyValueChanged);
             // 
             // label1
             // 
@@ -259,7 +259,7 @@ namespace MazeMaker
             this.Controls.Add(this.L_Down);
             this.Controls.Add(this.L_Up);
             this.Controls.Add(this.add);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.comboBox);
             this.Controls.Add(this.toolStrip1);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimizeBox = false;
@@ -286,7 +286,7 @@ namespace MazeMaker
         private System.Windows.Forms.ToolStripButton toolStrip_save;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBox;
         private System.Windows.Forms.Button add;
         private System.Windows.Forms.Button L_Up;
         private System.Windows.Forms.Button L_Down;

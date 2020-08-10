@@ -1,5 +1,3 @@
-
-
 #region Using directives
 
 using System;
@@ -10,6 +8,10 @@ using System.Globalization;
 using System.Windows.Forms;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
+using System.Drawing;
+using System.ComponentModel.Design;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 #endregion
 
@@ -253,7 +255,7 @@ namespace MazeMaker
         [Category("Highlight")]
         [Description("Descibes behavior for Audio play back when highlight ends")]
         [DisplayName("Audio On Unhighlight")]
-        [TypeConverter(typeof(audioOnUnhighlightConverter))]
+        [TypeConverter(typeof(AudioOnUnhighlightConverter))]
         public string AudioOnUnhighlight
         {
             get { return audioOnUnhighlight; }
@@ -336,8 +338,7 @@ namespace MazeMaker
         [Category("General")]
         [Description("Specify an image filename to be displayed")]
         [DisplayName("Image")]
-        [Editor(typeof(ImageEditor), typeof(UITypeEditor))]
-        [TypeConverter(typeof(ExpandableObjectConverter))]
+        [TypeConverter(typeof(ImageConverter))]
         public string Image
         {
             get { return image; }
@@ -359,7 +360,7 @@ namespace MazeMaker
         [Category("Highlight")]
         [Description("Descibes behavior for Audio play back when highlight ends")]
         [DisplayName("Audio On Unhighlight")]
-        [TypeConverter(typeof(audioOnUnhighlightConverter))]
+        [TypeConverter(typeof(AudioOnUnhighlightConverter))]
         public string AudioOnUnhighlight
         {
             get { return audioOnUnhighlight; }
@@ -558,7 +559,7 @@ namespace MazeMaker
         [Category("Highlight")]
         [Description("Descibes behavior for Audio play back when highlight ends")]
         [DisplayName("Audio On Unhighlight")]
-        [TypeConverter(typeof(audioOnUnhighlightConverter))]
+        [TypeConverter(typeof(AudioOnUnhighlightConverter))]
         public string AudioOnUnhighlight
         {
             get { return audioOnUnhighlight; }
@@ -566,80 +567,65 @@ namespace MazeMaker
         }
     }
 
-    class ImageEditor : UITypeEditor
+    public class ImageConverter : StringConverter
     {
-        List<Texture> images = new List<Texture>();
+        List<string> images = new List<string>();
 
-        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
+        public override Boolean GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
+
+        public override TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            return UITypeEditorEditStyle.Modal;
-        }
-
-        public override object EditValue(ITypeDescriptorContext context, System.IServiceProvider provider, object value)
-        {
-            //IWindowsFormsEditorService svc = provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
-
-            if (MazeListBuilder.madeChanges)
+            if (!MazeListBuilder.madeChanges)
             {
-                foreach (MyBuilderItem item in MazeListBuilder.myItems)
-                {
-                    if (item.Type == ItemType.Image)
-                    {
-                        MazeList_ImageItem image = (MazeList_ImageItem)item;
-                        string file = image.Image;
-
-                        if (file != "")
-                        {
-                            Texture texture = new Texture(file);
-
-                            if (!images.Contains(texture))
-                            {
-                                images.Add(texture);
-                            }
-                        }
-                    }
-                }
+                images = new List<string>();
             }
-            else
-            {
-                images = new List<Texture>();
-                foreach (MyBuilderItem item in MazeListBuilder.myItems)
-                {
-                    if (item.Type == ItemType.Image)
-                    {
-                        MazeList_ImageItem image = (MazeList_ImageItem)item;
-                        string file = image.Image;
 
-                        if (file != "")
-                        {
-                            images.Add(new Texture(file));
-                        }
-                    }
+            if (!images.Contains("Import"))
+            {
+                images.Add("Import");
+                images.Add("Collection Editor");
+            }
+
+            foreach (MyBuilderItem item in MazeListBuilder.mazeList)
+            {
+                string image = "";
+
+                if (item.Type == ItemType.Image)
+                {
+                    MazeList_ImageItem listItem = (MazeList_ImageItem)item;
+                    image = listItem.Image;
+                }
+
+                if (image != "" && !images.Contains(image))
+                {
+                    images.Add(image);
                 }
             }
 
-            //if (svc != null)
-            //{
-            //    MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref images);
-            //    svc.ShowDialog(mmce);
-            //}
-
-            MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref images);
-            value = mmce.GetSelectedImage();
-
-            return value;
+            return new StandardValuesCollection(images);
         }
     }
 
     public class audioConverter : StringConverter
     {
+        List<string> audios = new List<string>();
+
         public override Boolean GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
 
         public override TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            List<String> audios = new List<String>();
+            if (!MazeListBuilder.madeChanges)
+            {
+                audios = new List<string>();
+            }
 
-            foreach (MyBuilderItem item in MazeListBuilder.myItems)
+            if (!audios.Contains("Import"))
+            {
+                audios.Add("Import");
+                audios.Add("Collection Editor");
+            }
+
+            foreach (MyBuilderItem item in MazeListBuilder.mazeList)
             {
                 string audio = "";
 
@@ -674,9 +660,10 @@ namespace MazeMaker
         }
     }
 
-    public class audioOnUnhighlightConverter : StringConverter
+    public class AudioOnUnhighlightConverter : StringConverter
     {
         public override Boolean GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
+        public override Boolean GetStandardValuesExclusive(ITypeDescriptorContext context) { return true; }
 
         public override TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {

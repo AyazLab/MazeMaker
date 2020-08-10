@@ -22,14 +22,26 @@ namespace MazeMaker
         List<Audio> curListA;
         List<Audio> curListA2;
 
-        public string GetSelectedImage()
+        public string GetTexture()
         {
-            ShowDialog();
+            if (ShowDialog() == DialogResult.OK && listBoxCollection.SelectedItem != null)
+            {
+                Texture texture = (Texture)listBoxCollection.SelectedItem;
+                return texture.Name;
+            }
 
-            Texture texture = (Texture)listBoxCollection.SelectedItem;
-            string image = texture.name;
-            
-            return image;
+            return "";
+        }
+
+        public string GetAudio()
+        {
+            if (ShowDialog() == DialogResult.OK && listBoxCollection.SelectedItem != null)
+            {
+                Audio audio = (Audio)listBoxCollection.SelectedItem;
+                return audio.Name;
+            }
+
+            return "";
         }
 
         public MazeMakerCollectionEditor(ref List<Texture> inp)

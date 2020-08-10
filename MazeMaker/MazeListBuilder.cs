@@ -15,11 +15,12 @@ namespace MazeMaker
 {
     public partial class MazeListBuilder : Form
     {
-        public static List<MyBuilderItem> myItems = new List<MyBuilderItem>();
-
-        string curFilename = "";
+        public static List<MyBuilderItem> mazeList = new List<MyBuilderItem>();
+        public static int selectedIndex;
 
         public static bool madeChanges = false;
+
+        string curFileName = "";
 
         public MazeListBuilder()
         {
@@ -28,49 +29,37 @@ namespace MazeMaker
             treeViewMazeList.HideSelection = false;
         }
 
-        private void ReloadList()
+        void ReloadList()
         {
-            //treeViewMazeList.BeginUpdate();
             treeViewMazeList.Nodes.Clear();
 
-            for (int i = 0; i < myItems.Count; i++)
+            for (int i = 0; i < mazeList.Count; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        treeViewMazeList.Nodes.Add(myItems[i].ToString());
+                        treeViewMazeList.Nodes.Add(mazeList[i].ToString());
                         treeViewMazeList.Nodes.Add("ListItems");
                         break;
 
                     default:
-                        treeViewMazeList.Nodes[1].Nodes.Add(i.ToString() + ") " + myItems[i].ToString());
+                        treeViewMazeList.Nodes[1].Nodes.Add(i.ToString() + ") " + mazeList[i].ToString());
                         break;
                 }
             }
 
             treeViewMazeList.ExpandAll();
-
-            //int i = 1;
-            //foreach (MyBuilderItem a in myItems)
-            //{
-            //    treeViewMazeList.Nodes.Add(i.ToString() + ") " + a.ToString());
-            //    i++;
-            //}
-
-            //propertyGrid1.SelectedObject = null;
-
-            //treeViewMazeList.EndUpdate();
         }
 
         private void MazeListBuilder_Load(object sender, EventArgs e)
         {
-            comboBox1.Items.Add("Maze File");
-            comboBox1.Items.Add("Text Display");
-            comboBox1.Items.Add("Image Display");
-            comboBox1.Items.Add("Multiple-Choice Display");
-            comboBox1.SelectedIndex = 0;
+            comboBox.Items.Add("Maze File");
+            comboBox.Items.Add("Text Display");
+            comboBox.Items.Add("Image Display");
+            comboBox.Items.Add("Multiple-Choice Display");
+            comboBox.SelectedIndex = 0;
 
-            myItems.Add(new MazeList_MazeListOptionsItem());
+            mazeList.Add(new MazeList_MazeListOptionsItem());
             ReloadList();
         }
 
@@ -78,14 +67,14 @@ namespace MazeMaker
         {
             if (UnsavedChangesCheck() != DialogResult.Cancel)
             {
-                OpenFileDialog a = new OpenFileDialog();
-                a.Filter = "MazeList File (*.melx,*.mel)|*.melx;*.mel|All Files|*.*";
-                a.FilterIndex = 1;
-                a.RestoreDirectory = true;
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.Filter = "MazeList File (*.melx,*.mel)|*.melx;*.mel|All Files|*.*";
+                ofd.FilterIndex = 1;
+                ofd.RestoreDirectory = true;
 
-                if (a.ShowDialog() == DialogResult.OK)
+                if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    ReadFromFile(a.FileName, false);
+                    ReadFromFile(ofd.FileName, false);
                 }
 
                 madeChanges = false;
@@ -111,6 +100,7 @@ namespace MazeMaker
             if (UnsavedChangesCheck() != DialogResult.Cancel)
             {
                 ClearListMessage();
+                mazeList.Add(new MazeList_MazeListOptionsItem());
                 ReloadList();
             }
         }
@@ -153,19 +143,19 @@ namespace MazeMaker
         {
             if (UnsavedChangesCheck() != DialogResult.Cancel)
             {
-                myItems.Clear();
+                mazeList.Clear();
             }
         }
 
         private void toolStrip_save_Click(object sender, EventArgs e)
         {
-            if (curFilename=="")
+            if (curFileName == "")
             {
                 DoSaveAs();
             }
             else
             {
-                WriteToFile(curFilename);
+                WriteToFile(curFileName);
             }
         }
 
@@ -176,15 +166,15 @@ namespace MazeMaker
 
         private bool DoSaveAs()
         {
-            SaveFileDialog a = new SaveFileDialog();
-            a.Filter = "MazeList XML-File|*.melx|Maze List files|*.mel";
-            a.FilterIndex = 1;
-            a.RestoreDirectory = true;
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "MazeList XML-File|*.melx|Maze List files|*.mel";
+            sfd.FilterIndex = 1;
+            sfd.RestoreDirectory = true;
 
-            if (a.ShowDialog() == DialogResult.OK)
+            if (sfd.ShowDialog() == DialogResult.OK)
             {
                 madeChanges = false;
-                WriteToFile(a.FileName);
+                WriteToFile(sfd.FileName);
                 return true;
             }
 
@@ -194,42 +184,31 @@ namespace MazeMaker
         private void add_Click(object sender, EventArgs e)
         {
             madeChanges = true;
-            //listBox1.SelectedIndex = -1;
 
-            //Add the Item
-            switch(comboBox1.SelectedIndex)
+            switch(comboBox.SelectedIndex)
             {
                 case 0:
-                    //MazeMakerCollectionEditor a = new MazeMakerCollectionEditor(ref curMaze.cImages);
-                    //a.ShowDialog();
-                    
-                    //Maze
-                    OpenFileDialog a = new OpenFileDialog();
-                    a.Filter = "Maze files | *.maz";
-                    a.FilterIndex = 1;
-                    a.RestoreDirectory = true;
+                    OpenFileDialog ofd = new OpenFileDialog();
+                    ofd.Filter = "Maze files | *.maz";
+                    ofd.FilterIndex = 1;
+                    ofd.RestoreDirectory = true;
 
-                    if (a.ShowDialog() == DialogResult.OK)
+                    if (ofd.ShowDialog() == DialogResult.OK)
                     {
-                        //listView1.Items.Add((listView1.Items.Count + 1).ToString());
-                        //listView1.Items[listView1.Items.Count - 1].SubItems.Add(a.FileName);
-                        int i = a.FileName.LastIndexOf("\\");
-                        //int count = listBox1.Items.Count;
-                        myItems.Add(new MazeList_MazeItem(a.FileName.Substring(i + 1)));
+                        mazeList.Add(new MazeList_MazeItem(ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1)));
                     }
                     break;
 
                 case 1:
-                    myItems.Add(new MazeList_TextItem());  
-                    //listBox1.Items.Add("TEXT MESSAGE");
+                    mazeList.Add(new MazeList_TextItem());  
                     break;
 
                 case 2:
-                    myItems.Add(new MazeList_ImageItem());
+                    mazeList.Add(new MazeList_ImageItem());
                     break;
 
                 case 3:
-                    myItems.Add(new MazeList_MultipleChoiceItem(new ListChangedEventHandler(Updated)));
+                    mazeList.Add(new MazeList_MultipleChoiceItem(new ListChangedEventHandler(Updated)));
                     break;
             }
 
@@ -240,10 +219,9 @@ namespace MazeMaker
         {
             madeChanges = true;
 
-            int selectedIndex = treeViewMazeList.Nodes[1].Nodes.IndexOf(treeViewMazeList.SelectedNode) + 1;
-            MyBuilderItem temp = myItems[selectedIndex - 1];
-            myItems[selectedIndex - 1] = myItems[selectedIndex];
-            myItems[selectedIndex] = temp;
+            MyBuilderItem temp = mazeList[selectedIndex - 1];
+            mazeList[selectedIndex - 1] = mazeList[selectedIndex];
+            mazeList[selectedIndex] = temp;
             ReloadList();
             treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[1].Nodes[selectedIndex - 2];
         }
@@ -252,10 +230,9 @@ namespace MazeMaker
         {
             madeChanges = true;
 
-            int selectedIndex = treeViewMazeList.Nodes[1].Nodes.IndexOf(treeViewMazeList.SelectedNode) + 1;
-            MyBuilderItem temp = myItems[selectedIndex + 1];
-            myItems[selectedIndex + 1] = myItems[selectedIndex];
-            myItems[selectedIndex] = temp;
+            MyBuilderItem temp = mazeList[selectedIndex + 1];
+            mazeList[selectedIndex + 1] = mazeList[selectedIndex];
+            mazeList[selectedIndex] = temp;
             ReloadList();
             treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[1].Nodes[selectedIndex];
         }
@@ -263,7 +240,7 @@ namespace MazeMaker
         private void L_Del_Click(object sender, EventArgs e)
         {
             madeChanges = true;
-            myItems.RemoveAt(treeViewMazeList.Nodes[1].Nodes.IndexOf(treeViewMazeList.SelectedNode) + 1);
+            mazeList.RemoveAt(selectedIndex);
             ReloadList();
 
             L_Del.Enabled = false;
@@ -277,7 +254,7 @@ namespace MazeMaker
             L_Up.Enabled = false;
             L_Down.Enabled = false;
 
-            int selectedIndex = treeViewMazeList.Nodes[1].Nodes.IndexOf(treeViewMazeList.SelectedNode) + 1;
+            selectedIndex = treeViewMazeList.Nodes[1].Nodes.IndexOf(treeViewMazeList.SelectedNode) + 1;
             if (selectedIndex >= 1)
             {
                 L_Del.Enabled = true;
@@ -292,11 +269,11 @@ namespace MazeMaker
                     L_Down.Enabled = true;
                 }
 
-                propertyGrid.SelectedObject = myItems[selectedIndex];
+                propertyGrid.SelectedObject = mazeList[selectedIndex];
             }
             else if (treeViewMazeList.Nodes[0].IsSelected)
             {
-                propertyGrid.SelectedObject = myItems[0];
+                propertyGrid.SelectedObject = mazeList[0];
             }
             else if (treeViewMazeList.Nodes[1].IsSelected)
             {
@@ -304,12 +281,91 @@ namespace MazeMaker
             }
         }
 
-        private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             madeChanges = true;
-            //int cur = listBox1.SelectedIndex;
-            ReloadList();       
-            //listBox1.SelectedIndex = cur;
+
+            if (propertyGrid.SelectedObject != null)
+            // context menu strip, import, & collection editor
+            {
+                MyBuilderItem listItem = (MyBuilderItem)propertyGrid.SelectedObject;
+
+                switch (listItem.Type)
+                {
+                    case ItemType.Maze:
+                        MazeList_MazeItem maze = (MazeList_MazeItem)listItem;
+                        break;
+
+                    case ItemType.Text:
+                        MazeList_TextItem text = (MazeList_TextItem)listItem;
+                        text.Audio = OpenAudioCollection(text.Audio);
+                        break;
+
+                    case ItemType.Image:
+                        MazeList_ImageItem image = (MazeList_ImageItem)listItem;
+                        image.Image = OpenImageCollection(image.Image);
+                        image.Audio = OpenAudioCollection(image.Audio);
+                        break;
+
+                    case ItemType.MultipleChoice:
+                        MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)listItem;
+                        multipleChoice.Audio = OpenAudioCollection(multipleChoice.Audio);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            ReloadList();
+        }
+
+        List<Texture> images = new List<Texture>();
+        string OpenImageCollection(string image)
+        {
+            switch (image)
+            {
+                case "Import":
+                    OpenFileDialog ofd = new OpenFileDialog();
+
+                    if (ofd.ShowDialog() == DialogResult.OK)
+                    {
+                        return ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                    }
+
+                    return "";
+
+                case "Collection Editor":
+                    MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref images);
+                    return mmce.GetTexture();
+
+                default:
+                    return image;
+            }
+        }
+
+        List<Audio> audios = new List<Audio>();
+        string OpenAudioCollection(string audio)
+        {
+            switch (audio)
+            {
+                case "Import":
+                    OpenFileDialog ofd = new OpenFileDialog();
+
+                    if (ofd.ShowDialog() == DialogResult.OK)
+                    {
+                        return ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                    }
+
+                    return "";
+
+                case "Collection Editor":
+                    MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref audios);
+                    return mmce.GetAudio();
+
+                default:
+                    return audio;
+            }
         }
 
         private void closeButton_Click(object sender, EventArgs e)
@@ -353,7 +409,7 @@ namespace MazeMaker
 
             XmlElement listItems = melx.CreateElement("ListItems");
 
-            foreach (MyBuilderItem item in myItems)
+            foreach (MyBuilderItem item in mazeList)
             {
                 XmlElement mz = melx.CreateElement(item.Type.ToString());
 
@@ -632,7 +688,7 @@ namespace MazeMaker
             }
             fp.WriteLine("Maze List File 1.2");
 
-            foreach (MyBuilderItem a in myItems)
+            foreach (MyBuilderItem a in mazeList)
             {
 
                 fp.Write(a.Type + "\t");
@@ -683,7 +739,7 @@ namespace MazeMaker
                 switch (mz.Name)
                 {
                     case "MazeListOptions":
-                        if (myItems.Count != 0)
+                        if (mazeList.Count != 0)
                         {
                             break;
                         }
@@ -719,7 +775,7 @@ namespace MazeMaker
                             }
                         }
 
-                        myItems.Add(mazeListOptions);
+                        mazeList.Add(mazeListOptions);
                         break;
 
                     case "MazeLibrary":
@@ -759,7 +815,7 @@ namespace MazeMaker
                                     maze.DefaultStartPosition = listItem.GetAttribute("DefaultStartPosition");
                                     maze.StartMessage = listItem.GetAttribute("StartMessage");
                                     maze.Timeout = listItem.GetAttribute("Timeout");
-                                    myItems.Add(maze);
+                                    mazeList.Add(maze);
                                     break;
 
                                 case "Text":
@@ -779,7 +835,7 @@ namespace MazeMaker
 
                                     text.AudioOnUnhighlight = listItem.GetAttribute("AudioOnUnhighlight");
                                     text.FontSize = listItem.GetAttribute("FontSize");
-                                    myItems.Add(text);
+                                    mazeList.Add(text);
                                     break;
 
                                 case "Image":
@@ -806,7 +862,7 @@ namespace MazeMaker
                                     image.Audio = file;
 
                                     image.AudioOnUnhighlight = listItem.GetAttribute("AudioOnUnhighlight");
-                                    myItems.Add(image);
+                                    mazeList.Add(image);
                                     break;
 
                                 case "MultipleChoice":
@@ -831,7 +887,7 @@ namespace MazeMaker
                                     multipleChoice.Audio = file;
 
                                     multipleChoice.AudioOnUnhighlight = listItem.GetAttribute("AudioOnUnhighlight");
-                                    myItems.Add(multipleChoice);
+                                    mazeList.Add(multipleChoice);
                                     break;
 
                                 default:
@@ -890,7 +946,7 @@ namespace MazeMaker
                 MessageBox.Show("Not a Maze List File or corrupted!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            curFilename = inp;
+            curFileName = inp;
             toolStrip_Status.Text = inp;
 
             try
@@ -907,7 +963,7 @@ namespace MazeMaker
                     if (parsed[0].CompareTo("Maze") == 0)
                     {
                         //Maze Line
-                        myItems.Add(new MazeList_MazeItem(parsed[1]));
+                        mazeList.Add(new MazeList_MazeItem(parsed[1]));
 
                     }
                     else if (parsed[0].CompareTo("Text") == 0)
@@ -935,7 +991,7 @@ namespace MazeMaker
                         {
                             aa.BackgroundImage = "";
                         }
-                        myItems.Add(aa);
+                        mazeList.Add(aa);
                     }
                     else if (parsed[0].CompareTo("Image") == 0)
                     {
@@ -962,7 +1018,7 @@ namespace MazeMaker
                         {
                             aa.Image = "";
                         }
-                        myItems.Add(aa);
+                        mazeList.Add(aa);
                     }
                     else if (parsed[0].CompareTo("MultipleChoice") == 0)
                     {
@@ -989,7 +1045,7 @@ namespace MazeMaker
                         {
                             aa.BackgroundImage = "";
                         }
-                        myItems.Add(aa);
+                        mazeList.Add(aa);
                     }
                 }
             }
