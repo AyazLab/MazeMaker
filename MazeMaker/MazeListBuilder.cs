@@ -185,22 +185,14 @@ namespace MazeMaker
         {
             madeChanges = true;
 
-            switch(comboBox.SelectedIndex)
+            switch (comboBox.SelectedIndex)
             {
                 case 0:
-                    OpenFileDialog ofd = new OpenFileDialog();
-                    ofd.Filter = "Maze files | *.maz";
-                    ofd.FilterIndex = 1;
-                    ofd.RestoreDirectory = true;
-
-                    if (ofd.ShowDialog() == DialogResult.OK)
-                    {
-                        mazeList.Add(new MazeList_MazeItem(ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1)));
-                    }
+                    mazeList.Add(new MazeList_MazeItem());
                     break;
 
                 case 1:
-                    mazeList.Add(new MazeList_TextItem());  
+                    mazeList.Add(new MazeList_TextItem());
                     break;
 
                 case 2:
@@ -294,22 +286,23 @@ namespace MazeMaker
                 {
                     case ItemType.Maze:
                         MazeList_MazeItem maze = (MazeList_MazeItem)listItem;
+                        maze.Maze = OpenCollection("Maze", maze.Maze);
                         break;
 
                     case ItemType.Text:
                         MazeList_TextItem text = (MazeList_TextItem)listItem;
-                        text.Audio = OpenAudioCollection(text.Audio);
+                        text.Audio = OpenCollection("Audio", text.Audio);
                         break;
 
                     case ItemType.Image:
                         MazeList_ImageItem image = (MazeList_ImageItem)listItem;
-                        image.Image = OpenImageCollection(image.Image);
-                        image.Audio = OpenAudioCollection(image.Audio);
+                        image.Image = OpenCollection("Image", image.Image);
+                        image.Audio = OpenCollection("Audio", image.Audio);
                         break;
 
                     case ItemType.MultipleChoice:
                         MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)listItem;
-                        multipleChoice.Audio = OpenAudioCollection(multipleChoice.Audio);
+                        multipleChoice.Audio = OpenCollection("Audio", multipleChoice.Audio);
                         break;
 
                     default:
@@ -321,33 +314,10 @@ namespace MazeMaker
         }
 
         List<Texture> images = new List<Texture>();
-        string OpenImageCollection(string image)
-        {
-            switch (image)
-            {
-                case "Import":
-                    OpenFileDialog ofd = new OpenFileDialog();
-
-                    if (ofd.ShowDialog() == DialogResult.OK)
-                    {
-                        return ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
-                    }
-
-                    return "";
-
-                case "Collection Editor":
-                    MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref images);
-                    return mmce.GetTexture();
-
-                default:
-                    return image;
-            }
-        }
-
         List<Audio> audios = new List<Audio>();
-        string OpenAudioCollection(string audio)
+        string OpenCollection(string type, string listItem)
         {
-            switch (audio)
+            switch (listItem)
             {
                 case "Import":
                     OpenFileDialog ofd = new OpenFileDialog();
@@ -360,11 +330,22 @@ namespace MazeMaker
                     return "";
 
                 case "Collection Editor":
-                    MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref audios);
-                    return mmce.GetAudio();
+                    switch (type)
+                    {
+                        case "Image":
+                            MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref images);
+                            return mmce.GetTexture();
+
+                        case "Audio":
+                            mmce = new MazeMakerCollectionEditor(ref audios);
+                            return mmce.GetTexture();
+
+                        default:
+                            return "";
+                    }
 
                 default:
-                    return audio;
+                    return listItem;
             }
         }
 
@@ -810,7 +791,8 @@ namespace MazeMaker
                                     {
                                         file = mazeLibraryItems[file];
                                     }
-                                    MazeList_MazeItem maze = new MazeList_MazeItem(file);
+                                    MazeList_MazeItem maze = new MazeList_MazeItem();
+                                    maze.Maze = file;
 
                                     maze.DefaultStartPosition = listItem.GetAttribute("DefaultStartPosition");
                                     maze.StartMessage = listItem.GetAttribute("StartMessage");
@@ -963,7 +945,9 @@ namespace MazeMaker
                     if (parsed[0].CompareTo("Maze") == 0)
                     {
                         //Maze Line
-                        mazeList.Add(new MazeList_MazeItem(parsed[1]));
+                        MazeList_MazeItem maze = new MazeList_MazeItem();
+                        maze.Maze = parsed[1];
+                        mazeList.Add(maze);
 
                     }
                     else if (parsed[0].CompareTo("Text") == 0)

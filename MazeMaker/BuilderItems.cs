@@ -123,9 +123,8 @@ namespace MazeMaker
 
     public class MazeList_MazeItem : MyBuilderItem
     {
-        public MazeList_MazeItem(string inp)
+        public MazeList_MazeItem()
         {
-            this.Maze = inp;
             this.Type = ItemType.Maze;
         }
 
@@ -140,6 +139,7 @@ namespace MazeMaker
         string maze = "";
         [Category("General")]
         [Description("Specify an maze filename to be shown")]
+        [TypeConverter(typeof(MazeConverter))]
         public string Maze
         {
             get { return maze; }
@@ -565,6 +565,45 @@ namespace MazeMaker
         {
             get { return audioOnUnhighlight; }
             set { audioOnUnhighlight = value; }
+        }
+    }
+
+    public class MazeConverter : StringConverter
+    {
+        List<string> mazes = new List<string>();
+
+        public override Boolean GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
+
+        public override TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        {
+            if (!MazeListBuilder.madeChanges)
+            {
+                mazes = new List<string>();
+            }
+
+            if (!mazes.Contains("Import"))
+            {
+                mazes.Add("Import");
+                //mazes.Add("Collection Editor");
+            }
+
+            foreach (MyBuilderItem item in MazeListBuilder.mazeList)
+            {
+                string maze = "";
+
+                if (item.Type == ItemType.Maze)
+                {
+                    MazeList_MazeItem listItem = (MazeList_MazeItem)item;
+                    maze = listItem.Maze;
+                }
+
+                if (maze != "" && !mazes.Contains(maze))
+                {
+                    mazes.Add(maze);
+                }
+            }
+
+            return new StandardValuesCollection(mazes);
         }
     }
 
