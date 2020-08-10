@@ -587,17 +587,25 @@ namespace MazeMaker
                 //mazes.Add("Collection Editor");
             }
 
-            foreach (MyBuilderItem item in MazeListBuilder.mazeList)
+            //foreach (MyBuilderItem item in MazeListBuilder.mazeList)
+            //{
+            //    string maze = "";
+
+            //    if (item.Type == ItemType.Maze)
+            //    {
+            //        MazeList_MazeItem listItem = (MazeList_MazeItem)item;
+            //        maze = listItem.Maze;
+            //    }
+
+            //    if (maze != "" && !mazes.Contains(maze))
+            //    {
+            //        mazes.Add(maze);
+            //    }
+            //}
+
+            foreach (string maze in MazeListBuilder.mazeLibrary.Keys)
             {
-                string maze = "";
-
-                if (item.Type == ItemType.Maze)
-                {
-                    MazeList_MazeItem listItem = (MazeList_MazeItem)item;
-                    maze = listItem.Maze;
-                }
-
-                if (maze != "" && !mazes.Contains(maze))
+                if (!mazes.Contains(maze))
                 {
                     mazes.Add(maze);
                 }
@@ -626,17 +634,25 @@ namespace MazeMaker
                 images.Add("Collection Editor");
             }
 
-            foreach (MyBuilderItem item in MazeListBuilder.mazeList)
+            //foreach (MyBuilderItem item in MazeListBuilder.mazeList)
+            //{
+            //    string image = "";
+
+            //    if (item.Type == ItemType.Image)
+            //    {
+            //        MazeList_ImageItem listItem = (MazeList_ImageItem)item;
+            //        image = listItem.Image;
+            //    }
+
+            //    if (image != "" && !images.Contains(image))
+            //    {
+            //        images.Add(image);
+            //    }
+            //}
+
+            foreach (string image in MazeListBuilder.imageLibrary.Keys)
             {
-                string image = "";
-
-                if (item.Type == ItemType.Image)
-                {
-                    MazeList_ImageItem listItem = (MazeList_ImageItem)item;
-                    image = listItem.Image;
-                }
-
-                if (image != "" && !images.Contains(image))
+                if (!images.Contains(image))
                 {
                     images.Add(image);
                 }
@@ -665,32 +681,40 @@ namespace MazeMaker
                 audios.Add("Collection Editor");
             }
 
-            foreach (MyBuilderItem item in MazeListBuilder.mazeList)
+            //foreach (MyBuilderItem item in MazeListBuilder.mazeList)
+            //{
+            //    string audio = "";
+
+            //    switch (item.Type)
+            //    {
+            //        case ItemType.Text:
+            //            MazeList_TextItem text = (MazeList_TextItem)item;
+            //            audio = text.Audio;
+            //            break;
+
+            //        case ItemType.Image:
+            //            MazeList_ImageItem image = (MazeList_ImageItem)item;
+            //            audio = image.Audio;
+            //            break;
+
+            //        case ItemType.MultipleChoice:
+            //            MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)item;
+            //            audio = multipleChoice.Audio;
+            //            break;
+
+            //        default:
+            //            break;
+            //    }
+
+            //    if (audio != "" && !audios.Contains(audio))
+            //    {
+            //        audios.Add(audio);
+            //    }
+            //}
+
+            foreach (string audio in MazeListBuilder.audioLibrary.Keys)
             {
-                string audio = "";
-
-                switch (item.Type)
-                {
-                    case ItemType.Text:
-                        MazeList_TextItem text = (MazeList_TextItem)item;
-                        audio = text.Audio;
-                        break;
-
-                    case ItemType.Image:
-                        MazeList_ImageItem image = (MazeList_ImageItem)item;
-                        audio = image.Audio;
-                        break;
-
-                    case ItemType.MultipleChoice:
-                        MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)item;
-                        audio = multipleChoice.Audio;
-                        break;
-
-                    default:
-                        break;
-                }
-
-                if (audio != "" && !audios.Contains(audio))
+                if (!audios.Contains(audio))
                 {
                     audios.Add(audio);
                 }

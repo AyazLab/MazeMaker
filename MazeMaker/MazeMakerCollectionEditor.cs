@@ -24,24 +24,38 @@ namespace MazeMaker
 
         public string GetTexture()
         {
-            if (ShowDialog() == DialogResult.OK && listBoxCollection.SelectedItem != null)
+            ShowDialog();
+
+            if (listBoxCollection.SelectedItem != null)
             {
                 Texture texture = (Texture)listBoxCollection.SelectedItem;
-                return texture.Name;
+                return texture.FilePath;
             }
 
             return "";
         }
 
+        public List<Texture> GetTextures()
+        {
+            return curListT2;
+        }
+
         public string GetAudio()
         {
-            if (ShowDialog() == DialogResult.OK && listBoxCollection.SelectedItem != null)
+            ShowDialog();
+
+            if (listBoxCollection.SelectedItem != null)
             {
                 Audio audio = (Audio)listBoxCollection.SelectedItem;
-                return audio.Name;
+                return audio.filePath;
             }
 
             return "";
+        }
+
+        public List<Audio> GetAudios()
+        {
+            return curListA2;
         }
 
         public MazeMakerCollectionEditor(ref List<Texture> inp)

@@ -15,8 +15,8 @@ namespace MazeMaker
 {
     public partial class MazeListBuilder : Form
     {
-        public static List<MyBuilderItem> mazeList = new List<MyBuilderItem>();
-        public static int selectedIndex;
+        List<MyBuilderItem> mazeList = new List<MyBuilderItem>();
+        int selectedIndex;
 
         public static bool madeChanges = false;
 
@@ -313,16 +313,17 @@ namespace MazeMaker
             ReloadList();
         }
 
-        Dictionary<string, string> mazeLibrary = new Dictionary<string, string>();
+        public static Dictionary<string, string> mazeLibrary = new Dictionary<string, string>();
 
-        Dictionary<string, string> imageLibrary = new Dictionary<string, string>();
-        List<Texture> images = new List<Texture>();
+        public static Dictionary<string, string> imageLibrary = new Dictionary<string, string>();
+        List<Texture> textures = new List<Texture>();
 
-        Dictionary<string, string> audioLibrary = new Dictionary<string, string>();
+        public static Dictionary<string, string> audioLibrary = new Dictionary<string, string>();
         List<Audio> audios = new List<Audio>();
-
         string OpenCollection(string type, string listItem)
         {
+            string fileName = "";
+
             switch (listItem)
             {
                 case "Import":
@@ -330,27 +331,84 @@ namespace MazeMaker
 
                     if (ofd.ShowDialog() == DialogResult.OK)
                     {
-                        return ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                        fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+
+                        switch (type)
+                        {
+                            case "Maze":
+                                mazeLibrary[fileName] = ofd.FileName;
+                                break;
+
+                            case "Image":
+                                imageLibrary[fileName] = ofd.FileName;
+                                break;
+
+                            case "Audio":
+                                audioLibrary[fileName] = ofd.FileName;
+                                break;
+
+                            default:
+                                return fileName;
+                        }
                     }
 
-                    return "";
+                    return fileName;
 
                 case "Collection Editor":
                     switch (type)
                     {
                         case "Image":
-                            MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref images);
-                            return mmce.GetTexture();
+                            MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref textures);
+                            string filePath = mmce.GetTexture();
+                            textures = mmce.GetTextures();
+
+                            if (filePath != "")
+                            {
+                                fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
+                                imageLibrary[fileName] = filePath;
+                            }
+
+                            return fileName;
 
                         case "Audio":
                             mmce = new MazeMakerCollectionEditor(ref audios);
-                            return mmce.GetAudio();
+                            filePath = mmce.GetAudio();
+                            audios = mmce.GetAudios();
+                            
+                            if (filePath != "")
+                            {
+                                fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
+                                audioLibrary[fileName] = filePath;
+                            }
+                            
+                            return fileName;
 
                         default:
                             return "";
                     }
 
                 default:
+                    if (listItem != "")
+                    {
+                        switch (type)
+                        {
+                            case "Maze":
+                                mazeLibrary[listItem] = listItem;
+                                break;
+
+                            case "Image":
+                                imageLibrary[listItem] = listItem;
+                                break;
+
+                            case "Audio":
+                                audioLibrary[listItem] = listItem;
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+
                     return listItem;
             }
         }
