@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml;
 using System.Linq;
+using System.Xml.Schema;
 
 namespace MazeMaker
 {
@@ -393,15 +394,24 @@ namespace MazeMaker
                         switch (type)
                         {
                             case "Maze":
-                                mazeLibrary[listItem] = listItem;
+                                if (!mazeLibrary.ContainsKey(listItem))
+                                {
+                                    mazeLibrary[listItem] = listItem;
+                                }
                                 break;
 
                             case "Image":
-                                imageLibrary[listItem] = listItem;
+                                if (!imageLibrary.ContainsKey(listItem))
+                                {
+                                    imageLibrary[listItem] = listItem;
+                                }
                                 break;
 
                             case "Audio":
-                                audioLibrary[listItem] = listItem;
+                                if (!audioLibrary.ContainsKey(listItem))
+                                {
+                                    audioLibrary[listItem] = listItem;
+                                }
                                 break;
 
                             default:
@@ -415,7 +425,69 @@ namespace MazeMaker
 
         private void toolStripButton_Package_Click(object sender, EventArgs e)
         {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "MazeList File (*.melx)|*.melx|All Files|*.*";
 
+            string filePath = "";
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                filePath = sfd.FileName;
+                WriteToMelx(filePath);
+            }
+
+            if (Directory.Exists(filePath + "_assets\\maze"))
+            {
+                Directory.Delete(filePath + "_assets\\maze", true);
+            }
+            if (Directory.Exists(filePath + "_assets\\image"))
+            {
+                Directory.Delete(filePath + "_assets\\image", true);
+            }
+            if (Directory.Exists(filePath + "_assets\\audio"))
+            {
+                Directory.Delete(filePath + "_assets\\audio", true);
+            }
+
+            Directory.CreateDirectory(filePath + "_assets\\maze");
+            Directory.CreateDirectory(filePath + "_assets\\image");
+            Directory.CreateDirectory(filePath + "_assets\\audio");
+
+            foreach (string key in mazeLibrary.Keys)
+            {
+                string newFilePath = filePath + "_assets\\maze\\" + key;
+
+                //if (File.Exists(newFilePath))
+                //{
+                //    File.Delete(newFilePath);
+                //}
+
+                File.Copy(mazeLibrary[key], newFilePath);
+            }
+
+            foreach (string key in imageLibrary.Keys)
+            {
+                string newFilePath = filePath + "_assets\\image\\" + key;
+
+                //if (File.Exists(newFilePath))
+                //{
+                //    File.Delete(newFilePath);
+                //}
+
+                File.Copy(imageLibrary[key], newFilePath);
+            }
+
+            foreach (string key in audioLibrary.Keys)
+            {
+                string newFilePath = filePath + "_assets\\audio\\" + key;
+
+                //if (File.Exists(newFilePath))
+                //{
+                //    File.Delete(newFilePath);
+                //}
+
+                File.Copy(audioLibrary[key], newFilePath);
+            }
         }
 
         private void closeButton_Click(object sender, EventArgs e)
