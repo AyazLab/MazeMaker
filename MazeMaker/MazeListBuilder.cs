@@ -63,7 +63,7 @@ namespace MazeMaker
             ReloadList();
         }
 
-        private void toolStrip_open_Click(object sender, EventArgs e)
+        public void toolStrip_open_Click(object sender, EventArgs e)
         {
             if (UnsavedChangesCheck() != DialogResult.Cancel)
             {

@@ -7195,6 +7195,23 @@ namespace MazeMaker
 
         }
 
+        private void button_NewMazeList_Click(object sender, EventArgs e)
+        {
+            NewMaze();
+
+            MazeListBuilder mlb = new MazeListBuilder();
+            mlb.ShowDialog();
+        }
+
+        private void button_OpenMazeList_Click(object sender, EventArgs e)
+        {
+            NewMaze();
+
+            MazeListBuilder mlb = new MazeListBuilder();
+            mlb.toolStrip_open_Click(sender, e);
+            mlb.ShowDialog();
+        }
+
         private void exportToClassicFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ChangeModeTo0();
