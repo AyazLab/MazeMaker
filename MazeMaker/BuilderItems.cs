@@ -110,11 +110,11 @@ namespace MazeMaker
             set { lpt = value; }
         }
 
-        private string fontSize = "";
+        private int? fontSize;
         [Category("General")]
-        [Description("")]
+        [Description("Overides font size for all items when using this MazeList")]
         [DisplayName("Font Size")]
-        public string FontSize
+        public int? FontSize
         {
             get { return fontSize; }
             set { fontSize = value; }
@@ -289,11 +289,11 @@ namespace MazeMaker
             set { endBehavior = value; }
         }
 
-        private string fontSize = "";
+        private int fontSize = 12;
         [Category("Text Display")]
         [Description("Specify an font size to be displayed")]
         [DisplayName("Font Size")]
-        public string FontSize
+        public int FontSize
         {
             get { return fontSize; }
             set { fontSize = value; }
@@ -414,11 +414,11 @@ namespace MazeMaker
             set { endBehavior = value; }
         }
 
-        private string fontSize = "";
+        private int fontSize = 12;
         [Category("Text Display")]
         [Description("Specify an font size to be displayed")]
         [DisplayName("Font Size")]
-        public string FontSize
+        public int FontSize
         {
             get { return fontSize; }
             set { fontSize = value; }

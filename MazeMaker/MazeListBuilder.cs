@@ -564,10 +564,10 @@ namespace MazeMaker
                             mz.AppendChild(lpt);
                         }
 
-                        if (mazeListOptions.FontSize != "")
+                        if (mazeListOptions.FontSize != null)
                         {
                             XmlElement font = melx.CreateElement("Font");
-                            font.SetAttribute("Size", mazeListOptions.FontSize);
+                            font.SetAttribute("Size", mazeListOptions.FontSize.ToString());
                             mz.AppendChild(font);
                         }
 
@@ -637,7 +637,7 @@ namespace MazeMaker
                         mz.SetAttribute("Loop", text.Loop.ToString());
                         mz.SetAttribute("AudioBehavior", text.AudioBehavior);
                         mz.SetAttribute("EndBehavior", text.EndBehavior);
-                        mz.SetAttribute("FontSize", text.FontSize);
+                        mz.SetAttribute("FontSize", text.FontSize.ToString());
                         break;
 
                     case ItemType.Image:
@@ -900,7 +900,7 @@ namespace MazeMaker
                                     break;
 
                                 case "Font":
-                                    mazeListOptions.FontSize = mazeListOption.GetAttribute("Size");
+                                    mazeListOptions.FontSize = Convert.ToInt32(mazeListOption.GetAttribute("Size"));
                                     break;
 
                                 default:
@@ -971,7 +971,7 @@ namespace MazeMaker
                                     text.Loop = bool.Parse(listItem.GetAttribute("Loop"));
                                     text.AudioBehavior = listItem.GetAttribute("AudioBehavior");
                                     text.EndBehavior = listItem.GetAttribute("EndBehavior");
-                                    text.FontSize = listItem.GetAttribute("FontSize");
+                                    text.FontSize = Convert.ToInt32(listItem.GetAttribute("FontSize"));
                                     mazeList.Add(text);
                                     break;
 
