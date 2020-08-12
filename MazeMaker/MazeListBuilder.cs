@@ -638,7 +638,7 @@ namespace MazeMaker
                             mz.SetAttribute("Audio", "");
                         }
 
-                        mz.SetAttribute("AudioOnUnhighlight", text.AudioOnUnhighlight);
+                        mz.SetAttribute("AudioBehavior", text.AudioBehavior);
                         mz.SetAttribute("FontSize", text.FontSize);
                         break;
 
@@ -695,7 +695,7 @@ namespace MazeMaker
                             mz.SetAttribute("Audio", "");
                         }
 
-                        mz.SetAttribute("AudioOnUnhighlight", image.AudioOnUnhighlight);
+                        mz.SetAttribute("AudioBehavior", image.AudioBehavior);
                         break;
 
                     case ItemType.MultipleChoice:
@@ -749,7 +749,7 @@ namespace MazeMaker
                             mz.SetAttribute("Audio", "");
                         }
 
-                        mz.SetAttribute("AudioOnUnhighlight", multipleChoice.AudioOnUnhighlight);
+                        mz.SetAttribute("AudioBehavior", multipleChoice.AudioBehavior);
                         break;
 
                     default:
@@ -956,7 +956,7 @@ namespace MazeMaker
                                     }
                                     text.Audio = file;
 
-                                    text.AudioOnUnhighlight = listItem.GetAttribute("AudioOnUnhighlight");
+                                    text.AudioBehavior = listItem.GetAttribute("AudioBehavior");
                                     text.FontSize = listItem.GetAttribute("FontSize");
                                     mazeList.Add(text);
                                     break;
@@ -984,7 +984,7 @@ namespace MazeMaker
                                     }
                                     image.Audio = file;
 
-                                    image.AudioOnUnhighlight = listItem.GetAttribute("AudioOnUnhighlight");
+                                    image.AudioBehavior = listItem.GetAttribute("AudioBehavior");
                                     mazeList.Add(image);
                                     break;
 
@@ -1009,7 +1009,7 @@ namespace MazeMaker
                                     }
                                     multipleChoice.Audio = file;
 
-                                    multipleChoice.AudioOnUnhighlight = listItem.GetAttribute("AudioOnUnhighlight");
+                                    multipleChoice.AudioBehavior = listItem.GetAttribute("AudioBehavior");
                                     mazeList.Add(multipleChoice);
                                     break;
 

@@ -252,15 +252,15 @@ namespace MazeMaker
             set { audio = value; }
         }
 
-        private string audioOnUnhighlight;
+        private string audioBehavior;
         [Category("Highlight")]
         [Description("Descibes behavior for Audio play back when highlight ends")]
-        [DisplayName("Audio On Unhighlight")]
-        [TypeConverter(typeof(AudioOnUnhighlightConverter))]
-        public string AudioOnUnhighlight
+        [DisplayName("Audio Behavior")]
+        [TypeConverter(typeof(AudioBehaviorConverter))]
+        public string AudioBehavior
         {
-            get { return audioOnUnhighlight; }
-            set { audioOnUnhighlight = value; }
+            get { return audioBehavior; }
+            set { audioBehavior = value; }
         }
 
         private string fontSize = "";
@@ -357,15 +357,15 @@ namespace MazeMaker
             set { audio = value; }
         }
 
-        private string audioOnUnhighlight;
+        private string audioBehavior;
         [Category("Highlight")]
         [Description("Descibes behavior for Audio play back when highlight ends")]
-        [DisplayName("Audio On Unhighlight")]
-        [TypeConverter(typeof(AudioOnUnhighlightConverter))]
-        public string AudioOnUnhighlight
+        [DisplayName("Audio Behavior")]
+        [TypeConverter(typeof(AudioBehaviorConverter))]
+        public string AudioBehavior
         {
-            get { return audioOnUnhighlight; }
-            set { audioOnUnhighlight = value; }
+            get { return audioBehavior; }
+            set { audioBehavior = value; }
         }
 
         private string fontSize = "";
@@ -556,15 +556,15 @@ namespace MazeMaker
             set { audio = value; }
         }
 
-        private string audioOnUnhighlight;
+        private string audioBehavior;
         [Category("Highlight")]
         [Description("Descibes behavior for Audio play back when highlight ends")]
-        [DisplayName("Audio On Unhighlight")]
-        [TypeConverter(typeof(AudioOnUnhighlightConverter))]
-        public string AudioOnUnhighlight
+        [DisplayName("Audio Behavior")]
+        [TypeConverter(typeof(AudioBehaviorConverter))]
+        public string AudioBehavior
         {
-            get { return audioOnUnhighlight; }
-            set { audioOnUnhighlight = value; }
+            get { return audioBehavior; }
+            set { audioBehavior = value; }
         }
     }
 
@@ -572,9 +572,9 @@ namespace MazeMaker
     {
         List<string> mazes = new List<string>();
 
-        public override Boolean GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
+        public override bool GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
 
-        public override TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
             if (!MazeListBuilder.madeChanges)
             {
@@ -584,24 +584,7 @@ namespace MazeMaker
             if (!mazes.Contains("Import"))
             {
                 mazes.Add("Import");
-                //mazes.Add("Collection Editor");
             }
-
-            //foreach (MyBuilderItem item in MazeListBuilder.mazeList)
-            //{
-            //    string maze = "";
-
-            //    if (item.Type == ItemType.Maze)
-            //    {
-            //        MazeList_MazeItem listItem = (MazeList_MazeItem)item;
-            //        maze = listItem.Maze;
-            //    }
-
-            //    if (maze != "" && !mazes.Contains(maze))
-            //    {
-            //        mazes.Add(maze);
-            //    }
-            //}
 
             foreach (string maze in MazeListBuilder.mazeLibrary.Keys)
             {
@@ -619,9 +602,9 @@ namespace MazeMaker
     {
         List<string> images = new List<string>();
 
-        public override Boolean GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
+        public override bool GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
 
-        public override TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
             if (!MazeListBuilder.madeChanges)
             {
@@ -633,22 +616,6 @@ namespace MazeMaker
                 images.Add("Import");
                 images.Add("Collection Editor");
             }
-
-            //foreach (MyBuilderItem item in MazeListBuilder.mazeList)
-            //{
-            //    string image = "";
-
-            //    if (item.Type == ItemType.Image)
-            //    {
-            //        MazeList_ImageItem listItem = (MazeList_ImageItem)item;
-            //        image = listItem.Image;
-            //    }
-
-            //    if (image != "" && !images.Contains(image))
-            //    {
-            //        images.Add(image);
-            //    }
-            //}
 
             foreach (string image in MazeListBuilder.imageLibrary.Keys)
             {
@@ -666,9 +633,9 @@ namespace MazeMaker
     {
         List<string> audios = new List<string>();
 
-        public override Boolean GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
+        public override bool GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
 
-        public override TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
             if (!MazeListBuilder.madeChanges)
             {
@@ -680,37 +647,6 @@ namespace MazeMaker
                 audios.Add("Import");
                 audios.Add("Collection Editor");
             }
-
-            //foreach (MyBuilderItem item in MazeListBuilder.mazeList)
-            //{
-            //    string audio = "";
-
-            //    switch (item.Type)
-            //    {
-            //        case ItemType.Text:
-            //            MazeList_TextItem text = (MazeList_TextItem)item;
-            //            audio = text.Audio;
-            //            break;
-
-            //        case ItemType.Image:
-            //            MazeList_ImageItem image = (MazeList_ImageItem)item;
-            //            audio = image.Audio;
-            //            break;
-
-            //        case ItemType.MultipleChoice:
-            //            MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)item;
-            //            audio = multipleChoice.Audio;
-            //            break;
-
-            //        default:
-            //            break;
-            //    }
-
-            //    if (audio != "" && !audios.Contains(audio))
-            //    {
-            //        audios.Add(audio);
-            //    }
-            //}
 
             foreach (string audio in MazeListBuilder.audioLibrary.Keys)
             {
@@ -724,21 +660,21 @@ namespace MazeMaker
         }
     }
 
-    public class AudioOnUnhighlightConverter : StringConverter
+    public class AudioBehaviorConverter : StringConverter
     {
-        public override Boolean GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
-        public override Boolean GetStandardValuesExclusive(ITypeDescriptorContext context) { return true; }
+        public override bool GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
+        public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) { return true; }
 
-        public override TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            List<String> audioOnUnhighlightTypes = new List<String>();
+            List<string> audioBehaviorTypes = new List<string>();
 
-            audioOnUnhighlightTypes.Add("Stop");
-            audioOnUnhighlightTypes.Add("Pause");
-            audioOnUnhighlightTypes.Add("Continue");
-            audioOnUnhighlightTypes.Add("VolumeByDistance");
+            audioBehaviorTypes.Add("Stop");
+            audioBehaviorTypes.Add("Pause");
+            audioBehaviorTypes.Add("Continue");
+            audioBehaviorTypes.Add("VolumeByDistance");
 
-            return new StandardValuesCollection(audioOnUnhighlightTypes);
+            return new StandardValuesCollection(audioBehaviorTypes);
         }
     }
 }
