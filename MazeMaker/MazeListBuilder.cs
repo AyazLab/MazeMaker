@@ -647,7 +647,7 @@ namespace MazeMaker
                         mz.SetAttribute("LifeTime", image.Duration.ToString());
                         mz.SetAttribute("X", image.X.ToString());
                         mz.SetAttribute("Y", image.Y.ToString());
-                        mz.SetAttribute("BackgroundColor", image.BackgroundColor);
+                        mz.SetAttribute("BackgroundColor", string.Format("{0}, {1}, {2}, {3}", image.BackgroundColor.A, image.BackgroundColor.R, image.BackgroundColor.G, image.BackgroundColor.B));
 
                         XmlElement imageLibraryItem = melx.CreateElement("Image");
                         int imageID = imageIDCounter;
@@ -982,7 +982,9 @@ namespace MazeMaker
                                     image.Duration = Convert.ToInt64(listItem.GetAttribute("LifeTime"));
                                     image.X = Convert.ToDouble(listItem.GetAttribute("X"));
                                     image.Y = Convert.ToDouble(listItem.GetAttribute("Y"));
-                                    image.BackgroundColor = listItem.GetAttribute("Background Color");
+
+                                    string[] backgroundColor = listItem.GetAttribute("BackgroundColor").Split(new string[] { ", " }, StringSplitOptions.None);
+                                    image.BackgroundColor = Color.FromArgb(Convert.ToByte(backgroundColor[0]), Convert.ToByte(backgroundColor[1]), Convert.ToByte(backgroundColor[2]), Convert.ToByte(backgroundColor[3]));
 
                                     file = listItem.GetAttribute("Image");
                                     if (imageLibraryItems.ContainsKey(file))

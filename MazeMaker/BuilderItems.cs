@@ -258,10 +258,10 @@ namespace MazeMaker
             set { audioFile = value; }
         }
 
-        private bool? loop;
+        private bool loop = false;
         [Category("Audio")]
         [Description("If true, enables continuous play of selected audo during highlight.")]
-        public bool? Loop
+        public bool Loop
         {
             get { return loop; }
             set { loop = value; }
@@ -351,11 +351,11 @@ namespace MazeMaker
             set { showlike = value; }
         }
 
-        private string backgroundColor = "";
+        private Color backgroundColor;
         [Category("Display")]
         [Description("Set background color using color name or RGB values seperated by a comma: white or 255, 255, 255")]
         [DisplayName("Background Color")]
-        public string BackgroundColor
+        public Color BackgroundColor
         {
             get { return backgroundColor; }
             set { backgroundColor = value; }
@@ -383,10 +383,10 @@ namespace MazeMaker
             set { audioFile = value; }
         }
 
-        private bool? loop;
+        private bool loop = false;
         [Category("Audio")]
         [Description("If true, enables continuous play of selected audo during highlight.")]
-        public bool? Loop
+        public bool Loop
         {
             get { return loop; }
             set { loop = value; }
@@ -602,10 +602,10 @@ namespace MazeMaker
             set { audioFile = value; }
         }
 
-        private bool? loop;
+        private bool loop = false;
         [Category("Audio")]
         [Description("If true, enables continuous play of selected audo during highlight.")]
-        public bool? Loop
+        public bool Loop
         {
             get { return loop; }
             set { loop = value; }
