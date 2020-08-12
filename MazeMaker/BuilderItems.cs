@@ -140,7 +140,7 @@ namespace MazeMaker
         [Category("General")]
         [Description("Specify an maze filename to be shown")]
         [DisplayName("Maze File")]
-        [TypeConverter(typeof(MazeConverter))]
+        [TypeConverter(typeof(MazeFileConverter))]
         public string MazeFile
         {
             get { return mazeFile; }
@@ -242,15 +242,15 @@ namespace MazeMaker
             set { backgroundImage = value; }
         }
 
-        private string audio = "";
+        private string audioFile = "";
         [Category("Audio")]
         [Description("Specify an audio filename to be played")]
-        [DisplayName("Audio")]
-        [TypeConverter(typeof(audioConverter))]
-        public string Audio
+        [DisplayName("Audio File")]
+        [TypeConverter(typeof(AudioFileConverter))]
+        public string AudioFile
         {
-            get { return audio; }
-            set { audio = value; }
+            get { return audioFile; }
+            set { audioFile = value; }
         }
 
         private string audioBehavior;
@@ -336,26 +336,26 @@ namespace MazeMaker
             set { backgroundColor = value; }
         }
 
-        private string image = "";
+        private string imageFile = "";
         [Category("Display")]
         [Description("Specify an image filename to be displayed")]
-        [DisplayName("Image")]
-        [TypeConverter(typeof(ImageConverter))]
-        public string Image
+        [DisplayName("Image File")]
+        [TypeConverter(typeof(ImageFileConverter))]
+        public string ImageFile
         {
-            get { return image; }
-            set { image = value; }
+            get { return imageFile; }
+            set { imageFile = value; }
         }
 
-        private string audio = "";
+        private string audioFile = "";
         [Category("Audio")]
         [Description("Specify an audio filename to be played")]
-        [DisplayName("Audio")]
-        [TypeConverter(typeof(audioConverter))]
-        public string Audio
+        [DisplayName("Audio File")]
+        [TypeConverter(typeof(AudioFileConverter))]
+        public string AudioFile
         {
-            get { return audio; }
-            set { audio = value; }
+            get { return audioFile; }
+            set { audioFile = value; }
         }
 
         private string audioBehavior;
@@ -546,15 +546,15 @@ namespace MazeMaker
             set { backgroundImage = value; }
         }
 
-        private string audio = "";
+        private string audioFile = "";
         [Category("Audio")]
         [Description("Specify an audio filename to be played")]
-        [DisplayName("Audio")]
-        [TypeConverter(typeof(audioConverter))]
-        public string Audio
+        [DisplayName("Audio File")]
+        [TypeConverter(typeof(AudioFileConverter))]
+        public string AudioFile
         {
-            get { return audio; }
-            set { audio = value; }
+            get { return audioFile; }
+            set { audioFile = value; }
         }
 
         private string audioBehavior;
@@ -569,7 +569,7 @@ namespace MazeMaker
         }
     }
 
-    public class MazeConverter : StringConverter
+    public class MazeFileConverter : StringConverter
     {
         List<string> mazes = new List<string>();
 
@@ -599,7 +599,7 @@ namespace MazeMaker
         }
     }
 
-    public class ImageConverter : StringConverter
+    public class ImageFileConverter : StringConverter
     {
         List<string> images = new List<string>();
 
@@ -630,7 +630,7 @@ namespace MazeMaker
         }
     }
 
-    public class audioConverter : StringConverter
+    public class AudioFileConverter : StringConverter
     {
         List<string> audios = new List<string>();
 
