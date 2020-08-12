@@ -136,14 +136,15 @@ namespace MazeMaker
             set { text = value; }
         }
 
-        string maze = "";
+        string mazeFile = "";
         [Category("General")]
         [Description("Specify an maze filename to be shown")]
-        [TypeConverter(typeof(MazeConverter))]
-        public string Maze
+        [DisplayName("Maze File")]
+        [TypeConverter(typeof(MazeFileConverter))]
+        public string MazeFile
         {
-            get { return maze; }
-            set { maze = value; }
+            get { return mazeFile; }
+            set { mazeFile = value; }
         }
 
         private string defaultStartPosition = "";
@@ -175,7 +176,7 @@ namespace MazeMaker
 
         public override string ToString()
         {
-            return "[" + Type + "] - " + maze;
+            return "[" + Type + "] - " + mazeFile;
         }
     }
 
@@ -241,19 +242,19 @@ namespace MazeMaker
             set { backgroundImage = value; }
         }
 
-        private string audio = "";
-        [Category("Highlight")]
+        private string audioFile = "";
+        [Category("Audio")]
         [Description("Specify an audio filename to be played")]
-        [DisplayName("Audio")]
-        [TypeConverter(typeof(audioConverter))]
-        public string Audio
+        [DisplayName("Audio File")]
+        [TypeConverter(typeof(AudioFileConverter))]
+        public string AudioFile
         {
-            get { return audio; }
-            set { audio = value; }
+            get { return audioFile; }
+            set { audioFile = value; }
         }
 
         private string audioBehavior;
-        [Category("Highlight")]
+        [Category("Audio")]
         [Description("Descibes behavior for Audio play back when highlight ends")]
         [DisplayName("Audio Behavior")]
         [TypeConverter(typeof(AudioBehaviorConverter))]
@@ -335,30 +336,30 @@ namespace MazeMaker
             set { backgroundColor = value; }
         }
 
-        private string image = "";
+        private string imageFile = "";
         [Category("Display")]
         [Description("Specify an image filename to be displayed")]
-        [DisplayName("Image")]
-        [TypeConverter(typeof(ImageConverter))]
-        public string Image
+        [DisplayName("Image File")]
+        [TypeConverter(typeof(ImageFileConverter))]
+        public string ImageFile
         {
-            get { return image; }
-            set { image = value; }
+            get { return imageFile; }
+            set { imageFile = value; }
         }
 
-        private string audio = "";
-        [Category("Highlight")]
+        private string audioFile = "";
+        [Category("Audio")]
         [Description("Specify an audio filename to be played")]
-        [DisplayName("Audio")]
-        [TypeConverter(typeof(audioConverter))]
-        public string Audio
+        [DisplayName("Audio File")]
+        [TypeConverter(typeof(AudioFileConverter))]
+        public string AudioFile
         {
-            get { return audio; }
-            set { audio = value; }
+            get { return audioFile; }
+            set { audioFile = value; }
         }
 
         private string audioBehavior;
-        [Category("Highlight")]
+        [Category("Audio")]
         [Description("Descibes behavior for Audio play back when highlight ends")]
         [DisplayName("Audio Behavior")]
         [TypeConverter(typeof(AudioBehaviorConverter))]
@@ -545,19 +546,19 @@ namespace MazeMaker
             set { backgroundImage = value; }
         }
 
-        private string audio = "";
-        [Category("Highlight")]
+        private string audioFile = "";
+        [Category("Audio")]
         [Description("Specify an audio filename to be played")]
-        [DisplayName("Audio")]
-        [TypeConverter(typeof(audioConverter))]
-        public string Audio
+        [DisplayName("Audio File")]
+        [TypeConverter(typeof(AudioFileConverter))]
+        public string AudioFile
         {
-            get { return audio; }
-            set { audio = value; }
+            get { return audioFile; }
+            set { audioFile = value; }
         }
 
         private string audioBehavior;
-        [Category("Highlight")]
+        [Category("Audio")]
         [Description("Descibes behavior for Audio play back when highlight ends")]
         [DisplayName("Audio Behavior")]
         [TypeConverter(typeof(AudioBehaviorConverter))]
@@ -568,7 +569,7 @@ namespace MazeMaker
         }
     }
 
-    public class MazeConverter : StringConverter
+    public class MazeFileConverter : StringConverter
     {
         List<string> mazes = new List<string>();
 
@@ -598,7 +599,7 @@ namespace MazeMaker
         }
     }
 
-    public class ImageConverter : StringConverter
+    public class ImageFileConverter : StringConverter
     {
         List<string> images = new List<string>();
 
@@ -629,7 +630,7 @@ namespace MazeMaker
         }
     }
 
-    public class audioConverter : StringConverter
+    public class AudioFileConverter : StringConverter
     {
         List<string> audios = new List<string>();
 
