@@ -134,7 +134,7 @@ namespace MazeMaker
             this.comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox.FormattingEnabled = true;
             this.comboBox.Location = new System.Drawing.Point(18, 103);
-            this.comboBox.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.comboBox.Margin = new System.Windows.Forms.Padding(8);
             this.comboBox.Name = "comboBox";
             this.comboBox.Size = new System.Drawing.Size(382, 39);
             this.comboBox.TabIndex = 1;
@@ -142,7 +142,7 @@ namespace MazeMaker
             // add
             // 
             this.add.Location = new System.Drawing.Point(432, 99);
-            this.add.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.add.Margin = new System.Windows.Forms.Padding(8);
             this.add.Name = "add";
             this.add.Size = new System.Drawing.Size(200, 54);
             this.add.TabIndex = 2;
@@ -155,7 +155,7 @@ namespace MazeMaker
             this.L_Up.Enabled = false;
             this.L_Up.Image = global::MazeMaker.Properties.Resources.arr_up;
             this.L_Up.Location = new System.Drawing.Point(650, 271);
-            this.L_Up.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.L_Up.Margin = new System.Windows.Forms.Padding(8);
             this.L_Up.Name = "L_Up";
             this.L_Up.Size = new System.Drawing.Size(62, 54);
             this.L_Up.TabIndex = 4;
@@ -167,7 +167,7 @@ namespace MazeMaker
             this.L_Down.Enabled = false;
             this.L_Down.Image = global::MazeMaker.Properties.Resources.arr_down;
             this.L_Down.Location = new System.Drawing.Point(650, 341);
-            this.L_Down.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.L_Down.Margin = new System.Windows.Forms.Padding(8);
             this.L_Down.Name = "L_Down";
             this.L_Down.Size = new System.Drawing.Size(62, 54);
             this.L_Down.TabIndex = 5;
@@ -179,7 +179,7 @@ namespace MazeMaker
             this.L_Del.Enabled = false;
             this.L_Del.Image = global::MazeMaker.Properties.Resources.del;
             this.L_Del.Location = new System.Drawing.Point(650, 411);
-            this.L_Del.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.L_Del.Margin = new System.Windows.Forms.Padding(8);
             this.L_Del.Name = "L_Del";
             this.L_Del.Size = new System.Drawing.Size(62, 54);
             this.L_Del.TabIndex = 6;
@@ -189,7 +189,7 @@ namespace MazeMaker
             // 
             this.propertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.propertyGrid.Location = new System.Drawing.Point(728, 200);
-            this.propertyGrid.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.propertyGrid.Margin = new System.Windows.Forms.Padding(8);
             this.propertyGrid.Name = "propertyGrid";
             this.propertyGrid.Size = new System.Drawing.Size(640, 709);
             this.propertyGrid.TabIndex = 7;
@@ -220,7 +220,7 @@ namespace MazeMaker
             // 
             this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.closeButton.Location = new System.Drawing.Point(1168, 918);
-            this.closeButton.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.closeButton.Margin = new System.Windows.Forms.Padding(8);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(200, 54);
             this.closeButton.TabIndex = 10;
@@ -249,7 +249,7 @@ namespace MazeMaker
             // treeViewMazeList
             // 
             this.treeViewMazeList.Location = new System.Drawing.Point(18, 200);
-            this.treeViewMazeList.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.treeViewMazeList.Margin = new System.Windows.Forms.Padding(4);
             this.treeViewMazeList.Name = "treeViewMazeList";
             this.treeViewMazeList.Size = new System.Drawing.Size(614, 560);
             this.treeViewMazeList.TabIndex = 12;
@@ -272,7 +272,7 @@ namespace MazeMaker
             this.Controls.Add(this.add);
             this.Controls.Add(this.comboBox);
             this.Controls.Add(this.toolStrip);
-            this.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.Margin = new System.Windows.Forms.Padding(8);
             this.MinimizeBox = false;
             this.Name = "MazeListBuilder";
             this.ShowIcon = false;

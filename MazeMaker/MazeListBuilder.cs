@@ -287,7 +287,7 @@ namespace MazeMaker
                 {
                     case ItemType.Maze:
                         MazeList_MazeItem maze = (MazeList_MazeItem)listItem;
-                        maze.Maze = OpenCollection("Maze", maze.Maze);
+                        maze.MazeFile = OpenCollection("Maze", maze.MazeFile);
                         break;
 
                     case ItemType.Text:
@@ -583,22 +583,22 @@ namespace MazeMaker
 
                         XmlElement mazeLibraryItem = melx.CreateElement("Maze");
                         int mazeID = mazeIDCounter;
-                        if (mazeLibraryItems.ContainsKey(maze.Maze))
+                        if (mazeLibraryItems.ContainsKey(maze.MazeFile))
                         {
-                            mazeID = Convert.ToInt32(mazeLibraryItems[maze.Maze]);
+                            mazeID = Convert.ToInt32(mazeLibraryItems[maze.MazeFile]);
                         }
                         else
                         {
-                            mazeLibraryItems[maze.Maze] = mazeID.ToString();
+                            mazeLibraryItems[maze.MazeFile] = mazeID.ToString();
                             mazeIDCounter++;
 
                             mazeLibraryItem.SetAttribute("ID", mazeID.ToString());
-                            mazeLibraryItem.SetAttribute("File", maze.Maze);
+                            mazeLibraryItem.SetAttribute("File", maze.MazeFile);
 
                             mazeLibrary.AppendChild(mazeLibraryItem);
                         }
                         mz.SetAttribute("ID", mazeID.ToString());
-                        if (maze.Maze == "")
+                        if (maze.MazeFile == "")
                         {
                             mz.SetAttribute("ID", "");
                         }
@@ -933,7 +933,7 @@ namespace MazeMaker
                                         file = mazeLibraryItems[file];
                                     }
                                     MazeList_MazeItem maze = new MazeList_MazeItem();
-                                    maze.Maze = file;
+                                    maze.MazeFile = file;
 
                                     maze.DefaultStartPosition = listItem.GetAttribute("DefaultStartPosition");
                                     maze.StartMessage = listItem.GetAttribute("StartMessage");
@@ -1087,7 +1087,7 @@ namespace MazeMaker
                     {
                         //Maze Line
                         MazeList_MazeItem maze = new MazeList_MazeItem();
-                        maze.Maze = parsed[1];
+                        maze.MazeFile = parsed[1];
                         mazeList.Add(maze);
 
                     }

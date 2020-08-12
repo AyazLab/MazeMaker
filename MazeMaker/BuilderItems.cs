@@ -136,14 +136,15 @@ namespace MazeMaker
             set { text = value; }
         }
 
-        string maze = "";
+        string mazeFile = "";
         [Category("General")]
         [Description("Specify an maze filename to be shown")]
+        [DisplayName("Maze File")]
         [TypeConverter(typeof(MazeConverter))]
-        public string Maze
+        public string MazeFile
         {
-            get { return maze; }
-            set { maze = value; }
+            get { return mazeFile; }
+            set { mazeFile = value; }
         }
 
         private string defaultStartPosition = "";
@@ -175,7 +176,7 @@ namespace MazeMaker
 
         public override string ToString()
         {
-            return "[" + Type + "] - " + maze;
+            return "[" + Type + "] - " + mazeFile;
         }
     }
 
