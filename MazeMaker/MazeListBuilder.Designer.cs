@@ -284,7 +284,7 @@ namespace MazeMaker
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "MazeListBuilder";
+            this.Text = "MazeList Builder";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MazeListBuilder_FormClosing);
             this.Load += new System.EventHandler(this.MazeListBuilder_Load);
             this.Resize += new System.EventHandler(this.MazeListBuilder_Resize);

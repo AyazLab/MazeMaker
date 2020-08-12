@@ -1049,7 +1049,7 @@ namespace MazeMaker
             // 
             this.splitContainer1.Panel2.Controls.Add(this.propertyGrid1);
             this.splitContainer1.Size = new System.Drawing.Size(1660, 441);
-            this.splitContainer1.SplitterDistance = 1332;
+            this.splitContainer1.SplitterDistance = 1331;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
             this.splitContainer1.Text = "splitContainer1";
@@ -1069,7 +1069,7 @@ namespace MazeMaker
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControlMazeDisplay);
-            this.splitContainer2.Size = new System.Drawing.Size(1332, 441);
+            this.splitContainer2.Size = new System.Drawing.Size(1331, 441);
             this.splitContainer2.SplitterDistance = 200;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -1141,7 +1141,7 @@ namespace MazeMaker
             this.tabControlMazeDisplay.Multiline = true;
             this.tabControlMazeDisplay.Name = "tabControlMazeDisplay";
             this.tabControlMazeDisplay.SelectedIndex = 0;
-            this.tabControlMazeDisplay.Size = new System.Drawing.Size(1128, 441);
+            this.tabControlMazeDisplay.Size = new System.Drawing.Size(1127, 441);
             this.tabControlMazeDisplay.TabIndex = 0;
             this.tabControlMazeDisplay.SelectedIndexChanged += new System.EventHandler(this.tabControlMazeDisplay_SelectedIndexChanged);
             // 
@@ -1156,7 +1156,7 @@ namespace MazeMaker
             this.tabPageMazeEdit.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageMazeEdit.Name = "tabPageMazeEdit";
             this.tabPageMazeEdit.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageMazeEdit.Size = new System.Drawing.Size(1120, 412);
+            this.tabPageMazeEdit.Size = new System.Drawing.Size(1119, 412);
             this.tabPageMazeEdit.TabIndex = 0;
             this.tabPageMazeEdit.Text = "Maze Editor";
             this.tabPageMazeEdit.UseVisualStyleBackColor = true;
@@ -1182,7 +1182,7 @@ namespace MazeMaker
             this.navControlPanel.Controls.Add(this.buttonViewMoveLeft);
             this.navControlPanel.Controls.Add(this.buttonViewMoveDown);
             this.navControlPanel.Controls.Add(this.buttonViewMoveUp);
-            this.navControlPanel.Location = new System.Drawing.Point(1006, 0);
+            this.navControlPanel.Location = new System.Drawing.Point(1005, 0);
             this.navControlPanel.Margin = new System.Windows.Forms.Padding(4);
             this.navControlPanel.Name = "navControlPanel";
             this.navControlPanel.Size = new System.Drawing.Size(115, 106);
@@ -1403,7 +1403,7 @@ namespace MazeMaker
             this.button_OpenMazeList0.BackgroundImage = global::MazeMaker.Properties.Resources.open;
             this.button_OpenMazeList0.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button_OpenMazeList0.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button_OpenMazeList0.Location = new System.Drawing.Point(227, 226);
+            this.button_OpenMazeList0.Location = new System.Drawing.Point(222, 176);
             this.button_OpenMazeList0.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button_OpenMazeList0.Name = "button_OpenMazeList0";
             this.button_OpenMazeList0.Size = new System.Drawing.Size(55, 48);
@@ -1416,7 +1416,7 @@ namespace MazeMaker
             // 
             this.button_OpenMazeList1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button_OpenMazeList1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button_OpenMazeList1.Location = new System.Drawing.Point(280, 226);
+            this.button_OpenMazeList1.Location = new System.Drawing.Point(278, 176);
             this.button_OpenMazeList1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button_OpenMazeList1.Name = "button_OpenMazeList1";
             this.button_OpenMazeList1.Size = new System.Drawing.Size(152, 48);
@@ -1430,7 +1430,7 @@ namespace MazeMaker
             // 
             this.button_NewMazeList0.BackgroundImage = global::MazeMaker.Properties.Resources._new;
             this.button_NewMazeList0.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button_NewMazeList0.Location = new System.Drawing.Point(5, 226);
+            this.button_NewMazeList0.Location = new System.Drawing.Point(6, 176);
             this.button_NewMazeList0.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button_NewMazeList0.Name = "button_NewMazeList0";
             this.button_NewMazeList0.Size = new System.Drawing.Size(53, 48);
@@ -1442,7 +1442,7 @@ namespace MazeMaker
             // button_NewMazeList1
             // 
             this.button_NewMazeList1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_NewMazeList1.Location = new System.Drawing.Point(59, 226);
+            this.button_NewMazeList1.Location = new System.Drawing.Point(60, 176);
             this.button_NewMazeList1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button_NewMazeList1.Name = "button_NewMazeList1";
             this.button_NewMazeList1.Size = new System.Drawing.Size(153, 48);
@@ -1468,7 +1468,7 @@ namespace MazeMaker
             this.buttonPanelForum1.BackgroundImage = global::MazeMaker.Properties.Resources.forumicon1;
             this.buttonPanelForum1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.buttonPanelForum1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.buttonPanelForum1.Location = new System.Drawing.Point(227, 174);
+            this.buttonPanelForum1.Location = new System.Drawing.Point(221, 228);
             this.buttonPanelForum1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonPanelForum1.Name = "buttonPanelForum1";
             this.buttonPanelForum1.Size = new System.Drawing.Size(55, 48);
@@ -1482,7 +1482,7 @@ namespace MazeMaker
             this.buttonPanelGallery1.BackgroundImage = global::MazeMaker.Properties.Resources.link;
             this.buttonPanelGallery1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.buttonPanelGallery1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.buttonPanelGallery1.Location = new System.Drawing.Point(227, 124);
+            this.buttonPanelGallery1.Location = new System.Drawing.Point(3, 228);
             this.buttonPanelGallery1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonPanelGallery1.Name = "buttonPanelGallery1";
             this.buttonPanelGallery1.Size = new System.Drawing.Size(55, 48);
@@ -1495,7 +1495,7 @@ namespace MazeMaker
             // 
             this.buttonPanelForum2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.buttonPanelForum2.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.buttonPanelForum2.Location = new System.Drawing.Point(280, 174);
+            this.buttonPanelForum2.Location = new System.Drawing.Point(278, 228);
             this.buttonPanelForum2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonPanelForum2.Name = "buttonPanelForum2";
             this.buttonPanelForum2.Size = new System.Drawing.Size(152, 48);
@@ -1509,7 +1509,7 @@ namespace MazeMaker
             // 
             this.buttonPanelGallery2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.buttonPanelGallery2.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.buttonPanelGallery2.Location = new System.Drawing.Point(280, 124);
+            this.buttonPanelGallery2.Location = new System.Drawing.Point(60, 228);
             this.buttonPanelGallery2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonPanelGallery2.Name = "buttonPanelGallery2";
             this.buttonPanelGallery2.Size = new System.Drawing.Size(152, 48);
@@ -1523,7 +1523,7 @@ namespace MazeMaker
             // 
             this.buttonPanelBlank1.BackgroundImage = global::MazeMaker.Properties.Resources.Blank1;
             this.buttonPanelBlank1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.buttonPanelBlank1.Location = new System.Drawing.Point(5, 174);
+            this.buttonPanelBlank1.Location = new System.Drawing.Point(224, 124);
             this.buttonPanelBlank1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonPanelBlank1.Name = "buttonPanelBlank1";
             this.buttonPanelBlank1.Size = new System.Drawing.Size(53, 48);
@@ -1548,7 +1548,7 @@ namespace MazeMaker
             // 
             // buttonPanelBlank2
             // 
-            this.buttonPanelBlank2.Location = new System.Drawing.Point(59, 174);
+            this.buttonPanelBlank2.Location = new System.Drawing.Point(278, 124);
             this.buttonPanelBlank2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonPanelBlank2.Name = "buttonPanelBlank2";
             this.buttonPanelBlank2.Size = new System.Drawing.Size(153, 48);
@@ -1562,7 +1562,7 @@ namespace MazeMaker
             // 
             this.buttonPanelWizard2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.buttonPanelWizard2.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.buttonPanelWizard2.Location = new System.Drawing.Point(59, 124);
+            this.buttonPanelWizard2.Location = new System.Drawing.Point(61, 124);
             this.buttonPanelWizard2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonPanelWizard2.Name = "buttonPanelWizard2";
             this.buttonPanelWizard2.Size = new System.Drawing.Size(152, 48);
@@ -1610,7 +1610,7 @@ namespace MazeMaker
             this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid1.Margin = new System.Windows.Forms.Padding(4);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(323, 441);
+            this.propertyGrid1.Size = new System.Drawing.Size(324, 441);
             this.propertyGrid1.TabIndex = 0;
             this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
             // 
