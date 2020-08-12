@@ -30,9 +30,14 @@ namespace MazeMaker
             treeViewMazeList.HideSelection = false;
         }
 
-        void ReloadList()
+        void MakeMazeList()
         {
             treeViewMazeList.Nodes.Clear();
+
+            if (mazeList.Count == 0)
+            {
+                mazeList.Add(new MazeList_MazeListOptionsItem());
+            }
 
             for (int i = 0; i < mazeList.Count; i++)
             {
@@ -54,18 +59,15 @@ namespace MazeMaker
 
         private void MazeListBuilder_Load(object sender, EventArgs e)
         {
-            comboBox.Items.Add("Maze File");
-            comboBox.Items.Add("Text Display");
-            comboBox.Items.Add("Image Display");
-            comboBox.Items.Add("Multiple-Choice Display");
-            comboBox.SelectedIndex = 0;
+            MakeMazeList();
 
-            mazeList.Add(new MazeList_MazeListOptionsItem());
-            ReloadList();
+            comboBox.SelectedIndex = 0;
         }
 
         public void toolStrip_open_Click(object sender, EventArgs e)
         {
+            MakeMazeList();
+
             if (UnsavedChangesCheck() != DialogResult.Cancel)
             {
                 OpenFileDialog ofd = new OpenFileDialog();
@@ -102,7 +104,7 @@ namespace MazeMaker
             {
                 ClearListMessage();
                 mazeList.Add(new MazeList_MazeListOptionsItem());
-                ReloadList();
+                MakeMazeList();
             }
         }
 
@@ -205,7 +207,7 @@ namespace MazeMaker
                     break;
             }
 
-            ReloadList();
+            MakeMazeList();
         }
 
         private void L_Up_Click(object sender, EventArgs e)
@@ -215,7 +217,7 @@ namespace MazeMaker
             MyBuilderItem temp = mazeList[selectedIndex - 1];
             mazeList[selectedIndex - 1] = mazeList[selectedIndex];
             mazeList[selectedIndex] = temp;
-            ReloadList();
+            MakeMazeList();
             treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[1].Nodes[selectedIndex - 2];
         }
 
@@ -226,7 +228,7 @@ namespace MazeMaker
             MyBuilderItem temp = mazeList[selectedIndex + 1];
             mazeList[selectedIndex + 1] = mazeList[selectedIndex];
             mazeList[selectedIndex] = temp;
-            ReloadList();
+            MakeMazeList();
             treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[1].Nodes[selectedIndex];
         }
 
@@ -234,7 +236,7 @@ namespace MazeMaker
         {
             madeChanges = true;
             mazeList.RemoveAt(selectedIndex);
-            ReloadList();
+            MakeMazeList();
 
             L_Del.Enabled = false;
             L_Up.Enabled = false;
@@ -279,7 +281,6 @@ namespace MazeMaker
             madeChanges = true;
 
             if (propertyGrid.SelectedObject != null)
-            // context menu strip, import, & collection editor
             {
                 MyBuilderItem listItem = (MyBuilderItem)propertyGrid.SelectedObject;
 
@@ -311,7 +312,17 @@ namespace MazeMaker
                 }
             }
 
-            ReloadList();
+            MakeMazeList();
+            switch (selectedIndex)
+            {
+                case 0:
+                    treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[0];
+                    break;
+
+                default:
+                    treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[1].Nodes[selectedIndex - 1];
+                    break;
+            }
         }
 
         public static Dictionary<string, string> mazeLibrary = new Dictionary<string, string>();
@@ -457,11 +468,6 @@ namespace MazeMaker
             {
                 string newFilePath = filePath + "_assets\\maze\\" + key;
 
-                //if (File.Exists(newFilePath))
-                //{
-                //    File.Delete(newFilePath);
-                //}
-
                 File.Copy(mazeLibrary[key], newFilePath);
             }
 
@@ -469,22 +475,12 @@ namespace MazeMaker
             {
                 string newFilePath = filePath + "_assets\\image\\" + key;
 
-                //if (File.Exists(newFilePath))
-                //{
-                //    File.Delete(newFilePath);
-                //}
-
                 File.Copy(imageLibrary[key], newFilePath);
             }
 
             foreach (string key in audioLibrary.Keys)
             {
                 string newFilePath = filePath + "_assets\\audio\\" + key;
-
-                //if (File.Exists(newFilePath))
-                //{
-                //    File.Delete(newFilePath);
-                //}
 
                 File.Copy(audioLibrary[key], newFilePath);
             }
@@ -801,49 +797,58 @@ namespace MazeMaker
             return true;
         }
 
-        private bool WriteToMel(string inp)
+        private bool WriteToMel(string filePath)
         {
-            StreamWriter fp = new StreamWriter(inp);
-            if (fp == null)
+            StreamWriter mel = new StreamWriter(filePath);
+
+            if (mel == null)
             {
                 return false;
             }
-            fp.WriteLine("Maze List File 1.2");
 
-            foreach (MyBuilderItem a in mazeList)
+            mel.WriteLine("Maze List File 1.2");
+
+            foreach (MyBuilderItem listItem in mazeList)
             {
+                mel.Write(listItem.Type + "\t");
 
-                fp.Write(a.Type + "\t");
-                if (a.Type == ItemType.Maze)
+                switch (listItem.Type)
                 {
-                    fp.Write(a.Text);
+                    case ItemType.Maze:
+                        MazeList_MazeItem maze = (MazeList_MazeItem)listItem;
+                        mel.Write(maze.Maze);
+                        break;
+
+                    case ItemType.Text:
+                        MazeList_TextItem text = (MazeList_TextItem)listItem;
+                        mel.Write(text.Text + "\t" + text.TextDisplayType + "\t" + text.Duration + "\t" + text.X + "\t" + text.Y + "\t ");
+                        break;
+
+                    case ItemType.Image:
+                        MazeList_ImageItem image = (MazeList_ImageItem)listItem;
+                        mel.Write(image.Text + "\t" + image.TextDisplayType + "\t" + image.Duration + "\t" + image.X + "\t" + image.Y + "\t" + image.Image);
+                        break;
+
+                    case ItemType.MultipleChoice:
+                        MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)listItem;
+                        mel.Write(multipleChoice.GetString() + "\t" + multipleChoice.TextDisplayType + "\t" + multipleChoice.Duration + "\t" + multipleChoice.X + "\t" + multipleChoice.Y + "\t ");
+                        break;
+
+                    default:
+                        break;
                 }
-                else if (a.Type == ItemType.Text)
-                {
-                    MazeList_TextItem aa = (MazeList_TextItem)a;
-                    fp.Write(aa.Text + "\t" + aa.TextDisplayType + "\t" + aa.Duration + "\t" + aa.X + "\t" + aa.Y + "\t ");
-                }
-                else if (a.Type == ItemType.Image)
-                {
-                    MazeList_ImageItem aa = (MazeList_ImageItem)a;
-                    fp.Write(aa.Text + "\t" + aa.TextDisplayType + "\t" + aa.Duration + "\t" + aa.X + "\t" + aa.Y + "\t" + aa.Image);
-                }
-                else if (a.Type == ItemType.MultipleChoice)
-                {
-                    MazeList_MultipleChoiceItem aa = (MazeList_MultipleChoiceItem)a;
-                    fp.Write(aa.GetString() + "\t" + aa.TextDisplayType + "\t" + aa.Duration + "\t" + aa.X + "\t" + aa.Y + "\t ");
-                }
-                fp.Write("\n");
+
+                mel.Write("\n");
             }
 
-            fp.Close();
+            mel.Close();
 
             return true;
         }
 
         public void Updated(object e, ListChangedEventArgs c)
         {
-            ReloadList();
+            MakeMazeList();
         }
 
         private bool ReadFromMelx(string inp)
@@ -924,6 +929,7 @@ namespace MazeMaker
                     case "ListItems":
                         foreach (XmlElement listItem in mz.ChildNodes)
                         {
+                            MakeMazeList();
                             switch (listItem.Name)
                             {
                                 case "Maze":
@@ -1024,7 +1030,7 @@ namespace MazeMaker
                 }
             }
 
-            ReloadList();
+            MakeMazeList();
 
             return true;
         }
@@ -1055,122 +1061,151 @@ namespace MazeMaker
             }
         }
 
-        public bool ReadFromMel(string inp)
+        public bool ReadFromMel(string filePath)
         {
-            StreamReader fp = new StreamReader(inp);
-            if (fp == null)
+            StreamReader mel = new StreamReader(filePath);
+            if (mel == null)
             {
                 return false;
             }
-            string buf;
-            buf = fp.ReadLine();
-            if (!buf.Contains("Maze List File"))
+
+            string buffer = mel.ReadLine();
+            if (!buffer.Contains("Maze List File"))
             {
                 MessageBox.Show("Not a Maze List File or corrupted!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            curFileName = inp;
-            toolStrip_Status.Text = inp;
+            curFileName = filePath;
+            toolStrip_Status.Text = filePath;
+            MakeMazeList();
 
             try
             {
                 while (true)
                 {
-                    buf = fp.ReadLine();
-                    //int tab1 = buf.IndexOf("\t");
-                    //if (tab1 == -1)
-                    //    break;
-                    string[] parsed = buf.Split('\t');
-                    if (parsed.Length == 0)
+                    buffer = mel.ReadLine();
+
+                    string[] parse = buffer.Split('\t');
+                    if (parse.Length == 0)
+                    {
                         break;
-                    if (parsed[0].CompareTo("Maze") == 0)
+                    }
+
+                    switch (parse[0])
+                    {
+                        case "Maze":
+                            MazeList_MazeItem maze = new MazeList_MazeItem();
+                            maze.Maze = parse[1];
+
+                            mazeList.Add(maze);
+                            break;
+
+                        case "Text":
+                            MazeList_TextItem text = new MazeList_TextItem();
+                            text.Text = parse[1];
+
+                            if (parse[2].CompareTo(MazeList_TextItem.DisplayType.OnFramedDialog.ToString()) == 0 || parse[2].CompareTo("OnDialog") == 0)
+                            {
+                                text.TextDisplayType = MazeList_TextItem.DisplayType.OnFramedDialog;
+                            }
+                            else
+                            {
+                                text.TextDisplayType = MazeList_TextItem.DisplayType.OnBackground;
+                            }
+
+                            text.Duration = int.Parse(parse[3]);
+                            text.X = int.Parse(parse[4]);
+                            text.Y = int.Parse(parse[5]);
+
+                            if (parse.Length > 6)
+                            {
+                                text.BackgroundImage = parse[6];
+                            }
+                            else
+                            {
+                                text.BackgroundImage = "";
+                            }
+
+                            mazeList.Add(text);
+                            break;
+
+                        case "Image":
+                            MazeList_ImageItem image = new MazeList_ImageItem();
+                            image.Text = parse[1];
+
+                            if (parse[2].CompareTo(MazeList_ImageItem.DisplayType.OnFramedDialog.ToString()) == 0 || parse[2].CompareTo("OnDialog") == 0)
+                            {
+                                image.TextDisplayType = MazeList_ImageItem.DisplayType.OnFramedDialog;
+                            }
+                            else
+                            {
+                                image.TextDisplayType = MazeList_ImageItem.DisplayType.OnBackground;
+                            }
+
+                            image.Duration = int.Parse(parse[3]);
+                            image.X = int.Parse(parse[4]);
+                            image.Y = int.Parse(parse[5]);
+
+                            if (parse.Length > 6)
+                            {
+                                image.Image = parse[6];
+                            }
+                            else
+                            {
+                                image.Image = "";
+                            }
+
+                            mazeList.Add(image);
+                            break;
+
+                        case "MultipleChoice":
+                            MazeList_MultipleChoiceItem multipleChoice = new MazeList_MultipleChoiceItem(new ListChangedEventHandler(Updated));
+                            multipleChoice.LoadString(parse[1]);
+
+                            if (parse[2].CompareTo(MazeList_TextItem.DisplayType.OnFramedDialog.ToString()) == 0 || parse[2].CompareTo("OnDialog") == 0)
+                            {
+                                multipleChoice.TextDisplayType = MazeList_MultipleChoiceItem.DisplayType.OnFramedDialog;
+                            }
+                            else
+                            {
+                                multipleChoice.TextDisplayType = MazeList_MultipleChoiceItem.DisplayType.OnBackground;
+                            }
+
+                            multipleChoice.Duration = int.Parse(parse[3]);
+                            multipleChoice.X = int.Parse(parse[4]);
+                            multipleChoice.Y = int.Parse(parse[5]);
+
+                            if (parse.Length > 6)
+                            {
+                                multipleChoice.BackgroundImage = parse[6];
+                            }
+                            else
+                            {
+                                multipleChoice.BackgroundImage = "";
+                            }
+
+                            mazeList.Add(multipleChoice);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (parse[0].CompareTo("Maze") == 0)
                     {
                         //Maze Line
-                        MazeList_MazeItem maze = new MazeList_MazeItem();
-                        maze.Maze = parsed[1];
-                        mazeList.Add(maze);
 
                     }
-                    else if (parsed[0].CompareTo("Text") == 0)
+                    else if (parse[0].CompareTo("Text") == 0)
                     {
                         //Text Line
-                        MazeList_TextItem aa = new MazeList_TextItem();
-                        aa.Text = parsed[1];
-                        if (parsed[2].CompareTo(MazeList_TextItem.DisplayType.OnFramedDialog.ToString()) == 0 || parsed[2].CompareTo("OnDialog") == 0)
-                        {
-                            aa.TextDisplayType = MazeList_TextItem.DisplayType.OnFramedDialog;
-                        }
-                        else
-                        {
-                            aa.TextDisplayType = MazeList_TextItem.DisplayType.OnBackground;
-                        }
-                        aa.Duration = Int32.Parse(parsed[3]);
-                        aa.X = Int32.Parse(parsed[4]);
-                        aa.Y = Int32.Parse(parsed[5]);
-
-                        if (parsed.Length > 6)
-                        {
-                            aa.BackgroundImage = parsed[6];
-                        }
-                        else
-                        {
-                            aa.BackgroundImage = "";
-                        }
-                        mazeList.Add(aa);
                     }
-                    else if (parsed[0].CompareTo("Image") == 0)
+                    else if (parse[0].CompareTo("Image") == 0)
                     {
                         //Image Line
-                        MazeList_ImageItem aa = new MazeList_ImageItem();
-                        aa.Text = parsed[1];
-                        if (parsed[2].CompareTo(MazeList_ImageItem.DisplayType.OnFramedDialog.ToString()) == 0 || parsed[2].CompareTo("OnDialog") == 0)
-                        {
-                            aa.TextDisplayType = MazeList_ImageItem.DisplayType.OnFramedDialog;
-                        }
-                        else
-                        {
-                            aa.TextDisplayType = MazeList_ImageItem.DisplayType.OnBackground;
-                        }
-                        aa.Duration = Int32.Parse(parsed[3]);
-                        aa.X = Int32.Parse(parsed[4]);
-                        aa.Y = Int32.Parse(parsed[5]);
-
-                        if (parsed.Length > 6)
-                        {
-                            aa.Image = parsed[6];
-                        }
-                        else
-                        {
-                            aa.Image = "";
-                        }
-                        mazeList.Add(aa);
                     }
-                    else if (parsed[0].CompareTo("MultipleChoice") == 0)
+                    else if (parse[0].CompareTo("MultipleChoice") == 0)
                     {
                         //Text Line
-                        MazeList_MultipleChoiceItem aa = new MazeList_MultipleChoiceItem(new ListChangedEventHandler(Updated));
-                        aa.LoadString(parsed[1]);
-                        if (parsed[2].CompareTo(MazeList_TextItem.DisplayType.OnFramedDialog.ToString()) == 0 || parsed[2].CompareTo("OnDialog") == 0)
-                        {
-                            aa.TextDisplayType = MazeList_MultipleChoiceItem.DisplayType.OnFramedDialog;
-                        }
-                        else
-                        {
-                            aa.TextDisplayType = MazeList_MultipleChoiceItem.DisplayType.OnBackground;
-                        }
-                        aa.Duration = Int32.Parse(parsed[3]);
-                        aa.X = Int32.Parse(parsed[4]);
-                        aa.Y = Int32.Parse(parsed[5]);
-
-                        if (parsed.Length > 6)
-                        {
-                            aa.BackgroundImage = parsed[6];
-                        }
-                        else
-                        {
-                            aa.BackgroundImage = "";
-                        }
-                        mazeList.Add(aa);
                     }
                 }
             }
@@ -1178,8 +1213,10 @@ namespace MazeMaker
             {
 
             }
-            fp.Close();
-            ReloadList();
+
+            mel.Close();
+            MakeMazeList();
+
             return true;
         }
 
