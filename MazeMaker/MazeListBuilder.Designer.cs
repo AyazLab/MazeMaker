@@ -89,7 +89,7 @@ namespace MazeMaker
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.toolStrip.Size = new System.Drawing.Size(697, 39);
+            this.toolStrip.Size = new System.Drawing.Size(788, 39);
             this.toolStrip.TabIndex = 0;
             this.toolStrip.Text = "toolStrip1";
             // 
@@ -159,7 +159,7 @@ namespace MazeMaker
             this.L_Up.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Up.Enabled = false;
             this.L_Up.Image = global::MazeMaker.Properties.Resources.arr_up;
-            this.L_Up.Location = new System.Drawing.Point(325, 140);
+            this.L_Up.Location = new System.Drawing.Point(345, 145);
             this.L_Up.Margin = new System.Windows.Forms.Padding(4);
             this.L_Up.Name = "L_Up";
             this.L_Up.Size = new System.Drawing.Size(31, 28);
@@ -171,7 +171,7 @@ namespace MazeMaker
             this.L_Down.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Down.Enabled = false;
             this.L_Down.Image = global::MazeMaker.Properties.Resources.arr_down;
-            this.L_Down.Location = new System.Drawing.Point(325, 176);
+            this.L_Down.Location = new System.Drawing.Point(345, 181);
             this.L_Down.Margin = new System.Windows.Forms.Padding(4);
             this.L_Down.Name = "L_Down";
             this.L_Down.Size = new System.Drawing.Size(31, 28);
@@ -183,7 +183,7 @@ namespace MazeMaker
             this.L_Del.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Del.Enabled = false;
             this.L_Del.Image = global::MazeMaker.Properties.Resources.del;
-            this.L_Del.Location = new System.Drawing.Point(325, 212);
+            this.L_Del.Location = new System.Drawing.Point(345, 217);
             this.L_Del.Margin = new System.Windows.Forms.Padding(4);
             this.L_Del.Name = "L_Del";
             this.L_Del.Size = new System.Drawing.Size(31, 28);
@@ -193,17 +193,17 @@ namespace MazeMaker
             // propertyGrid
             // 
             this.propertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.propertyGrid.Location = new System.Drawing.Point(364, 103);
+            this.propertyGrid.Location = new System.Drawing.Point(384, 108);
             this.propertyGrid.Margin = new System.Windows.Forms.Padding(4);
             this.propertyGrid.Name = "propertyGrid";
-            this.propertyGrid.Size = new System.Drawing.Size(320, 366);
+            this.propertyGrid.Size = new System.Drawing.Size(391, 366);
             this.propertyGrid.TabIndex = 7;
             this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_PropertyValueChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 82);
+            this.label1.Location = new System.Drawing.Point(11, 87);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(66, 17);
@@ -214,7 +214,7 @@ namespace MazeMaker
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(361, 82);
+            this.label2.Location = new System.Drawing.Point(381, 87);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 17);
@@ -224,7 +224,7 @@ namespace MazeMaker
             // closeButton
             // 
             this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.closeButton.Location = new System.Drawing.Point(584, 474);
+            this.closeButton.Location = new System.Drawing.Point(675, 543);
             this.closeButton.Margin = new System.Windows.Forms.Padding(4);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(100, 28);
@@ -238,10 +238,10 @@ namespace MazeMaker
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStrip_Status});
-            this.statusStrip.Location = new System.Drawing.Point(0, 509);
+            this.statusStrip.Location = new System.Drawing.Point(0, 578);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.statusStrip.Size = new System.Drawing.Size(697, 26);
+            this.statusStrip.Size = new System.Drawing.Size(788, 26);
             this.statusStrip.TabIndex = 11;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -253,10 +253,10 @@ namespace MazeMaker
             // 
             // treeViewMazeList
             // 
-            this.treeViewMazeList.Location = new System.Drawing.Point(9, 103);
+            this.treeViewMazeList.Location = new System.Drawing.Point(9, 108);
             this.treeViewMazeList.Margin = new System.Windows.Forms.Padding(2);
             this.treeViewMazeList.Name = "treeViewMazeList";
-            this.treeViewMazeList.Size = new System.Drawing.Size(309, 291);
+            this.treeViewMazeList.Size = new System.Drawing.Size(330, 289);
             this.treeViewMazeList.TabIndex = 12;
             this.treeViewMazeList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMazeList_AfterSelect);
             // 
@@ -264,7 +264,7 @@ namespace MazeMaker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(697, 535);
+            this.ClientSize = new System.Drawing.Size(788, 604);
             this.Controls.Add(this.treeViewMazeList);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.closeButton);
@@ -279,6 +279,7 @@ namespace MazeMaker
             this.Controls.Add(this.toolStrip);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(806, 651);
             this.Name = "MazeListBuilder";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
