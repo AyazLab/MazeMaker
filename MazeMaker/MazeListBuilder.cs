@@ -543,10 +543,10 @@ namespace MazeMaker
                             mz.AppendChild(fullScreen);
                         }
 
-                        if (mazeListOptions.ComPort.ToString() != "")
+                        if (mazeListOptions.ComPortEnabled.ToString() != "")
                         {
                             XmlElement comPort = melx.CreateElement("COM_Port");
-                            comPort.SetAttribute("Enabled", mazeListOptions.ComPort.ToString());
+                            comPort.SetAttribute("Enabled", mazeListOptions.ComPortEnabled.ToString());
                             mz.AppendChild(comPort);
                         }
 
@@ -599,7 +599,7 @@ namespace MazeMaker
                             mz.SetAttribute("ID", "");
                         }
 
-                        mz.SetAttribute("DefaultStartPosition", maze.DefaultStartPosition);
+                        mz.SetAttribute("StartPosition", maze.StartPosition);
                         mz.SetAttribute("StartMessage", maze.StartMessage);
                         mz.SetAttribute("Timeout", maze.Timeout);
                         break;
@@ -634,7 +634,9 @@ namespace MazeMaker
                             mz.SetAttribute("Audio", "");
                         }
 
+                        mz.SetAttribute("Loop", text.Loop.ToString());
                         mz.SetAttribute("AudioBehavior", text.AudioBehavior);
+                        mz.SetAttribute("EndBehavior", text.EndBehavior);
                         mz.SetAttribute("FontSize", text.FontSize);
                         break;
 
@@ -691,7 +693,9 @@ namespace MazeMaker
                             mz.SetAttribute("Audio", "");
                         }
 
+                        mz.SetAttribute("Loop", image.Loop.ToString());
                         mz.SetAttribute("AudioBehavior", image.AudioBehavior);
+                        mz.SetAttribute("EndBehavior", image.EndBehavior);
                         break;
 
                     case ItemType.MultipleChoice:
@@ -745,7 +749,9 @@ namespace MazeMaker
                             mz.SetAttribute("Audio", "");
                         }
 
+                        mz.SetAttribute("Loop", multipleChoice.Loop.ToString());
                         mz.SetAttribute("AudioBehavior", multipleChoice.AudioBehavior);
+                        mz.SetAttribute("EndBehavior", multipleChoice.EndBehavior);
                         break;
 
                     default:
@@ -882,7 +888,7 @@ namespace MazeMaker
                                     break;
 
                                 case "COM_Port":
-                                    mazeListOptions.ComPort = bool.Parse(mazeListOption.GetAttribute("Enabled"));
+                                    mazeListOptions.ComPortEnabled = bool.Parse(mazeListOption.GetAttribute("Enabled"));
                                     break;
 
                                 case "LSL":
@@ -941,7 +947,7 @@ namespace MazeMaker
                                     MazeList_MazeItem maze = new MazeList_MazeItem();
                                     maze.MazeFile = file;
 
-                                    maze.DefaultStartPosition = listItem.GetAttribute("DefaultStartPosition");
+                                    maze.StartPosition = listItem.GetAttribute("StartPosition");
                                     maze.StartMessage = listItem.GetAttribute("StartMessage");
                                     maze.Timeout = listItem.GetAttribute("Timeout");
                                     mazeList.Add(maze);
@@ -962,7 +968,9 @@ namespace MazeMaker
                                     }
                                     text.AudioFile = file;
 
+                                    text.Loop = bool.Parse(listItem.GetAttribute("Loop"));
                                     text.AudioBehavior = listItem.GetAttribute("AudioBehavior");
+                                    text.EndBehavior = listItem.GetAttribute("EndBehavior");
                                     text.FontSize = listItem.GetAttribute("FontSize");
                                     mazeList.Add(text);
                                     break;
@@ -990,7 +998,9 @@ namespace MazeMaker
                                     }
                                     image.AudioFile = file;
 
+                                    image.Loop = bool.Parse(listItem.GetAttribute("Loop"));
                                     image.AudioBehavior = listItem.GetAttribute("AudioBehavior");
+                                    image.EndBehavior = listItem.GetAttribute("EndBehavior");
                                     mazeList.Add(image);
                                     break;
 
@@ -1015,7 +1025,9 @@ namespace MazeMaker
                                     }
                                     multipleChoice.AudioFile = file;
 
+                                    multipleChoice.Loop = bool.Parse(listItem.GetAttribute("Loop"));
                                     multipleChoice.AudioBehavior = listItem.GetAttribute("AudioBehavior");
+                                    multipleChoice.EndBehavior = listItem.GetAttribute("EndBehavior");
                                     mazeList.Add(multipleChoice);
                                     break;
 

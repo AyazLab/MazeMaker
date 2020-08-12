@@ -72,6 +72,7 @@ namespace MazeMaker
 
         private bool? fullScreen;
         [Category("General")]
+        [Description("Forces full screen for all items when using this MazeList")]
         [DisplayName("Full Screen")]
         public bool? FullScreen
         {
@@ -79,17 +80,19 @@ namespace MazeMaker
             set { fullScreen = value; }
         }
 
-        private bool? comPort;
+        private bool? comPortEnabled;
         [Category("General")]
-        [DisplayName("COM_Port")]
-        public bool? ComPort
+        [Description("Overrides default COM/serial port when using this MazeList")]
+        [DisplayName("COM Port Enabled")]
+        public bool? ComPortEnabled
         {
-            get { return comPort; }
-            set { comPort = value; }
+            get { return comPortEnabled; }
+            set { comPortEnabled = value; }
         }
 
         private bool? lsl;
         [Category("General")]
+        [Description("Overrides default LSL when using this MazeList")]
         [DisplayName("LSL")]
         public bool? Lsl
         {
@@ -99,6 +102,7 @@ namespace MazeMaker
 
         private bool? lpt;
         [Category("General")]
+        [Description("Overrides LPT when using this MazeList")]
         [DisplayName("LPT")]
         public bool? Lpt
         {
@@ -108,6 +112,7 @@ namespace MazeMaker
 
         private string fontSize = "";
         [Category("General")]
+        [Description("")]
         [DisplayName("Font Size")]
         public string FontSize
         {
@@ -147,13 +152,13 @@ namespace MazeMaker
             set { mazeFile = value; }
         }
 
-        private string defaultStartPosition = "";
+        private string startPosition = "";
         [Category("General")]
-        [DisplayName("Default Start Position")]
-        public string DefaultStartPosition
+        [DisplayName("Start Position")]
+        public string StartPosition
         {
-            get { return defaultStartPosition; }
-            set { defaultStartPosition = value; }
+            get { return startPosition; }
+            set { startPosition = value; }
         }
 
         private string startMessage = "";
@@ -253,15 +258,35 @@ namespace MazeMaker
             set { audioFile = value; }
         }
 
+        private bool? loop;
+        [Category("Audio")]
+        [Description("If true, enables continuous play of selected audo during highlight.")]
+        public bool? Loop
+        {
+            get { return loop; }
+            set { loop = value; }
+        }
+
         private string audioBehavior;
         [Category("Audio")]
-        [Description("Descibes behavior for Audio play back when highlight ends")]
+        [Description("Audio behavior when audio plays")]
         [DisplayName("Audio Behavior")]
         [TypeConverter(typeof(AudioBehaviorConverter))]
         public string AudioBehavior
         {
             get { return audioBehavior; }
             set { audioBehavior = value; }
+        }
+
+        private string endBehavior;
+        [Category("Audio")]
+        [Description("Audio behavior when stimulus ends")]
+        [DisplayName("End Behavior")]
+        [TypeConverter(typeof(EndBehaviorConverter))]
+        public string EndBehavior
+        {
+            get { return endBehavior; }
+            set { endBehavior = value; }
         }
 
         private string fontSize = "";
@@ -358,15 +383,35 @@ namespace MazeMaker
             set { audioFile = value; }
         }
 
+        private bool? loop;
+        [Category("Audio")]
+        [Description("If true, enables continuous play of selected audo during highlight.")]
+        public bool? Loop
+        {
+            get { return loop; }
+            set { loop = value; }
+        }
+
         private string audioBehavior;
         [Category("Audio")]
-        [Description("Descibes behavior for Audio play back when highlight ends")]
+        [Description("Audio behavior when audio plays")]
         [DisplayName("Audio Behavior")]
         [TypeConverter(typeof(AudioBehaviorConverter))]
         public string AudioBehavior
         {
             get { return audioBehavior; }
             set { audioBehavior = value; }
+        }
+
+        private string endBehavior;
+        [Category("Audio")]
+        [Description("Audio behavior when stimulus ends")]
+        [DisplayName("End Behavior")]
+        [TypeConverter(typeof(EndBehaviorConverter))]
+        public string EndBehavior
+        {
+            get { return endBehavior; }
+            set { endBehavior = value; }
         }
 
         private string fontSize = "";
@@ -557,15 +602,35 @@ namespace MazeMaker
             set { audioFile = value; }
         }
 
+        private bool? loop;
+        [Category("Audio")]
+        [Description("If true, enables continuous play of selected audo during highlight.")]
+        public bool? Loop
+        {
+            get { return loop; }
+            set { loop = value; }
+        }
+
         private string audioBehavior;
         [Category("Audio")]
-        [Description("Descibes behavior for Audio play back when highlight ends")]
+        [Description("Audio behavior when audio plays")]
         [DisplayName("Audio Behavior")]
         [TypeConverter(typeof(AudioBehaviorConverter))]
         public string AudioBehavior
         {
             get { return audioBehavior; }
             set { audioBehavior = value; }
+        }
+
+        private string endBehavior;
+        [Category("Audio")]
+        [Description("Audio behavior when stimulus ends")]
+        [DisplayName("End Behavior")]
+        [TypeConverter(typeof(EndBehaviorConverter))]
+        public string EndBehavior
+        {
+            get { return endBehavior; }
+            set { endBehavior = value; }
         }
     }
 
@@ -658,6 +723,23 @@ namespace MazeMaker
             }
 
             return new StandardValuesCollection(audios);
+        }
+    }
+
+    public class EndBehaviorConverter : StringConverter
+    {
+        public override bool GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
+        public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) { return true; }
+
+        public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        {
+            List<string> audioBehaviorTypes = new List<string>();
+
+            audioBehaviorTypes.Add("Stop");
+            audioBehaviorTypes.Add("Pause");
+            audioBehaviorTypes.Add("Continue");
+
+            return new StandardValuesCollection(audioBehaviorTypes);
         }
     }
 
