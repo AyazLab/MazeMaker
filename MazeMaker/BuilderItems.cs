@@ -242,7 +242,7 @@ namespace MazeMaker
         }
 
         private string audio = "";
-        [Category("Highlight")]
+        [Category("Audio")]
         [Description("Specify an audio filename to be played")]
         [DisplayName("Audio")]
         [TypeConverter(typeof(audioConverter))]
@@ -253,7 +253,7 @@ namespace MazeMaker
         }
 
         private string audioBehavior;
-        [Category("Highlight")]
+        [Category("Audio")]
         [Description("Descibes behavior for Audio play back when highlight ends")]
         [DisplayName("Audio Behavior")]
         [TypeConverter(typeof(AudioBehaviorConverter))]
@@ -347,7 +347,7 @@ namespace MazeMaker
         }
 
         private string audio = "";
-        [Category("Highlight")]
+        [Category("Audio")]
         [Description("Specify an audio filename to be played")]
         [DisplayName("Audio")]
         [TypeConverter(typeof(audioConverter))]
@@ -358,7 +358,7 @@ namespace MazeMaker
         }
 
         private string audioBehavior;
-        [Category("Highlight")]
+        [Category("Audio")]
         [Description("Descibes behavior for Audio play back when highlight ends")]
         [DisplayName("Audio Behavior")]
         [TypeConverter(typeof(AudioBehaviorConverter))]
@@ -546,7 +546,7 @@ namespace MazeMaker
         }
 
         private string audio = "";
-        [Category("Highlight")]
+        [Category("Audio")]
         [Description("Specify an audio filename to be played")]
         [DisplayName("Audio")]
         [TypeConverter(typeof(audioConverter))]
@@ -557,7 +557,7 @@ namespace MazeMaker
         }
 
         private string audioBehavior;
-        [Category("Highlight")]
+        [Category("Audio")]
         [Description("Descibes behavior for Audio play back when highlight ends")]
         [DisplayName("Audio Behavior")]
         [TypeConverter(typeof(AudioBehaviorConverter))]
