@@ -718,7 +718,7 @@ namespace MazeMaker
                             {
                                 XmlElement choice = melx.CreateElement("Choice");
                                 choice.InnerText = vr.Text;
-                                choice.SetAttribute("Ret", vr.Ret);
+                                choice.SetAttribute("Return", vr.Ret);
                                 mz.AppendChild(choice);
                             }
                         }
