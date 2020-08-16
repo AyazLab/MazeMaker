@@ -96,7 +96,7 @@ namespace MazeMaker
         private void RefreshList()
         {
             listBoxCollection.Items.Clear();
-            propertyGrid1.SelectedObject = null;
+            propertyGrid.SelectedObject = null;
             if (curListT2 != null)
             {
                 for (int i = 0; i < curListT2.Count; i++)
@@ -160,46 +160,70 @@ namespace MazeMaker
                 {
                     curListT2.RemoveAt(listBoxCollection.SelectedIndex);
                     listBoxCollection.Items.Remove(listBoxCollection.SelectedItem);
-                    propertyGrid1.SelectedObject = null;
-                    pictureBox1.Image = null;
+                    propertyGrid.SelectedObject = null;
+                    pictureBox.Image = null;
                 }
                 if (curListM2 != null)
                 {
                     curListM2.RemoveAt(listBoxCollection.SelectedIndex);
                     listBoxCollection.Items.Remove(listBoxCollection.SelectedItem);
-                    propertyGrid1.SelectedObject = null;
-                    pictureBox1.Image = null;
+                    propertyGrid.SelectedObject = null;
+                    pictureBox.Image = null;
                 }
                 if (curListA2 != null)
                 {
                     curListA2.RemoveAt(listBoxCollection.SelectedIndex);
                     listBoxCollection.Items.Remove(listBoxCollection.SelectedItem);
-                    propertyGrid1.SelectedObject = null;
-                    pictureBox1.Image = null;
+                    propertyGrid.SelectedObject = null;
+                    pictureBox.Image = null;
                 }
             }
         }
 
+        System.Media.SoundPlayer sp;
         private void listBoxCollection_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(listBoxCollection.SelectedIndex>=0)
+            if (listBoxCollection.SelectedIndex >= 0)
             {
-                propertyGrid1.SelectedObject = listBoxCollection.SelectedItem;
+                propertyGrid.SelectedObject = listBoxCollection.SelectedItem;
                 if(curListT2 != null)
                 {
-                    pictureBox1.Image = ((Texture)listBoxCollection.SelectedItem).Image;
+                    pictureBox.Image = ((Texture)listBoxCollection.SelectedItem).Image;
                 }
                 else if(curListM2!= null)
                 {
-                    pictureBox1.Image = ((Model)listBoxCollection.SelectedItem).Image;
+                    pictureBox.Image = ((Model)listBoxCollection.SelectedItem).Image;
                 }
                 else if (curListA2 != null)
                 {
-                    pictureBox1.Image  = null;
+                    pictureBox.Image  = Properties.Resources.buttonCenter_onclick;
+                    sp = new System.Media.SoundPlayer(((Audio)listBoxCollection.SelectedItem).filePath);
                 }
             }
         }
 
+        bool audioPlayer = false;
+        private void pictureBox_Click(object sender, EventArgs e)
+        {
+            if (curListA2 != null && propertyGrid.SelectedObject != null)
+            {
+                if (audioPlayer)
+                {
+                    sp.Stop();
+                    audioPlayer = false;
+                }
+                else
+                {
+                    sp.PlayLooping();
+                    audioPlayer = true;
+                }
+            }
+        }
+
+        private void MazeMakerCollectionEditor_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            sp.Stop();
+        }
 
         private void AddTexture()
         {

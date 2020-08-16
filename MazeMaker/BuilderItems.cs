@@ -262,7 +262,7 @@ namespace MazeMaker
             set { loop = value; }
         }
 
-        private string audioBehavior;
+        private string audioBehavior = "";
         [Category("Audio")]
         [Description("Audio behavior when audio plays")]
         [DisplayName("Audio Behavior")]
@@ -273,7 +273,7 @@ namespace MazeMaker
             set { audioBehavior = value; }
         }
 
-        private string endBehavior;
+        private string endBehavior = "";
         [Category("Audio")]
         [Description("Audio behavior when stimulus ends")]
         [DisplayName("End Behavior")]
@@ -387,7 +387,7 @@ namespace MazeMaker
             set { loop = value; }
         }
 
-        private string audioBehavior;
+        private string audioBehavior = "";
         [Category("Audio")]
         [Description("Audio behavior when audio plays")]
         [DisplayName("Audio Behavior")]
@@ -398,7 +398,7 @@ namespace MazeMaker
             set { audioBehavior = value; }
         }
 
-        private string endBehavior;
+        private string endBehavior = "";
         [Category("Audio")]
         [Description("Audio behavior when stimulus ends")]
         [DisplayName("End Behavior")]
@@ -606,7 +606,7 @@ namespace MazeMaker
             set { loop = value; }
         }
 
-        private string audioBehavior;
+        private string audioBehavior = "";
         [Category("Audio")]
         [Description("Audio behavior when audio plays")]
         [DisplayName("Audio Behavior")]
@@ -617,7 +617,7 @@ namespace MazeMaker
             set { audioBehavior = value; }
         }
 
-        private string endBehavior;
+        private string endBehavior = "";
         [Category("Audio")]
         [Description("Audio behavior when stimulus ends")]
         [DisplayName("End Behavior")]
