@@ -205,6 +205,10 @@ namespace MazeMaker
                 case 3:
                     mazeList.Add(new MazeList_MultipleChoiceItem(new ListChangedEventHandler(Updated)));
                     break;
+
+                case 4:
+                    mazeList.Add(new MazeList_RecordAudioItem());
+                    break;
             }
 
             MakeMazeList();
