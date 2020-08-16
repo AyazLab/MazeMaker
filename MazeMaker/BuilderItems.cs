@@ -24,11 +24,6 @@ namespace MazeMaker
 
     public class MyBuilderItem : Object
     {
-        public MyBuilderItem()
-        {
-
-        }
-
         protected string text = "";
         [Category("Text Display")]
         [Description("Text")]
@@ -647,12 +642,13 @@ namespace MazeMaker
                 mazes = new List<string>();
             }
 
-            if (!mazes.Contains("Import"))
+            if (!mazes.Contains("[Import Item]"))
             {
-                mazes.Add("Import");
+                mazes.Add("[Import Item]");
+                mazes.Add("----------------------------------------");
             }
 
-            foreach (string maze in MazeListBuilder.mazeLibrary.Keys)
+            foreach (string maze in MazeListBuilder.mazeFilePaths.Keys)
             {
                 if (!mazes.Contains(maze))
                 {
@@ -677,13 +673,14 @@ namespace MazeMaker
                 images = new List<string>();
             }
 
-            if (!images.Contains("Import"))
+            if (!images.Contains("[Import Item]"))
             {
-                images.Add("Import");
-                images.Add("Collection Editor");
+                images.Add("[Import Item]");
+                images.Add("[Manage Items]");
+                images.Add("----------------------------------------");
             }
 
-            foreach (string image in MazeListBuilder.imageLibrary.Keys)
+            foreach (string image in MazeListBuilder.imageFilePaths.Keys)
             {
                 if (!images.Contains(image))
                 {
@@ -708,13 +705,14 @@ namespace MazeMaker
                 audios = new List<string>();
             }
 
-            if (!audios.Contains("Import"))
+            if (!audios.Contains("[Import Item]"))
             {
-                audios.Add("Import");
-                audios.Add("Collection Editor");
+                audios.Add("[Import Item]");
+                audios.Add("[Manage Items]");
+                audios.Add("----------------------------------------");
             }
 
-            foreach (string audio in MazeListBuilder.audioLibrary.Keys)
+            foreach (string audio in MazeListBuilder.audioFilePaths.Keys)
             {
                 if (!audios.Contains(audio))
                 {

@@ -288,23 +288,23 @@ namespace MazeMaker
                 {
                     case ItemType.Maze:
                         MazeList_MazeItem maze = (MazeList_MazeItem)listItem;
-                        maze.MazeFile = OpenCollection("Maze", maze.MazeFile);
+                        maze.MazeFile = OpenCollection("Maze", e.OldValue.ToString(), maze.MazeFile);
                         break;
 
                     case ItemType.Text:
                         MazeList_TextItem text = (MazeList_TextItem)listItem;
-                        text.AudioFile = OpenCollection("Audio", text.AudioFile);
+                        text.AudioFile = OpenCollection("Audio", e.OldValue.ToString(), text.AudioFile);
                         break;
 
                     case ItemType.Image:
                         MazeList_ImageItem image = (MazeList_ImageItem)listItem;
-                        image.ImageFile = OpenCollection("Image", image.ImageFile);
-                        image.AudioFile = OpenCollection("Audio", image.AudioFile);
+                        image.ImageFile = OpenCollection("Image", e.OldValue.ToString(), image.ImageFile);
+                        image.AudioFile = OpenCollection("Audio", e.OldValue.ToString(), image.AudioFile);
                         break;
 
                     case ItemType.MultipleChoice:
                         MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)listItem;
-                        multipleChoice.AudioFile = OpenCollection("Audio", multipleChoice.AudioFile);
+                        multipleChoice.AudioFile = OpenCollection("Audio", e.OldValue.ToString(), multipleChoice.AudioFile);
                         break;
 
                     default:
@@ -325,48 +325,43 @@ namespace MazeMaker
             }
         }
 
-        public static Dictionary<string, string> mazeLibrary = new Dictionary<string, string>();
+        public static Dictionary<string, string> mazeFilePaths = new Dictionary<string, string>();
 
-        public static Dictionary<string, string> imageLibrary = new Dictionary<string, string>();
+        public static Dictionary<string, string> imageFilePaths = new Dictionary<string, string>();
         List<Texture> textures = new List<Texture>();
 
-        public static Dictionary<string, string> audioLibrary = new Dictionary<string, string>();
+        public static Dictionary<string, string> audioFilePaths = new Dictionary<string, string>();
         List<Audio> audios = new List<Audio>();
-        string OpenCollection(string type, string listItem)
+        string OpenCollection(string type, string oldValue, string newValue)
         {
-            string fileName = "";
-
-            switch (listItem)
+            switch (newValue)
             {
-                case "Import":
+                case "[Import Item]":
                     OpenFileDialog ofd = new OpenFileDialog();
+                    DialogResult dr = ofd.ShowDialog();
 
-                    if (ofd.ShowDialog() == DialogResult.OK)
+                    if (type == "Maze" && dr == DialogResult.OK)
                     {
-                        fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
-
-                        switch (type)
-                        {
-                            case "Maze":
-                                mazeLibrary[fileName] = ofd.FileName;
-                                break;
-
-                            case "Image":
-                                imageLibrary[fileName] = ofd.FileName;
-                                break;
-
-                            case "Audio":
-                                audioLibrary[fileName] = ofd.FileName;
-                                break;
-
-                            default:
-                                return fileName;
-                        }
+                        string fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                        mazeFilePaths[fileName] = ofd.FileName;
+                        return fileName;
+                    }
+                    else if (type == "Image" && dr == DialogResult.OK)
+                    {
+                        string fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                        imageFilePaths[fileName] = ofd.FileName;
+                        return fileName;
+                    }
+                    else if (type == "Audio" && dr == DialogResult.OK)
+                    {
+                        string fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                        audioFilePaths[fileName] = ofd.FileName;
+                        return fileName;
                     }
 
-                    return fileName;
+                    return oldValue;
 
-                case "Collection Editor":
+                case "[Manage Items]":
                     switch (type)
                     {
                         case "Image":
@@ -376,11 +371,12 @@ namespace MazeMaker
 
                             if (filePath != "")
                             {
-                                fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
-                                imageLibrary[fileName] = filePath;
+                                string fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
+                                imageFilePaths[fileName] = filePath;
+                                return fileName;
                             }
 
-                            return fileName;
+                            break;
 
                         case "Audio":
                             mmce = new MazeMakerCollectionEditor(ref audios);
@@ -389,48 +385,30 @@ namespace MazeMaker
                             
                             if (filePath != "")
                             {
-                                fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
-                                audioLibrary[fileName] = filePath;
+                                string fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
+                                audioFilePaths[fileName] = filePath;
+                                return fileName;
                             }
-                            
-                            return fileName;
 
-                        default:
-                            return "";
+                            break;
                     }
+
+                    return oldValue;
+
+                case "----------------------------------------":
+                    return oldValue;
 
                 default:
-                    if (listItem != "")
-                    {
-                        switch (type)
-                        {
-                            case "Maze":
-                                if (!mazeLibrary.ContainsKey(listItem))
-                                {
-                                    mazeLibrary[listItem] = listItem;
-                                }
-                                break;
+                    if (type == "Maze" && newValue != "" && !mazeFilePaths.ContainsKey(newValue))
+                        mazeFilePaths[newValue] = newValue;
 
-                            case "Image":
-                                if (!imageLibrary.ContainsKey(listItem))
-                                {
-                                    imageLibrary[listItem] = listItem;
-                                }
-                                break;
+                    else if (type == "Image" && newValue != "" && !imageFilePaths.ContainsKey(newValue))
+                        imageFilePaths[newValue] = newValue;
 
-                            case "Audio":
-                                if (!audioLibrary.ContainsKey(listItem))
-                                {
-                                    audioLibrary[listItem] = listItem;
-                                }
-                                break;
+                    else if (type == "Audio" && newValue != "" && !audioFilePaths.ContainsKey(newValue))
+                        audioFilePaths[newValue] = newValue;
 
-                            default:
-                                break;
-                        }
-                    }
-
-                    return listItem;
+                    return newValue;
             }
         }
 
@@ -449,41 +427,35 @@ namespace MazeMaker
             }
 
             if (Directory.Exists(filePath + "_assets\\maze"))
-            {
                 Directory.Delete(filePath + "_assets\\maze", true);
-            }
             if (Directory.Exists(filePath + "_assets\\image"))
-            {
                 Directory.Delete(filePath + "_assets\\image", true);
-            }
             if (Directory.Exists(filePath + "_assets\\audio"))
-            {
                 Directory.Delete(filePath + "_assets\\audio", true);
-            }
 
             Directory.CreateDirectory(filePath + "_assets\\maze");
             Directory.CreateDirectory(filePath + "_assets\\image");
             Directory.CreateDirectory(filePath + "_assets\\audio");
 
-            foreach (string key in mazeLibrary.Keys)
+            foreach (string key in mazeFilePaths.Keys)
             {
                 string newFilePath = filePath + "_assets\\maze\\" + key;
 
-                File.Copy(mazeLibrary[key], newFilePath);
+                File.Copy(mazeFilePaths[key], newFilePath);
             }
 
-            foreach (string key in imageLibrary.Keys)
+            foreach (string key in imageFilePaths.Keys)
             {
                 string newFilePath = filePath + "_assets\\image\\" + key;
 
-                File.Copy(imageLibrary[key], newFilePath);
+                File.Copy(imageFilePaths[key], newFilePath);
             }
 
-            foreach (string key in audioLibrary.Keys)
+            foreach (string key in audioFilePaths.Keys)
             {
                 string newFilePath = filePath + "_assets\\audio\\" + key;
 
-                File.Copy(audioLibrary[key], newFilePath);
+                File.Copy(audioFilePaths[key], newFilePath);
             }
         }
 
@@ -590,7 +562,7 @@ namespace MazeMaker
                             mazeIDCounter++;
 
                             mazeLibraryItem.SetAttribute("MazeID", mazeID.ToString());
-                            mazeLibraryItem.SetAttribute("File", maze.MazeFile);
+                            mazeLibraryItem.SetAttribute("File", mazeFilePaths[maze.MazeFile]);
 
                             mazeLibrary.AppendChild(mazeLibraryItem);
                         }
@@ -625,7 +597,7 @@ namespace MazeMaker
                             audioIDCounter++;
 
                             audioLibraryItem.SetAttribute("AudioID", audioID.ToString());
-                            audioLibraryItem.SetAttribute("File", text.AudioFile);
+                            audioLibraryItem.SetAttribute("File", audioFilePaths[text.AudioFile]);
 
                             audioLibrary.AppendChild(audioLibraryItem);
                         }
@@ -652,22 +624,22 @@ namespace MazeMaker
 
                         XmlElement imageLibraryItem = melx.CreateElement("Image");
                         int imageID = imageIDCounter;
-                        if (imageLibraryItems.ContainsKey(image.ImageFile.ToString()))
+                        if (imageLibraryItems.ContainsKey(image.ImageFile))
                         {
-                            imageID = Convert.ToInt32(imageLibraryItems[image.ImageFile.ToString()]);
+                            imageID = Convert.ToInt32(imageLibraryItems[image.ImageFile]);
                         }
-                        else if (image.ImageFile.ToString() != "")
+                        else if (image.ImageFile != "")
                         {
-                            imageLibraryItems[image.ImageFile.ToString()] = imageID.ToString();
+                            imageLibraryItems[image.ImageFile] = imageID.ToString();
                             imageIDCounter++;
 
                             imageLibraryItem.SetAttribute("ImageID", imageID.ToString());
-                            imageLibraryItem.SetAttribute("File", image.ImageFile.ToString());
+                            imageLibraryItem.SetAttribute("File", imageFilePaths[image.ImageFile]);
 
                             imageLibrary.AppendChild(imageLibraryItem);
                         }
                         mz.SetAttribute("ImageID", imageID.ToString());
-                        if (image.ImageFile.ToString() == "")
+                        if (image.ImageFile == "")
                         {
                             mz.SetAttribute("ImageID", "");
                         }
@@ -684,7 +656,7 @@ namespace MazeMaker
                             audioIDCounter++;
 
                             audioLibraryItem.SetAttribute("AudioID", audioID.ToString());
-                            audioLibraryItem.SetAttribute("File", image.AudioFile);
+                            audioLibraryItem.SetAttribute("File", audioFilePaths[image.AudioFile]);
 
                             audioLibrary.AppendChild(audioLibraryItem);
                         }
@@ -740,7 +712,7 @@ namespace MazeMaker
                             audioIDCounter++;
 
                             audioLibraryItem.SetAttribute("AudioID", audioID.ToString());
-                            audioLibraryItem.SetAttribute("File", multipleChoice.AudioFile);
+                            audioLibraryItem.SetAttribute("File", audioFilePaths[multipleChoice.AudioFile]);
 
                             audioLibrary.AppendChild(audioLibraryItem);
                         }
@@ -940,97 +912,128 @@ namespace MazeMaker
                             switch (listItem.Name)
                             {
                                 case "Maze":
-                                    string file = listItem.GetAttribute("MazeID");
-                                    if (mazeLibraryItems.ContainsKey(file))
+                                    string mazeFilePath = listItem.GetAttribute("MazeID"); // storing file path & getting file name
+                                    string mazeFileName = mazeFilePath;
+                                    if (mazeLibraryItems.ContainsKey(mazeFileName))
                                     {
-                                        file = mazeLibraryItems[file];
+                                        mazeFilePath = mazeLibraryItems[mazeFileName];
+                                        mazeFileName = mazeFilePath.Substring(mazeFilePath.LastIndexOf("\\") + 1);
                                     }
-                                    MazeList_MazeItem maze = new MazeList_MazeItem();
-                                    maze.MazeFile = file;
+                                    mazeFilePaths[mazeFileName] = mazeFilePath;
 
-                                    maze.StartPosition = listItem.GetAttribute("StartPosition");
-                                    maze.StartMessage = listItem.GetAttribute("StartMessage");
-                                    maze.Timeout = listItem.GetAttribute("Timeout");
+                                    MazeList_MazeItem maze = new MazeList_MazeItem
+                                    {
+                                        MazeFile = mazeFileName,
+                                        StartPosition = listItem.GetAttribute("StartPosition"),
+                                        StartMessage = listItem.GetAttribute("StartMessage"),
+                                        Timeout = listItem.GetAttribute("Timeout")
+                                    };
+
                                     mazeList.Add(maze);
                                     break;
 
                                 case "Text":
-                                    MazeList_TextItem text = new MazeList_TextItem();
-                                    text.Text = listItem.InnerText;
-                                    text.TextDisplayType = (MazeList_TextItem.DisplayType)Enum.Parse(typeof(MazeList_TextItem.DisplayType), listItem.GetAttribute("TextDisplayType"));
-                                    text.Duration = Convert.ToInt64(listItem.GetAttribute("LifeTime"));
-                                    text.X = Convert.ToDouble(listItem.GetAttribute("X"));
-                                    text.Y = Convert.ToDouble(listItem.GetAttribute("Y"));
-
-                                    file = listItem.GetAttribute("AudioID");
-                                    if (audioLibraryItems.ContainsKey(file))
+                                    string audioFilePath = listItem.GetAttribute("AudioID");
+                                    string audioFileName = audioFilePath;
+                                    if (audioLibraryItems.ContainsKey(audioFileName))
                                     {
-                                        file = audioLibraryItems[file];
+                                        audioFilePath = audioLibraryItems[audioFileName];
+                                        audioFileName = audioFilePath.Substring(audioFilePath.LastIndexOf("\\") + 1);
                                     }
-                                    text.AudioFile = file;
+                                    audioFilePaths[audioFileName] = audioFilePath;
 
-                                    text.Loop = bool.Parse(listItem.GetAttribute("Loop"));
-                                    text.AudioBehavior = listItem.GetAttribute("AudioBehavior");
-                                    text.EndBehavior = listItem.GetAttribute("EndBehavior");
-                                    text.FontSize = Convert.ToInt32(listItem.GetAttribute("FontSize"));
+                                    MazeList_TextItem text = new MazeList_TextItem
+                                    {
+                                        Text = listItem.InnerText,
+                                        TextDisplayType = (MazeList_TextItem.DisplayType)Enum.Parse(typeof(MazeList_TextItem.DisplayType), listItem.GetAttribute("TextDisplayType")),
+                                        Duration = Convert.ToInt64(listItem.GetAttribute("LifeTime")),
+                                        X = Convert.ToDouble(listItem.GetAttribute("X")),
+                                        Y = Convert.ToDouble(listItem.GetAttribute("Y")),
+
+                                        AudioFile = audioFileName,
+                                        Loop = bool.Parse(listItem.GetAttribute("Loop")),
+                                        AudioBehavior = listItem.GetAttribute("AudioBehavior"),
+                                        EndBehavior = listItem.GetAttribute("EndBehavior"),
+                                        FontSize = Convert.ToInt32(listItem.GetAttribute("FontSize"))
+                                    };
+
                                     mazeList.Add(text);
                                     break;
 
                                 case "Image":
-                                    MazeList_ImageItem image = new MazeList_ImageItem();
-                                    image.Text = listItem.InnerText;
-                                    image.TextDisplayType = (MazeList_ImageItem.DisplayType)Enum.Parse(typeof(MazeList_ImageItem.DisplayType), listItem.GetAttribute("TextDisplayType"));
-                                    image.Duration = Convert.ToInt64(listItem.GetAttribute("LifeTime"));
-                                    image.X = Convert.ToDouble(listItem.GetAttribute("X"));
-                                    image.Y = Convert.ToDouble(listItem.GetAttribute("Y"));
-
                                     string[] backgroundColor = listItem.GetAttribute("BackgroundColor").Split(new string[] { ", " }, StringSplitOptions.None);
-                                    image.BackgroundColor = Color.FromArgb(Convert.ToByte(backgroundColor[0]), Convert.ToByte(backgroundColor[1]), Convert.ToByte(backgroundColor[2]), Convert.ToByte(backgroundColor[3]));
 
-                                    file = listItem.GetAttribute("ImageID");
-                                    if (imageLibraryItems.ContainsKey(file))
+                                    string imageFilePath = listItem.GetAttribute("ImageID");
+                                    string imageFileName = imageFilePath;
+                                    if (imageLibraryItems.ContainsKey(imageFileName))
                                     {
-                                        file = imageLibraryItems[file];
+                                        imageFilePath = imageLibraryItems[imageFileName];
+                                        imageFileName = imageFilePath.Substring(imageFilePath.LastIndexOf("\\") + 1);
                                     }
-                                    image.ImageFile = file;
+                                    imageFilePaths[imageFileName] = imageFilePath;
 
-                                    file = listItem.GetAttribute("AudioID");
-                                    if (audioLibraryItems.ContainsKey(file))
+                                    audioFilePath = listItem.GetAttribute("AudioID");
+                                    audioFileName = audioFilePath;
+                                    if (audioLibraryItems.ContainsKey(audioFileName))
                                     {
-                                        file = audioLibraryItems[file];
+                                        audioFilePath = audioLibraryItems[audioFileName];
+                                        audioFileName = audioFilePath.Substring(audioFilePath.LastIndexOf("\\") + 1);
                                     }
-                                    image.AudioFile = file;
+                                    audioFilePaths[audioFileName] = audioFilePath;
 
-                                    image.Loop = bool.Parse(listItem.GetAttribute("Loop"));
-                                    image.AudioBehavior = listItem.GetAttribute("AudioBehavior");
-                                    image.EndBehavior = listItem.GetAttribute("EndBehavior");
+                                    MazeList_ImageItem image = new MazeList_ImageItem
+                                    {
+                                        Text = listItem.InnerText,
+                                        TextDisplayType = (MazeList_ImageItem.DisplayType)Enum.Parse(typeof(MazeList_ImageItem.DisplayType), listItem.GetAttribute("TextDisplayType")),
+                                        Duration = Convert.ToInt64(listItem.GetAttribute("LifeTime")),
+                                        X = Convert.ToDouble(listItem.GetAttribute("X")),
+                                        Y = Convert.ToDouble(listItem.GetAttribute("Y")),
+
+                                        BackgroundColor = Color.FromArgb(Convert.ToByte(backgroundColor[0]), Convert.ToByte(backgroundColor[1]), Convert.ToByte(backgroundColor[2]), Convert.ToByte(backgroundColor[3])),
+                                        ImageFile = imageFileName,
+
+                                        AudioFile = audioFileName,
+                                        Loop = bool.Parse(listItem.GetAttribute("Loop")),
+                                        AudioBehavior = listItem.GetAttribute("AudioBehavior"),
+                                        EndBehavior = listItem.GetAttribute("EndBehavior")
+                                    };
+
                                     mazeList.Add(image);
                                     break;
 
                                 case "MultipleChoice":
-                                    MazeList_MultipleChoiceItem multipleChoice = new MazeList_MultipleChoiceItem();
+                                    audioFilePath = listItem.GetAttribute("AudioID");
+                                    audioFileName = audioFilePath;
+                                    if (audioLibraryItems.ContainsKey(audioFileName))
+                                    {
+                                        audioFilePath = audioLibraryItems[audioFileName];
+                                        audioFileName = audioFilePath.Substring(audioFilePath.LastIndexOf("\\") + 1);
+                                    }
+                                    audioFilePaths[audioFileName] = audioFilePath;
+
+                                    MazeList_MultipleChoiceItem multipleChoice = new MazeList_MultipleChoiceItem
+                                    {
+                                        TextDisplayType = (MazeList_MultipleChoiceItem.DisplayType)Enum.Parse(typeof(MazeList_MultipleChoiceItem.DisplayType), listItem.GetAttribute("TextDisplayType")),
+                                        Duration = Convert.ToInt64(listItem.GetAttribute("LifeTime")),
+                                        X = Convert.ToDouble(listItem.GetAttribute("X")),
+                                        Y = Convert.ToDouble(listItem.GetAttribute("Y")),
+
+                                        AudioFile = audioFileName,
+                                        Loop = bool.Parse(listItem.GetAttribute("Loop")),
+                                        AudioBehavior = listItem.GetAttribute("AudioBehavior"),
+                                        EndBehavior = listItem.GetAttribute("EndBehavior")
+                                    };
+
                                     multipleChoice.Text.Clear();
                                     foreach (XmlElement node in listItem.ChildNodes)
                                     {
-                                        TextReturn vr = new TextReturn(node.InnerText);
-                                        vr.Ret = node.GetAttribute("Return");
+                                        TextReturn vr = new TextReturn(node.InnerText)
+                                        {
+                                            Ret = node.GetAttribute("Return")
+                                        };
                                         multipleChoice.Text.Add(vr);
                                     }
-                                    multipleChoice.TextDisplayType = (MazeList_MultipleChoiceItem.DisplayType)Enum.Parse(typeof(MazeList_MultipleChoiceItem.DisplayType), listItem.GetAttribute("TextDisplayType"));
-                                    multipleChoice.Duration = Convert.ToInt64(listItem.GetAttribute("LifeTime"));
-                                    multipleChoice.X = Convert.ToDouble(listItem.GetAttribute("X"));
-                                    multipleChoice.Y = Convert.ToDouble(listItem.GetAttribute("Y"));
 
-                                    file = listItem.GetAttribute("AudioID");
-                                    if (audioLibraryItems.ContainsKey(file))
-                                    {
-                                        file = audioLibraryItems[file];
-                                    }
-                                    multipleChoice.AudioFile = file;
-
-                                    multipleChoice.Loop = bool.Parse(listItem.GetAttribute("Loop"));
-                                    multipleChoice.AudioBehavior = listItem.GetAttribute("AudioBehavior");
-                                    multipleChoice.EndBehavior = listItem.GetAttribute("EndBehavior");
                                     mazeList.Add(multipleChoice);
                                     break;
 
