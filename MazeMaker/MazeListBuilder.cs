@@ -16,6 +16,8 @@ namespace MazeMaker
 {
     public partial class MazeListBuilder : Form
     {
+        ImageList il = new ImageList();
+
         List<MyBuilderItem> mazeList = new List<MyBuilderItem>();
         int selectedIndex;
 
@@ -28,6 +30,16 @@ namespace MazeMaker
             InitializeComponent();
 
             treeViewMazeList.HideSelection = false;
+
+            il.Images.Add("MazeListOptions", Properties.Resources.buttonZoomOut);
+            il.Images.Add("ListItems", Properties.Resources.buttonZoomIn);
+            il.Images.Add("Maze", Properties.Resources.buttonUp);
+            il.Images.Add("Text", Properties.Resources.buttonZoomIn_MouseDown);
+            il.Images.Add("Image", Properties.Resources.buttonZoomOut_MouseOver);
+            il.Images.Add("MultipleChoice", Properties.Resources.buttonZoomIn_Mouseover);
+            il.Images.Add("RecordAudio", Properties.Resources.buttonZoomIn);
+
+            treeViewMazeList.ImageList = il;
         }
 
         void MakeMazeList()
@@ -45,11 +57,16 @@ namespace MazeMaker
                 {
                     case 0:
                         treeViewMazeList.Nodes.Add(mazeList[i].ToString());
+                        treeViewMazeList.Nodes[treeViewMazeList.Nodes.Count - 1].ImageKey = "MazeListOptions";
+
                         treeViewMazeList.Nodes.Add("ListItems");
+                        treeViewMazeList.Nodes[treeViewMazeList.Nodes.Count - 1].ImageKey = "ListItems";
                         break;
 
                     default:
                         treeViewMazeList.Nodes[1].Nodes.Add(i.ToString() + ") " + mazeList[i].ToString());
+
+                        treeViewMazeList.Nodes[1].Nodes[treeViewMazeList.Nodes[1].Nodes.Count - 1].ImageKey = mazeList[i].Type.ToString();
                         break;
                 }
             }
