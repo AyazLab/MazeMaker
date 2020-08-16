@@ -332,18 +332,6 @@ namespace MazeMaker
                         break;
                 }
             }
-
-            MakeMazeList();
-            switch (selectedIndex)
-            {
-                case 0:
-                    treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[0];
-                    break;
-
-                default:
-                    treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[1].Nodes[selectedIndex - 1];
-                    break;
-            }
         }
 
         public static Dictionary<string, string> mazeFilePaths = new Dictionary<string, string>();
@@ -486,7 +474,7 @@ namespace MazeMaker
             }
         }
 
-        bool RecursiveFileCopy(string oldfilePath, string melxPath, string type, string newFilePath)
+        public static bool RecursiveFileCopy(string oldfilePath, string melxPath, string type, string newFilePath)
         {
             string fileName = oldfilePath;
             string melxDirectory = melxPath.Substring(0, melxPath.Length - melxPath.Substring(melxPath.LastIndexOf("\\") + 1).Length);
