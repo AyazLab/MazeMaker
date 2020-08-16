@@ -19,7 +19,7 @@ namespace MazeMaker
 {
     public enum ItemType
     {
-        MazeListOptions, Maze, Text, Image, MultipleChoice
+        MazeListOptions, Maze, Text, Image, MultipleChoice, RecordAudio
     }
 
     public class MyBuilderItem : Object
@@ -626,6 +626,28 @@ namespace MazeMaker
         {
             get { return endBehavior; }
             set { endBehavior = value; }
+        }
+    }
+
+    public class MazeList_RecordAudioItem : MyBuilderItem
+    {
+        public MazeList_RecordAudioItem()
+        {
+            Type = ItemType.RecordAudio;
+        }
+
+        protected new string text = "";
+        [Browsable(false)]
+
+        public new string Text
+        {
+            get { return text; }
+            set { text = value; }
+        }
+
+        public override string ToString()
+        {
+            return "[" + Type + "]";
         }
     }
 
