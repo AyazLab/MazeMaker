@@ -415,47 +415,110 @@ namespace MazeMaker
         private void toolStripButton_Package_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "MazeList File (*.melx)|*.melx|All Files|*.*";
-
-            string filePath = "";
+            sfd.Filter = "MazeList File (*.melx)|*.melx";
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 madeChanges = false;
-                filePath = sfd.FileName;
-                WriteToMelx(filePath);
+                string melxPath = sfd.FileName;
+
+                if (Directory.Exists(melxPath + "_assets\\maze"))
+                    Directory.Delete(melxPath + "_assets\\maze", true);
+                if (Directory.Exists(melxPath + "_assets\\image"))
+                    Directory.Delete(melxPath + "_assets\\image", true);
+                if (Directory.Exists(melxPath + "_assets\\audio"))
+                    Directory.Delete(melxPath + "_assets\\audio", true);
+
+                Directory.CreateDirectory(melxPath + "_assets\\maze");
+                Directory.CreateDirectory(melxPath + "_assets\\image");
+                Directory.CreateDirectory(melxPath + "_assets\\audio");
+
+                foreach (string key in mazeFilePaths.Keys)
+                {
+                    string oldFilePath = mazeFilePaths[key];
+                    string newFilePath = melxPath + "_assets\\maze\\" + key;
+
+                    if (!RecursiveFileCopy(oldFilePath, melxPath, "maze", newFilePath))
+                        return;
+                }
+
+                foreach (string key in imageFilePaths.Keys)
+                {
+                    string oldFilePath = imageFilePaths[key];
+                    string newFilePath = melxPath + "_assets\\image\\" + key;
+
+                    if (!RecursiveFileCopy(oldFilePath, melxPath, "image", newFilePath))
+                        return;
+                }
+
+                foreach (string key in audioFilePaths.Keys)
+                {
+                    string oldFilePath = audioFilePaths[key];
+                    string newFilePath = melxPath + "_assets\\audio\\" + key;
+
+                    if (!RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath))
+                        return;
+                }
+
+                WriteToMelx(melxPath);
+                MessageBox.Show("I've finished shoving everything you wanted into the package. The package should be in the same folder as your melx file, but with a different name containing \'assets\'. I hope I did it correctly.");
+            }
+        }
+
+        bool RecursiveFileCopy(string oldfilePath, string melxPath, string type, string newFilePath)
+        {
+            string fileName = oldfilePath;
+            string melxDirectory = melxPath.Substring(0, melxPath.Length - melxPath.Substring(melxPath.LastIndexOf("\\") + 1).Length);
+            if (oldfilePath.Contains("\\"))
+            {
+                fileName = oldfilePath.Substring(oldfilePath.LastIndexOf("\\") + 1);
             }
 
-            if (Directory.Exists(filePath + "_assets\\maze"))
-                Directory.Delete(filePath + "_assets\\maze", true);
-            if (Directory.Exists(filePath + "_assets\\image"))
-                Directory.Delete(filePath + "_assets\\image", true);
-            if (Directory.Exists(filePath + "_assets\\audio"))
-                Directory.Delete(filePath + "_assets\\audio", true);
+            if (File.Exists(oldfilePath))
+                File.Copy(oldfilePath, newFilePath);
 
-            Directory.CreateDirectory(filePath + "_assets\\maze");
-            Directory.CreateDirectory(filePath + "_assets\\image");
-            Directory.CreateDirectory(filePath + "_assets\\audio");
+            oldfilePath = melxDirectory + fileName;
+            if (File.Exists(oldfilePath))
+                File.Copy(oldfilePath, newFilePath);
 
-            foreach (string key in mazeFilePaths.Keys)
+            oldfilePath = newFilePath;
+            if (File.Exists(oldfilePath))
+                File.Copy(oldfilePath, newFilePath);
+
+            oldfilePath = melxDirectory + type + "\\" + fileName;
+            if (File.Exists(oldfilePath))
+                File.Copy(oldfilePath, newFilePath);
+
+            MessageBox.Show("I'm so sorry. I could not find \'" + fileName + "\'. Could you find it for me please? If you can not find it too, package will be canceled Uwu!");
+            while (true)
             {
-                string newFilePath = filePath + "_assets\\maze\\" + key;
+                OpenFileDialog ofd = new OpenFileDialog();
 
-                File.Copy(mazeFilePaths[key], newFilePath);
-            }
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    string newFileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
 
-            foreach (string key in imageFilePaths.Keys)
-            {
-                string newFilePath = filePath + "_assets\\image\\" + key;
+                    if (newFileName.Split('.')[0] != fileName.Split('.')[0])
+                    {
+                        switch (MessageBox.Show("The new file you found: " + newFileName + " is very different from " + fileName + ". Are you sure you wanna use this file? Press \'No\' to search again! Press \'Cancel\' to abandon package!", "Are you sure??!?", MessageBoxButtons.YesNoCancel))
+                        {
+                            case DialogResult.OK:
+                                return true;
 
-                File.Copy(imageFilePaths[key], newFilePath);
-            }
+                            case DialogResult.No:
+                                continue;
 
-            foreach (string key in audioFilePaths.Keys)
-            {
-                string newFilePath = filePath + "_assets\\audio\\" + key;
+                            default:
+                                MessageBox.Show("You have abandoned the package!");
+                                return false;
+                        }
+                    }
 
-                File.Copy(audioFilePaths[key], newFilePath);
+                    return true;
+                }
+
+                MessageBox.Show("I'm sorry, it seems I've messed up the package. You'll have to try again.");
+                return false;
             }
         }
 
