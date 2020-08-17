@@ -16,8 +16,6 @@ using System.Collections.ObjectModel;
 
 namespace MazeMaker
 {
-
-
     public partial class Main : Form
     {
         //bool bLicensed = false;
