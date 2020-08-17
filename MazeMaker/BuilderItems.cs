@@ -660,9 +660,7 @@ namespace MazeMaker
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
             if (!MazeListBuilder.madeChanges)
-            {
                 mazes = new List<string>();
-            }
 
             if (!mazes.Contains("[Import Item]"))
             {
@@ -691,9 +689,7 @@ namespace MazeMaker
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
             if (!MazeListBuilder.madeChanges)
-            {
                 images = new List<string>();
-            }
 
             if (!images.Contains("[Import Item]"))
             {
@@ -723,9 +719,7 @@ namespace MazeMaker
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
             if (!MazeListBuilder.madeChanges)
-            {
                 audios = new List<string>();
-            }
 
             if (!audios.Contains("[Import Item]"))
             {
