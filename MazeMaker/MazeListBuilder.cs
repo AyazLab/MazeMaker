@@ -301,36 +301,44 @@ namespace MazeMaker
         {
             madeChanges = true;
 
-            if (propertyGrid.SelectedObject != null)
+            MyBuilderItem listItem = (MyBuilderItem)propertyGrid.SelectedObject;
+            switch (listItem.Type)
             {
-                MyBuilderItem listItem = (MyBuilderItem)propertyGrid.SelectedObject;
+                case ItemType.Maze:
+                    MazeList_MazeItem maze = (MazeList_MazeItem)listItem;
+                    maze.MazeFile = OpenCollection("Maze", e.OldValue.ToString(), maze.MazeFile);
+                    break;
 
-                switch (listItem.Type)
-                {
-                    case ItemType.Maze:
-                        MazeList_MazeItem maze = (MazeList_MazeItem)listItem;
-                        maze.MazeFile = OpenCollection("Maze", e.OldValue.ToString(), maze.MazeFile);
-                        break;
+                case ItemType.Text:
+                    MazeList_TextItem text = (MazeList_TextItem)listItem;
+                    text.AudioFile = OpenCollection("Audio", e.OldValue.ToString(), text.AudioFile);
+                    break;
 
-                    case ItemType.Text:
-                        MazeList_TextItem text = (MazeList_TextItem)listItem;
-                        text.AudioFile = OpenCollection("Audio", e.OldValue.ToString(), text.AudioFile);
-                        break;
+                case ItemType.Image:
+                    MazeList_ImageItem image = (MazeList_ImageItem)listItem;
+                    image.ImageFile = OpenCollection("Image", e.OldValue.ToString(), image.ImageFile);
+                    image.AudioFile = OpenCollection("Audio", e.OldValue.ToString(), image.AudioFile);
+                    break;
 
-                    case ItemType.Image:
-                        MazeList_ImageItem image = (MazeList_ImageItem)listItem;
-                        image.ImageFile = OpenCollection("Image", e.OldValue.ToString(), image.ImageFile);
-                        image.AudioFile = OpenCollection("Audio", e.OldValue.ToString(), image.AudioFile);
-                        break;
+                case ItemType.MultipleChoice:
+                    MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)listItem;
+                    multipleChoice.AudioFile = OpenCollection("Audio", e.OldValue.ToString(), multipleChoice.AudioFile);
+                    break;
 
-                    case ItemType.MultipleChoice:
-                        MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)listItem;
-                        multipleChoice.AudioFile = OpenCollection("Audio", e.OldValue.ToString(), multipleChoice.AudioFile);
-                        break;
+                default:
+                    break;
+            }
 
-                    default:
-                        break;
-                }
+            MakeMazeList();
+            switch (selectedIndex)
+            {
+                case 0:
+                    treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[0];
+                    break;
+
+                default:
+                    treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[1].Nodes[selectedIndex - 1];
+                    break;
             }
         }
 
@@ -431,42 +439,73 @@ namespace MazeMaker
                 madeChanges = false;
                 string melxPath = sfd.FileName;
 
-                if (Directory.Exists(melxPath + "_assets\\maze"))
-                    Directory.Delete(melxPath + "_assets\\maze", true);
-                if (Directory.Exists(melxPath + "_assets\\image"))
-                    Directory.Delete(melxPath + "_assets\\image", true);
-                if (Directory.Exists(melxPath + "_assets\\audio"))
-                    Directory.Delete(melxPath + "_assets\\audio", true);
+                if (Directory.Exists(melxPath + "_assets"))
+                    Directory.Delete(melxPath + "_assets", true);
 
                 Directory.CreateDirectory(melxPath + "_assets\\maze");
                 Directory.CreateDirectory(melxPath + "_assets\\image");
                 Directory.CreateDirectory(melxPath + "_assets\\audio");
 
-                foreach (string key in mazeFilePaths.Keys)
+                foreach (MyBuilderItem item in mazeList)
                 {
-                    string oldFilePath = mazeFilePaths[key];
-                    string newFilePath = melxPath + "_assets\\maze\\" + key;
+                    switch (item.Type)
+                    {
+                        case ItemType.Maze:
+                            MazeList_MazeItem maze = (MazeList_MazeItem)item;
+                            if (maze.MazeFile != "")
+                            {
+                                string oldFilePath = mazeFilePaths[maze.MazeFile];
+                                string newFilePath = melxPath + "_assets\\maze\\" + maze.MazeFile;
 
-                    if (!RecursiveFileCopy(oldFilePath, melxPath, "maze", newFilePath))
-                        return;
-                }
+                                if (!RecursiveFileCopy(oldFilePath, melxPath, "maze", newFilePath))
+                                    return;
+                            }
+                            break;
 
-                foreach (string key in imageFilePaths.Keys)
-                {
-                    string oldFilePath = imageFilePaths[key];
-                    string newFilePath = melxPath + "_assets\\image\\" + key;
+                        case ItemType.Text:
+                            MazeList_TextItem text = (MazeList_TextItem)item;
+                            if (text.AudioFile != "")
+                            {
+                                string oldFilePath = audioFilePaths[text.AudioFile];
+                                string newFilePath = melxPath + "_assets\\audio\\" + text.AudioFile;
 
-                    if (!RecursiveFileCopy(oldFilePath, melxPath, "image", newFilePath))
-                        return;
-                }
+                                if (!RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath))
+                                    return;
+                            }
+                            break;
 
-                foreach (string key in audioFilePaths.Keys)
-                {
-                    string oldFilePath = audioFilePaths[key];
-                    string newFilePath = melxPath + "_assets\\audio\\" + key;
+                        case ItemType.Image:
+                            MazeList_ImageItem image = (MazeList_ImageItem)item;
+                            if (image.ImageFile != "")
+                            {
+                                string oldFilePath = imageFilePaths[image.ImageFile];
+                                string newFilePath = melxPath + "_assets\\image\\" + image.ImageFile;
 
-                    if (!RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath))
-                        return;
+                                if (!RecursiveFileCopy(oldFilePath, melxPath, "image", newFilePath))
+                                    return;
+                            }
+                            if (image.AudioFile != "")
+                            {
+                                string oldFilePath = audioFilePaths[image.AudioFile];
+                                string newFilePath = melxPath + "_assets\\audio\\" + image.AudioFile;
+
+                                if (!RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath))
+                                    return;
+                            }
+                            break;
+
+                        case ItemType.MultipleChoice:
+                            MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)item;
+                            if (multipleChoice.AudioFile != "")
+                            {
+                                string oldFilePath = audioFilePaths[multipleChoice.AudioFile];
+                                string newFilePath = melxPath + "_assets\\audio\\" + multipleChoice.AudioFile;
+
+                                if (!RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath))
+                                    return;
+                            }
+                            break;
+                    }
                 }
 
                 WriteToMelx(melxPath);
@@ -483,20 +522,43 @@ namespace MazeMaker
                 fileName = oldfilePath.Substring(oldfilePath.LastIndexOf("\\") + 1);
             }
 
+            //MessageBox.Show("Recursion starting: " + fileName);
+            if (File.Exists(newFilePath))
+            {
+                //MessageBox.Show("Path 0: Already exists!");
+                return true;
+            }
+
             if (File.Exists(oldfilePath))
+            {
+                //MessageBox.Show("Path 1: Correct file location!");
                 File.Copy(oldfilePath, newFilePath);
+                return true;
+            }
 
             oldfilePath = melxDirectory + fileName;
             if (File.Exists(oldfilePath))
+            {
+                //MessageBox.Show("Path 2: In same directory!");
                 File.Copy(oldfilePath, newFilePath);
-
-            oldfilePath = newFilePath;
-            if (File.Exists(oldfilePath))
-                File.Copy(oldfilePath, newFilePath);
+                return true;
+            }
 
             oldfilePath = melxDirectory + type + "\\" + fileName;
             if (File.Exists(oldfilePath))
+            {
+                //MessageBox.Show("Path 3: In same directory, in a type folder!");
                 File.Copy(oldfilePath, newFilePath);
+                return true;
+            }
+
+            oldfilePath = melxDirectory + type + "s\\" + fileName;
+            if (File.Exists(oldfilePath))
+            {
+                //MessageBox.Show("Path 3: In same directory, in a type folder w/ s!");
+                File.Copy(oldfilePath, newFilePath);
+                return true;
+            }
 
             MessageBox.Show("I'm so sorry. I could not find \'" + fileName + "\'. Could you find it for me please? If you can not find it too, package will be canceled Uwu!");
             while (true)
