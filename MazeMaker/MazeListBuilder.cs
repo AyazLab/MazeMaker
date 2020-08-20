@@ -558,7 +558,7 @@ namespace MazeMaker
             oldfilePath = melxDirectory + type + "s\\" + fileName;
             if (File.Exists(oldfilePath))
             {
-                //MessageBox.Show("Path 3: In same directory, in a type folder w/ s!");
+                //MessageBox.Show("Path 4: In same directory, in a type folder w/ s!");
                 File.Copy(oldfilePath, newFilePath);
                 return true;
             }
