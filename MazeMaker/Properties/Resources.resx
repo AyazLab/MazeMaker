@@ -424,28 +424,4 @@
   <data name="forumicon1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\forumicon1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="audio_item" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\audio_item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="image_item" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\image_item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="list_item" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\list_item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="mazeListOption_item" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mazeListOption_item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="maze_item" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\maze_item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="multipleChoice_item" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\multipleChoice_item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="selected_item" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\selected_item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="text_item" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text_item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
 </root>

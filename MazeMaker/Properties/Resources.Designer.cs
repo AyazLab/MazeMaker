@@ -19,7 +19,7 @@ namespace MazeMaker.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -171,16 +171,6 @@ namespace MazeMaker.Properties {
         internal static System.Drawing.Bitmap arr_up {
             get {
                 object obj = ResourceManager.GetObject("arr_up", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap audio_item {
-            get {
-                object obj = ResourceManager.GetObject("audio_item", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -709,16 +699,6 @@ namespace MazeMaker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap image_item {
-            get {
-                object obj = ResourceManager.GetObject("image_item", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
         ///	&lt;head&gt;
@@ -798,16 +778,6 @@ namespace MazeMaker.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap list_item {
-            get {
-                object obj = ResourceManager.GetObject("list_item", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap list1 {
             get {
                 object obj = ResourceManager.GetObject("list1", resourceCulture);
@@ -821,16 +791,6 @@ namespace MazeMaker.Properties {
         internal static System.Drawing.Bitmap logo1 {
             get {
                 object obj = ResourceManager.GetObject("logo1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap maze_item {
-            get {
-                object obj = ResourceManager.GetObject("maze_item", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -885,16 +845,6 @@ namespace MazeMaker.Properties {
         internal static string MazeListBuilder {
             get {
                 return ResourceManager.GetString("MazeListBuilder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap mazeListOption_item {
-            get {
-                object obj = ResourceManager.GetObject("mazeListOption_item", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -1006,16 +956,6 @@ namespace MazeMaker.Properties {
         internal static string Models {
             get {
                 return ResourceManager.GetString("Models", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap multipleChoice_item {
-            get {
-                object obj = ResourceManager.GetObject("multipleChoice_item", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -1141,16 +1081,6 @@ namespace MazeMaker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap selected_item {
-            get {
-                object obj = ResourceManager.GetObject("selected_item", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
         ///	&lt;head&gt;
@@ -1262,16 +1192,6 @@ namespace MazeMaker.Properties {
         internal static string Testingamaze {
             get {
                 return ResourceManager.GetString("Testingamaze", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap text_item {
-            get {
-                object obj = ResourceManager.GetObject("text_item", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
