@@ -128,8 +128,8 @@ namespace MazeMaker
             RefreshList();
             if(curListM2 != null || curListA2==null)
             {
-                checkBoxCopy.Checked = false;
-                checkBoxCopy.Enabled = false;
+                //checkBoxCopy.Checked = false;
+                //checkBoxCopy.Enabled = false;
             }
             //this.Text = "Collection Editor";
         }
@@ -236,22 +236,22 @@ namespace MazeMaker
                     curListT2.Add(a);
                     RefreshList();
                     listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
-                    if (checkBoxCopy.Checked)
-                    {
-                        try
-                        {
-                            Tools.CreateMissingFolder(Settings.userLibraryFolder);
-                            //copy to the user library...
-                            if (Tools.FileExists(Settings.userLibraryFolder + "\\" + a.name) == false && Tools.FileExists(Settings.standardLibraryFolder + "\\" + a.name) == false)
-                            {
-                                a.Image.Save(Settings.userLibraryFolder + "\\" + a.name);
-                            }
-                        }
-                        catch (System.Exception ex)
-                        {
-                            MessageBox.Show("Couldn't copy the selected file to User Library\n\n" + ex.Message, "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                    }
+                    //if (checkBoxCopy.Checked)
+                    //{
+                    //    try
+                    //    {
+                    //        Tools.CreateMissingFolder(Settings.userLibraryFolder);
+                    //        //copy to the user library...
+                    //        if (Tools.FileExists(Settings.userLibraryFolder + "\\" + a.name) == false && Tools.FileExists(Settings.standardLibraryFolder + "\\" + a.name) == false)
+                    //        {
+                    //            a.Image.Save(Settings.userLibraryFolder + "\\" + a.name);
+                    //        }
+                    //    }
+                    //    catch (System.Exception ex)
+                    //    {
+                    //        MessageBox.Show("Couldn't copy the selected file to User Library\n\n" + ex.Message, "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    //    }
+                    //}
                 }
             }
             catch (System.Exception ex)
@@ -271,22 +271,22 @@ namespace MazeMaker
                     curListT2.Add(a);
                     RefreshList();
                     listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
-                    if (checkBoxCopy.Checked)
-                    {
-                        try
-                        {
-                            Tools.CreateMissingFolder(Settings.userLibraryFolder);
-                            //copy to the user library...
-                            if (Tools.FileExists(Settings.userLibraryFolder + "\\" + a.name) == false && Tools.FileExists(Settings.standardLibraryFolder + "\\" + a.name) == false)
-                            {
-                                a.Image.Save(Settings.userLibraryFolder + "\\" + a.name);
-                            }
-                        }
-                        catch (System.Exception ex)
-                        {
-                            MessageBox.Show("Couldn't copy the selected file to User Library\n\n" + ex.Message, "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                    }
+                    //if (checkBoxCopy.Checked)
+                    //{
+                    //    try
+                    //    {
+                    //        Tools.CreateMissingFolder(Settings.userLibraryFolder);
+                    //        //copy to the user library...
+                    //        if (Tools.FileExists(Settings.userLibraryFolder + "\\" + a.name) == false && Tools.FileExists(Settings.standardLibraryFolder + "\\" + a.name) == false)
+                    //        {
+                    //            a.Image.Save(Settings.userLibraryFolder + "\\" + a.name);
+                    //        }
+                    //    }
+                    //    catch (System.Exception ex)
+                    //    {
+                    //        MessageBox.Show("Couldn't copy the selected file to User Library\n\n" + ex.Message, "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    //    }
+                    //}
                 }
             }
             catch (System.Exception ex)
@@ -344,8 +344,8 @@ namespace MazeMaker
                     curListA2.Add(a);
                     RefreshList();
                     listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
-                    if (checkBoxCopy.Checked)
-                    {
+                    //if (checkBoxCopy.Checked)
+                    //{
                         //try
                         //{
                         //    //Tools.CreateMissingFolder(Settings.userLibraryFolder);
@@ -359,7 +359,7 @@ namespace MazeMaker
                         //{
                         //    MessageBox.Show("Couldn't copy the selected file to User Library\n\n" + ex.Message, "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         //}
-                    }
+                    //}
                 }
             }
             catch (System.Exception ex)
@@ -379,8 +379,8 @@ namespace MazeMaker
                     curListA2.Add(a);
                     RefreshList();
                     listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
-                    if (checkBoxCopy.Checked)
-                    {
+                    //if (checkBoxCopy.Checked)
+                    //{
                         //try
                         //{
                         //    Tools.CreateMissingFolder(Settings.userLibraryFolder);
@@ -394,7 +394,7 @@ namespace MazeMaker
                         //{
                         //    MessageBox.Show("Couldn't copy the selected file to User Library\n\n" + ex.Message, "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         //}
-                    }
+                    //}
                 }
             }
             catch (System.Exception ex)
