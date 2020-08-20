@@ -58,15 +58,18 @@ namespace MazeMaker
                     case 0:
                         treeViewMazeList.Nodes.Add(mazeList[i].ToString());
                         treeViewMazeList.Nodes[treeViewMazeList.Nodes.Count - 1].ImageKey = "MazeListOptions";
+                        treeViewMazeList.Nodes[treeViewMazeList.Nodes.Count - 1].SelectedImageKey = "MazeListOptions";
 
                         treeViewMazeList.Nodes.Add("ListItems");
                         treeViewMazeList.Nodes[treeViewMazeList.Nodes.Count - 1].ImageKey = "ListItems";
+                        treeViewMazeList.Nodes[treeViewMazeList.Nodes.Count - 1].SelectedImageKey = "ListItems";
                         break;
 
                     default:
                         treeViewMazeList.Nodes[1].Nodes.Add(i.ToString() + ") " + mazeList[i].ToString());
 
                         treeViewMazeList.Nodes[1].Nodes[treeViewMazeList.Nodes[1].Nodes.Count - 1].ImageKey = mazeList[i].Type.ToString();
+                        treeViewMazeList.Nodes[1].Nodes[treeViewMazeList.Nodes[1].Nodes.Count - 1].SelectedImageKey = mazeList[i].Type.ToString();
                         break;
                 }
             }
