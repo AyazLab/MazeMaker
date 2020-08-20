@@ -449,8 +449,12 @@ namespace MazeMaker
                 Directory.CreateDirectory(melxPath + "_assets\\image");
                 Directory.CreateDirectory(melxPath + "_assets\\audio");
 
+                string copyedFiles = "";
+
                 foreach (MyBuilderItem item in mazeList)
                 {
+                    string copyedFile0 = "no new file";
+                    string copyedFile1 = "no new file";
                     switch (item.Type)
                     {
                         case ItemType.Maze:
@@ -460,8 +464,7 @@ namespace MazeMaker
                                 string oldFilePath = mazeFilePaths[maze.MazeFile];
                                 string newFilePath = melxPath + "_assets\\maze\\" + maze.MazeFile;
 
-                                if (!RecursiveFileCopy(oldFilePath, melxPath, "maze", newFilePath))
-                                    return;
+                                copyedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "maze", newFilePath);
                             }
                             break;
 
@@ -472,8 +475,7 @@ namespace MazeMaker
                                 string oldFilePath = audioFilePaths[text.AudioFile];
                                 string newFilePath = melxPath + "_assets\\audio\\" + text.AudioFile;
 
-                                if (!RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath))
-                                    return;
+                                copyedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath);
                             }
                             break;
 
@@ -484,16 +486,14 @@ namespace MazeMaker
                                 string oldFilePath = imageFilePaths[image.ImageFile];
                                 string newFilePath = melxPath + "_assets\\image\\" + image.ImageFile;
 
-                                if (!RecursiveFileCopy(oldFilePath, melxPath, "image", newFilePath))
-                                    return;
+                                copyedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "image", newFilePath);
                             }
                             if (image.AudioFile != "")
                             {
                                 string oldFilePath = audioFilePaths[image.AudioFile];
                                 string newFilePath = melxPath + "_assets\\audio\\" + image.AudioFile;
 
-                                if (!RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath))
-                                    return;
+                                copyedFile1 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath);
                             }
                             break;
 
@@ -504,63 +504,81 @@ namespace MazeMaker
                                 string oldFilePath = audioFilePaths[multipleChoice.AudioFile];
                                 string newFilePath = melxPath + "_assets\\audio\\" + multipleChoice.AudioFile;
 
-                                if (!RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath))
-                                    return;
+                                copyedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath);
                             }
+                            break;
+                    }
+
+                    switch (copyedFile0)
+                    {
+                        case "no new file":
+                            break;
+
+                        case "abort package":
+                            return;
+
+                        default:
+                            copyedFiles += "\n" + copyedFile0;
+                            break;
+                    }
+                    switch (copyedFile1)
+                    {
+                        case "no new file":
+                            break;
+
+                        case "abort package":
+                            return;
+
+                        default:
+                            copyedFiles += "\n" + copyedFile0;
                             break;
                     }
                 }
 
                 WriteToMelx(melxPath);
-                MessageBox.Show("I've finished shoving everything you wanted into the package. The package should be in the same folder as your melx file, but with a different name containing \'assets\'. I hope I did it correctly.");
+                MessageBox.Show("I've finished shoving everything you wanted into the package. The package should be in the same folder as your melx file, but with a different name containing \'assets\'. I hope I did it correctly." + copyedFiles);
             }
         }
 
-        public static bool RecursiveFileCopy(string oldfilePath, string melxPath, string type, string newFilePath)
+        string RecursiveFileCopy(string oldFilePath, string melxPath, string type, string newFilePath)
         {
-            string fileName = oldfilePath;
+            string fileName = oldFilePath;
             string melxDirectory = melxPath.Substring(0, melxPath.Length - melxPath.Substring(melxPath.LastIndexOf("\\") + 1).Length);
-            if (oldfilePath.Contains("\\"))
+            if (oldFilePath.Contains("\\"))
             {
-                fileName = oldfilePath.Substring(oldfilePath.LastIndexOf("\\") + 1);
+                fileName = oldFilePath.Substring(oldFilePath.LastIndexOf("\\") + 1);
             }
 
-            //MessageBox.Show("Recursion starting: " + fileName);
             if (File.Exists(newFilePath))
             {
-                //MessageBox.Show("Path 0: Already exists!");
-                return true;
+                return "no new file";
             }
 
-            if (File.Exists(oldfilePath))
+            if (File.Exists(oldFilePath))
             {
-                //MessageBox.Show("Path 1: Correct file location!");
-                File.Copy(oldfilePath, newFilePath);
-                return true;
+                File.Copy(oldFilePath, newFilePath);
+                return oldFilePath;
             }
 
-            oldfilePath = melxDirectory + fileName;
-            if (File.Exists(oldfilePath))
+            oldFilePath = melxDirectory + fileName;
+            if (File.Exists(oldFilePath))
             {
-                //MessageBox.Show("Path 2: In same directory!");
-                File.Copy(oldfilePath, newFilePath);
-                return true;
+                File.Copy(oldFilePath, newFilePath);
+                return oldFilePath;
             }
 
-            oldfilePath = melxDirectory + type + "\\" + fileName;
-            if (File.Exists(oldfilePath))
+            oldFilePath = melxDirectory + type + "\\" + fileName;
+            if (File.Exists(oldFilePath))
             {
-                //MessageBox.Show("Path 3: In same directory, in a type folder!");
-                File.Copy(oldfilePath, newFilePath);
-                return true;
+                File.Copy(oldFilePath, newFilePath);
+                return oldFilePath;
             }
 
-            oldfilePath = melxDirectory + type + "s\\" + fileName;
-            if (File.Exists(oldfilePath))
+            oldFilePath = melxDirectory + type + "s\\" + fileName;
+            if (File.Exists(oldFilePath))
             {
-                //MessageBox.Show("Path 4: In same directory, in a type folder w/ s!");
-                File.Copy(oldfilePath, newFilePath);
-                return true;
+                File.Copy(oldFilePath, newFilePath);
+                return oldFilePath;
             }
 
             MessageBox.Show("I'm so sorry. I could not find \'" + fileName + "\'. Could you find it for me please? If you can not find it too, package will be canceled Uwu!");
@@ -571,28 +589,35 @@ namespace MazeMaker
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     string newFileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
-
                     if (newFileName.Split('.')[0] != fileName.Split('.')[0])
                     {
                         switch (MessageBox.Show("The new file you found: " + newFileName + " is very different from " + fileName + ". Are you sure you wanna use this file? Press \'No\' to search again! Press \'Cancel\' to abandon package!", "Are you sure??!?", MessageBoxButtons.YesNoCancel))
                         {
-                            case DialogResult.OK:
-                                return true;
+                            case DialogResult.Yes:
+                                break;
 
                             case DialogResult.No:
                                 continue;
 
                             default:
                                 MessageBox.Show("You have abandoned the package!");
-                                return false;
+                                return "abort package";
                         }
                     }
 
-                    return true;
+                    newFilePath = newFilePath.Substring(0, newFilePath.Length - newFilePath.Substring(newFilePath.LastIndexOf("\\") + 1).Length) + newFileName;
+
+                    if (File.Exists(newFilePath))
+                    {
+                        return "no new file";
+                    }
+
+                    File.Copy(ofd.FileName, newFilePath);
+                    return ofd.FileName;
                 }
 
                 MessageBox.Show("I'm sorry, it seems I've messed up the package. You'll have to try again.");
-                return false;
+                return "abort package";
             }
         }
 
