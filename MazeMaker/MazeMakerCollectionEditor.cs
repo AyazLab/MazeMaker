@@ -222,7 +222,8 @@ namespace MazeMaker
 
         private void MazeMakerCollectionEditor_FormClosed(object sender, FormClosedEventArgs e)
         {
-            sp.Stop();
+            if (sp != null)
+                sp.Stop();
         }
 
         private void AddTexture()
