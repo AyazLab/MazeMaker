@@ -196,7 +196,7 @@ namespace MazeMaker
                 }
                 else if (curListA2 != null)
                 {
-                    pictureBox.Image  = Properties.Resources.buttonCenter_onclick;
+                    pictureBox.Image  = Properties.Resources.AudioPlayerIcon;
                     sp = new System.Media.SoundPlayer(((Audio)listBoxCollection.SelectedItem).filePath);
                 }
             }

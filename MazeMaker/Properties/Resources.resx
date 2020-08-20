@@ -424,4 +424,28 @@
   <data name="forumicon1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\forumicon1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="AudioPlayerIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AudioPlayerIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageItemIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageItemIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ListItemsIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ListItemsIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MazeItemIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MazeItemIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MazeListOptionsItemIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MazeListOptionsItemIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RecordAudioItemIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RecordAudioItemIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TextItemIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TextItemIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MultipleChoiceItemIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MultipleChoiceItemIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

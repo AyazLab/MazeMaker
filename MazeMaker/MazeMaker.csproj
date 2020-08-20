@@ -298,6 +298,14 @@
     <None Include="Resources\mazeWizardIcon.png" />
     <None Include="Resources\forumicon.png" />
     <None Include="Resources\forumicon1.png" />
+    <None Include="Resources\ListItemsIcon.png" />
+    <None Include="Resources\MazeItemIcon.png" />
+    <None Include="Resources\MazeListOptionsItemIcon.png" />
+    <None Include="Resources\MultipleChoiceItemIcon.png" />
+    <None Include="Resources\RecordAudioItemIcon.png" />
+    <None Include="Resources\TextItemIcon.png" />
+    <None Include="Resources\AudioPlayerIcon.png" />
+    <None Include="Resources\ImageItemIcon.png" />
     <Content Include="Res\Logo.ico" />
     <None Include="Res\logo1.bmp" />
     <Content Include="Res\MazeList.ico" />

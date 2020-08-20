@@ -31,13 +31,13 @@ namespace MazeMaker
 
             treeViewMazeList.HideSelection = false;
 
-            il.Images.Add("MazeListOptions", Properties.Resources.buttonZoomOut);
-            il.Images.Add("ListItems", Properties.Resources.buttonZoomIn);
-            il.Images.Add("Maze", Properties.Resources.buttonUp);
-            il.Images.Add("Text", Properties.Resources.buttonZoomIn_MouseDown);
-            il.Images.Add("Image", Properties.Resources.buttonZoomOut_MouseOver);
-            il.Images.Add("MultipleChoice", Properties.Resources.buttonZoomIn_Mouseover);
-            il.Images.Add("RecordAudio", Properties.Resources.buttonZoomIn);
+            il.Images.Add("MazeListOptions", Properties.Resources.MazeListOptionsItemIcon);
+            il.Images.Add("ListItems", Properties.Resources.ListItemsIcon);
+            il.Images.Add("Maze", Properties.Resources.MazeItemIcon);
+            il.Images.Add("Text", Properties.Resources.TextItemIcon);
+            il.Images.Add("Image", Properties.Resources.ImageItemIcon);
+            il.Images.Add("MultipleChoice", Properties.Resources.MultipleChoiceItemIcon);
+            il.Images.Add("RecordAudio", Properties.Resources.RecordAudioItemIcon);
 
             treeViewMazeList.ImageList = il;
         }
