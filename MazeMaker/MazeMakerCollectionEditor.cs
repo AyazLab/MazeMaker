@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
 using System.Diagnostics;
+using System.IO;
 
 
 namespace MazeMaker
@@ -181,49 +182,98 @@ namespace MazeMaker
         }
 
         System.Media.SoundPlayer sp;
+        WMPLib.WindowsMediaPlayer wmp = new WMPLib.WindowsMediaPlayer();
+        string audioPlayer = "";
         private void listBoxCollection_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBoxCollection.SelectedIndex >= 0)
             {
                 propertyGrid.SelectedObject = listBoxCollection.SelectedItem;
-                if(curListT2 != null)
+                if (curListT2 != null)
                 {
                     pictureBox.Image = ((Texture)listBoxCollection.SelectedItem).Image;
                 }
-                else if(curListM2!= null)
+                else if (curListM2!= null)
                 {
                     pictureBox.Image = ((Model)listBoxCollection.SelectedItem).Image;
                 }
                 else if (curListA2 != null)
                 {
                     pictureBox.Image  = Properties.Resources.AudioPlayerIcon;
-                    sp = new System.Media.SoundPlayer(((Audio)listBoxCollection.SelectedItem).filePath);
+
+                    StopAudio();
+                    string filePath = ((Audio)listBoxCollection.SelectedItem).filePath;
+                    audioPlayer = Path.GetExtension(filePath).ToLower();
+
+                    switch (audioPlayer)
+                    {
+                        case ".wav":
+                            sp = new System.Media.SoundPlayer(filePath);
+                            break;
+
+                        case ".mp3":
+                            wmp.URL = filePath; // plays the audio, for some reason...
+                            wmp.controls.stop();
+                            break;
+
+                        default:
+                            break;
+                    }
                 }
             }
         }
 
-        bool audioPlayer = false;
+        void StopAudio()
+        {
+            switch (audioPlayer)
+            {
+                case ".wav":
+                    sp.Stop();
+                    break;
+
+                case ".mp3":
+                    wmp.controls.stop();
+                    break;
+
+                default:
+                    break;
+            }
+
+            audioPlaying = false;
+        }
+
+        bool audioPlaying = false;
         private void pictureBox_Click(object sender, EventArgs e)
         {
             if (curListA2 != null && propertyGrid.SelectedObject != null)
             {
-                if (audioPlayer)
+                if (audioPlaying)
                 {
-                    sp.Stop();
-                    audioPlayer = false;
+                    StopAudio();
                 }
                 else
                 {
-                    sp.PlayLooping();
-                    audioPlayer = true;
+                    switch (audioPlayer)
+                    {
+                        case ".wav":
+                            sp.PlayLooping();
+                            break;
+
+                        case ".mp3":
+                            wmp.controls.play();
+                            break;
+
+                        default:
+                            break;
+                    }
+                    audioPlaying = true;
                 }
             }
         }
 
         private void MazeMakerCollectionEditor_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (sp != null)
-                sp.Stop();
+            StopAudio();
         }
 
         private void AddTexture()
