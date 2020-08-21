@@ -193,7 +193,7 @@ namespace MazeMaker
                 {
                     pictureBox.Image = ((Texture)listBoxCollection.SelectedItem).Image;
                 }
-                else if (curListM2!= null)
+                else if (curListM2 != null)
                 {
                     pictureBox.Image = ((Model)listBoxCollection.SelectedItem).Image;
                 }
