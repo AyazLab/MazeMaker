@@ -278,37 +278,56 @@ namespace MazeMaker
 
         private void AddTexture()
         {
-            try
-            {
-                Texture a = new Texture();
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Supported Image Files |*.bmp;*.jpg;*.jpeg;*.gif;*png";
+            ofd.Multiselect = true;
 
-                if (a.Image != null)
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                foreach (string filePath in ofd.FileNames)
                 {
-                    curListT2.Add(a);
-                    RefreshList();
-                    listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
-                    //if (checkBoxCopy.Checked)
-                    //{
-                    //    try
-                    //    {
-                    //        Tools.CreateMissingFolder(Settings.userLibraryFolder);
-                    //        //copy to the user library...
-                    //        if (Tools.FileExists(Settings.userLibraryFolder + "\\" + a.name) == false && Tools.FileExists(Settings.standardLibraryFolder + "\\" + a.name) == false)
-                    //        {
-                    //            a.Image.Save(Settings.userLibraryFolder + "\\" + a.name);
-                    //        }
-                    //    }
-                    //    catch (System.Exception ex)
-                    //    {
-                    //        MessageBox.Show("Couldn't copy the selected file to User Library\n\n" + ex.Message, "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    //    }
-                    //}
+                    string directory = Path.GetDirectoryName(filePath);
+                    string fileName = Path.GetFileName(filePath);
+                    Texture texture = new Texture(directory, fileName, 0);
+                    if (texture.Image != null)
+                    {
+                        curListT2.Add(texture);
+                        RefreshList();
+                        listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
+                    }
                 }
             }
-            catch (System.Exception ex)
-            {
 
-            }
+            //try
+            //{
+            //    Texture a = new Texture();
+
+            //    if (a.Image != null)
+            //    {
+            //        curListT2.Add(a);
+            //        RefreshList();
+            //        listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
+            //        //if (checkBoxCopy.Checked)
+            //        //{
+            //        //    try
+            //        //    {
+            //        //        Tools.CreateMissingFolder(Settings.userLibraryFolder);
+            //        //        //copy to the user library...
+            //        //        if (Tools.FileExists(Settings.userLibraryFolder + "\\" + a.name) == false && Tools.FileExists(Settings.standardLibraryFolder + "\\" + a.name) == false)
+            //        //        {
+            //        //            a.Image.Save(Settings.userLibraryFolder + "\\" + a.name);
+            //        //        }
+            //        //    }
+            //        //    catch (System.Exception ex)
+            //        //    {
+            //        //        MessageBox.Show("Couldn't copy the selected file to User Library\n\n" + ex.Message, "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //        //    }
+            //        //}
+            //    }
+            //}
+            //catch (System.Exception ex)
+            //{
+            //}
         }
 
         private void AddTexture(string dir)
@@ -348,25 +367,43 @@ namespace MazeMaker
 
         private void AddModel()
         {
-            try
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Supported Model Files |*.obj";
+            ofd.Multiselect = true;
+
+            if (ofd.ShowDialog() == DialogResult.OK)
             {
-                Model a = new Model();
-                if (a.Name != null)
+                foreach (string filePath in ofd.FileNames)
                 {
-                    curListM2.Add(a);
-                    RefreshList();
-                    listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
+                    string directory = Path.GetDirectoryName(filePath);
+                    string fileName = Path.GetFileName(filePath);
+                    Model model = new Model(directory, fileName, 0);
+                    if (model.Name != null)
+                    {
+                        curListM2.Add(model);
+                        RefreshList();
+                        listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
+                    }
                 }
             }
-            catch
-            {
 
-            }
+            //try
+            //{
+            //    Model a = new Model();
+            //    if (a.Name != null)
+            //    {
+            //        curListM2.Add(a);
+            //        RefreshList();
+            //        listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
+            //    }
+            //}
+            //catch
+            //{
+            //}
         }
 
         private void AddModel(string dir)
         {
-
             try
             {
                 Model a = new Model(dir);
@@ -379,44 +416,62 @@ namespace MazeMaker
             }
             catch
             {
-
             }
         }
 
         private void AddAudio()
         {
-            try
-            {
-                Audio a = new Audio();
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Supported Audio Files |*.wav;*.mp3";
+            ofd.Multiselect = true;
 
-                //if (a.Image != null)
-                if (a.Name != null)
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                foreach (string filePath in ofd.FileNames)
                 {
-                    curListA2.Add(a);
-                    RefreshList();
-                    listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
-                    //if (checkBoxCopy.Checked)
-                    //{
-                        //try
-                        //{
-                        //    //Tools.CreateMissingFolder(Settings.userLibraryFolder);
-                        //    //copy to the user library...
-                        //    //if (Tools.FileExists(Settings.userLibraryFolder + "\\" + a.name) == false && Tools.FileExists(Settings.standardLibraryFolder + "\\" + a.name) == false)
-                        //    //{
-                        //    //    //a.Image.Save(Settings.userLibraryFolder + "\\" + a.name);
-                        //    //}
-                        //}
-                        //catch (System.Exception ex)
-                        //{
-                        //    MessageBox.Show("Couldn't copy the selected file to User Library\n\n" + ex.Message, "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        //}
-                    //}
+                    string directory = Path.GetDirectoryName(filePath);
+                    string fileName = Path.GetFileName(filePath);
+                    Audio audio = new Audio(directory, fileName, 0);
+                    if (audio.Name != null)
+                    {
+                        curListA2.Add(audio);
+                        RefreshList();
+                        listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
+                    }
                 }
             }
-            catch (System.Exception ex)
-            {
 
-            }
+            //try
+            //{
+            //    Audio a = new Audio();
+
+            //    //if (a.Image != null)
+            //    if (a.Name != null)
+            //    {
+            //        curListA2.Add(a);
+            //        RefreshList();
+            //        listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
+            //        //if (checkBoxCopy.Checked)
+            //        //{
+            //            //try
+            //            //{
+            //            //    //Tools.CreateMissingFolder(Settings.userLibraryFolder);
+            //            //    //copy to the user library...
+            //            //    //if (Tools.FileExists(Settings.userLibraryFolder + "\\" + a.name) == false && Tools.FileExists(Settings.standardLibraryFolder + "\\" + a.name) == false)
+            //            //    //{
+            //            //    //    //a.Image.Save(Settings.userLibraryFolder + "\\" + a.name);
+            //            //    //}
+            //            //}
+            //            //catch (System.Exception ex)
+            //            //{
+            //            //    MessageBox.Show("Couldn't copy the selected file to User Library\n\n" + ex.Message, "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //            //}
+            //        //}
+            //    }
+            //}
+            //catch (System.Exception ex)
+            //{
+            //}
         }
 
         private void AddAudio(string dir)
