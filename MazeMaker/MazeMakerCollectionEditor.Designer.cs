@@ -43,16 +43,16 @@
             this.listBoxCollection.FormattingEnabled = true;
             this.listBoxCollection.ItemHeight = 16;
             this.listBoxCollection.Location = new System.Drawing.Point(4, 15);
-            this.listBoxCollection.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listBoxCollection.Margin = new System.Windows.Forms.Padding(4);
             this.listBoxCollection.Name = "listBoxCollection";
-            this.listBoxCollection.Size = new System.Drawing.Size(259, 276);
+            this.listBoxCollection.Size = new System.Drawing.Size(259, 388);
             this.listBoxCollection.TabIndex = 0;
             this.listBoxCollection.SelectedIndexChanged += new System.EventHandler(this.listBoxCollection_SelectedIndexChanged);
             // 
             // propertyGrid
             // 
             this.propertyGrid.Location = new System.Drawing.Point(272, 174);
-            this.propertyGrid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.propertyGrid.Margin = new System.Windows.Forms.Padding(4);
             this.propertyGrid.Name = "propertyGrid";
             this.propertyGrid.Size = new System.Drawing.Size(305, 229);
             this.propertyGrid.TabIndex = 1;
@@ -60,7 +60,7 @@
             // buttonClose
             // 
             this.buttonClose.Location = new System.Drawing.Point(477, 410);
-            this.buttonClose.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonClose.Margin = new System.Windows.Forms.Padding(4);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(100, 28);
             this.buttonClose.TabIndex = 2;
@@ -71,8 +71,8 @@
             // buttonAdd
             // 
             this.buttonAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonAdd.Location = new System.Drawing.Point(4, 295);
-            this.buttonAdd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonAdd.Location = new System.Drawing.Point(4, 409);
+            this.buttonAdd.Margin = new System.Windows.Forms.Padding(4);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(123, 28);
             this.buttonAdd.TabIndex = 3;
@@ -83,8 +83,8 @@
             // buttonRemove
             // 
             this.buttonRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRemove.Location = new System.Drawing.Point(134, 295);
-            this.buttonRemove.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonRemove.Location = new System.Drawing.Point(134, 409);
+            this.buttonRemove.Margin = new System.Windows.Forms.Padding(4);
             this.buttonRemove.Name = "buttonRemove";
             this.buttonRemove.Size = new System.Drawing.Size(130, 28);
             this.buttonRemove.TabIndex = 4;
@@ -95,7 +95,7 @@
             // buttonOk
             // 
             this.buttonOk.Location = new System.Drawing.Point(369, 410);
-            this.buttonOk.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonOk.Margin = new System.Windows.Forms.Padding(4);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(100, 28);
             this.buttonOk.TabIndex = 5;
@@ -126,7 +126,7 @@
             this.Controls.Add(this.propertyGrid);
             this.Controls.Add(this.listBoxCollection);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(606, 500);
             this.MinimizeBox = false;

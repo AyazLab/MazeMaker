@@ -724,7 +724,13 @@ namespace MazeMaker
                             mazeIDCounter++;
 
                             mazeLibraryItem.SetAttribute("MazeID", mazeID.ToString());
-                            mazeLibraryItem.SetAttribute("File", mazeFilePaths[maze.MazeFile]);
+
+                            string filePath = mazeFilePaths[maze.MazeFile];
+                            if (filePath[1] == ':')
+                            {
+                                filePath = MakeRelativePath(inp, filePath);
+                            }
+                            mazeLibraryItem.SetAttribute("File", filePath);
 
                             mazeLibrary.AppendChild(mazeLibraryItem);
                         }
@@ -759,7 +765,13 @@ namespace MazeMaker
                             audioIDCounter++;
 
                             audioLibraryItem.SetAttribute("AudioID", audioID.ToString());
-                            audioLibraryItem.SetAttribute("File", audioFilePaths[text.AudioFile]);
+
+                            string filePath = audioFilePaths[text.AudioFile];
+                            if (filePath[1] == ':')
+                            {
+                                filePath = MakeRelativePath(inp, filePath);
+                            }
+                            audioLibraryItem.SetAttribute("File", filePath);
 
                             audioLibrary.AppendChild(audioLibraryItem);
                         }
@@ -796,7 +808,13 @@ namespace MazeMaker
                             imageIDCounter++;
 
                             imageLibraryItem.SetAttribute("ImageID", imageID.ToString());
-                            imageLibraryItem.SetAttribute("File", imageFilePaths[image.ImageFile]);
+
+                            string filePath = imageFilePaths[image.ImageFile];
+                            if (filePath[1] == ':')
+                            {
+                                filePath = MakeRelativePath(inp, filePath);
+                            }
+                            imageLibraryItem.SetAttribute("File", filePath);
 
                             imageLibrary.AppendChild(imageLibraryItem);
                         }
@@ -818,7 +836,13 @@ namespace MazeMaker
                             audioIDCounter++;
 
                             audioLibraryItem.SetAttribute("AudioID", audioID.ToString());
-                            audioLibraryItem.SetAttribute("File", audioFilePaths[image.AudioFile]);
+
+                            string filePath = audioFilePaths[image.AudioFile];
+                            if (filePath[1] == ':')
+                            {
+                                filePath = MakeRelativePath(inp, filePath);
+                            }
+                            audioLibraryItem.SetAttribute("File", filePath);
 
                             audioLibrary.AppendChild(audioLibraryItem);
                         }
@@ -874,7 +898,13 @@ namespace MazeMaker
                             audioIDCounter++;
 
                             audioLibraryItem.SetAttribute("AudioID", audioID.ToString());
-                            audioLibraryItem.SetAttribute("File", audioFilePaths[multipleChoice.AudioFile]);
+
+                            string filePath = audioFilePaths[multipleChoice.AudioFile];
+                            if (filePath[1] == ':')
+                            {
+                                filePath = MakeRelativePath(inp, filePath);
+                            }
+                            audioLibraryItem.SetAttribute("File", filePath);
 
                             audioLibrary.AppendChild(audioLibraryItem);
                         }
@@ -909,6 +939,27 @@ namespace MazeMaker
             melx.Save(inp);
 
             return true;
+        }
+
+        public static String MakeRelativePath(String fromPath, String toPath)
+        {
+            if (String.IsNullOrEmpty(fromPath)) throw new ArgumentNullException("fromPath");
+            if (String.IsNullOrEmpty(toPath)) throw new ArgumentNullException("toPath");
+
+            Uri fromUri = new Uri(fromPath);
+            Uri toUri = new Uri(toPath);
+
+            if (fromUri.Scheme != toUri.Scheme) { return toPath; } // path can't be made relative.
+
+            Uri relativeUri = fromUri.MakeRelativeUri(toUri);
+            String relativePath = Uri.UnescapeDataString(relativeUri.ToString());
+
+            if (toUri.Scheme.Equals("file", StringComparison.InvariantCultureIgnoreCase))
+            {
+                relativePath = relativePath.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+            }
+
+            return relativePath;
         }
 
         private bool WriteToFile(string inp)
