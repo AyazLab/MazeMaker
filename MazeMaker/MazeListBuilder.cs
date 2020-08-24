@@ -359,19 +359,22 @@ namespace MazeMaker
                     if (type == "Maze" && dr == DialogResult.OK)
                     {
                         string fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
-                        mazeFilePaths[fileName] = ofd.FileName;
+                        if (fileName != "")
+                            mazeFilePaths[fileName] = ofd.FileName;
                         return fileName;
                     }
                     else if (type == "Image" && dr == DialogResult.OK)
                     {
                         string fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
-                        imageFilePaths[fileName] = ofd.FileName;
+                        if (fileName != "")
+                            imageFilePaths[fileName] = ofd.FileName;
                         return fileName;
                     }
                     else if (type == "Audio" && dr == DialogResult.OK)
                     {
                         string fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
-                        audioFilePaths[fileName] = ofd.FileName;
+                        if (fileName != "")
+                            audioFilePaths[fileName] = ofd.FileName;
                         return fileName;
                     }
 
@@ -381,30 +384,32 @@ namespace MazeMaker
                     switch (type)
                     {
                         case "Image":
-                            List<Texture> textures = FilesToTextures();
+                            List<Texture> textures = FilesToTextures(imageFilePaths);
                             MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref textures);
                             string filePath = mmce.GetTexture();
-                            TexturesToFiles(mmce.GetTextures());
+                            TexturesToFiles(mmce.GetTextures(), ref imageFilePaths);
 
                             if (filePath != "")
                             {
                                 string fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
-                                imageFilePaths[fileName] = filePath;
+                                if (fileName != "")
+                                    imageFilePaths[fileName] = filePath;
                                 return fileName;
                             }
 
                             break;
 
                         case "Audio":
-                            List<Audio> audios = FilesToAudios();
+                            List<Audio> audios = FilesToAudios(audioFilePaths);
                             mmce = new MazeMakerCollectionEditor(ref audios);
                             filePath = mmce.GetAudio();
-                            AudiosToFiles(mmce.GetAudios());
+                            AudiosToFiles(mmce.GetAudios(), ref audioFilePaths);
 
                             if (filePath != "")
                             {
                                 string fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
-                                audioFilePaths[fileName] = filePath;
+                                if (fileName != "")
+                                    audioFilePaths[fileName] = filePath;
                                 return fileName;
                             }
 
@@ -430,7 +435,7 @@ namespace MazeMaker
             }
         }
 
-        List<Texture> FilesToTextures()
+        public static List<Texture> FilesToTextures(Dictionary<string, string> imageFilePaths)
         {
             List<Texture> textures = new List<Texture>();
 
@@ -444,7 +449,7 @@ namespace MazeMaker
             return textures;
         }
 
-        void TexturesToFiles(List<Texture> textures)
+        public static void TexturesToFiles(List<Texture> textures, ref Dictionary<string, string> imageFilePaths)
         {
             foreach (Texture texture in textures)
             {
@@ -452,7 +457,7 @@ namespace MazeMaker
             }
         }
 
-        List<Audio> FilesToAudios()
+        public static List<Audio> FilesToAudios(Dictionary<string, string> audioFilePaths)
         {
             List<Audio> audios = new List<Audio>();
 
@@ -466,11 +471,33 @@ namespace MazeMaker
             return audios;
         }
 
-        void AudiosToFiles(List<Audio> audios)
+        public static void AudiosToFiles(List<Audio> audios, ref Dictionary<string, string> audioFilePaths)
         {
             foreach (Audio audio in audios)
             {
                 audioFilePaths[audio.name] = audio.filePath;
+            }
+        }
+        
+        public static List<Model> FilesToModels(Dictionary<string, string> modelFilePaths)
+        {
+            List<Model> models = new List<Model>();
+
+            foreach (string value in modelFilePaths.Values)
+            {
+                string directory = Path.GetDirectoryName(value);
+                string fileName = Path.GetFileName(value);
+                models.Add(new Model(directory, fileName, 0));
+            }
+
+            return models;
+        }
+
+        public static void ModelsToFiles(List<Model> models, ref Dictionary<string, string> modelFilePaths)
+        {
+            foreach (Model model in models)
+            {
+                modelFilePaths[model.name] = model.filePath;
             }
         }
 
@@ -589,6 +616,8 @@ namespace MazeMaker
             if (oldFilePath.Contains("\\"))
             {
                 fileName = oldFilePath.Substring(oldFilePath.LastIndexOf("\\") + 1);
+                if (fileName == "")
+                    fileName = oldFilePath;
             }
 
             if (File.Exists(newFilePath))
@@ -631,6 +660,9 @@ namespace MazeMaker
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     string newFileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                    if (newFileName == "")
+                        newFileName = ofd.FileName;
+
                     if (newFileName.Split('.')[0] != fileName.Split('.')[0])
                     {
                         switch (MessageBox.Show("The new file you found: " + newFileName + " is very different from " + fileName + ". Are you sure you wanna use this file? Press \'No\' to search again! Press \'Cancel\' to abandon package!", "Are you sure??!?", MessageBoxButtons.YesNoCancel))
@@ -1173,6 +1205,8 @@ namespace MazeMaker
                                     {
                                         mazeFilePath = mazeLibraryItems[mazeFileName];
                                         mazeFileName = mazeFilePath.Substring(mazeFilePath.LastIndexOf("\\") + 1);
+                                        if (mazeFileName == "")
+                                            mazeFileName = mazeFilePath;
                                     }
                                     mazeFilePaths[mazeFileName] = mazeFilePath;
 
@@ -1194,6 +1228,8 @@ namespace MazeMaker
                                     {
                                         audioFilePath = audioLibraryItems[audioFileName];
                                         audioFileName = audioFilePath.Substring(audioFilePath.LastIndexOf("\\") + 1);
+                                        if (audioFileName == "")
+                                            audioFileName = audioFilePath;
                                     }
                                     audioFilePaths[audioFileName] = audioFilePath;
 
@@ -1224,6 +1260,8 @@ namespace MazeMaker
                                     {
                                         imageFilePath = imageLibraryItems[imageFileName];
                                         imageFileName = imageFilePath.Substring(imageFilePath.LastIndexOf("\\") + 1);
+                                        if (imageFileName == "")
+                                            imageFileName = imageFilePath;
                                     }
                                     imageFilePaths[imageFileName] = imageFilePath;
 
@@ -1233,6 +1271,8 @@ namespace MazeMaker
                                     {
                                         audioFilePath = audioLibraryItems[audioFileName];
                                         audioFileName = audioFilePath.Substring(audioFilePath.LastIndexOf("\\") + 1);
+                                        if (audioFileName == "")
+                                            audioFileName = audioFilePath;
                                     }
                                     audioFilePaths[audioFileName] = audioFilePath;
 
@@ -1263,6 +1303,8 @@ namespace MazeMaker
                                     {
                                         audioFilePath = audioLibraryItems[audioFileName];
                                         audioFileName = audioFilePath.Substring(audioFilePath.LastIndexOf("\\") + 1);
+                                        if (audioFileName == "")
+                                            audioFileName = audioFilePath;
                                     }
                                     audioFilePaths[audioFileName] = audioFilePath;
 

@@ -59,6 +59,24 @@ namespace MazeMaker
             return curListA2;
         }
 
+        public string GetModel()
+        {
+            ShowDialog();
+
+            if (listBoxCollection.SelectedItem != null)
+            {
+                Model model = (Model)listBoxCollection.SelectedItem;
+                return model.filePath;
+            }
+
+            return "";
+        }
+
+        public List<Model> GetModels()
+        {
+            return curListM2;
+        }
+
         public MazeMakerCollectionEditor(ref List<Texture> inp)
         {
             InitializeComponent();

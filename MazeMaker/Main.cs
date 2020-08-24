@@ -3449,6 +3449,130 @@ namespace MazeMaker
             else
                 MazeChanged(false);
 
+            if (propertyGrid1.SelectedObject.GetType().Name != "Maze")
+            // Manage Item Dropdown
+            {
+                MazeItem mazeItem = (MazeItem)propertyGrid1.SelectedObject;
+                switch (mazeItem.itemType)
+                {
+                    case MazeItemType.Static:
+                        StaticModel staticModel = (StaticModel)mazeItem;
+                        staticModel.Model = OpenCollection("Model", e.OldValue.ToString(), staticModel.Model);
+                        break;
+
+                    case MazeItemType.Dynamic:
+                        DynamicObject dynamicObject = (DynamicObject)mazeItem;
+                        dynamicObject.Model = OpenCollection("Model", e.OldValue.ToString(), dynamicObject.Model);
+                        dynamicObject.SwitchToModel = OpenCollection("Dynamic", e.OldValue.ToString(), dynamicObject.SwitchToModel);
+                        break;
+                }
+            }
+            else
+            {
+                curMaze.AvatarModel = OpenCollection("Model", e.OldValue.ToString(), curMaze.AvatarModel);
+            }
+        }
+
+        string OpenCollection(string type, string oldValue, string newValue)
+        {
+            switch (newValue)
+            {
+                case "[Import Item]":
+                    OpenFileDialog ofd = new OpenFileDialog();
+                    DialogResult dr = ofd.ShowDialog();
+
+                    if (type == "Image" && dr == DialogResult.OK)
+                    {
+                        string fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                        if (fileName != "")
+                            ImagePathConverter.Paths[fileName] = ofd.FileName;
+                        return fileName;
+                    }
+                    else if (type == "Audio" && dr == DialogResult.OK)
+                    {
+                        string fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                        if (fileName != "")
+                            AudioPathConverter.Paths[fileName] = ofd.FileName;
+                        return fileName;
+                    }
+                    else if (type == "Model" && dr == DialogResult.OK)
+                    {
+                        string fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                        if (fileName != "")
+                            ModelPathConverter.Paths[fileName] = ofd.FileName;
+                        return fileName;
+                    }
+
+                    return oldValue;
+
+                case "[Manage Items]":
+                    switch (type)
+                    {
+                        case "Image":
+                            List<Texture> textures = MazeListBuilder.FilesToTextures(ImagePathConverter.Paths);
+                            MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref textures);
+                            string filePath = mmce.GetTexture();
+                            MazeListBuilder.TexturesToFiles(mmce.GetTextures(), ref ImagePathConverter.Paths);
+
+                            if (filePath != "")
+                            {
+                                string fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
+                                if (fileName != "")
+                                    ImagePathConverter.Paths[fileName] = filePath;
+                                return fileName;
+                            }
+
+                            break;
+
+                        case "Audio":
+                            List<Audio> audios = MazeListBuilder.FilesToAudios(AudioPathConverter.Paths);
+                            mmce = new MazeMakerCollectionEditor(ref audios);
+                            filePath = mmce.GetAudio();
+                            MazeListBuilder.AudiosToFiles(mmce.GetAudios(), ref AudioPathConverter.Paths);
+
+                            if (filePath != "")
+                            {
+                                string fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
+                                if (fileName != "")
+                                    AudioPathConverter.Paths[fileName] = filePath;
+                                return fileName;
+                            }
+
+                            break;
+
+                        case "Model":
+                            List<Model> models = MazeListBuilder.FilesToModels(ModelPathConverter.Paths);
+                            mmce = new MazeMakerCollectionEditor(ref models);
+                            filePath = mmce.GetModel();
+                            MazeListBuilder.ModelsToFiles(mmce.GetModels(), ref ModelPathConverter.Paths);
+
+                            if (filePath != "")
+                            {
+                                string fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
+                                if (fileName != "")
+                                    ModelPathConverter.Paths[fileName] = filePath;
+                                return fileName;
+                            }
+
+                            break;
+                    }
+
+                    return oldValue;
+
+                case "----------------------------------------":
+                    return oldValue;
+
+                default:
+                    if (type == "Image" && newValue != "" && !ImagePathConverter.Paths.ContainsKey(newValue))
+                        ImagePathConverter.Paths[newValue] = newValue;
+
+                    else if (type == "Audio" && newValue != "" && !AudioPathConverter.Paths.ContainsKey(newValue))
+                        AudioPathConverter.Paths[newValue] = newValue;
+                    else if (type == "Model" && newValue != "" && !ModelPathConverter.Paths.ContainsKey(newValue))
+                        ModelPathConverter.Paths[newValue] = newValue;
+
+                    return newValue;
+            }
         }
 
         [DllImport("user32.dll")]
@@ -5407,7 +5531,8 @@ namespace MazeMaker
         private void modelCollectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ChangeModeTo0();
-            MazeMakerCollectionEditor a = new MazeMakerCollectionEditor(ref curMaze.cModels);
+            List<Model> models = MazeListBuilder.FilesToModels(curMaze.cModels);
+            MazeMakerCollectionEditor a = new MazeMakerCollectionEditor(ref models);
             a.ShowDialog();
         }
 
