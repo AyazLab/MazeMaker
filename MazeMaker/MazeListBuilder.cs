@@ -346,12 +346,8 @@ namespace MazeMaker
         }
 
         public static Dictionary<string, string> mazeFilePaths = new Dictionary<string, string>();
-
         public static Dictionary<string, string> imageFilePaths = new Dictionary<string, string>();
-        List<Texture> textures = new List<Texture>();
-
         public static Dictionary<string, string> audioFilePaths = new Dictionary<string, string>();
-        List<Audio> audios = new List<Audio>();
         string OpenCollection(string type, string oldValue, string newValue)
         {
             switch (newValue)
@@ -385,9 +381,10 @@ namespace MazeMaker
                     switch (type)
                     {
                         case "Image":
+                            List<Texture> textures = FilesToTextures();
                             MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref textures);
                             string filePath = mmce.GetTexture();
-                            textures = mmce.GetTextures();
+                            TexturesToFiles(mmce.GetTextures());
 
                             if (filePath != "")
                             {
@@ -399,10 +396,11 @@ namespace MazeMaker
                             break;
 
                         case "Audio":
+                            List<Audio> audios = FilesToAudios();
                             mmce = new MazeMakerCollectionEditor(ref audios);
                             filePath = mmce.GetAudio();
-                            audios = mmce.GetAudios();
-                            
+                            AudiosToFiles(mmce.GetAudios());
+
                             if (filePath != "")
                             {
                                 string fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
@@ -429,6 +427,50 @@ namespace MazeMaker
                         audioFilePaths[newValue] = newValue;
 
                     return newValue;
+            }
+        }
+
+        List<Texture> FilesToTextures()
+        {
+            List<Texture> textures = new List<Texture>();
+
+            foreach (string value in imageFilePaths.Values)
+            {
+                string directory = Path.GetDirectoryName(value);
+                string fileName = Path.GetFileName(value);
+                textures.Add(new Texture(directory, fileName, 0));
+            }
+
+            return textures;
+        }
+
+        void TexturesToFiles(List<Texture> textures)
+        {
+            foreach (Texture texture in textures)
+            {
+                imageFilePaths[texture.name] = texture.filePath;
+            }
+        }
+
+        List<Audio> FilesToAudios()
+        {
+            List<Audio> audios = new List<Audio>();
+
+            foreach (string value in audioFilePaths.Values)
+            {
+                string directory = Path.GetDirectoryName(value);
+                string fileName = Path.GetFileName(value);
+                audios.Add(new Audio(directory, fileName, 0));
+            }
+
+            return audios;
+        }
+
+        void AudiosToFiles(List<Audio> audios)
+        {
+            foreach (Audio audio in audios)
+            {
+                audioFilePaths[audio.name] = audio.filePath;
             }
         }
 
