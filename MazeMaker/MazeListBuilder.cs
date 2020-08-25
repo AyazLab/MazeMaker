@@ -81,7 +81,7 @@ namespace MazeMaker
         {
             MakeMazeList();
 
-            comboBox.SelectedIndex = 0;
+            toolStripLabel.Text = "Add Item\nTo MazeList\n";
         }
 
         public void toolStrip_open_Click(object sender, EventArgs e)
@@ -208,26 +208,27 @@ namespace MazeMaker
         private void add_Click(object sender, EventArgs e)
         {
             madeChanges = true;
+            string s = (sender as ToolStripButton).Text;
 
-            switch (comboBox.SelectedIndex)
+            switch (s)
             {
-                case 0:
+                case "Maze":
                     mazeList.Add(new MazeList_MazeItem());
                     break;
 
-                case 1:
+                case "Text":
                     mazeList.Add(new MazeList_TextItem());
                     break;
 
-                case 2:
+                case "Image":
                     mazeList.Add(new MazeList_ImageItem());
                     break;
 
-                case 3:
+                case "Multiple Choice":
                     mazeList.Add(new MazeList_MultipleChoiceItem(new ListChangedEventHandler(Updated)));
                     break;
 
-                case 4:
+                case "Record Audio":
                     mazeList.Add(new MazeList_RecordAudioItem());
                     break;
             }
@@ -1592,9 +1593,10 @@ namespace MazeMaker
 
         private void MazeListBuilder_Resize(object sender, EventArgs e)
         {
-            treeViewMazeList.Width = L_Up.Left - treeViewMazeList.Left - 10;
-            treeViewMazeList.Height = closeButton.Top - treeViewMazeList.Top - 10;
-            propertyGrid.Height = treeViewMazeList.Height;
+            // TODO FIX MEEEEE
+            //treeViewMazeList.Width = L_Up.Left - treeViewMazeList.Left - 10;
+            //treeViewMazeList.Height = closeButton.Top - treeViewMazeList.Top - 10;
+            //propertyGrid.Height = treeViewMazeList.Height;
         }
     }
 }
