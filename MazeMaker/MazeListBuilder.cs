@@ -328,7 +328,9 @@ namespace MazeMaker
                     multipleChoice.AudioFile = OpenCollection("Audio", e.OldValue.ToString(), multipleChoice.AudioFile);
                     break;
 
-                default:
+                case ItemType.RecordAudio:
+                    MazeList_RecordAudioItem recordAudio = (MazeList_RecordAudioItem)listItem;
+                    recordAudio.ImageFile = OpenCollection("Image", e.OldValue.ToString(), recordAudio.ImageFile);
                     break;
             }
 
@@ -826,7 +828,7 @@ namespace MazeMaker
                         MazeList_TextItem text = (MazeList_TextItem)item;
                         mz.InnerText = text.Text;
                         mz.SetAttribute("TextDisplayType", text.TextDisplayType.ToString());
-                        mz.SetAttribute("LifeTime", text.Duration.ToString());
+                        mz.SetAttribute("Duration", text.Duration.ToString());
                         mz.SetAttribute("X", text.X.ToString());
                         mz.SetAttribute("Y", text.Y.ToString());
 
@@ -868,7 +870,7 @@ namespace MazeMaker
                         MazeList_ImageItem image = (MazeList_ImageItem)item;
                         mz.InnerText = image.Text;
                         mz.SetAttribute("TextDisplayType", image.TextDisplayType.ToString());
-                        mz.SetAttribute("LifeTime", image.Duration.ToString());
+                        mz.SetAttribute("Duration", image.Duration.ToString());
                         mz.SetAttribute("X", image.X.ToString());
                         mz.SetAttribute("Y", image.Y.ToString());
                         mz.SetAttribute("BackgroundColor", string.Format("{0}, {1}, {2}, {3}", image.BackgroundColor.A, image.BackgroundColor.R, image.BackgroundColor.G, image.BackgroundColor.B));
@@ -959,7 +961,7 @@ namespace MazeMaker
                             }
                         }
                         mz.SetAttribute("TextDisplayType", multipleChoice.TextDisplayType.ToString());
-                        mz.SetAttribute("LifeTime", multipleChoice.Duration.ToString());
+                        mz.SetAttribute("Duration", multipleChoice.Duration.ToString());
                         mz.SetAttribute("X", multipleChoice.X.ToString());
                         mz.SetAttribute("Y", multipleChoice.Y.ToString());
 
@@ -996,7 +998,40 @@ namespace MazeMaker
                         mz.SetAttribute("EndBehavior", multipleChoice.EndBehavior);
                         break;
 
-                    default:
+                    case ItemType.RecordAudio:
+                        MazeList_RecordAudioItem recordAudio = (MazeList_RecordAudioItem)item;
+                        mz.InnerText = recordAudio.Text;
+                        mz.SetAttribute("TextDisplayType", recordAudio.TextDisplayType.ToString());
+                        mz.SetAttribute("Duration", recordAudio.Duration.ToString());
+                        mz.SetAttribute("BackgroundColor", string.Format("{0}, {1}, {2}, {3}", recordAudio.BackgroundColor.A, recordAudio.BackgroundColor.R, recordAudio.BackgroundColor.G, recordAudio.BackgroundColor.B));
+
+                        imageLibraryItem = melx.CreateElement("Image");
+                        imageID = imageIDCounter;
+                        if (imageLibraryItems.ContainsKey(recordAudio.ImageFile))
+                        {
+                            imageID = Convert.ToInt32(imageLibraryItems[recordAudio.ImageFile]);
+                        }
+                        else if (recordAudio.ImageFile != "")
+                        {
+                            imageLibraryItems[recordAudio.ImageFile] = imageID.ToString();
+                            imageIDCounter++;
+
+                            imageLibraryItem.SetAttribute("ImageID", imageID.ToString());
+
+                            string filePath = imageFilePaths[recordAudio.ImageFile];
+                            if (filePath[1] == ':')
+                            {
+                                filePath = MakeRelativePath(inp, filePath);
+                            }
+                            imageLibraryItem.SetAttribute("File", filePath);
+
+                            imageLibrary.AppendChild(imageLibraryItem);
+                        }
+                        mz.SetAttribute("ImageID", imageID.ToString());
+                        if (recordAudio.ImageFile == "")
+                        {
+                            mz.SetAttribute("ImageID", "");
+                        }
                         break;
                 }
 
@@ -1242,7 +1277,7 @@ namespace MazeMaker
                                     {
                                         Text = listItem.InnerText,
                                         TextDisplayType = (MazeList_TextItem.DisplayType)Enum.Parse(typeof(MazeList_TextItem.DisplayType), listItem.GetAttribute("TextDisplayType")),
-                                        Duration = Convert.ToInt64(listItem.GetAttribute("LifeTime")),
+                                        Duration = Convert.ToInt64(listItem.GetAttribute("Duration")),
                                         X = Convert.ToDouble(listItem.GetAttribute("X")),
                                         Y = Convert.ToDouble(listItem.GetAttribute("Y")),
 
@@ -1285,7 +1320,7 @@ namespace MazeMaker
                                     {
                                         Text = listItem.InnerText,
                                         TextDisplayType = (MazeList_ImageItem.DisplayType)Enum.Parse(typeof(MazeList_ImageItem.DisplayType), listItem.GetAttribute("TextDisplayType")),
-                                        Duration = Convert.ToInt64(listItem.GetAttribute("LifeTime")),
+                                        Duration = Convert.ToInt64(listItem.GetAttribute("Duration")),
                                         X = Convert.ToDouble(listItem.GetAttribute("X")),
                                         Y = Convert.ToDouble(listItem.GetAttribute("Y")),
 
@@ -1316,7 +1351,7 @@ namespace MazeMaker
                                     MazeList_MultipleChoiceItem multipleChoice = new MazeList_MultipleChoiceItem
                                     {
                                         TextDisplayType = (MazeList_MultipleChoiceItem.DisplayType)Enum.Parse(typeof(MazeList_MultipleChoiceItem.DisplayType), listItem.GetAttribute("TextDisplayType")),
-                                        Duration = Convert.ToInt64(listItem.GetAttribute("LifeTime")),
+                                        Duration = Convert.ToInt64(listItem.GetAttribute("Duration")),
                                         X = Convert.ToDouble(listItem.GetAttribute("X")),
                                         Y = Convert.ToDouble(listItem.GetAttribute("Y")),
 
@@ -1339,7 +1374,31 @@ namespace MazeMaker
                                     mazeList.Add(multipleChoice);
                                     break;
 
-                                default:
+                                case "RecordAudio":
+                                    backgroundColor = listItem.GetAttribute("BackgroundColor").Split(new string[] { ", " }, StringSplitOptions.None);
+
+                                    imageFilePath = listItem.GetAttribute("ImageID");
+                                    imageFileName = imageFilePath;
+                                    if (imageLibraryItems.ContainsKey(imageFileName))
+                                    {
+                                        imageFilePath = imageLibraryItems[imageFileName];
+                                        imageFileName = imageFilePath.Substring(imageFilePath.LastIndexOf("\\") + 1);
+                                        if (imageFileName == "")
+                                            imageFileName = imageFilePath;
+                                    }
+                                    imageFilePaths[imageFileName] = imageFilePath;
+
+                                    MazeList_RecordAudioItem recordAudio = new MazeList_RecordAudioItem
+                                    {
+                                        Text = listItem.InnerText,
+                                        TextDisplayType = (MazeList_RecordAudioItem.DisplayType)Enum.Parse(typeof(MazeList_RecordAudioItem.DisplayType), listItem.GetAttribute("TextDisplayType")),
+                                        Duration = Convert.ToInt64(listItem.GetAttribute("Duration")),
+
+                                        BackgroundColor = Color.FromArgb(Convert.ToByte(backgroundColor[0]), Convert.ToByte(backgroundColor[1]), Convert.ToByte(backgroundColor[2]), Convert.ToByte(backgroundColor[3])),
+                                        ImageFile = imageFileName,
+                                    };
+
+                                    mazeList.Add(recordAudio);
                                     break;
                             }
                         }

@@ -631,6 +631,11 @@ namespace MazeMaker
 
     public class MazeList_RecordAudioItem : MyBuilderItem
     {
+        public enum DisplayType
+        {
+            OnFramedDialog, OnBackground
+        }
+
         public MazeList_RecordAudioItem()
         {
             Type = ItemType.RecordAudio;
@@ -648,6 +653,55 @@ namespace MazeMaker
         public override string ToString()
         {
             return "[" + Type + "]";
+        }
+
+        private long duration = 1000;
+        [Category("Timing")]
+        [Description("Time in milliseconds for the text to be displayed. If zero, waits until user clicks OK")]
+        public long Duration
+        {
+            get { return duration; }
+            set { duration = value; }
+        }
+
+        private DisplayType showlike = DisplayType.OnFramedDialog;
+        [Category("Style")]
+        [Description("Determines how the text is displayed")]
+        public DisplayType TextDisplayType
+        {
+            get { return showlike; }
+            set { showlike = value; }
+        }
+
+        private Color backgroundColor;
+        [Category("Display")]
+        [Description("Set background color using color name or RGB values seperated by a comma: white or 255, 255, 255")]
+        [DisplayName("Background Color")]
+        public Color BackgroundColor
+        {
+            get { return backgroundColor; }
+            set { backgroundColor = value; }
+        }
+
+        private string imageFile = "";
+        [Category("Display")]
+        [Description("Specify an image filename to be displayed")]
+        [DisplayName("Image File")]
+        [TypeConverter(typeof(ImageFileConverter))]
+        public string ImageFile
+        {
+            get { return imageFile; }
+            set { imageFile = value; }
+        }
+
+        private int fontSize = 12;
+        [Category("Text Display")]
+        [Description("Specify an font size to be displayed")]
+        [DisplayName("Font Size")]
+        public int FontSize
+        {
+            get { return fontSize; }
+            set { fontSize = value; }
         }
     }
 
