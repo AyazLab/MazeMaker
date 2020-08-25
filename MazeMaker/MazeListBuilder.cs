@@ -802,7 +802,10 @@ namespace MazeMaker
                             string filePath = mazeFilePaths[maze.MazeFile];
                             if (filePath[1] == ':')
                             {
+                                MessageBox.Show("from: " + inp);
+                                MessageBox.Show("to: " + filePath);
                                 filePath = MakeRelativePath(inp, filePath);
+                                MessageBox.Show("rel:" + filePath);
                             }
                             mazeLibraryItem.SetAttribute("File", filePath);
 
@@ -1015,25 +1018,27 @@ namespace MazeMaker
             return true;
         }
 
-        public static String MakeRelativePath(String fromPath, String toPath)
+        public static string MakeRelativePath(string fromPath, string toPath)
         {
-            if (String.IsNullOrEmpty(fromPath)) throw new ArgumentNullException("fromPath");
-            if (String.IsNullOrEmpty(toPath)) throw new ArgumentNullException("toPath");
-
-            Uri fromUri = new Uri(fromPath);
-            Uri toUri = new Uri(toPath);
-
-            if (fromUri.Scheme != toUri.Scheme) { return toPath; } // path can't be made relative.
-
-            Uri relativeUri = fromUri.MakeRelativeUri(toUri);
-            String relativePath = Uri.UnescapeDataString(relativeUri.ToString());
-
-            if (toUri.Scheme.Equals("file", StringComparison.InvariantCultureIgnoreCase))
+            try
             {
-                relativePath = relativePath.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
-            }
+                Uri fromUri = new Uri(fromPath);
+                Uri toUri = new Uri(toPath);
 
-            return relativePath;
+                if (fromUri.Scheme != toUri.Scheme)
+                    return toPath;
+
+                string relativeUri = fromUri.MakeRelativeUri(toUri).ToString();
+
+                if (relativeUri[0] == '.')
+                    relativeUri = relativeUri.Substring(1);
+
+                return relativeUri;
+            }
+            catch
+            {
+                return toPath;
+            }
         }
 
         private bool WriteToFile(string inp)
