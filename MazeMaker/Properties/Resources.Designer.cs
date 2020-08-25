@@ -176,6 +176,16 @@ namespace MazeMaker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon AudioCollectionIcon {
+            get {
+                object obj = ResourceManager.GetObject("AudioCollectionIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap back {
@@ -699,6 +709,16 @@ namespace MazeMaker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon ImageCollectionIcon {
+            get {
+                object obj = ResourceManager.GetObject("ImageCollectionIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap ImageItemIcon {
@@ -980,6 +1000,16 @@ namespace MazeMaker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon ModelCollectionIcon {
+            get {
+                object obj = ResourceManager.GetObject("ModelCollectionIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;
@@ -1042,6 +1072,16 @@ namespace MazeMaker.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap PackageItemsIcon {
+            get {
+                object obj = ResourceManager.GetObject("PackageItemsIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap panIcon {
             get {
                 object obj = ResourceManager.GetObject("panIcon", resourceCulture);
@@ -1052,9 +1092,29 @@ namespace MazeMaker.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap PauseAudioIcon {
+            get {
+                object obj = ResourceManager.GetObject("PauseAudioIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Play1 {
             get {
                 object obj = ResourceManager.GetObject("Play1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PlayAudioIcon {
+            get {
+                object obj = ResourceManager.GetObject("PlayAudioIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

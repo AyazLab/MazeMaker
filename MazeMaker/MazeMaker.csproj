@@ -305,6 +305,12 @@
     <None Include="Resources\RecordAudioItemIcon.png" />
     <None Include="Resources\TextItemIcon.png" />
     <None Include="Resources\ImageItemIcon.png" />
+    <None Include="Resources\AudioCollectionIcon.ico" />
+    <None Include="Resources\ImageCollectionIcon.ico" />
+    <None Include="Resources\ModelCollectionIcon.ico" />
+    <None Include="Resources\PauseAudioIcon.png" />
+    <None Include="Resources\PlayAudioIcon.png" />
+    <None Include="Resources\PackageItemsIcon.png" />
     <Content Include="Res\Logo.ico" />
     <None Include="Res\logo1.bmp" />
     <Content Include="Res\MazeList.ico" />

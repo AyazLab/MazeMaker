@@ -122,7 +122,7 @@ namespace MazeMaker
             // 
             // toolStripButton_Package
             // 
-            this.toolStripButton_Package.Image = global::MazeMaker.Properties.Resources.buttonDown;
+            this.toolStripButton_Package.Image = global::MazeMaker.Properties.Resources.PackageItemsIcon;
             this.toolStripButton_Package.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton_Package.Name = "toolStripButton_Package";
             this.toolStripButton_Package.Size = new System.Drawing.Size(99, 36);
