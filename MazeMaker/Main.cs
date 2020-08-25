@@ -5531,9 +5531,11 @@ namespace MazeMaker
         private void modelCollectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ChangeModeTo0();
+
             List<Model> models = MazeListBuilder.FilesToModels(curMaze.cModels);
-            MazeMakerCollectionEditor a = new MazeMakerCollectionEditor(ref models);
-            a.ShowDialog();
+            MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref models);
+            mmce.ShowDialog();
+            MazeListBuilder.ModelsToFiles(mmce.GetModels(), ref ModelPathConverter.Paths);
         }
 
         private void audioCollectionToolStripMenuItem_Click(object sender, EventArgs e)

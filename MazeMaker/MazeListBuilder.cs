@@ -112,6 +112,7 @@ namespace MazeMaker
             ofd.Filter = "MazeList File (*.melx,*.mel)|*.melx;*.mel|All Files|*.*";
             ofd.FilterIndex = 1;
             ofd.RestoreDirectory = true;
+
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 ReadFromFile(ofd.FileName, true);
@@ -576,6 +577,18 @@ namespace MazeMaker
                                 string newFilePath = melxPath + "_assets\\audio\\" + multipleChoice.AudioFile;
 
                                 copyedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath);
+                            }
+                            break;
+
+
+                        case ItemType.RecordAudio:
+                            MazeList_RecordAudioItem recordAudio = (MazeList_RecordAudioItem)item;
+                            if (recordAudio.ImageFile != "")
+                            {
+                                string oldFilePath = imageFilePaths[recordAudio.ImageFile];
+                                string newFilePath = melxPath + "_assets\\image\\" + recordAudio.ImageFile;
+
+                                copyedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "image", newFilePath);
                             }
                             break;
                     }
@@ -1053,27 +1066,23 @@ namespace MazeMaker
             return true;
         }
 
-        public static string MakeRelativePath(string fromPath, string toPath)
+        string MakeRelativePath(string fromPath, string toPath)
         {
             try
             {
                 Uri fromUri = new Uri(fromPath);
                 Uri toUri = new Uri(toPath);
 
-                if (fromUri.Scheme != toUri.Scheme)
-                    return toPath;
+                if (fromUri.Scheme != toUri.Scheme) { return toPath; }
 
-                string relativeUri = fromUri.MakeRelativeUri(toUri).ToString();
+                String relativePath = Uri.UnescapeDataString(fromUri.MakeRelativeUri(toUri).ToString());
 
-                if (relativeUri[0] == '.')
-                    relativeUri = relativeUri.Substring(1);
+                if (toUri.Scheme.Equals("file", StringComparison.InvariantCultureIgnoreCase))
+                    return relativePath.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
 
-                return relativeUri;
+                return relativePath;
             }
-            catch
-            {
-                return toPath;
-            }
+            catch { return toPath; }
         }
 
         private bool WriteToFile(string inp)
