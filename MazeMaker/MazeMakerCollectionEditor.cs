@@ -81,12 +81,15 @@ namespace MazeMaker
         {
             InitializeComponent();
             curListT = inp;
-            curListT2 = new List<Texture>(); 
+            curListT2 = new List<Texture>();
+
             foreach (Texture t in curListT)
             {
                 curListT2.Add(t);
             }
-            this.Text = "Texture/Image Collection Editor";
+
+            Text = "Texture/Image Collection Editor";
+            Icon = Properties.Resources.ImageCollectionIcon;
         }
 
         public MazeMakerCollectionEditor(ref List<Model> inp)
@@ -94,10 +97,14 @@ namespace MazeMaker
             InitializeComponent();
             curListM = inp;
             curListM2 = new List<Model>();
+
             foreach (Model t in curListM)
             {
                 curListM2.Add(t);
-            } this.Text = "Model/Object Collection Editor";
+            }
+
+            Text = "Model/Object Collection Editor";
+            Icon = Properties.Resources.ModelCollectionIcon;
         }
 
         public MazeMakerCollectionEditor(ref List<Audio> inp)
@@ -105,11 +112,14 @@ namespace MazeMaker
             InitializeComponent();
             curListA = inp;
             curListA2 = new List<Audio>();
+
             foreach (Audio t in curListA)
             {
                 curListA2.Add(t);
             }
-            this.Text = "Audio/Sound Collection Editor";
+            
+            Text = "Audio/Sound Collection Editor";
+            Icon = Properties.Resources.AudioCollectionIcon;
         }
 
         private void RefreshList()
@@ -255,6 +265,7 @@ namespace MazeMaker
                     break;
             }
 
+            pictureBox.Image = Properties.Resources.PlayAudioIcon;
             audioPlaying = false;
         }
 
@@ -282,6 +293,8 @@ namespace MazeMaker
                         default:
                             break;
                     }
+
+                    pictureBox.Image = Properties.Resources.PauseAudioIcon;
                     audioPlaying = true;
                 }
             }
