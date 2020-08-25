@@ -217,8 +217,6 @@ namespace MazeMaker
                 }
                 else if (curListA2 != null)
                 {
-                    pictureBox.Image  = Properties.Resources.AudioPlayerIcon;
-
                     StopAudio();
                     string filePath = ((Audio)listBoxCollection.SelectedItem).filePath;
                     audioPlayer = Path.GetExtension(filePath).ToLower();
