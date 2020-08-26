@@ -82,6 +82,7 @@ namespace MazeMaker
             MakeMazeList();
 
             toolStripLabel.Text = "Add Item\nTo MazeList\n";
+            MazeListBuilder_Resize(sender, e);
         }
 
         public void toolStrip_open_Click(object sender, EventArgs e)
@@ -1593,10 +1594,9 @@ namespace MazeMaker
 
         private void MazeListBuilder_Resize(object sender, EventArgs e)
         {
-            // TODO FIX MEEEEE
-            //treeViewMazeList.Width = L_Up.Left - treeViewMazeList.Left - 10;
-            //treeViewMazeList.Height = closeButton.Top - treeViewMazeList.Top - 10;
-            //propertyGrid.Height = treeViewMazeList.Height;
+            treeViewMazeList.Width = L_Up.Left - treeViewMazeList.Left - L_Up.Width / 4;
+            treeViewMazeList.Height = closeButton.Bottom - treeViewMazeList.Top;
+            propertyGrid.Height = closeButton.Top - propertyGrid.Top - L_Up.Height / 4;
         }
     }
 }
