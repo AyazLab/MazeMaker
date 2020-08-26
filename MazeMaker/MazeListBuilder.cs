@@ -82,6 +82,8 @@ namespace MazeMaker
             MakeMazeList();
 
             toolStripLabel.Text = "Add Item\nTo MazeList\n";
+            toolStripButtonMultipleChoiceItem.Text = "Multiple\nChoice";
+            toolStripButtonRecordAudio.Text = "Record\nAudio";
             MazeListBuilder_Resize(sender, e);
         }
 

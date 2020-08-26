@@ -168,7 +168,7 @@ namespace MazeMaker
             this.panelListItems.Location = new System.Drawing.Point(0, 39);
             this.panelListItems.MinimumSize = new System.Drawing.Size(121, 454);
             this.panelListItems.Name = "panelListItems";
-            this.panelListItems.Size = new System.Drawing.Size(148, 482);
+            this.panelListItems.Size = new System.Drawing.Size(130, 482);
             this.panelListItems.TabIndex = 15;
             // 
             // toolStripListItems
@@ -188,7 +188,7 @@ namespace MazeMaker
             this.toolStripListItems.Location = new System.Drawing.Point(0, 0);
             this.toolStripListItems.MinimumSize = new System.Drawing.Size(118, 554);
             this.toolStripListItems.Name = "toolStripListItems";
-            this.toolStripListItems.Size = new System.Drawing.Size(146, 554);
+            this.toolStripListItems.Size = new System.Drawing.Size(128, 554);
             this.toolStripListItems.Stretch = true;
             this.toolStripListItems.TabIndex = 15;
             this.toolStripListItems.Text = "toolStrip1";
@@ -202,50 +202,55 @@ namespace MazeMaker
             // 
             // toolStripButtonMazeItem
             // 
+            this.toolStripButtonMazeItem.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.toolStripButtonMazeItem.Image = global::MazeMaker.Properties.Resources.MazeItemIcon;
             this.toolStripButtonMazeItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonMazeItem.Name = "toolStripButtonMazeItem";
-            this.toolStripButtonMazeItem.Size = new System.Drawing.Size(144, 74);
+            this.toolStripButtonMazeItem.Size = new System.Drawing.Size(144, 73);
             this.toolStripButtonMazeItem.Text = "Maze";
             this.toolStripButtonMazeItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButtonMazeItem.Click += new System.EventHandler(this.add_Click);
             // 
             // toolStripButtonTextItem
             // 
+            this.toolStripButtonTextItem.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.toolStripButtonTextItem.Image = global::MazeMaker.Properties.Resources.TextItemIcon;
             this.toolStripButtonTextItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonTextItem.Name = "toolStripButtonTextItem";
-            this.toolStripButtonTextItem.Size = new System.Drawing.Size(144, 74);
+            this.toolStripButtonTextItem.Size = new System.Drawing.Size(144, 73);
             this.toolStripButtonTextItem.Text = "Text";
             this.toolStripButtonTextItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButtonTextItem.Click += new System.EventHandler(this.add_Click);
             // 
             // toolStripButtonImageItem
             // 
+            this.toolStripButtonImageItem.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.toolStripButtonImageItem.Image = global::MazeMaker.Properties.Resources.ImageItemIcon;
             this.toolStripButtonImageItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonImageItem.Name = "toolStripButtonImageItem";
-            this.toolStripButtonImageItem.Size = new System.Drawing.Size(144, 74);
+            this.toolStripButtonImageItem.Size = new System.Drawing.Size(144, 73);
             this.toolStripButtonImageItem.Text = "Image";
             this.toolStripButtonImageItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButtonImageItem.Click += new System.EventHandler(this.add_Click);
             // 
             // toolStripButtonMultipleChoiceItem
             // 
+            this.toolStripButtonMultipleChoiceItem.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.toolStripButtonMultipleChoiceItem.Image = global::MazeMaker.Properties.Resources.MultipleChoiceItemIcon;
             this.toolStripButtonMultipleChoiceItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonMultipleChoiceItem.Name = "toolStripButtonMultipleChoiceItem";
-            this.toolStripButtonMultipleChoiceItem.Size = new System.Drawing.Size(144, 74);
+            this.toolStripButtonMultipleChoiceItem.Size = new System.Drawing.Size(144, 73);
             this.toolStripButtonMultipleChoiceItem.Text = "Multiple Choice";
             this.toolStripButtonMultipleChoiceItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButtonMultipleChoiceItem.Click += new System.EventHandler(this.add_Click);
             // 
             // toolStripButtonRecordAudio
             // 
+            this.toolStripButtonRecordAudio.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.toolStripButtonRecordAudio.Image = global::MazeMaker.Properties.Resources.RecordAudioItemIcon;
             this.toolStripButtonRecordAudio.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonRecordAudio.Name = "toolStripButtonRecordAudio";
-            this.toolStripButtonRecordAudio.Size = new System.Drawing.Size(144, 74);
+            this.toolStripButtonRecordAudio.Size = new System.Drawing.Size(144, 73);
             this.toolStripButtonRecordAudio.Text = "Record Audio";
             this.toolStripButtonRecordAudio.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButtonRecordAudio.Click += new System.EventHandler(this.add_Click);
@@ -261,9 +266,9 @@ namespace MazeMaker
             this.panelProperties.Controls.Add(this.L_Down);
             this.panelProperties.Controls.Add(this.L_Up);
             this.panelProperties.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelProperties.Location = new System.Drawing.Point(148, 39);
+            this.panelProperties.Location = new System.Drawing.Point(130, 39);
             this.panelProperties.Name = "panelProperties";
-            this.panelProperties.Size = new System.Drawing.Size(761, 482);
+            this.panelProperties.Size = new System.Drawing.Size(779, 482);
             this.panelProperties.TabIndex = 16;
             // 
             // treeViewMazeList
@@ -277,7 +282,7 @@ namespace MazeMaker
             // closeButton
             // 
             this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.closeButton.Location = new System.Drawing.Point(648, 433);
+            this.closeButton.Location = new System.Drawing.Point(666, 433);
             this.closeButton.Margin = new System.Windows.Forms.Padding(4);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(100, 33);
@@ -289,7 +294,7 @@ namespace MazeMaker
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(384, 11);
+            this.label2.Location = new System.Drawing.Point(402, 11);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 17);
@@ -309,7 +314,7 @@ namespace MazeMaker
             // propertyGrid
             // 
             this.propertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.propertyGrid.Location = new System.Drawing.Point(387, 30);
+            this.propertyGrid.Location = new System.Drawing.Point(405, 30);
             this.propertyGrid.Margin = new System.Windows.Forms.Padding(4);
             this.propertyGrid.Name = "propertyGrid";
             this.propertyGrid.Size = new System.Drawing.Size(361, 395);
@@ -320,7 +325,7 @@ namespace MazeMaker
             this.L_Del.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Del.Enabled = false;
             this.L_Del.Image = global::MazeMaker.Properties.Resources.del;
-            this.L_Del.Location = new System.Drawing.Point(348, 133);
+            this.L_Del.Location = new System.Drawing.Point(366, 133);
             this.L_Del.Margin = new System.Windows.Forms.Padding(4);
             this.L_Del.Name = "L_Del";
             this.L_Del.Size = new System.Drawing.Size(31, 28);
@@ -331,7 +336,7 @@ namespace MazeMaker
             this.L_Down.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Down.Enabled = false;
             this.L_Down.Image = global::MazeMaker.Properties.Resources.arr_down;
-            this.L_Down.Location = new System.Drawing.Point(348, 97);
+            this.L_Down.Location = new System.Drawing.Point(366, 97);
             this.L_Down.Margin = new System.Windows.Forms.Padding(4);
             this.L_Down.Name = "L_Down";
             this.L_Down.Size = new System.Drawing.Size(31, 28);
@@ -342,7 +347,7 @@ namespace MazeMaker
             this.L_Up.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Up.Enabled = false;
             this.L_Up.Image = global::MazeMaker.Properties.Resources.arr_up;
-            this.L_Up.Location = new System.Drawing.Point(348, 61);
+            this.L_Up.Location = new System.Drawing.Point(366, 61);
             this.L_Up.Margin = new System.Windows.Forms.Padding(4);
             this.L_Up.Name = "L_Up";
             this.L_Up.Size = new System.Drawing.Size(31, 28);
