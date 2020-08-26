@@ -3450,30 +3450,40 @@ namespace MazeMaker
                 MazeChanged(false);
 
             if (propertyGrid1.SelectedObject.GetType().Name != "Maze")
-            // Manage Item Dropdown
+            // Manage Items Dropdown
             {
                 MazeItem mazeItem = (MazeItem)propertyGrid1.SelectedObject;
                 switch (mazeItem.itemType)
                 {
+                    case MazeItemType.ActiveRegion:
+                        ActiveRegion activeRegion = (ActiveRegion)mazeItem;
+                        activeRegion.Phase1HighlightAudio = ManageItems("Audio", e.OldValue.ToString(), activeRegion.Phase1HighlightAudio);
+                        activeRegion.Phase2EventAudio = ManageItems("Audio", e.OldValue.ToString(), activeRegion.Phase2EventAudio);
+                        break;
+
                     case MazeItemType.Static:
                         StaticModel staticModel = (StaticModel)mazeItem;
-                        staticModel.Model = OpenCollection("Model", e.OldValue.ToString(), staticModel.Model);
+                        staticModel.Model = ManageItems("Model", e.OldValue.ToString(), staticModel.Model);
                         break;
 
                     case MazeItemType.Dynamic:
                         DynamicObject dynamicObject = (DynamicObject)mazeItem;
-                        dynamicObject.Model = OpenCollection("Model", e.OldValue.ToString(), dynamicObject.Model);
-                        dynamicObject.SwitchToModel = OpenCollection("Dynamic", e.OldValue.ToString(), dynamicObject.SwitchToModel);
+
+                        dynamicObject.Phase1HighlightAudio = ManageItems("Audio", e.OldValue.ToString(), dynamicObject.Phase1HighlightAudio);
+                        dynamicObject.Phase2EventAudio = ManageItems("Audio", e.OldValue.ToString(), dynamicObject.Phase2EventAudio);
+                        
+                        dynamicObject.Model = ManageItems("Model", e.OldValue.ToString(), dynamicObject.Model);
+                        dynamicObject.SwitchToModel = ManageItems("Model", e.OldValue.ToString(), dynamicObject.SwitchToModel);
                         break;
                 }
             }
             else
             {
-                curMaze.AvatarModel = OpenCollection("Model", e.OldValue.ToString(), curMaze.AvatarModel);
+                curMaze.AvatarModel = ManageItems("Model", e.OldValue.ToString(), curMaze.AvatarModel);
             }
         }
 
-        string OpenCollection(string type, string oldValue, string newValue)
+        string ManageItems(string type, string oldValue, string newValue)
         {
             switch (newValue)
             {
@@ -3568,6 +3578,7 @@ namespace MazeMaker
 
                     else if (type == "Audio" && newValue != "" && !AudioPathConverter.Paths.ContainsKey(newValue))
                         AudioPathConverter.Paths[newValue] = newValue;
+
                     else if (type == "Model" && newValue != "" && !ModelPathConverter.Paths.ContainsKey(newValue))
                         ModelPathConverter.Paths[newValue] = newValue;
 
@@ -5532,7 +5543,7 @@ namespace MazeMaker
         {
             ChangeModeTo0();
 
-            List<Model> models = MazeListBuilder.FilesToModels(curMaze.cModels);
+            List<Model> models = MazeListBuilder.FilesToModels(ModelPathConverter.Paths);
             MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref models);
             mmce.ShowDialog();
             MazeListBuilder.ModelsToFiles(mmce.GetModels(), ref ModelPathConverter.Paths);
@@ -5541,8 +5552,14 @@ namespace MazeMaker
         private void audioCollectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ChangeModeTo0();
-            MazeMakerCollectionEditor a = new MazeMakerCollectionEditor(ref curMaze.cAudio);
-            a.ShowDialog();
+
+            List<Audio> audios = MazeListBuilder.FilesToAudios(AudioPathConverter.Paths);
+            MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref audios);
+            mmce.ShowDialog();
+            MazeListBuilder.AudiosToFiles(mmce.GetAudios(), ref AudioPathConverter.Paths);
+            
+            //MazeMakerCollectionEditor a = new MazeMakerCollectionEditor(ref curMaze.cAudio);
+            //a.ShowDialog();
         }
 
         private void quickRunToolStripMenuItem_Click(object sender, EventArgs e)
