@@ -38,6 +38,7 @@ namespace MazeMaker
             il.Images.Add("Image", Properties.Resources.ImageItemIcon);
             il.Images.Add("MultipleChoice", Properties.Resources.MultipleChoiceItemIcon);
             il.Images.Add("RecordAudio", Properties.Resources.RecordAudioItemIcon);
+            il.Images.Add("Command", Properties.Resources.CommandItemIcon);
 
             treeViewMazeList.ImageList = il;
         }
@@ -211,9 +212,9 @@ namespace MazeMaker
         private void add_Click(object sender, EventArgs e)
         {
             madeChanges = true;
-            string s = (sender as ToolStripButton).Text;
+            string listItem = (sender as ToolStripButton).Text;
 
-            switch (s)
+            switch (listItem)
             {
                 case "Maze":
                     mazeList.Add(new MazeList_MazeItem());
@@ -227,12 +228,16 @@ namespace MazeMaker
                     mazeList.Add(new MazeList_ImageItem());
                     break;
 
-                case "Multiple Choice":
+                case "Multiple\nChoice":
                     mazeList.Add(new MazeList_MultipleChoiceItem(new ListChangedEventHandler(Updated)));
                     break;
 
-                case "Record Audio":
+                case "Record\nAudio":
                     mazeList.Add(new MazeList_RecordAudioItem());
+                    break;
+
+                case "Command":
+                    mazeList.Add(new MazeList_CommandItem());
                     break;
             }
 
@@ -1050,6 +1055,12 @@ namespace MazeMaker
                             mz.SetAttribute("ImageID", "");
                         }
                         break;
+
+                    case ItemType.Command:
+                        MazeList_CommandItem command = (MazeList_CommandItem)item;
+                        mz.InnerText = command.Command;
+                        mz.SetAttribute("Wait4Exit", command.Wait4Exit);
+                        break;
                 }
 
                 if (mz.Name != "MazeListOptions")
@@ -1412,6 +1423,16 @@ namespace MazeMaker
                                     };
 
                                     mazeList.Add(recordAudio);
+                                    break;
+
+                                case "Command":
+                                    MazeList_CommandItem command = new MazeList_CommandItem
+                                    {
+                                        Command = listItem.InnerText,
+                                        Wait4Exit = listItem.GetAttribute("Wait4Exit"),
+                                    };
+
+                                    mazeList.Add(command);
                                     break;
                             }
                         }

@@ -12,6 +12,7 @@ using System.Drawing;
 using System.ComponentModel.Design;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.AccessControl;
 
 #endregion
 
@@ -19,7 +20,7 @@ namespace MazeMaker
 {
     public enum ItemType
     {
-        MazeListOptions, Maze, Text, Image, MultipleChoice, RecordAudio
+        MazeListOptions, Maze, Text, Image, MultipleChoice, RecordAudio, Command
     }
 
     public class MyBuilderItem : Object
@@ -418,7 +419,7 @@ namespace MazeMaker
             get { return fontSize; }
             set { fontSize = value; }
         }
-    }
+    }   
 
     public class TextReturn
     {
@@ -702,6 +703,44 @@ namespace MazeMaker
         {
             get { return fontSize; }
             set { fontSize = value; }
+        }
+    }
+
+    public class MazeList_CommandItem : MyBuilderItem
+    {
+        public MazeList_CommandItem()
+        {
+            Type = ItemType.Command;
+        }
+
+        protected new string text = "";
+        [Browsable(false)]
+        public new string Text
+        {
+            get { return text; }
+            set { text = value; }
+        }
+
+        private string command = "";
+        [Description("")]
+        public string Command
+        {
+            get { return command; }
+            set { command = value; }
+        }
+
+        private string wait4Exit = "";
+        [Description("")]
+        [DisplayName("Wait For Exit")]
+        public string Wait4Exit
+        {
+            get { return wait4Exit; }
+            set { wait4Exit = value; }
+        }
+        
+        public override string ToString()
+        {
+            return "[" + Type + "] - " + Command;
         }
     }
 

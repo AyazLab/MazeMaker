@@ -468,6 +468,16 @@ namespace MazeMaker.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CommandItemIcon {
+            get {
+                object obj = ResourceManager.GetObject("CommandItemIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap curvedWallIcon {
             get {
                 object obj = ResourceManager.GetObject("curvedWallIcon", resourceCulture);
