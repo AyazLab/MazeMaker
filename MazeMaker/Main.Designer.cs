@@ -160,7 +160,7 @@ namespace MazeMaker
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.propertyGrid = new System.Windows.Forms.PropertyGrid();
             this.toolStrip_maze = new System.Windows.Forms.ToolStrip();
             this.ts_maze_pointer = new System.Windows.Forms.ToolStripButton();
             this.ts_maze_pan = new System.Windows.Forms.ToolStripButton();
@@ -1047,7 +1047,7 @@ namespace MazeMaker
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.propertyGrid1);
+            this.splitContainer1.Panel2.Controls.Add(this.propertyGrid);
             this.splitContainer1.Size = new System.Drawing.Size(1660, 441);
             this.splitContainer1.SplitterDistance = 1331;
             this.splitContainer1.SplitterWidth = 5;
@@ -1605,14 +1605,14 @@ namespace MazeMaker
             // 
             // propertyGrid1
             // 
-            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid1.LineColor = System.Drawing.SystemColors.ControlDark;
-            this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
-            this.propertyGrid1.Margin = new System.Windows.Forms.Padding(4);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(324, 441);
-            this.propertyGrid1.TabIndex = 0;
-            this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
+            this.propertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid.LineColor = System.Drawing.SystemColors.ControlDark;
+            this.propertyGrid.Location = new System.Drawing.Point(0, 0);
+            this.propertyGrid.Margin = new System.Windows.Forms.Padding(4);
+            this.propertyGrid.Name = "propertyGrid1";
+            this.propertyGrid.Size = new System.Drawing.Size(324, 441);
+            this.propertyGrid.TabIndex = 0;
+            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
             // 
             // toolStrip_maze
             // 
@@ -2035,7 +2035,7 @@ namespace MazeMaker
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
         private System.Windows.Forms.ToolStrip toolStrip_coreIO;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.PropertyGrid propertyGrid1;
+        private System.Windows.Forms.PropertyGrid propertyGrid;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;

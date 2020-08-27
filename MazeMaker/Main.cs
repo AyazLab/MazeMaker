@@ -992,7 +992,7 @@ namespace MazeMaker
             tabPageMazeEdit.BackgroundImage = null;
             panelWelcome.Visible = false;
             XYZ_axisImagebox.Visible = true;
-            TextureCounter.Reset();
+            //TextureCounter.Reset();
             curMaze = new Maze();
             toogleElementsToolStrip(true);
             ChangeMode(Mode.none);
@@ -1001,7 +1001,7 @@ namespace MazeMaker
             this.Text = "MazeMaker - Maze" + mazeNumber.ToString();
             curMaze.Name = "Maze" + mazeNumber.ToString();
             Maze.mzP = curMaze;
-            propertyGrid1.SelectedObject = curMaze;
+            propertyGrid.SelectedObject = curMaze;
             UpdateTree();
             ShowViewMoveButtons(true);
 
@@ -1183,7 +1183,7 @@ namespace MazeMaker
                     
                     ts_delete.Enabled = false;
                     RedrawFrame();
-                    propertyGrid1.SelectedObject = null;
+                    propertyGrid.SelectedObject = null;
                     this.Text = "MazeMaker";
                     tabPageMazeEdit.BackgroundImage = MazeMaker.Properties.Resources.mazeMakerBG;
                     ClearTree();
@@ -2199,7 +2199,7 @@ namespace MazeMaker
             {
                 curMaze.ResizeAllCoordinates(1.25);
                 RedrawFrame();
-                propertyGrid1.Refresh();
+                propertyGrid.Refresh();
                 MazeChanged();
             }
             catch
@@ -2214,7 +2214,7 @@ namespace MazeMaker
             {
                 curMaze.ResizeAllCoordinates(0.8);
                 RedrawFrame();
-                propertyGrid1.Refresh();
+                propertyGrid.Refresh();
                 MazeChanged();
             }
             catch
@@ -2229,7 +2229,7 @@ namespace MazeMaker
             {
                 curMaze.AutoFixPlacement();
                 RedrawFrame();
-                propertyGrid1.Refresh();
+                propertyGrid.Refresh();
                 MazeChanged();
                 SyncSelections();
             }
@@ -3264,17 +3264,17 @@ namespace MazeMaker
 
                 if (selected.Count == 0)
                 {
-                    propertyGrid1.SelectedObject = curMaze;
+                    propertyGrid.SelectedObject = curMaze;
                     ts_delete.Enabled = false;
                 }
                 else if (selected.Count == 1)
                 {
-                    propertyGrid1.SelectedObject = selected[0];
+                    propertyGrid.SelectedObject = selected[0];
                     ts_delete.Enabled = true;
                 }
                 else
                 {
-                    propertyGrid1.SelectedObjects = selected.ToArray();
+                    propertyGrid.SelectedObjects = selected.ToArray();
                     ts_delete.Enabled = true;
                 }
                
@@ -3419,7 +3419,7 @@ namespace MazeMaker
                 }
             }
             ts_delete.Enabled = false;
-            propertyGrid1.SelectedObject = curMaze;
+            propertyGrid.SelectedObject = curMaze;
             SyncSelections();
             RedrawFrame();
         }
@@ -3449,12 +3449,28 @@ namespace MazeMaker
             else
                 MazeChanged(false);
 
-            if (propertyGrid1.SelectedObject.GetType().Name != "Maze")
+            if (propertyGrid.SelectedObject.GetType().Name != "Maze")
             // Manage Items Dropdown
             {
-                MazeItem mazeItem = (MazeItem)propertyGrid1.SelectedObject;
+                MazeItem mazeItem = (MazeItem)propertyGrid.SelectedObject;
                 switch (mazeItem.itemType)
                 {
+                    case MazeItemType.Floor:
+                        Floor floor = (Floor)mazeItem;
+                        floor.FloorTexture = ManageItems("Image", e.OldValue.ToString(), floor.FloorTexture);
+                        floor.CeilingTexture = ManageItems("Image", e.OldValue.ToString(), floor.CeilingTexture);
+                        break;
+
+                    case MazeItemType.Wall:
+                        Wall wall = (Wall)mazeItem;
+                        wall.Texture = ManageItems("Image", e.OldValue.ToString(), wall.Texture);
+                        break;
+
+                    case MazeItemType.CurvedWall:
+                        CurvedWall curvedWall = (CurvedWall)mazeItem;
+                        curvedWall.Texture = ManageItems("Image", e.OldValue.ToString(), curvedWall.Texture);
+                        break;
+
                     case MazeItemType.ActiveRegion:
                         ActiveRegion activeRegion = (ActiveRegion)mazeItem;
                         activeRegion.Phase1HighlightAudio = ManageItems("Audio", e.OldValue.ToString(), activeRegion.Phase1HighlightAudio);
@@ -3479,6 +3495,7 @@ namespace MazeMaker
             }
             else
             {
+                curMaze.SkyBoxTexture = ManageItems("Image", e.OldValue.ToString(), curMaze.SkyBoxTexture);
                 curMaze.AvatarModel = ManageItems("Model", e.OldValue.ToString(), curMaze.AvatarModel);
             }
         }
@@ -4618,7 +4635,7 @@ namespace MazeMaker
             {
                 UpdateTree();
             }
-            propertyGrid1.Refresh();
+            propertyGrid.Refresh();
             SyncSelections();
             RedrawFrame();
         }
@@ -5535,8 +5552,11 @@ namespace MazeMaker
         private void textureCollectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ChangeModeTo0();
-            MazeMakerCollectionEditor a = new MazeMakerCollectionEditor(ref curMaze.cImages);
-            a.ShowDialog();
+
+            List<Texture> textures = MazeListBuilder.FilesToTextures(ImagePathConverter.Paths);
+            MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref textures);
+            mmce.ShowDialog();
+            MazeListBuilder.TexturesToFiles(mmce.GetTextures(), ref ImagePathConverter.Paths);
         }
 
         private void modelCollectionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5968,7 +5988,7 @@ namespace MazeMaker
                 }*/
                 SyncSelections();
                 RedrawFrame();
-                propertyGrid1.Refresh();
+                propertyGrid.Refresh();
             }
             catch //(System.Exception ex)
             {
@@ -5988,10 +6008,10 @@ namespace MazeMaker
                 if (flag)
                 {
                     UnSelect();
-                    propertyGrid1.SelectedObject = curMaze;
+                    propertyGrid.SelectedObject = curMaze;
                     break;
                 }
-                if (propertyGrid1.SelectedObject == curMaze)
+                if (propertyGrid.SelectedObject == curMaze)
                 {
                     flag = true;
                 }
@@ -6016,7 +6036,7 @@ namespace MazeMaker
                         {
                             UnSelect();
                             curMaze.cWall[selected].Select(true);
-                            propertyGrid1.SelectedObject = curMaze.cWall[selected];
+                            propertyGrid.SelectedObject = curMaze.cWall[selected];
                             break;
                         }
                     }
@@ -6042,7 +6062,7 @@ namespace MazeMaker
                         {
                             UnSelect();
                             curMaze.cCurveWall[selected].Select(true);
-                            propertyGrid1.SelectedObject = curMaze.cCurveWall[selected];
+                            propertyGrid.SelectedObject = curMaze.cCurveWall[selected];
                             break;
                         }
                     }
@@ -6068,7 +6088,7 @@ namespace MazeMaker
                         {
                             UnSelect();
                             curMaze.cFloor[selected].Select(true);
-                            propertyGrid1.SelectedObject = curMaze.cFloor[selected];
+                            propertyGrid.SelectedObject = curMaze.cFloor[selected];
                             break;
                         }
                     }
@@ -6094,7 +6114,7 @@ namespace MazeMaker
                         {
                             UnSelect();
                             curMaze.cStart[selected].Select(true);
-                            propertyGrid1.SelectedObject = curMaze.cStart[selected];
+                            propertyGrid.SelectedObject = curMaze.cStart[selected];
                             break;
                         }
                     }
@@ -6120,7 +6140,7 @@ namespace MazeMaker
                         {
                             UnSelect();
                             curMaze.cEndRegions[selected].Select(true);
-                            propertyGrid1.SelectedObject = curMaze.cEndRegions[selected];
+                            propertyGrid.SelectedObject = curMaze.cEndRegions[selected];
                             break;
                         }
                     }
@@ -6146,7 +6166,7 @@ namespace MazeMaker
                         {
                             UnSelect();
                             curMaze.cLight[selected].Select(true);
-                            propertyGrid1.SelectedObject = curMaze.cLight[selected];
+                            propertyGrid.SelectedObject = curMaze.cLight[selected];
                             break;
                         }
                     }
@@ -6172,7 +6192,7 @@ namespace MazeMaker
                         {
                             UnSelect();
                             curMaze.cStaticModels[selected].Select(true);
-                            propertyGrid1.SelectedObject = curMaze.cStaticModels[selected];
+                            propertyGrid.SelectedObject = curMaze.cStaticModels[selected];
                             break;
                         }
                     }
@@ -6198,7 +6218,7 @@ namespace MazeMaker
                         {
                             UnSelect();
                             curMaze.cDynamicObjects[selected].Select(true);
-                            propertyGrid1.SelectedObject = curMaze.cDynamicObjects[selected];
+                            propertyGrid.SelectedObject = curMaze.cDynamicObjects[selected];
                             break;
                         }
                     }
@@ -6210,7 +6230,7 @@ namespace MazeMaker
             if(flag==false)
             {
                 //nothing is selected, initiate with the maze...
-                propertyGrid1.SelectedObject = curMaze;
+                propertyGrid.SelectedObject = curMaze;
             }
         }
 
@@ -7316,7 +7336,7 @@ namespace MazeMaker
                     //this.txtResult.Text = testDialog.TextBox1.Text;
                     curMaze.ResizeAllCoordinatesXYZ(testDialog.horizontalResize/100.0f, testDialog.heightResize / 100.0f, testDialog.verticalResize / 100.0f);
                     RedrawFrame();
-                    propertyGrid1.Refresh();
+                    propertyGrid.Refresh();
                     MazeChanged();
                 }
                 else
