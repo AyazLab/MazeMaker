@@ -330,6 +330,7 @@
     <None Include="Resources\PlayAudioIcon.png" />
     <None Include="Resources\PackageItemsIcon.png" />
     <None Include="Resources\CommandItemIcon.png" />
+    <None Include="Resources\NewMazeListIcon.png" />
     <Content Include="Res\Logo.ico" />
     <None Include="Res\logo1.bmp" />
     <Content Include="Res\MazeList.ico" />

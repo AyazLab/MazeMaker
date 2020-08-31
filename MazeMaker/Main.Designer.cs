@@ -1059,7 +1059,7 @@ namespace MazeMaker
             // 
             this.splitContainer1.Panel2.Controls.Add(this.propertyGrid);
             this.splitContainer1.Size = new System.Drawing.Size(1660, 441);
-            this.splitContainer1.SplitterDistance = 1329;
+            this.splitContainer1.SplitterDistance = 1328;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
             this.splitContainer1.Text = "splitContainer1";
@@ -1079,7 +1079,7 @@ namespace MazeMaker
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControlMazeDisplay);
-            this.splitContainer2.Size = new System.Drawing.Size(1329, 441);
+            this.splitContainer2.Size = new System.Drawing.Size(1328, 441);
             this.splitContainer2.SplitterDistance = 200;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -1151,7 +1151,7 @@ namespace MazeMaker
             this.tabControlMazeDisplay.Multiline = true;
             this.tabControlMazeDisplay.Name = "tabControlMazeDisplay";
             this.tabControlMazeDisplay.SelectedIndex = 0;
-            this.tabControlMazeDisplay.Size = new System.Drawing.Size(1125, 441);
+            this.tabControlMazeDisplay.Size = new System.Drawing.Size(1124, 441);
             this.tabControlMazeDisplay.TabIndex = 0;
             this.tabControlMazeDisplay.SelectedIndexChanged += new System.EventHandler(this.tabControlMazeDisplay_SelectedIndexChanged);
             // 
@@ -1166,7 +1166,7 @@ namespace MazeMaker
             this.tabPageMazeEdit.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageMazeEdit.Name = "tabPageMazeEdit";
             this.tabPageMazeEdit.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageMazeEdit.Size = new System.Drawing.Size(1117, 412);
+            this.tabPageMazeEdit.Size = new System.Drawing.Size(1116, 412);
             this.tabPageMazeEdit.TabIndex = 0;
             this.tabPageMazeEdit.Text = "Maze Editor";
             this.tabPageMazeEdit.UseVisualStyleBackColor = true;
@@ -1192,7 +1192,7 @@ namespace MazeMaker
             this.navControlPanel.Controls.Add(this.buttonViewMoveLeft);
             this.navControlPanel.Controls.Add(this.buttonViewMoveDown);
             this.navControlPanel.Controls.Add(this.buttonViewMoveUp);
-            this.navControlPanel.Location = new System.Drawing.Point(1003, 0);
+            this.navControlPanel.Location = new System.Drawing.Point(1002, 0);
             this.navControlPanel.Margin = new System.Windows.Forms.Padding(4);
             this.navControlPanel.Name = "navControlPanel";
             this.navControlPanel.Size = new System.Drawing.Size(115, 106);
@@ -1438,7 +1438,7 @@ namespace MazeMaker
             // 
             // button_NewMazeList0
             // 
-            this.button_NewMazeList0.BackgroundImage = global::MazeMaker.Properties.Resources._new;
+            this.button_NewMazeList0.BackgroundImage = global::MazeMaker.Properties.Resources.NewMazeListIcon;
             this.button_NewMazeList0.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button_NewMazeList0.Location = new System.Drawing.Point(6, 176);
             this.button_NewMazeList0.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -1620,7 +1620,7 @@ namespace MazeMaker
             this.propertyGrid.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid.Margin = new System.Windows.Forms.Padding(4);
             this.propertyGrid.Name = "propertyGrid";
-            this.propertyGrid.Size = new System.Drawing.Size(326, 441);
+            this.propertyGrid.Size = new System.Drawing.Size(327, 441);
             this.propertyGrid.TabIndex = 0;
             this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
             // 
