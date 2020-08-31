@@ -385,22 +385,25 @@ namespace MazeMaker
                     if (type == "Maze" && dr == DialogResult.OK)
                     {
                         string fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
-                        if (fileName != "")
-                            mazeFilePaths[fileName] = ofd.FileName;
+                        if (fileName == "")
+                            fileName = ofd.FileName;
+                        mazeFilePaths[fileName] = ofd.FileName;
                         return fileName;
                     }
                     else if (type == "Image" && dr == DialogResult.OK)
                     {
                         string fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
-                        if (fileName != "")
-                            imageFilePaths[fileName] = ofd.FileName;
+                        if (fileName == "")
+                            fileName = ofd.FileName;
+                        imageFilePaths[fileName] = ofd.FileName;
                         return fileName;
                     }
                     else if (type == "Audio" && dr == DialogResult.OK)
                     {
                         string fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
-                        if (fileName != "")
-                            audioFilePaths[fileName] = ofd.FileName;
+                        if (fileName == "")
+                            fileName = ofd.FileName;
+                        audioFilePaths[fileName] = ofd.FileName;
                         return fileName;
                     }
 
@@ -418,8 +421,9 @@ namespace MazeMaker
                             if (filePath != "")
                             {
                                 string fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
-                                if (fileName != "")
-                                    imageFilePaths[fileName] = filePath;
+                                if (fileName == "")
+                                    fileName = filePath;
+                                imageFilePaths[fileName] = filePath;
                                 return fileName;
                             }
 
@@ -434,8 +438,9 @@ namespace MazeMaker
                             if (filePath != "")
                             {
                                 string fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
-                                if (fileName != "")
-                                    audioFilePaths[fileName] = filePath;
+                                if (fileName == "")
+                                    fileName = filePath;
+                                audioFilePaths[fileName] = filePath;
                                 return fileName;
                             }
 
@@ -616,30 +621,8 @@ namespace MazeMaker
                             break;
                     }
 
-                    switch (copiedFile0)
-                    {
-                        case "no new file":
-                            break;
-
-                        case "Maze List package failed.":
-                            return;
-
-                        default:
-                            copiedFiles += copiedFile0 + "\n";
-                            break;
-                    }
-                    switch (copiedFile1)
-                    {
-                        case "no new file":
-                            break;
-
-                        case "Maze List package failed.":
-                            return;
-
-                        default:
-                            copiedFiles += copiedFile1 + "\n";
-                            break;
-                    }
+                    AddToLog(copiedFile0, ref copiedFiles);
+                    AddToLog(copiedFile1, ref copiedFiles);
                 }
 
                 WriteToMelx(melxPath);
@@ -653,7 +636,23 @@ namespace MazeMaker
             }
         }
 
-        string RecursiveFileCopy(string oldFilePath, string melxPath, string type, string newFilePath)
+        public static void AddToLog(string copiedFile, ref string copiedFiles)
+        {
+            switch (copiedFile)
+            {
+                case "no new file":
+                    break;
+
+                case "Maze List package failed.":
+                    return;
+
+                default:
+                    copiedFiles += copiedFile + "\n";
+                    break;
+            }
+        }
+
+        public static string RecursiveFileCopy(string oldFilePath, string melxPath, string type, string newFilePath)
         {
             string fileName = oldFilePath;
             string melxDirectory = melxPath.Substring(0, melxPath.Length - melxPath.Substring(melxPath.LastIndexOf("\\") + 1).Length);
