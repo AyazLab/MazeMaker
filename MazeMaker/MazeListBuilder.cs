@@ -530,12 +530,12 @@ namespace MazeMaker
                 Directory.CreateDirectory(melxPath + "_assets\\image");
                 Directory.CreateDirectory(melxPath + "_assets\\audio");
 
-                string copyedFiles = "";
+                string copiedFiles = "";
 
                 foreach (MyBuilderItem item in mazeList)
                 {
-                    string copyedFile0 = "no new file";
-                    string copyedFile1 = "no new file";
+                    string copiedFile0 = "no new file";
+                    string copiedFile1 = "no new file";
                     switch (item.Type)
                     {
                         case ItemType.Maze:
@@ -545,7 +545,7 @@ namespace MazeMaker
                                 string oldFilePath = mazeFilePaths[maze.MazeFile];
                                 string newFilePath = melxPath + "_assets\\maze\\" + maze.MazeFile;
 
-                                copyedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "maze", newFilePath);
+                                copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "maze", newFilePath);
                             }
                             break;
 
@@ -556,7 +556,7 @@ namespace MazeMaker
                                 string oldFilePath = audioFilePaths[text.AudioFile];
                                 string newFilePath = melxPath + "_assets\\audio\\" + text.AudioFile;
 
-                                copyedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath);
+                                copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath);
                             }
                             break;
 
@@ -567,14 +567,14 @@ namespace MazeMaker
                                 string oldFilePath = imageFilePaths[image.ImageFile];
                                 string newFilePath = melxPath + "_assets\\image\\" + image.ImageFile;
 
-                                copyedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "image", newFilePath);
+                                copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "image", newFilePath);
                             }
                             if (image.AudioFile != "")
                             {
                                 string oldFilePath = audioFilePaths[image.AudioFile];
                                 string newFilePath = melxPath + "_assets\\audio\\" + image.AudioFile;
 
-                                copyedFile1 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath);
+                                copiedFile1 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath);
                             }
                             break;
 
@@ -585,7 +585,7 @@ namespace MazeMaker
                                 string oldFilePath = audioFilePaths[multipleChoice.AudioFile];
                                 string newFilePath = melxPath + "_assets\\audio\\" + multipleChoice.AudioFile;
 
-                                copyedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath);
+                                copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath);
                             }
                             break;
 
@@ -597,12 +597,12 @@ namespace MazeMaker
                                 string oldFilePath = imageFilePaths[recordAudio.ImageFile];
                                 string newFilePath = melxPath + "_assets\\image\\" + recordAudio.ImageFile;
 
-                                copyedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "image", newFilePath);
+                                copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "image", newFilePath);
                             }
                             break;
                     }
 
-                    switch (copyedFile0)
+                    switch (copiedFile0)
                     {
                         case "no new file":
                             break;
@@ -611,10 +611,10 @@ namespace MazeMaker
                             return;
 
                         default:
-                            copyedFiles += "\n" + copyedFile0;
+                            copiedFiles += "\n" + copiedFile0;
                             break;
                     }
-                    switch (copyedFile1)
+                    switch (copiedFile1)
                     {
                         case "no new file":
                             break;
@@ -623,13 +623,17 @@ namespace MazeMaker
                             return;
 
                         default:
-                            copyedFiles += "\n" + copyedFile0;
+                            copiedFiles += "\n" + copiedFile0;
                             break;
                     }
                 }
 
                 WriteToMelx(melxPath);
-                MessageBox.Show("I've finished shoving everything you wanted into the package. The package should be in the same folder as your melx file, but with a different name containing \'assets\'. I hope I did it correctly." + copyedFiles);
+                MazePackageLog mpl = new MazePackageLog();
+                mpl.statusMessage = "Maze List successfully packaged.";
+                mpl.logText = copiedFiles;
+                mpl.ShowDialog();
+                MessageBox.Show("I've finished shoving everything you wanted into the package. The package should be in the same folder as your melx file, but with a different name containing \'assets\'. I hope I did it correctly." + copiedFiles);
             }
         }
 
@@ -694,7 +698,7 @@ namespace MazeMaker
                             case DialogResult.Yes:
                                 break;
 
-                            case DialogResult.No:
+                            case DialogResult.No: // search again
                                 continue;
 
                             default:
@@ -1059,7 +1063,7 @@ namespace MazeMaker
                     case ItemType.Command:
                         MazeList_CommandItem command = (MazeList_CommandItem)item;
                         mz.InnerText = command.Command;
-                        mz.SetAttribute("Wait4Exit", command.Wait4Exit);
+                        mz.SetAttribute("WaitForComplete", command.Wait4Complete.ToString());
                         break;
                 }
 
@@ -1429,7 +1433,7 @@ namespace MazeMaker
                                     MazeList_CommandItem command = new MazeList_CommandItem
                                     {
                                         Command = listItem.InnerText,
-                                        Wait4Exit = listItem.GetAttribute("Wait4Exit"),
+                                        Wait4Complete = bool.Parse(listItem.GetAttribute("WaitForComplete")),
                                     };
 
                                     mazeList.Add(command);

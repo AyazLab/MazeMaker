@@ -722,20 +722,20 @@ namespace MazeMaker
         }
 
         private string command = "";
-        [Description("")]
+        [Description("Windows Shell Command")]
         public string Command
         {
             get { return command; }
             set { command = value; }
         }
 
-        private string wait4Exit = "";
-        [Description("")]
-        [DisplayName("Wait For Exit")]
-        public string Wait4Exit
+        private bool wait4Complete = true;
+        [Description("Wait for shell program to exit before continuing maze list")]
+        [DisplayName("Wait For Complete")]
+        public bool Wait4Complete
         {
-            get { return wait4Exit; }
-            set { wait4Exit = value; }
+            get { return wait4Complete; }
+            set { wait4Complete = value; }
         }
         
         public override string ToString()
