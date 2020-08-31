@@ -1651,30 +1651,35 @@ namespace MazeMaker
             amlb.ShowDialog();
         }
 
+        private void treeView_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            DoDragDrop(e.Item, DragDropEffects.Move);
+        }
+
+        private void treeView_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+        }
+
         private void treeViewMazeList_DragDrop(object sender, DragEventArgs e)
         {
-            // Retrieve the client coordinates of the drop location.
-            Point targetPoint = treeView1.PointToClient(new Point(e.X, e.Y));
-
-            // Retrieve the node at the drop location.
-            TreeNode targetNode = treeView1.GetNodeAt(targetPoint);
-
-            // Retrieve the node that was dragged.
             TreeNode draggedNode = (TreeNode)e.Data.GetData(typeof(TreeNode));
 
-            // Confirm that the node at the drop location is not 
-            // the dragged node and that target node isn't null
-            // (for example if you drag outside the control)
-            if (!draggedNode.Equals(targetNode) && targetNode != null)
-            {
-                // Remove the node from its current 
-                // location and add it to the node at the drop location.
-                draggedNode.Remove();
-                targetNode.Nodes.Add(draggedNode);
+            TreeNode targetNode = treeView.GetNodeAt(treeView.PointToClient(new Point(e.X, e.Y)));
 
-                // Expand the node at the location 
-                // to show the dropped node.
-                targetNode.Expand();
+            if (!treeView.Nodes.Contains(draggedNode) && targetNode != null)
+            {
+                int draggedIndex = treeView.Nodes[1].Nodes.IndexOf(draggedNode) + 1;
+                int targetIndex = treeView.Nodes[1].Nodes.IndexOf(targetNode) + 1;
+
+                mazeList.Insert(targetIndex + 1, mazeList[draggedIndex]);
+
+                if (targetIndex <= draggedIndex)
+                    mazeList.RemoveAt(draggedIndex + 1);
+                else
+                    mazeList.RemoveAt(draggedIndex);
+
+                UpdateMazeList();
             }
         }
     }
