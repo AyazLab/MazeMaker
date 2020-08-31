@@ -80,11 +80,12 @@ namespace MazeMaker
 
         private void MazeListBuilder_Load(object sender, EventArgs e)
         {
-            UpdateMazeList();
-
             toolStripLabel.Text = "Add Item\nTo MazeList\n";
             toolStripButtonMultipleChoiceItem.Text = "Multiple\nChoice";
             toolStripButtonRecordAudio.Text = "Record\nAudio";
+
+            UpdateMazeList();
+
             MazeListBuilder_Resize(sender, e);
         }
 
