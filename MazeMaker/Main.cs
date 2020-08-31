@@ -7540,7 +7540,7 @@ namespace MazeMaker
             NewMaze();
 
             MazeListBuilder mlb = new MazeListBuilder();
-            mlb.toolStrip_open_Click(sender, e);
+            mlb.Open(sender, e);
             mlb.ShowDialog();
         }
 

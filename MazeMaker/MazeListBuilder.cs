@@ -43,7 +43,7 @@ namespace MazeMaker
             treeViewMazeList.ImageList = il;
         }
 
-        void MakeMazeList()
+        void UpdateMazeList()
         {
             treeViewMazeList.Nodes.Clear();
 
@@ -80,7 +80,7 @@ namespace MazeMaker
 
         private void MazeListBuilder_Load(object sender, EventArgs e)
         {
-            MakeMazeList();
+            UpdateMazeList();
 
             toolStripLabel.Text = "Add Item\nTo MazeList\n";
             toolStripButtonMultipleChoiceItem.Text = "Multiple\nChoice";
@@ -88,11 +88,11 @@ namespace MazeMaker
             MazeListBuilder_Resize(sender, e);
         }
 
-        public void toolStrip_open_Click(object sender, EventArgs e)
+        public void Open(object sender, EventArgs e)
         {
-            MakeMazeList();
+            UpdateMazeList();
 
-            if (UnsavedChangesCheck() != DialogResult.Cancel)
+            if (UnsavedMessage() != DialogResult.Cancel)
             {
                 OpenFileDialog ofd = new OpenFileDialog();
                 ofd.Filter = "MazeList File (*.melx,*.mel)|*.melx;*.mel";
@@ -108,7 +108,7 @@ namespace MazeMaker
             }
         }
 
-        private void toolStripButton_Append_Click(object sender, EventArgs e)
+        private void AppendToMazeList(object sender, EventArgs e)
         {
             madeChanges = true;
 
@@ -123,17 +123,17 @@ namespace MazeMaker
             }
         }
 
-        private void toolStripButton_New_Click(object sender, EventArgs e)
+        private void NewMazeList(object sender, EventArgs e)
         {
-            if (UnsavedChangesCheck() != DialogResult.Cancel)
+            if (UnsavedMessage() != DialogResult.Cancel)
             {
-                ClearListMessage();
+                ClearMazeList();
                 mazeList.Add(new MazeList_MazeListOptionsItem());
-                MakeMazeList();
+                UpdateMazeList();
             }
         }
 
-        private DialogResult UnsavedChangesCheck()
+        private DialogResult UnsavedMessage()
         {
             if (madeChanges)
             {
@@ -141,7 +141,7 @@ namespace MazeMaker
                 switch (dr)
                 {
                     case DialogResult.Yes:
-                        if (DoSaveAs())
+                        if (SaveAs())
                         {
                             return DialogResult.Yes;
                         }
@@ -167,19 +167,19 @@ namespace MazeMaker
             }
         }
 
-        void ClearListMessage()
+        void ClearMazeList()
         {
-            if (UnsavedChangesCheck() != DialogResult.Cancel)
+            if (UnsavedMessage() != DialogResult.Cancel)
             {
                 mazeList.Clear();
             }
         }
 
-        private void toolStrip_save_Click(object sender, EventArgs e)
+        private void Save(object sender, EventArgs e)
         {
             if (curFileName == "")
             {
-                DoSaveAs();
+                SaveAs();
             }
             else
             {
@@ -187,12 +187,12 @@ namespace MazeMaker
             }
         }
 
-        private void toolStrip_SaveAs_Click(object sender, EventArgs e)
+        private void SaveAs(object sender, EventArgs e)
         {
-            DoSaveAs();
+            SaveAs();
         }
 
-        private bool DoSaveAs()
+        private bool SaveAs()
         {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "MazeList File (*.melx,*.mel)|*.melx;*.mel";
@@ -209,7 +209,7 @@ namespace MazeMaker
             return false;
         }
 
-        private void add_Click(object sender, EventArgs e)
+        private void AddToMazeList(object sender, EventArgs e)
         {
             madeChanges = true;
             string listItem = (sender as ToolStripButton).Text;
@@ -241,7 +241,7 @@ namespace MazeMaker
                     break;
             }
 
-            MakeMazeList();
+            UpdateMazeList();
         }
 
         private void L_Up_Click(object sender, EventArgs e)
@@ -251,7 +251,7 @@ namespace MazeMaker
             MyBuilderItem temp = mazeList[selectedIndex - 1];
             mazeList[selectedIndex - 1] = mazeList[selectedIndex];
             mazeList[selectedIndex] = temp;
-            MakeMazeList();
+            UpdateMazeList();
             treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[1].Nodes[selectedIndex - 2];
         }
 
@@ -262,7 +262,7 @@ namespace MazeMaker
             MyBuilderItem temp = mazeList[selectedIndex + 1];
             mazeList[selectedIndex + 1] = mazeList[selectedIndex];
             mazeList[selectedIndex] = temp;
-            MakeMazeList();
+            UpdateMazeList();
             treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[1].Nodes[selectedIndex];
         }
 
@@ -270,7 +270,7 @@ namespace MazeMaker
         {
             madeChanges = true;
             mazeList.RemoveAt(selectedIndex);
-            MakeMazeList();
+            UpdateMazeList();
 
             L_Del.Enabled = false;
             L_Up.Enabled = false;
@@ -344,7 +344,7 @@ namespace MazeMaker
                     break;
             }
 
-            MakeMazeList();
+            UpdateMazeList();
             switch (selectedIndex)
             {
                 case 0:
@@ -532,7 +532,7 @@ namespace MazeMaker
             }
         }
 
-        private void toolStripButton_Package_Click(object sender, EventArgs e)
+        private void Package(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "MazeList File (*.melx)|*.melx";
@@ -741,20 +741,20 @@ namespace MazeMaker
             }
         }
 
-        private void closeButton_Click(object sender, EventArgs e)
+        private void Close(object sender, EventArgs e)
         {
-            if (UnsavedChangesCheck() != DialogResult.Cancel)
+            if (UnsavedMessage() != DialogResult.Cancel)
             {
-                ClearListMessage();
+                ClearMazeList();
                 Close();
             }
         }
 
         private void MazeListBuilder_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (UnsavedChangesCheck() != DialogResult.Cancel)
+            if (UnsavedMessage() != DialogResult.Cancel)
             {
-                ClearListMessage();
+                ClearMazeList();
             }
             else
             {
@@ -1200,7 +1200,7 @@ namespace MazeMaker
 
         public void Updated(object e, ListChangedEventArgs c)
         {
-            MakeMazeList();
+            UpdateMazeList();
         }
 
         private bool ReadFromMelx(string inp)
@@ -1281,7 +1281,7 @@ namespace MazeMaker
                     case "ListItems":
                         foreach (XmlElement listItem in mz.ChildNodes)
                         {
-                            MakeMazeList();
+                            UpdateMazeList();
                             switch (listItem.Name)
                             {
                                 case "Maze":
@@ -1465,7 +1465,7 @@ namespace MazeMaker
                 }
             }
 
-            MakeMazeList();
+            UpdateMazeList();
 
             return true;
         }
@@ -1474,7 +1474,7 @@ namespace MazeMaker
         {
             if (!append)
             {
-                ClearListMessage();
+                ClearMazeList();
             }
 
             string fileExt = Path.GetExtension(inp).ToLower();
@@ -1512,7 +1512,7 @@ namespace MazeMaker
 
             curFileName = filePath;
             toolStrip_Status.Text = filePath;
-            MakeMazeList();
+            UpdateMazeList();
 
             try
             {
@@ -1632,7 +1632,7 @@ namespace MazeMaker
             }
 
             mel.Close();
-            MakeMazeList();
+            UpdateMazeList();
 
             return true;
         }
