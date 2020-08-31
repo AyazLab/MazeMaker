@@ -1630,5 +1630,11 @@ namespace MazeMaker
             treeViewMazeList.Height = closeButton.Bottom - treeViewMazeList.Top;
             propertyGrid.Height = closeButton.Top - propertyGrid.Top - L_Up.Height / 4;
         }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutMazeListBuilder amlb = new AboutMazeListBuilder();
+            amlb.ShowDialog();
+        }
     }
 }
