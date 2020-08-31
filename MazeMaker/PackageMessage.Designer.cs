@@ -1,6 +1,6 @@
 ﻿namespace MazeMaker
 {
-    partial class MazePackageLog
+    partial class PackageMessage
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.statusLabel = new System.Windows.Forms.Label();
-            this.exportTextBox = new System.Windows.Forms.RichTextBox();
+            this.copiedFilesTextBox = new System.Windows.Forms.RichTextBox();
             this.okButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -38,40 +38,43 @@
             this.statusLabel.AutoSize = true;
             this.statusLabel.Location = new System.Drawing.Point(30, 32);
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(79, 17);
+            this.statusLabel.Size = new System.Drawing.Size(46, 17);
             this.statusLabel.TabIndex = 0;
-            this.statusLabel.Text = "Status Text";
+            this.statusLabel.Text = "status";
             // 
-            // exportTextBox
+            // copiedFilesTextBox
             // 
-            this.exportTextBox.Location = new System.Drawing.Point(33, 64);
-            this.exportTextBox.Name = "exportTextBox";
-            this.exportTextBox.ReadOnly = true;
-            this.exportTextBox.Size = new System.Drawing.Size(274, 283);
-            this.exportTextBox.TabIndex = 1;
-            this.exportTextBox.Text = "";
+            this.copiedFilesTextBox.ForeColor = System.Drawing.Color.Black;
+            this.copiedFilesTextBox.Location = new System.Drawing.Point(33, 64);
+            this.copiedFilesTextBox.Name = "copiedFilesTextBox";
+            this.copiedFilesTextBox.ReadOnly = true;
+            this.copiedFilesTextBox.Size = new System.Drawing.Size(483, 283);
+            this.copiedFilesTextBox.TabIndex = 1;
+            this.copiedFilesTextBox.Text = "";
             // 
             // okButton
             // 
-            this.okButton.Location = new System.Drawing.Point(232, 370);
+            this.okButton.Location = new System.Drawing.Point(441, 368);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 4;
             this.okButton.Text = "OK";
             this.okButton.UseVisualStyleBackColor = true;
+            this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
-            // MazePackageLog
+            // PackageMessage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(350, 456);
+            this.ClientSize = new System.Drawing.Size(557, 438);
             this.Controls.Add(this.okButton);
-            this.Controls.Add(this.exportTextBox);
+            this.Controls.Add(this.copiedFilesTextBox);
             this.Controls.Add(this.statusLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "MazePackageLog";
+            this.Name = "PackageMessage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MazePackageLog";
+            this.Text = "Package Log";
+            this.Load += new System.EventHandler(this.PackageMessage_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -80,7 +83,7 @@
         #endregion
 
         private System.Windows.Forms.Label statusLabel;
-        private System.Windows.Forms.RichTextBox exportTextBox;
+        private System.Windows.Forms.RichTextBox copiedFilesTextBox;
         private System.Windows.Forms.Button okButton;
     }
 }

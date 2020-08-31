@@ -607,11 +607,11 @@ namespace MazeMaker
                         case "no new file":
                             break;
 
-                        case "abort package":
+                        case "Maze List package failed.":
                             return;
 
                         default:
-                            copiedFiles += "\n" + copiedFile0;
+                            copiedFiles += copiedFile0 + "\n";
                             break;
                     }
                     switch (copiedFile1)
@@ -619,21 +619,23 @@ namespace MazeMaker
                         case "no new file":
                             break;
 
-                        case "abort package":
+                        case "Maze List package failed.":
                             return;
 
                         default:
-                            copiedFiles += "\n" + copiedFile0;
+                            copiedFiles += copiedFile1 + "\n";
                             break;
                     }
                 }
 
                 WriteToMelx(melxPath);
-                MazePackageLog mpl = new MazePackageLog();
-                mpl.statusMessage = "Maze List successfully packaged.";
-                mpl.logText = copiedFiles;
+
+                PackageMessage mpl = new PackageMessage
+                {
+                    status = "Maze List successfully packaged.",
+                    copiedFiles = copiedFiles,
+                };
                 mpl.ShowDialog();
-                MessageBox.Show("I've finished shoving everything you wanted into the package. The package should be in the same folder as your melx file, but with a different name containing \'assets\'. I hope I did it correctly." + copiedFiles);
             }
         }
 
@@ -680,7 +682,8 @@ namespace MazeMaker
                 return oldFilePath;
             }
 
-            MessageBox.Show("I'm so sorry. I could not find \'" + fileName + "\'. Could you find it for me please? If you can not find it too, package will be canceled Uwu!");
+            MessageBox.Show("\'" + fileName + "\' could not be found. If it can't be found, the package will be abandoned");
+            PackageMessage mpl = new PackageMessage();
             while (true)
             {
                 OpenFileDialog ofd = new OpenFileDialog();
@@ -693,7 +696,7 @@ namespace MazeMaker
 
                     if (newFileName.Split('.')[0] != fileName.Split('.')[0])
                     {
-                        switch (MessageBox.Show("The new file you found: " + newFileName + " is very different from " + fileName + ". Are you sure you wanna use this file? Press \'No\' to search again! Press \'Cancel\' to abandon package!", "Are you sure??!?", MessageBoxButtons.YesNoCancel))
+                        switch (MessageBox.Show("The new file \'" + newFileName + "\' is different from \'" + fileName + "\'. Are you sure you want to use this file? Press \'No\' to search again! Press \'Cancel\' to abandon package!", "Are you sure?", MessageBoxButtons.YesNoCancel))
                         {
                             case DialogResult.Yes:
                                 break;
@@ -702,8 +705,9 @@ namespace MazeMaker
                                 continue;
 
                             default:
-                                MessageBox.Show("You have abandoned the package!");
-                                return "abort package";
+                                mpl.status = "Maze List package failed.";
+                                mpl.ShowDialog();
+                                return mpl.status;
                         }
                     }
 
@@ -718,8 +722,9 @@ namespace MazeMaker
                     return ofd.FileName;
                 }
 
-                MessageBox.Show("I'm sorry, it seems I've messed up the package. You'll have to try again.");
-                return "abort package";
+                mpl.status = "Maze List package failed.";
+                mpl.ShowDialog();
+                return mpl.status;
             }
         }
 

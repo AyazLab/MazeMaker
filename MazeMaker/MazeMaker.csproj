@@ -141,11 +141,11 @@
     <Compile Include="MazeMakerCollectionEditor.Designer.cs">
       <DependentUpon>MazeMakerCollectionEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="MazePackageLog.cs">
+    <Compile Include="PackageMessage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MazePackageLog.Designer.cs">
-      <DependentUpon>MazePackageLog.cs</DependentUpon>
+    <Compile Include="PackageMessage.Designer.cs">
+      <DependentUpon>PackageMessage.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -195,8 +195,8 @@
       <DependentUpon>MazeMakerCollectionEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MazePackageLog.resx">
-      <DependentUpon>MazePackageLog.cs</DependentUpon>
+    <EmbeddedResource Include="PackageMessage.resx">
+      <DependentUpon>PackageMessage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
