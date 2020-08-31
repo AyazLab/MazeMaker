@@ -3461,14 +3461,14 @@ namespace MazeMaker
                         floor.CeilingTexture = ManageItems("Image", e.OldValue.ToString(), floor.CeilingTexture);
                         break;
 
-                    case MazeItemType.Wall:
-                        Wall wall = (Wall)mazeItem;
-                        wall.Texture = ManageItems("Image", e.OldValue.ToString(), wall.Texture);
-                        break;
-
                     case MazeItemType.CurvedWall:
                         CurvedWall curvedWall = (CurvedWall)mazeItem;
                         curvedWall.Texture = ManageItems("Image", e.OldValue.ToString(), curvedWall.Texture);
+                        break;
+
+                    case MazeItemType.Wall:
+                        Wall wall = (Wall)mazeItem;
+                        wall.Texture = ManageItems("Image", e.OldValue.ToString(), wall.Texture);
                         break;
 
                     case MazeItemType.ActiveRegion:
@@ -3477,19 +3477,19 @@ namespace MazeMaker
                         activeRegion.Phase2EventAudio = ManageItems("Audio", e.OldValue.ToString(), activeRegion.Phase2EventAudio);
                         break;
 
-                    case MazeItemType.Static:
-                        StaticModel staticModel = (StaticModel)mazeItem;
-                        staticModel.Model = ManageItems("Model", e.OldValue.ToString(), staticModel.Model);
-                        break;
-
                     case MazeItemType.Dynamic:
                         DynamicObject dynamicObject = (DynamicObject)mazeItem;
 
                         dynamicObject.Phase1HighlightAudio = ManageItems("Audio", e.OldValue.ToString(), dynamicObject.Phase1HighlightAudio);
                         dynamicObject.Phase2EventAudio = ManageItems("Audio", e.OldValue.ToString(), dynamicObject.Phase2EventAudio);
-                        
+
                         dynamicObject.Model = ManageItems("Model", e.OldValue.ToString(), dynamicObject.Model);
                         dynamicObject.SwitchToModel = ManageItems("Model", e.OldValue.ToString(), dynamicObject.SwitchToModel);
+                        break;
+
+                    case MazeItemType.Static:
+                        StaticModel staticModel = (StaticModel)mazeItem;
+                        staticModel.Model = ManageItems("Model", e.OldValue.ToString(), staticModel.Model);
                         break;
                 }
             }
@@ -3506,6 +3506,20 @@ namespace MazeMaker
             {
                 case "[Import Item]":
                     OpenFileDialog ofd = new OpenFileDialog();
+                    switch (type)
+                    {
+                        case "Image":
+                            ofd.Filter = "Image File (*.bmp,*.jpg,*.jpeg,*.gif,*.png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png";
+                            break;
+
+                        case "Audio":
+                            ofd.Filter = "Audio File (*.wav,*.mp3)|*.wav;*.mp3";
+                            break;
+
+                        case "Model":
+                            ofd.Filter = "Model File (*.obj)|*.obj";
+                            break;
+                    }
                     DialogResult dr = ofd.ShowDialog();
 
                     if (type == "Image" && dr == DialogResult.OK)

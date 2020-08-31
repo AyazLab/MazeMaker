@@ -95,7 +95,7 @@ namespace MazeMaker
             if (UnsavedChangesCheck() != DialogResult.Cancel)
             {
                 OpenFileDialog ofd = new OpenFileDialog();
-                ofd.Filter = "MazeList File (*.melx,*.mel)|*.melx;*.mel|All Files|*.*";
+                ofd.Filter = "MazeList File (*.melx,*.mel)|*.melx;*.mel";
                 ofd.FilterIndex = 1;
                 ofd.RestoreDirectory = true;
 
@@ -113,7 +113,7 @@ namespace MazeMaker
             madeChanges = true;
 
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "MazeList File (*.melx,*.mel)|*.melx;*.mel|All Files|*.*";
+            ofd.Filter = "MazeList File (*.melx,*.mel)|*.melx;*.mel";
             ofd.FilterIndex = 1;
             ofd.RestoreDirectory = true;
 
@@ -195,7 +195,7 @@ namespace MazeMaker
         private bool DoSaveAs()
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "MazeList XML-File|*.melx|Maze List files|*.mel";
+            sfd.Filter = "MazeList File (*.melx,*.mel)|*.melx;*.mel";
             sfd.FilterIndex = 1;
             sfd.RestoreDirectory = true;
 
@@ -319,28 +319,28 @@ namespace MazeMaker
             {
                 case ItemType.Maze:
                     MazeList_MazeItem maze = (MazeList_MazeItem)listItem;
-                    maze.MazeFile = OpenCollection("Maze", e.OldValue.ToString(), maze.MazeFile);
+                    maze.MazeFile = ManageItems("Maze", e.OldValue.ToString(), maze.MazeFile);
                     break;
 
                 case ItemType.Text:
                     MazeList_TextItem text = (MazeList_TextItem)listItem;
-                    text.AudioFile = OpenCollection("Audio", e.OldValue.ToString(), text.AudioFile);
+                    text.AudioFile = ManageItems("Audio", e.OldValue.ToString(), text.AudioFile);
                     break;
 
                 case ItemType.Image:
                     MazeList_ImageItem image = (MazeList_ImageItem)listItem;
-                    image.ImageFile = OpenCollection("Image", e.OldValue.ToString(), image.ImageFile);
-                    image.AudioFile = OpenCollection("Audio", e.OldValue.ToString(), image.AudioFile);
+                    image.ImageFile = ManageItems("Image", e.OldValue.ToString(), image.ImageFile);
+                    image.AudioFile = ManageItems("Audio", e.OldValue.ToString(), image.AudioFile);
                     break;
 
                 case ItemType.MultipleChoice:
                     MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)listItem;
-                    multipleChoice.AudioFile = OpenCollection("Audio", e.OldValue.ToString(), multipleChoice.AudioFile);
+                    multipleChoice.AudioFile = ManageItems("Audio", e.OldValue.ToString(), multipleChoice.AudioFile);
                     break;
 
                 case ItemType.RecordAudio:
                     MazeList_RecordAudioItem recordAudio = (MazeList_RecordAudioItem)listItem;
-                    recordAudio.ImageFile = OpenCollection("Image", e.OldValue.ToString(), recordAudio.ImageFile);
+                    recordAudio.ImageFile = ManageItems("Image", e.OldValue.ToString(), recordAudio.ImageFile);
                     break;
             }
 
@@ -360,12 +360,26 @@ namespace MazeMaker
         public static Dictionary<string, string> mazeFilePaths = new Dictionary<string, string>();
         public static Dictionary<string, string> imageFilePaths = new Dictionary<string, string>();
         public static Dictionary<string, string> audioFilePaths = new Dictionary<string, string>();
-        string OpenCollection(string type, string oldValue, string newValue)
+        string ManageItems(string type, string oldValue, string newValue)
         {
             switch (newValue)
             {
                 case "[Import Item]":
                     OpenFileDialog ofd = new OpenFileDialog();
+                    switch (type)
+                    {
+                        case "Maze":
+                            ofd.Filter = "Maze File (*.maz)|*.maz";
+                            break;
+
+                        case "Image":
+                            ofd.Filter = "Image File (*.bmp,*.jpg,*.jpeg,*.gif,*.png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png";
+                            break;
+
+                        case "Audio":
+                            ofd.Filter = "Audio File (*.wav,*.mp3)|*.wav;*.mp3";
+                            break;
+                    }
                     DialogResult dr = ofd.ShowDialog();
 
                     if (type == "Maze" && dr == DialogResult.OK)
