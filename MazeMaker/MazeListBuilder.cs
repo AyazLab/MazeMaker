@@ -29,7 +29,7 @@ namespace MazeMaker
         {
             InitializeComponent();
 
-            treeViewMazeList.HideSelection = false;
+            treeView.HideSelection = false;
 
             il.Images.Add("MazeListOptions", Properties.Resources.MazeListOptionsItemIcon);
             il.Images.Add("ListItems", Properties.Resources.ListItemsIcon);
@@ -40,12 +40,12 @@ namespace MazeMaker
             il.Images.Add("RecordAudio", Properties.Resources.RecordAudioItemIcon);
             il.Images.Add("Command", Properties.Resources.CommandItemIcon);
 
-            treeViewMazeList.ImageList = il;
+            treeView.ImageList = il;
         }
 
         void UpdateMazeList()
         {
-            treeViewMazeList.Nodes.Clear();
+            treeView.Nodes.Clear();
 
             if (mazeList.Count == 0)
             {
@@ -57,25 +57,25 @@ namespace MazeMaker
                 switch (i)
                 {
                     case 0:
-                        treeViewMazeList.Nodes.Add(mazeList[i].ToString());
-                        treeViewMazeList.Nodes[treeViewMazeList.Nodes.Count - 1].ImageKey = "MazeListOptions";
-                        treeViewMazeList.Nodes[treeViewMazeList.Nodes.Count - 1].SelectedImageKey = "MazeListOptions";
+                        treeView.Nodes.Add(mazeList[i].ToString());
+                        treeView.Nodes[treeView.Nodes.Count - 1].ImageKey = "MazeListOptions";
+                        treeView.Nodes[treeView.Nodes.Count - 1].SelectedImageKey = "MazeListOptions";
 
-                        treeViewMazeList.Nodes.Add("ListItems");
-                        treeViewMazeList.Nodes[treeViewMazeList.Nodes.Count - 1].ImageKey = "ListItems";
-                        treeViewMazeList.Nodes[treeViewMazeList.Nodes.Count - 1].SelectedImageKey = "ListItems";
+                        treeView.Nodes.Add("ListItems");
+                        treeView.Nodes[treeView.Nodes.Count - 1].ImageKey = "ListItems";
+                        treeView.Nodes[treeView.Nodes.Count - 1].SelectedImageKey = "ListItems";
                         break;
 
                     default:
-                        treeViewMazeList.Nodes[1].Nodes.Add(i.ToString() + ") " + mazeList[i].ToString());
+                        treeView.Nodes[1].Nodes.Add(i.ToString() + ") " + mazeList[i].ToString());
 
-                        treeViewMazeList.Nodes[1].Nodes[treeViewMazeList.Nodes[1].Nodes.Count - 1].ImageKey = mazeList[i].Type.ToString();
-                        treeViewMazeList.Nodes[1].Nodes[treeViewMazeList.Nodes[1].Nodes.Count - 1].SelectedImageKey = mazeList[i].Type.ToString();
+                        treeView.Nodes[1].Nodes[treeView.Nodes[1].Nodes.Count - 1].ImageKey = mazeList[i].Type.ToString();
+                        treeView.Nodes[1].Nodes[treeView.Nodes[1].Nodes.Count - 1].SelectedImageKey = mazeList[i].Type.ToString();
                         break;
                 }
             }
 
-            treeViewMazeList.ExpandAll();
+            treeView.ExpandAll();
         }
 
         private void MazeListBuilder_Load(object sender, EventArgs e)
@@ -253,7 +253,7 @@ namespace MazeMaker
             mazeList[selectedIndex - 1] = mazeList[selectedIndex];
             mazeList[selectedIndex] = temp;
             UpdateMazeList();
-            treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[1].Nodes[selectedIndex - 2];
+            treeView.SelectedNode = treeView.Nodes[1].Nodes[selectedIndex - 2];
         }
 
         private void L_Down_Click(object sender, EventArgs e)
@@ -264,7 +264,7 @@ namespace MazeMaker
             mazeList[selectedIndex + 1] = mazeList[selectedIndex];
             mazeList[selectedIndex] = temp;
             UpdateMazeList();
-            treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[1].Nodes[selectedIndex];
+            treeView.SelectedNode = treeView.Nodes[1].Nodes[selectedIndex];
         }
 
         private void L_Del_Click(object sender, EventArgs e)
@@ -273,39 +273,39 @@ namespace MazeMaker
             mazeList.RemoveAt(selectedIndex);
             UpdateMazeList();
 
-            L_Del.Enabled = false;
-            L_Up.Enabled = false;
-            L_Down.Enabled = false;
+            deleteButton.Enabled = false;
+            upButton.Enabled = false;
+            downButton.Enabled = false;
         }
 
         private void treeViewMazeList_AfterSelect(object sender, EventArgs e)
         {
-            L_Del.Enabled = false;
-            L_Up.Enabled = false;
-            L_Down.Enabled = false;
+            deleteButton.Enabled = false;
+            upButton.Enabled = false;
+            downButton.Enabled = false;
 
-            selectedIndex = treeViewMazeList.Nodes[1].Nodes.IndexOf(treeViewMazeList.SelectedNode) + 1;
+            selectedIndex = treeView.Nodes[1].Nodes.IndexOf(treeView.SelectedNode) + 1;
             if (selectedIndex >= 1)
             {
-                L_Del.Enabled = true;
+                deleteButton.Enabled = true;
 
                 if (selectedIndex > 1)
                 {
-                    L_Up.Enabled = true;
+                    upButton.Enabled = true;
                 }
 
-                if (selectedIndex < treeViewMazeList.Nodes[1].Nodes.Count)
+                if (selectedIndex < treeView.Nodes[1].Nodes.Count)
                 {
-                    L_Down.Enabled = true;
+                    downButton.Enabled = true;
                 }
 
                 propertyGrid.SelectedObject = mazeList[selectedIndex];
             }
-            else if (treeViewMazeList.Nodes[0].IsSelected)
+            else if (treeView.Nodes[0].IsSelected)
             {
                 propertyGrid.SelectedObject = mazeList[0];
             }
-            else if (treeViewMazeList.Nodes[1].IsSelected)
+            else if (treeView.Nodes[1].IsSelected)
             {
                 propertyGrid.SelectedObject = null;
             }
@@ -349,11 +349,11 @@ namespace MazeMaker
             switch (selectedIndex)
             {
                 case 0:
-                    treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[0];
+                    treeView.SelectedNode = treeView.Nodes[0];
                     break;
 
                 default:
-                    treeViewMazeList.SelectedNode = treeViewMazeList.Nodes[1].Nodes[selectedIndex - 1];
+                    treeView.SelectedNode = treeView.Nodes[1].Nodes[selectedIndex - 1];
                     break;
             }
         }
@@ -1640,15 +1640,42 @@ namespace MazeMaker
 
         private void MazeListBuilder_Resize(object sender, EventArgs e)
         {
-            treeViewMazeList.Width = L_Up.Left - treeViewMazeList.Left - L_Up.Width / 4;
-            treeViewMazeList.Height = closeButton.Bottom - treeViewMazeList.Top;
-            propertyGrid.Height = closeButton.Top - propertyGrid.Top - L_Up.Height / 4;
+            treeView.Width = upButton.Left - treeView.Left - upButton.Width / 4;
+            treeView.Height = closeButton.Bottom - treeView.Top;
+            propertyGrid.Height = closeButton.Top - propertyGrid.Top - upButton.Height / 4;
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AboutMazeListBuilder amlb = new AboutMazeListBuilder();
             amlb.ShowDialog();
+        }
+
+        private void treeViewMazeList_DragDrop(object sender, DragEventArgs e)
+        {
+            // Retrieve the client coordinates of the drop location.
+            Point targetPoint = treeView1.PointToClient(new Point(e.X, e.Y));
+
+            // Retrieve the node at the drop location.
+            TreeNode targetNode = treeView1.GetNodeAt(targetPoint);
+
+            // Retrieve the node that was dragged.
+            TreeNode draggedNode = (TreeNode)e.Data.GetData(typeof(TreeNode));
+
+            // Confirm that the node at the drop location is not 
+            // the dragged node and that target node isn't null
+            // (for example if you drag outside the control)
+            if (!draggedNode.Equals(targetNode) && targetNode != null)
+            {
+                // Remove the node from its current 
+                // location and add it to the node at the drop location.
+                draggedNode.Remove();
+                targetNode.Nodes.Add(draggedNode);
+
+                // Expand the node at the location 
+                // to show the dropped node.
+                targetNode.Expand();
+            }
         }
     }
 }
