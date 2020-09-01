@@ -1661,7 +1661,7 @@ namespace MazeMaker
             e.Effect = DragDropEffects.Move;
         }
 
-        private void treeViewMazeList_DragDrop(object sender, DragEventArgs e)
+        private void treeView_DragDrop(object sender, DragEventArgs e)
         {
             TreeNode draggedNode = (TreeNode)e.Data.GetData(typeof(TreeNode));
 
@@ -1681,6 +1681,44 @@ namespace MazeMaker
 
                 UpdateMazeList();
             }
+        }
+
+        private void Cut(object sender, EventArgs e)
+        {
+            if (treeView.SelectedNode != null && treeView.SelectedNode != treeView.Nodes[0] && treeView.SelectedNode != treeView.Nodes[1])
+            {
+                Copy();
+                mazeList.RemoveAt(selectedIndex);
+                UpdateMazeList();
+            }
+        }
+
+        private void Copy(object sender, EventArgs e)
+        {
+            if (treeView.SelectedNode != null && treeView.SelectedNode != treeView.Nodes[0] && treeView.SelectedNode != treeView.Nodes[1])
+            {
+                Copy();
+            }
+        }
+
+        private void Paste(object sender, EventArgs e)
+        {
+            if (treeView.SelectedNode != null && treeView.SelectedNode != treeView.Nodes[0] && treeView.SelectedNode != treeView.Nodes[1])
+            {
+                mazeList.Insert(selectedIndex + 1, copiedListItem);
+            }
+            else
+            {
+                mazeList.Add(copiedListItem);
+            }
+
+            UpdateMazeList();
+        }
+
+        MyBuilderItem copiedListItem;
+        void Copy()
+        {
+            copiedListItem = mazeList[selectedIndex];
         }
     }
 }
