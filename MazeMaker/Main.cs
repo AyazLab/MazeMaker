@@ -3634,7 +3634,7 @@ namespace MazeMaker
         {
             string mazPath = SaveAs();
 
-            if (mazPath != "")
+            if (mazPath != "" && File.Exists(mazPath))
             {
                 if (Directory.Exists(mazPath + "_assets"))
                     Directory.Delete(mazPath + "_assets", true);
