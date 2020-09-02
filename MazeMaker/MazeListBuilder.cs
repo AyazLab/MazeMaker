@@ -18,7 +18,7 @@ namespace MazeMaker
     {
         ImageList il = new ImageList();
 
-        List<MyBuilderItem> mazeList = new List<MyBuilderItem>();
+        List<ListItem> mazeList = new List<ListItem>();
         int selectedIndex;
 
         public static bool madeChanges = false;
@@ -49,7 +49,7 @@ namespace MazeMaker
 
             if (mazeList.Count == 0)
             {
-                mazeList.Add(new MazeList_MazeListOptionsItem());
+                mazeList.Add(new MazeListOptionsListItem());
             }
 
             for (int i = 0; i < mazeList.Count; i++)
@@ -129,7 +129,7 @@ namespace MazeMaker
             if (UnsavedMessage() != DialogResult.Cancel)
             {
                 ClearMazeList();
-                mazeList.Add(new MazeList_MazeListOptionsItem());
+                mazeList.Add(new MazeListOptionsListItem());
                 UpdateMazeList();
             }
         }
@@ -218,27 +218,27 @@ namespace MazeMaker
             switch (listItem)
             {
                 case "Maze":
-                    mazeList.Add(new MazeList_MazeItem());
+                    mazeList.Add(new MazeListItem());
                     break;
 
                 case "Text":
-                    mazeList.Add(new MazeList_TextItem());
+                    mazeList.Add(new TextListItem());
                     break;
 
                 case "Image":
-                    mazeList.Add(new MazeList_ImageItem());
+                    mazeList.Add(new ImageListItem());
                     break;
 
                 case "Multiple\nChoice":
-                    mazeList.Add(new MazeList_MultipleChoiceItem(new ListChangedEventHandler(Updated)));
+                    mazeList.Add(new MultipleChoiceListItem(new ListChangedEventHandler(Updated)));
                     break;
 
                 case "Record\nAudio":
-                    mazeList.Add(new MazeList_RecordAudioItem());
+                    mazeList.Add(new RecordAudioListItem());
                     break;
 
                 case "Command":
-                    mazeList.Add(new MazeList_CommandItem());
+                    mazeList.Add(new CommandListItem());
                     break;
             }
 
@@ -249,7 +249,7 @@ namespace MazeMaker
         {
             madeChanges = true;
 
-            MyBuilderItem temp = mazeList[selectedIndex - 1];
+            ListItem temp = mazeList[selectedIndex - 1];
             mazeList[selectedIndex - 1] = mazeList[selectedIndex];
             mazeList[selectedIndex] = temp;
             UpdateMazeList();
@@ -260,7 +260,7 @@ namespace MazeMaker
         {
             madeChanges = true;
 
-            MyBuilderItem temp = mazeList[selectedIndex + 1];
+            ListItem temp = mazeList[selectedIndex + 1];
             mazeList[selectedIndex + 1] = mazeList[selectedIndex];
             mazeList[selectedIndex] = temp;
             UpdateMazeList();
@@ -315,36 +315,37 @@ namespace MazeMaker
         {
             madeChanges = true;
 
-            MyBuilderItem listItem = (MyBuilderItem)propertyGrid.SelectedObject;
+            ListItem listItem = (ListItem)propertyGrid.SelectedObject;
             switch (listItem.Type)
             {
                 case ItemType.Maze:
-                    MazeList_MazeItem maze = (MazeList_MazeItem)listItem;
+                    MazeListItem maze = (MazeListItem)listItem;
                     maze.MazeFile = ManageItems("Maze", e.OldValue.ToString(), maze.MazeFile);
                     break;
 
                 case ItemType.Text:
-                    MazeList_TextItem text = (MazeList_TextItem)listItem;
+                    TextListItem text = (TextListItem)listItem;
                     text.AudioFile = ManageItems("Audio", e.OldValue.ToString(), text.AudioFile);
                     break;
 
                 case ItemType.Image:
-                    MazeList_ImageItem image = (MazeList_ImageItem)listItem;
+                    ImageListItem image = (ImageListItem)listItem;
                     image.ImageFile = ManageItems("Image", e.OldValue.ToString(), image.ImageFile);
                     image.AudioFile = ManageItems("Audio", e.OldValue.ToString(), image.AudioFile);
                     break;
 
                 case ItemType.MultipleChoice:
-                    MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)listItem;
+                    MultipleChoiceListItem multipleChoice = (MultipleChoiceListItem)listItem;
                     multipleChoice.AudioFile = ManageItems("Audio", e.OldValue.ToString(), multipleChoice.AudioFile);
                     break;
 
                 case ItemType.RecordAudio:
-                    MazeList_RecordAudioItem recordAudio = (MazeList_RecordAudioItem)listItem;
+                    RecordAudioListItem recordAudio = (RecordAudioListItem)listItem;
                     recordAudio.ImageFile = ManageItems("Image", e.OldValue.ToString(), recordAudio.ImageFile);
                     break;
             }
 
+            ReplaceOrder();
             UpdateMazeList();
             switch (selectedIndex)
             {
@@ -361,6 +362,7 @@ namespace MazeMaker
         public static Dictionary<string, string> mazeFilePaths = new Dictionary<string, string>();
         public static Dictionary<string, string> imageFilePaths = new Dictionary<string, string>();
         public static Dictionary<string, string> audioFilePaths = new Dictionary<string, string>();
+        public static List<string[]> replaceOrder = new List<string[]>();
         string ManageItems(string type, string oldValue, string newValue)
         {
             switch (newValue)
@@ -416,8 +418,10 @@ namespace MazeMaker
                         case "Image":
                             List<Texture> textures = FilesToTextures(imageFilePaths);
                             MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref textures);
+
                             string filePath = mmce.GetTexture();
                             TexturesToFiles(mmce.GetTextures(), ref imageFilePaths);
+                            replaceOrder = mmce.GetReplaceOrder();
 
                             if (filePath != "")
                             {
@@ -433,8 +437,10 @@ namespace MazeMaker
                         case "Audio":
                             List<Audio> audios = FilesToAudios(audioFilePaths);
                             mmce = new MazeMakerCollectionEditor(ref audios);
+
                             filePath = mmce.GetAudio();
                             AudiosToFiles(mmce.GetAudios(), ref audioFilePaths);
+                            replaceOrder = mmce.GetReplaceOrder();
 
                             if (filePath != "")
                             {
@@ -552,14 +558,14 @@ namespace MazeMaker
 
                 string copiedFiles = "";
 
-                foreach (MyBuilderItem item in mazeList)
+                foreach (ListItem item in mazeList)
                 {
                     string copiedFile0 = "no new file";
                     string copiedFile1 = "no new file";
                     switch (item.Type)
                     {
                         case ItemType.Maze:
-                            MazeList_MazeItem maze = (MazeList_MazeItem)item;
+                            MazeListItem maze = (MazeListItem)item;
                             if (maze.MazeFile != "")
                             {
                                 string oldFilePath = mazeFilePaths[maze.MazeFile];
@@ -570,7 +576,7 @@ namespace MazeMaker
                             break;
 
                         case ItemType.Text:
-                            MazeList_TextItem text = (MazeList_TextItem)item;
+                            TextListItem text = (TextListItem)item;
                             if (text.AudioFile != "")
                             {
                                 string oldFilePath = audioFilePaths[text.AudioFile];
@@ -581,7 +587,7 @@ namespace MazeMaker
                             break;
 
                         case ItemType.Image:
-                            MazeList_ImageItem image = (MazeList_ImageItem)item;
+                            ImageListItem image = (ImageListItem)item;
                             if (image.ImageFile != "")
                             {
                                 string oldFilePath = imageFilePaths[image.ImageFile];
@@ -599,7 +605,7 @@ namespace MazeMaker
                             break;
 
                         case ItemType.MultipleChoice:
-                            MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)item;
+                            MultipleChoiceListItem multipleChoice = (MultipleChoiceListItem)item;
                             if (multipleChoice.AudioFile != "")
                             {
                                 string oldFilePath = audioFilePaths[multipleChoice.AudioFile];
@@ -611,7 +617,7 @@ namespace MazeMaker
 
 
                         case ItemType.RecordAudio:
-                            MazeList_RecordAudioItem recordAudio = (MazeList_RecordAudioItem)item;
+                            RecordAudioListItem recordAudio = (RecordAudioListItem)item;
                             if (recordAudio.ImageFile != "")
                             {
                                 string oldFilePath = imageFilePaths[recordAudio.ImageFile];
@@ -622,8 +628,12 @@ namespace MazeMaker
                             break;
                     }
 
-                    AddToLog(copiedFile0, ref copiedFiles);
-                    AddToLog(copiedFile1, ref copiedFiles);
+                    ReplaceOrder();
+
+                    if (!AddToLog(copiedFile0, ref copiedFiles))
+                        break;
+                    if (!AddToLog(copiedFile1, ref copiedFiles))
+                        break;
                 }
 
                 WriteToMelx(melxPath);
@@ -637,19 +647,19 @@ namespace MazeMaker
             }
         }
 
-        public static void AddToLog(string copiedFile, ref string copiedFiles)
+        public static bool AddToLog(string copiedFile, ref string copiedFiles)
         {
             switch (copiedFile)
             {
                 case "no new file":
-                    break;
+                    return true;
 
                 case "Maze List package failed.":
-                    return;
+                    return false;
 
                 default:
                     copiedFiles += copiedFile + "\n";
-                    break;
+                    return true;
             }
         }
 
@@ -696,6 +706,20 @@ namespace MazeMaker
                 return oldFilePath;
             }
 
+            oldFilePath = "..\\" + type + "\\" + fileName;
+            if (File.Exists(oldFilePath))
+            {
+                File.Copy(oldFilePath, newFilePath);
+                return oldFilePath;
+            }
+
+            oldFilePath = "..\\" + type + "s\\" + fileName;
+            if (File.Exists(oldFilePath))
+            {
+                File.Copy(oldFilePath, newFilePath);
+                return oldFilePath;
+            }
+
             MessageBox.Show("\'" + fileName + "\' could not be found. If it can't be found, the package will be abandoned");
             PackageMessage mpl = new PackageMessage();
             while (true)
@@ -733,12 +757,98 @@ namespace MazeMaker
                     }
 
                     File.Copy(ofd.FileName, newFilePath);
+                    replaceOrder.Add(new string[] { type, fileName, newFileName, newFilePath });
                     return ofd.FileName;
                 }
 
                 mpl.status = "Maze List package failed.";
                 mpl.ShowDialog();
                 return mpl.status;
+            }
+        }
+
+        void ReplaceOrder()
+        {
+            if (replaceOrder.Count != 0)
+            {
+                foreach (ListItem listItem in mazeList)
+                {
+                    switch (listItem.Type)
+                    {
+                        case ItemType.Maze:
+                            MazeListItem maze = (MazeListItem)listItem;
+                            foreach (string[] replaceInfo in replaceOrder)
+                            {
+                                if (replaceInfo[0] == "maze" && maze.MazeFile == replaceInfo[1])
+                                {
+                                    maze.MazeFile = replaceInfo[2];
+                                    if (replaceInfo[2] != "")
+                                        mazeFilePaths[replaceInfo[2]] = replaceInfo[3];
+                                }
+                            }
+                            break;
+
+                        case ItemType.Text:
+                            TextListItem text = (TextListItem)listItem;
+                            foreach (string[] replaceInfo in replaceOrder)
+                            {
+                                if (replaceInfo[0] == "audio" && text.AudioFile == replaceInfo[1])
+                                {
+                                    text.AudioFile = replaceInfo[2];
+                                    if (replaceInfo[2] != "")
+                                        audioFilePaths[replaceInfo[2]] = replaceInfo[3];
+                                }
+                            }
+                            break;
+
+                        case ItemType.Image:
+                            ImageListItem image = (ImageListItem)listItem;
+                            foreach (string[] replaceInfo in replaceOrder)
+                            {
+                                if (replaceInfo[0] == "image" && image.ImageFile == replaceInfo[1])
+                                {
+                                    image.ImageFile = replaceInfo[2];
+                                    if (replaceInfo[2] != "")
+                                        imageFilePaths[replaceInfo[2]] = replaceInfo[3];
+                                }
+                                if (replaceInfo[0] == "audio" && image.AudioFile == replaceInfo[1])
+                                {
+                                    image.AudioFile = replaceInfo[2];
+                                    if (replaceInfo[2] != "")
+                                        audioFilePaths[replaceInfo[2]] = replaceInfo[3];
+                                }
+                            }
+                            break;
+
+                        case ItemType.MultipleChoice:
+                            MultipleChoiceListItem multipleChoice = (MultipleChoiceListItem)listItem;
+                            foreach (string[] replaceInfo in replaceOrder)
+                            {
+                                if (replaceInfo[0] == "audio" && multipleChoice.AudioFile == replaceInfo[1])
+                                {
+                                    multipleChoice.AudioFile = replaceInfo[2];
+                                    if (replaceInfo[2] != "")
+                                        audioFilePaths[replaceInfo[2]] = replaceInfo[3];
+                                }
+                            }
+                            break;
+
+                        case ItemType.RecordAudio:
+                            RecordAudioListItem recordAudio = (RecordAudioListItem)listItem;
+                            foreach (string[] replaceInfo in replaceOrder)
+                            {
+                                if (replaceInfo[0] == "audio" && recordAudio.ImageFile == replaceInfo[1])
+                                {
+                                    recordAudio.ImageFile = replaceInfo[2];
+                                    if (replaceInfo[2] != "")
+                                        imageFilePaths[replaceInfo[2]] = replaceInfo[3];
+                                }
+                            }
+                            break;
+                    }
+                }
+
+                replaceOrder.Clear();
             }
         }
 
@@ -783,14 +893,14 @@ namespace MazeMaker
 
             XmlElement listItems = melx.CreateElement("ListItems");
 
-            foreach (MyBuilderItem item in mazeList)
+            foreach (ListItem item in mazeList)
             {
                 XmlElement mz = melx.CreateElement(item.Type.ToString());
 
                 switch (item.Type)
                 {
                     case ItemType.MazeListOptions:
-                        MazeList_MazeListOptionsItem mazeListOptions = (MazeList_MazeListOptionsItem)item;
+                        MazeListOptionsListItem mazeListOptions = (MazeListOptionsListItem)item;
 
                         if (mazeListOptions.FullScreen.ToString() != "")
                         {
@@ -831,7 +941,7 @@ namespace MazeMaker
                         break;
 
                     case ItemType.Maze:
-                        MazeList_MazeItem maze = (MazeList_MazeItem)item;
+                        MazeListItem maze = (MazeListItem)item;
 
                         XmlElement mazeLibraryItem = melx.CreateElement("Maze");
                         int mazeID = mazeIDCounter;
@@ -870,7 +980,7 @@ namespace MazeMaker
                         break;
 
                     case ItemType.Text:
-                        MazeList_TextItem text = (MazeList_TextItem)item;
+                        TextListItem text = (TextListItem)item;
                         mz.InnerText = text.Text;
                         mz.SetAttribute("TextDisplayType", text.TextDisplayType.ToString());
                         mz.SetAttribute("Duration", text.Duration.ToString());
@@ -912,7 +1022,7 @@ namespace MazeMaker
                         break;
 
                     case ItemType.Image:
-                        MazeList_ImageItem image = (MazeList_ImageItem)item;
+                        ImageListItem image = (ImageListItem)item;
                         mz.InnerText = image.Text;
                         mz.SetAttribute("TextDisplayType", image.TextDisplayType.ToString());
                         mz.SetAttribute("Duration", image.Duration.ToString());
@@ -982,7 +1092,7 @@ namespace MazeMaker
                         break;
 
                     case ItemType.MultipleChoice:
-                        MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)item;
+                        MultipleChoiceListItem multipleChoice = (MultipleChoiceListItem)item;
                         bool isQuestion = true;
                         foreach (TextReturn vr in multipleChoice.Text)
                         {
@@ -1044,7 +1154,7 @@ namespace MazeMaker
                         break;
 
                     case ItemType.RecordAudio:
-                        MazeList_RecordAudioItem recordAudio = (MazeList_RecordAudioItem)item;
+                        RecordAudioListItem recordAudio = (RecordAudioListItem)item;
                         mz.InnerText = recordAudio.Text;
                         mz.SetAttribute("TextDisplayType", recordAudio.TextDisplayType.ToString());
                         mz.SetAttribute("Duration", recordAudio.Duration.ToString());
@@ -1080,7 +1190,7 @@ namespace MazeMaker
                         break;
 
                     case ItemType.Command:
-                        MazeList_CommandItem command = (MazeList_CommandItem)item;
+                        CommandListItem command = (CommandListItem)item;
                         mz.InnerText = command.Command;
                         mz.SetAttribute("WaitForComplete", command.Wait4Complete.ToString());
                         break;
@@ -1161,29 +1271,29 @@ namespace MazeMaker
 
             mel.WriteLine("Maze List File 1.2");
 
-            foreach (MyBuilderItem listItem in mazeList)
+            foreach (ListItem listItem in mazeList)
             {
                 mel.Write(listItem.Type + "\t");
 
                 switch (listItem.Type)
                 {
                     case ItemType.Maze:
-                        MazeList_MazeItem maze = (MazeList_MazeItem)listItem;
+                        MazeListItem maze = (MazeListItem)listItem;
                         mel.Write(maze.MazeFile);
                         break;
 
                     case ItemType.Text:
-                        MazeList_TextItem text = (MazeList_TextItem)listItem;
+                        TextListItem text = (TextListItem)listItem;
                         mel.Write(text.Text + "\t" + text.TextDisplayType + "\t" + text.Duration + "\t" + text.X + "\t" + text.Y + "\t ");
                         break;
 
                     case ItemType.Image:
-                        MazeList_ImageItem image = (MazeList_ImageItem)listItem;
+                        ImageListItem image = (ImageListItem)listItem;
                         mel.Write(image.Text + "\t" + image.TextDisplayType + "\t" + image.Duration + "\t" + image.X + "\t" + image.Y + "\t" + image.ImageFile);
                         break;
 
                     case ItemType.MultipleChoice:
-                        MazeList_MultipleChoiceItem multipleChoice = (MazeList_MultipleChoiceItem)listItem;
+                        MultipleChoiceListItem multipleChoice = (MultipleChoiceListItem)listItem;
                         mel.Write(multipleChoice.GetString() + "\t" + multipleChoice.TextDisplayType + "\t" + multipleChoice.Duration + "\t" + multipleChoice.X + "\t" + multipleChoice.Y + "\t ");
                         break;
 
@@ -1224,7 +1334,7 @@ namespace MazeMaker
                             break;
                         }
 
-                        MazeList_MazeListOptionsItem mazeListOptions = new MazeList_MazeListOptionsItem();
+                        MazeListOptionsListItem mazeListOptions = new MazeListOptionsListItem();
 
                         foreach (XmlElement mazeListOption in mz.ChildNodes)
                         {
@@ -1297,7 +1407,7 @@ namespace MazeMaker
                                     }
                                     mazeFilePaths[mazeFileName] = mazeFilePath;
 
-                                    MazeList_MazeItem maze = new MazeList_MazeItem
+                                    MazeListItem maze = new MazeListItem
                                     {
                                         MazeFile = mazeFileName,
                                         StartPosition = listItem.GetAttribute("StartPosition"),
@@ -1320,10 +1430,10 @@ namespace MazeMaker
                                     }
                                     audioFilePaths[audioFileName] = audioFilePath;
 
-                                    MazeList_TextItem text = new MazeList_TextItem
+                                    TextListItem text = new TextListItem
                                     {
                                         Text = listItem.InnerText,
-                                        TextDisplayType = (MazeList_TextItem.DisplayType)Enum.Parse(typeof(MazeList_TextItem.DisplayType), listItem.GetAttribute("TextDisplayType")),
+                                        TextDisplayType = (TextListItem.DisplayType)Enum.Parse(typeof(TextListItem.DisplayType), listItem.GetAttribute("TextDisplayType")),
                                         Duration = Convert.ToInt64(listItem.GetAttribute("Duration")),
                                         X = Convert.ToDouble(listItem.GetAttribute("X")),
                                         Y = Convert.ToDouble(listItem.GetAttribute("Y")),
@@ -1363,10 +1473,10 @@ namespace MazeMaker
                                     }
                                     audioFilePaths[audioFileName] = audioFilePath;
 
-                                    MazeList_ImageItem image = new MazeList_ImageItem
+                                    ImageListItem image = new ImageListItem
                                     {
                                         Text = listItem.InnerText,
-                                        TextDisplayType = (MazeList_ImageItem.DisplayType)Enum.Parse(typeof(MazeList_ImageItem.DisplayType), listItem.GetAttribute("TextDisplayType")),
+                                        TextDisplayType = (ImageListItem.DisplayType)Enum.Parse(typeof(ImageListItem.DisplayType), listItem.GetAttribute("TextDisplayType")),
                                         Duration = Convert.ToInt64(listItem.GetAttribute("Duration")),
                                         X = Convert.ToDouble(listItem.GetAttribute("X")),
                                         Y = Convert.ToDouble(listItem.GetAttribute("Y")),
@@ -1395,9 +1505,9 @@ namespace MazeMaker
                                     }
                                     audioFilePaths[audioFileName] = audioFilePath;
 
-                                    MazeList_MultipleChoiceItem multipleChoice = new MazeList_MultipleChoiceItem
+                                    MultipleChoiceListItem multipleChoice = new MultipleChoiceListItem
                                     {
-                                        TextDisplayType = (MazeList_MultipleChoiceItem.DisplayType)Enum.Parse(typeof(MazeList_MultipleChoiceItem.DisplayType), listItem.GetAttribute("TextDisplayType")),
+                                        TextDisplayType = (MultipleChoiceListItem.DisplayType)Enum.Parse(typeof(MultipleChoiceListItem.DisplayType), listItem.GetAttribute("TextDisplayType")),
                                         Duration = Convert.ToInt64(listItem.GetAttribute("Duration")),
                                         X = Convert.ToDouble(listItem.GetAttribute("X")),
                                         Y = Convert.ToDouble(listItem.GetAttribute("Y")),
@@ -1435,10 +1545,10 @@ namespace MazeMaker
                                     }
                                     imageFilePaths[imageFileName] = imageFilePath;
 
-                                    MazeList_RecordAudioItem recordAudio = new MazeList_RecordAudioItem
+                                    RecordAudioListItem recordAudio = new RecordAudioListItem
                                     {
                                         Text = listItem.InnerText,
-                                        TextDisplayType = (MazeList_RecordAudioItem.DisplayType)Enum.Parse(typeof(MazeList_RecordAudioItem.DisplayType), listItem.GetAttribute("TextDisplayType")),
+                                        TextDisplayType = (RecordAudioListItem.DisplayType)Enum.Parse(typeof(RecordAudioListItem.DisplayType), listItem.GetAttribute("TextDisplayType")),
                                         Duration = Convert.ToInt64(listItem.GetAttribute("Duration")),
 
                                         BackgroundColor = Color.FromArgb(Convert.ToByte(backgroundColor[0]), Convert.ToByte(backgroundColor[1]), Convert.ToByte(backgroundColor[2]), Convert.ToByte(backgroundColor[3])),
@@ -1449,7 +1559,7 @@ namespace MazeMaker
                                     break;
 
                                 case "Command":
-                                    MazeList_CommandItem command = new MazeList_CommandItem
+                                    CommandListItem command = new CommandListItem
                                     {
                                         Command = listItem.InnerText,
                                         Wait4Complete = bool.Parse(listItem.GetAttribute("WaitForComplete")),
@@ -1530,23 +1640,23 @@ namespace MazeMaker
                     switch (parse[0])
                     {
                         case "Maze":
-                            MazeList_MazeItem maze = new MazeList_MazeItem();
+                            MazeListItem maze = new MazeListItem();
                             maze.MazeFile = parse[1];
 
                             mazeList.Add(maze);
                             break;
 
                         case "Text":
-                            MazeList_TextItem text = new MazeList_TextItem();
+                            TextListItem text = new TextListItem();
                             text.Text = parse[1];
 
-                            if (parse[2].CompareTo(MazeList_TextItem.DisplayType.OnFramedDialog.ToString()) == 0 || parse[2].CompareTo("OnDialog") == 0)
+                            if (parse[2].CompareTo(TextListItem.DisplayType.OnFramedDialog.ToString()) == 0 || parse[2].CompareTo("OnDialog") == 0)
                             {
-                                text.TextDisplayType = MazeList_TextItem.DisplayType.OnFramedDialog;
+                                text.TextDisplayType = TextListItem.DisplayType.OnFramedDialog;
                             }
                             else
                             {
-                                text.TextDisplayType = MazeList_TextItem.DisplayType.OnBackground;
+                                text.TextDisplayType = TextListItem.DisplayType.OnBackground;
                             }
 
                             text.Duration = int.Parse(parse[3]);
@@ -1566,16 +1676,16 @@ namespace MazeMaker
                             break;
 
                         case "Image":
-                            MazeList_ImageItem image = new MazeList_ImageItem();
+                            ImageListItem image = new ImageListItem();
                             image.Text = parse[1];
 
-                            if (parse[2].CompareTo(MazeList_ImageItem.DisplayType.OnFramedDialog.ToString()) == 0 || parse[2].CompareTo("OnDialog") == 0)
+                            if (parse[2].CompareTo(ImageListItem.DisplayType.OnFramedDialog.ToString()) == 0 || parse[2].CompareTo("OnDialog") == 0)
                             {
-                                image.TextDisplayType = MazeList_ImageItem.DisplayType.OnFramedDialog;
+                                image.TextDisplayType = ImageListItem.DisplayType.OnFramedDialog;
                             }
                             else
                             {
-                                image.TextDisplayType = MazeList_ImageItem.DisplayType.OnBackground;
+                                image.TextDisplayType = ImageListItem.DisplayType.OnBackground;
                             }
 
                             image.Duration = int.Parse(parse[3]);
@@ -1595,16 +1705,16 @@ namespace MazeMaker
                             break;
 
                         case "MultipleChoice":
-                            MazeList_MultipleChoiceItem multipleChoice = new MazeList_MultipleChoiceItem(new ListChangedEventHandler(Updated));
+                            MultipleChoiceListItem multipleChoice = new MultipleChoiceListItem(new ListChangedEventHandler(Updated));
                             multipleChoice.LoadString(parse[1]);
 
-                            if (parse[2].CompareTo(MazeList_TextItem.DisplayType.OnFramedDialog.ToString()) == 0 || parse[2].CompareTo("OnDialog") == 0)
+                            if (parse[2].CompareTo(TextListItem.DisplayType.OnFramedDialog.ToString()) == 0 || parse[2].CompareTo("OnDialog") == 0)
                             {
-                                multipleChoice.TextDisplayType = MazeList_MultipleChoiceItem.DisplayType.OnFramedDialog;
+                                multipleChoice.TextDisplayType = MultipleChoiceListItem.DisplayType.OnFramedDialog;
                             }
                             else
                             {
-                                multipleChoice.TextDisplayType = MazeList_MultipleChoiceItem.DisplayType.OnBackground;
+                                multipleChoice.TextDisplayType = MultipleChoiceListItem.DisplayType.OnBackground;
                             }
 
                             multipleChoice.Duration = int.Parse(parse[3]);
@@ -1715,7 +1825,7 @@ namespace MazeMaker
             UpdateMazeList();
         }
 
-        MyBuilderItem copiedListItem;
+        ListItem copiedListItem;
         void Copy()
         {
             copiedListItem = mazeList[selectedIndex];

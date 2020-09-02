@@ -3656,8 +3656,10 @@ namespace MazeMaker
                         copiedFile1 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "image", newFilePath);
                     }
 
-                    MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles);
-                    MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles);
+                    if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
+                        break;
+                    if (!MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles))
+                        break;
                 }
 
                 foreach (CurvedWall curvedWall in curMaze.cCurveWall)
@@ -3671,7 +3673,8 @@ namespace MazeMaker
                         copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "image", newFilePath);
                     }
 
-                    MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles);
+                    if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
+                        break;
                 }
 
                 foreach (Wall wall in curMaze.cWall)
@@ -3685,7 +3688,8 @@ namespace MazeMaker
                         copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "image", newFilePath);
                     }
 
-                    MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles);
+                    if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
+                        break;
                 }
 
                 foreach (ActiveRegion activeRegion in curMaze.cActRegions)
@@ -3706,8 +3710,10 @@ namespace MazeMaker
                         copiedFile1 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "audio", newFilePath);
                     }
 
-                    MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles);
-                    MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles);
+                    if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
+                        break;
+                    if (!MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles))
+                        break;
                 }
 
                 foreach (DynamicObject dynamicObject in curMaze.cDynamicObjects)
@@ -3742,10 +3748,14 @@ namespace MazeMaker
                         copiedFile3 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "model", newFilePath);
                     }
 
-                    MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles);
-                    MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles);
-                    MazeListBuilder.AddToLog(copiedFile2, ref copiedFiles);
-                    MazeListBuilder.AddToLog(copiedFile3, ref copiedFiles);
+                    if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
+                        break;
+                    if (!MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles))
+                        break;
+                    if (!MazeListBuilder.AddToLog(copiedFile2, ref copiedFiles))
+                        break;
+                    if (!MazeListBuilder.AddToLog(copiedFile3, ref copiedFiles))
+                        break;
                 }
 
                 foreach (StaticModel staticModel in curMaze.cStaticModels)
@@ -3760,8 +3770,10 @@ namespace MazeMaker
                         copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "model", newFilePath);
                     }
 
-                    MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles);
-                    MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles);
+                    if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
+                        break;
+                    if (!MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles))
+                        break;
                 }
 
                 PackageMessage mpl = new PackageMessage

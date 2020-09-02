@@ -96,7 +96,7 @@
     <Compile Include="AboutMazeListBuilder.Designer.cs">
       <DependentUpon>AboutMazeListBuilder.cs</DependentUpon>
     </Compile>
-    <Compile Include="BuilderItems.cs" />
+    <Compile Include="ListItems.cs" />
     <Compile Include="CurrentSettings.cs" />
     <Compile Include="GetAngle.cs">
       <SubType>Form</SubType>

@@ -23,13 +23,15 @@ namespace MazeMaker
         List<Audio> curListA;
         List<Audio> curListA2;
 
+        List<string[]> replaceOrder = new List<string[]>();
+
         public string GetTexture()
         {
             ShowDialog();
 
-            if (listBoxCollection.SelectedItem != null)
+            if (listBox.SelectedItem != null)
             {
-                Texture texture = (Texture)listBoxCollection.SelectedItem;
+                Texture texture = (Texture)listBox.SelectedItem;
                 return texture.FilePath;
             }
 
@@ -45,9 +47,9 @@ namespace MazeMaker
         {
             ShowDialog();
 
-            if (listBoxCollection.SelectedItem != null)
+            if (listBox.SelectedItem != null)
             {
-                Audio audio = (Audio)listBoxCollection.SelectedItem;
+                Audio audio = (Audio)listBox.SelectedItem;
                 return audio.filePath;
             }
 
@@ -63,9 +65,9 @@ namespace MazeMaker
         {
             ShowDialog();
 
-            if (listBoxCollection.SelectedItem != null)
+            if (listBox.SelectedItem != null)
             {
-                Model model = (Model)listBoxCollection.SelectedItem;
+                Model model = (Model)listBox.SelectedItem;
                 return model.filePath;
             }
 
@@ -75,6 +77,11 @@ namespace MazeMaker
         public List<Model> GetModels()
         {
             return curListM2;
+        }
+
+        public List<string[]> GetReplaceOrder()
+        {
+            return replaceOrder;
         }
 
         public MazeMakerCollectionEditor(ref List<Texture> inp)
@@ -124,13 +131,13 @@ namespace MazeMaker
 
         private void RefreshList()
         {
-            listBoxCollection.Items.Clear();
+            listBox.Items.Clear();
             propertyGrid.SelectedObject = null;
             if (curListT2 != null)
             {
                 for (int i = 0; i < curListT2.Count; i++)
                 {
-                    listBoxCollection.Items.Add(curListT2[i]);
+                    listBox.Items.Add(curListT2[i]);
                 }
                // this.Text = curListT2.Count + " images in the Texture Collection";
             }
@@ -138,7 +145,7 @@ namespace MazeMaker
             {
                 for (int i = 0; i < curListM2.Count; i++)
                 {
-                    listBoxCollection.Items.Add(curListM2[i]);
+                    listBox.Items.Add(curListM2[i]);
                 }
                // this.Text = curListM2.Count + " models in the Model Collection";
             }
@@ -146,7 +153,7 @@ namespace MazeMaker
             {
                 for (int i = 0; i < curListA2.Count; i++)
                 {
-                    listBoxCollection.Items.Add(curListA2[i]);
+                    listBox.Items.Add(curListA2[i]);
                 }
                 // this.Text = curListT2.Count + " images in the Texture Collection";
             }
@@ -163,46 +170,136 @@ namespace MazeMaker
             //this.Text = "Collection Editor";
         }
 
-        private void buttonClose_Click(object sender, EventArgs e)
+        private void Close(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void buttonAdd_Click(object sender, EventArgs e)
+        private void Add(object sender, EventArgs e)
         {
-            //add...
             if (curListT2 != null)
                 AddTexture();
             else if (curListM2 != null)
                 AddModel();
             else if (curListA2 != null)
                 AddAudio();
-
         }
 
-        private void buttonRemove_Click(object sender, EventArgs e)
+        private void Remove(object sender, EventArgs e)
         {
-            //remove..
-            if (listBoxCollection.SelectedIndex >= 0)
+            if (listBox.SelectedIndex >= 0)
             {
                 if (curListT2 != null)
                 {
-                    curListT2.RemoveAt(listBoxCollection.SelectedIndex);
-                    listBoxCollection.Items.Remove(listBoxCollection.SelectedItem);
+                    replaceOrder.Add(new string[] { "image", curListT2[listBox.SelectedIndex].Name, "", ""});
+
+                    curListT2.RemoveAt(listBox.SelectedIndex);
+                    listBox.Items.Remove(listBox.SelectedItem);
                     propertyGrid.SelectedObject = null;
                     pictureBox.Image = null;
                 }
                 if (curListM2 != null)
                 {
-                    curListM2.RemoveAt(listBoxCollection.SelectedIndex);
-                    listBoxCollection.Items.Remove(listBoxCollection.SelectedItem);
+                    replaceOrder.Add(new string[] { "model", curListM2[listBox.SelectedIndex].Name, "", "" });
+
+                    curListM2.RemoveAt(listBox.SelectedIndex);
+                    listBox.Items.Remove(listBox.SelectedItem);
                     propertyGrid.SelectedObject = null;
                     pictureBox.Image = null;
                 }
                 if (curListA2 != null)
                 {
-                    curListA2.RemoveAt(listBoxCollection.SelectedIndex);
-                    listBoxCollection.Items.Remove(listBoxCollection.SelectedItem);
+                    replaceOrder.Add(new string[] { "audio", curListA2[listBox.SelectedIndex].Name, "", "" });
+
+                    curListA2.RemoveAt(listBox.SelectedIndex);
+                    listBox.Items.Remove(listBox.SelectedItem);
+                    propertyGrid.SelectedObject = null;
+                    pictureBox.Image = null;
+                }
+            }
+        }
+
+        private void Replace(object sender, EventArgs e)
+        {
+            if (listBox.SelectedIndex >= 0)
+            {
+                OpenFileDialog ofd = new OpenFileDialog();
+
+                if (curListT2 != null)
+                {
+                    ofd.Filter = "Image File(*.bmp, *.jpg, *.jpeg, *.gif, *png) | *.bmp; *.jpg; *.jpeg; *.gif; *.png";
+
+                    string oldFileName = curListT2[listBox.SelectedIndex].Name;
+                    curListT2.RemoveAt(listBox.SelectedIndex);
+
+                    if (ofd.ShowDialog() == DialogResult.OK)
+                    {
+                        string directory = Path.GetDirectoryName(ofd.FileName);
+                        string fileName = Path.GetFileName(ofd.FileName);
+                        Texture texture = new Texture(directory, fileName, 0);
+
+                        if (texture.Image != null)
+                        {
+                            curListT2.Add(texture);
+                            RefreshList();
+
+                            listBox.SelectedIndex = listBox.Items.Count - 1;
+                            replaceOrder.Add(new string[] { "image", oldFileName, fileName, ofd.FileName });
+                        }
+                    }
+
+                    propertyGrid.SelectedObject = null;
+                    pictureBox.Image = null;
+                }
+                if (curListM2 != null)
+                {
+                    ofd.Filter = "Model File (*.obj)|*.obj";
+
+                    string oldFileName = curListM2[listBox.SelectedIndex].Name;
+                    curListM2.RemoveAt(listBox.SelectedIndex);
+
+                    if (ofd.ShowDialog() == DialogResult.OK)
+                    {
+                        string directory = Path.GetDirectoryName(ofd.FileName);
+                        string fileName = Path.GetFileName(ofd.FileName);
+                        Model model = new Model(directory, fileName, 0);
+
+                        if (model.Name != null)
+                        {
+                            curListM2.Add(model);
+                            RefreshList();
+
+                            listBox.SelectedIndex = listBox.Items.Count - 1;
+                            replaceOrder.Add(new string[] { "model", oldFileName, fileName, ofd.FileName });
+                        }
+                    }
+
+                    propertyGrid.SelectedObject = null;
+                    pictureBox.Image = null;
+                }
+                if (curListA2 != null)
+                {
+                    ofd.Filter = "Audio File (*.wav,*.mp3)| *.wav;*.mp3";
+
+                    string oldFileName = curListA2[listBox.SelectedIndex].Name;
+                    curListA2.RemoveAt(listBox.SelectedIndex);
+
+                    if (ofd.ShowDialog() == DialogResult.OK)
+                    {
+                        string directory = Path.GetDirectoryName(ofd.FileName);
+                        string fileName = Path.GetFileName(ofd.FileName);
+                        Audio audio = new Audio(directory, fileName, 0);
+
+                        if (audio.Name != null)
+                        {
+                            curListA2.Add(audio);
+                            RefreshList();
+
+                            listBox.SelectedIndex = listBox.Items.Count - 1;
+                            replaceOrder.Add(new string[] { "audio", oldFileName, fileName, ofd.FileName });
+                        }
+                    }
+
                     propertyGrid.SelectedObject = null;
                     pictureBox.Image = null;
                 }
@@ -212,23 +309,23 @@ namespace MazeMaker
         System.Media.SoundPlayer sp;
         WMPLib.WindowsMediaPlayer wmp = new WMPLib.WindowsMediaPlayer();
         string audioPlayer = "";
-        private void listBoxCollection_SelectedIndexChanged(object sender, EventArgs e)
+        private void listBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listBoxCollection.SelectedIndex >= 0)
+            if (listBox.SelectedIndex >= 0)
             {
-                propertyGrid.SelectedObject = listBoxCollection.SelectedItem;
+                propertyGrid.SelectedObject = listBox.SelectedItem;
                 if (curListT2 != null)
                 {
-                    pictureBox.Image = ((Texture)listBoxCollection.SelectedItem).Image;
+                    pictureBox.Image = ((Texture)listBox.SelectedItem).Image;
                 }
                 else if (curListM2 != null)
                 {
-                    pictureBox.Image = ((Model)listBoxCollection.SelectedItem).Image;
+                    pictureBox.Image = ((Model)listBox.SelectedItem).Image;
                 }
                 else if (curListA2 != null)
                 {
                     StopAudio();
-                    string filePath = ((Audio)listBoxCollection.SelectedItem).filePath;
+                    string filePath = ((Audio)listBox.SelectedItem).filePath;
                     audioPlayer = Path.GetExtension(filePath).ToLower();
 
                     switch (audioPlayer)
@@ -308,7 +405,7 @@ namespace MazeMaker
         private void AddTexture()
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Supported Image Files |*.bmp;*.jpg;*.jpeg;*.gif;*png";
+            ofd.Filter = "Image File (*.bmp,*.jpg,*.jpeg,*.gif,*png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png";
             ofd.Multiselect = true;
 
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -322,7 +419,7 @@ namespace MazeMaker
                     {
                         curListT2.Add(texture);
                         RefreshList();
-                        listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
+                        listBox.SelectedIndex = listBox.Items.Count - 1;
                     }
                 }
             }
@@ -369,7 +466,7 @@ namespace MazeMaker
                 {
                     curListT2.Add(a);
                     RefreshList();
-                    listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
+                    listBox.SelectedIndex = listBox.Items.Count - 1;
                     //if (checkBoxCopy.Checked)
                     //{
                     //    try
@@ -393,11 +490,10 @@ namespace MazeMaker
             }
         }
 
-
         private void AddModel()
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Supported Model Files |*.obj";
+            ofd.Filter = "Model File (*.obj)|*.obj";
             ofd.Multiselect = true;
 
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -411,7 +507,7 @@ namespace MazeMaker
                     {
                         curListM2.Add(model);
                         RefreshList();
-                        listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
+                        listBox.SelectedIndex = listBox.Items.Count - 1;
                     }
                 }
             }
@@ -440,7 +536,7 @@ namespace MazeMaker
                 {
                     curListM2.Add(a);
                     RefreshList();
-                    listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
+                    listBox.SelectedIndex = listBox.Items.Count - 1;
                 }
             }
             catch
@@ -451,7 +547,7 @@ namespace MazeMaker
         private void AddAudio()
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Supported Audio Files |*.wav;*.mp3";
+            ofd.Filter = "Audio File (*.wav,*.mp3)| *.wav;*.mp3";
             ofd.Multiselect = true;
 
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -465,7 +561,7 @@ namespace MazeMaker
                     {
                         curListA2.Add(audio);
                         RefreshList();
-                        listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
+                        listBox.SelectedIndex = listBox.Items.Count - 1;
                     }
                 }
             }
@@ -513,7 +609,7 @@ namespace MazeMaker
                 {
                     curListA2.Add(a);
                     RefreshList();
-                    listBoxCollection.SelectedIndex = listBoxCollection.Items.Count - 1;
+                    listBox.SelectedIndex = listBox.Items.Count - 1;
                     //if (checkBoxCopy.Checked)
                     //{
                         //try
@@ -537,7 +633,7 @@ namespace MazeMaker
             }
         }
 
-        private void buttonOk_Click(object sender, EventArgs e)
+        private void okButton_Click(object sender, EventArgs e)
         {
             if(curListT2!=null)
             {

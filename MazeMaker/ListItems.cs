@@ -23,7 +23,7 @@ namespace MazeMaker
         MazeListOptions, Maze, Text, Image, MultipleChoice, RecordAudio, Command
     }
 
-    public class MyBuilderItem : Object
+    public class ListItem : Object
     {
         protected string text = "";
         [Category("Text Display")]
@@ -51,9 +51,9 @@ namespace MazeMaker
         }
     }
 
-    public class MazeList_MazeListOptionsItem : MyBuilderItem
+    public class MazeListOptionsListItem : ListItem
     {
-        public MazeList_MazeListOptionsItem()
+        public MazeListOptionsListItem()
         {
             Type = ItemType.MazeListOptions;
         }
@@ -122,9 +122,9 @@ namespace MazeMaker
         }
     }
 
-    public class MazeList_MazeItem : MyBuilderItem
+    public class MazeListItem : ListItem
     {
-        public MazeList_MazeItem()
+        public MazeListItem()
         {
             this.Type = ItemType.Maze;
         }
@@ -181,14 +181,14 @@ namespace MazeMaker
         }
     }
 
-    public class MazeList_TextItem : MyBuilderItem
+    public class TextListItem : ListItem
     {
         public enum DisplayType
         {
             OnFramedDialog, OnBackground
         }
 
-        public MazeList_TextItem()
+        public TextListItem()
         {
            this.Text = "Enter message here!..";
            this.Type = ItemType.Text;
@@ -296,14 +296,14 @@ namespace MazeMaker
         }
     }
 
-    public class MazeList_ImageItem : MyBuilderItem
+    public class ImageListItem : ListItem
     {
         public enum DisplayType
         {
             OnFramedDialog, OnBackground
         }
 
-        public MazeList_ImageItem()
+        public ImageListItem()
         {
             this.Text = "Enter caption here!..";
             this.Type = ItemType.Image;
@@ -454,14 +454,14 @@ namespace MazeMaker
         }
     }
 
-    public class MazeList_MultipleChoiceItem : MyBuilderItem
+    public class MultipleChoiceListItem : ListItem
     {
         public enum DisplayType
         {
             OnFramedDialog, OnBackground
         }
 
-        public MazeList_MultipleChoiceItem()
+        public MultipleChoiceListItem()
         {
             //this.Value = "Enter message here!..";
             this.Type = ItemType.MultipleChoice;
@@ -471,7 +471,7 @@ namespace MazeMaker
             GetString();
         }
 
-        public MazeList_MultipleChoiceItem(ListChangedEventHandler updated)
+        public MultipleChoiceListItem(ListChangedEventHandler updated)
         {
             this.Type = ItemType.MultipleChoice;
             items.Add(new TextReturn("Question?"));
@@ -630,14 +630,14 @@ namespace MazeMaker
         }
     }
 
-    public class MazeList_RecordAudioItem : MyBuilderItem
+    public class RecordAudioListItem : ListItem
     {
         public enum DisplayType
         {
             OnFramedDialog, OnBackground
         }
 
-        public MazeList_RecordAudioItem()
+        public RecordAudioListItem()
         {
             Type = ItemType.RecordAudio;
         }
@@ -706,9 +706,9 @@ namespace MazeMaker
         }
     }
 
-    public class MazeList_CommandItem : MyBuilderItem
+    public class CommandListItem : ListItem
     {
-        public MazeList_CommandItem()
+        public CommandListItem()
         {
             Type = ItemType.Command;
         }
