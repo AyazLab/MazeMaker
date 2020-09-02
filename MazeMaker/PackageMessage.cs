@@ -12,7 +12,7 @@ namespace MazeMaker
     public partial class PackageMessage : Form
     {
         public string status = "";
-        public string copiedFiles = "";
+        public string log = "";
 
         public PackageMessage()
         {
@@ -22,7 +22,7 @@ namespace MazeMaker
         private void PackageMessage_Load(object sender, EventArgs e)
         {
             statusLabel.Text = status;
-            copiedFilesTextBox.Text = copiedFiles;
+            logTextBox.Text = log;
         }
 
         private void okButton_Click(object sender, EventArgs e)

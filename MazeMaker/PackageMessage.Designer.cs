@@ -28,33 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.statusLabel = new System.Windows.Forms.Label();
-            this.copiedFilesTextBox = new System.Windows.Forms.RichTextBox();
+            this.logTextBox = new System.Windows.Forms.RichTextBox();
             this.okButton = new System.Windows.Forms.Button();
+            this.statusLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // statusLabel
+            // logTextBox
             // 
-            this.statusLabel.AutoSize = true;
-            this.statusLabel.Location = new System.Drawing.Point(30, 32);
-            this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(46, 17);
-            this.statusLabel.TabIndex = 0;
-            this.statusLabel.Text = "status";
-            // 
-            // copiedFilesTextBox
-            // 
-            this.copiedFilesTextBox.ForeColor = System.Drawing.Color.Black;
-            this.copiedFilesTextBox.Location = new System.Drawing.Point(33, 64);
-            this.copiedFilesTextBox.Name = "copiedFilesTextBox";
-            this.copiedFilesTextBox.ReadOnly = true;
-            this.copiedFilesTextBox.Size = new System.Drawing.Size(483, 283);
-            this.copiedFilesTextBox.TabIndex = 1;
-            this.copiedFilesTextBox.Text = "";
+            this.logTextBox.ForeColor = System.Drawing.Color.Black;
+            this.logTextBox.Location = new System.Drawing.Point(33, 86);
+            this.logTextBox.Name = "logTextBox";
+            this.logTextBox.ReadOnly = true;
+            this.logTextBox.Size = new System.Drawing.Size(483, 256);
+            this.logTextBox.TabIndex = 1;
+            this.logTextBox.Text = "";
             // 
             // okButton
             // 
-            this.okButton.Location = new System.Drawing.Point(441, 368);
+            this.okButton.Location = new System.Drawing.Point(441, 348);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 4;
@@ -62,14 +53,23 @@
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
+            // statusLabel
+            // 
+            this.statusLabel.AutoSize = true;
+            this.statusLabel.Location = new System.Drawing.Point(30, 9);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(46, 17);
+            this.statusLabel.TabIndex = 5;
+            this.statusLabel.Text = "status";
+            // 
             // PackageMessage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(557, 438);
-            this.Controls.Add(this.okButton);
-            this.Controls.Add(this.copiedFilesTextBox);
+            this.ClientSize = new System.Drawing.Size(807, 388);
             this.Controls.Add(this.statusLabel);
+            this.Controls.Add(this.okButton);
+            this.Controls.Add(this.logTextBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "PackageMessage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -81,9 +81,8 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label statusLabel;
-        private System.Windows.Forms.RichTextBox copiedFilesTextBox;
+        private System.Windows.Forms.RichTextBox logTextBox;
         private System.Windows.Forms.Button okButton;
+        private System.Windows.Forms.Label statusLabel;
     }
 }

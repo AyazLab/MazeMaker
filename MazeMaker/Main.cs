@@ -3643,12 +3643,16 @@ namespace MazeMaker
                 Directory.CreateDirectory(mazPath + "_assets\\audio");
                 Directory.CreateDirectory(mazPath + "_assets\\model");
 
+                string copiedFile0;
+                string copiedFile1;
+                string copiedFile2;
+                string copiedFile3;
                 string copiedFiles = "";
 
                 foreach (Floor floor in curMaze.cFloor)
                 {
-                    string copiedFile0 = "no new file";
-                    string copiedFile1 = "no new file";
+                    copiedFile0 = "no new file";
+                    copiedFile1 = "no new file";
 
                     if (floor.FloorTexture != "")
                     {
@@ -3665,15 +3669,16 @@ namespace MazeMaker
                         ReplaceFiles();
                     }
 
-                    if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
-                        break;
-                    if (!MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles))
-                        break;
+                    if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles) || !MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles))
+                    {
+                        MazeListBuilder.ShowPM(mazPath, "\nPackage failed.", copiedFiles);
+                        return;
+                    }
                 }
 
                 foreach (CurvedWall curvedWall in curMaze.cCurveWall)
                 {
-                    string copiedFile0 = "no new file";
+                    copiedFile0 = "no new file";
 
                     if (curvedWall.Texture != "")
                     {
@@ -3684,12 +3689,15 @@ namespace MazeMaker
                     }
 
                     if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
-                        break;
+                    {
+                        MazeListBuilder.ShowPM(mazPath, "\nPackage failed.", copiedFiles);
+                        return;
+                    }
                 }
 
                 foreach (Wall wall in curMaze.cWall)
                 {
-                    string copiedFile0 = "no new file";
+                    copiedFile0 = "no new file";
 
                     if (wall.Texture != "")
                     {
@@ -3700,13 +3708,16 @@ namespace MazeMaker
                     }
 
                     if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
-                        break;
+                    {
+                        MazeListBuilder.ShowPM(mazPath, "\nPackage failed.", copiedFiles);
+                        return;
+                    }
                 }
 
                 foreach (ActiveRegion activeRegion in curMaze.cActRegions)
                 {
-                    string copiedFile0 = "no new file";
-                    string copiedFile1 = "no new file";
+                    copiedFile0 = "no new file";
+                    copiedFile1 = "no new file";
 
                     if (activeRegion.Phase1HighlightAudio != "")
                     {
@@ -3723,18 +3734,19 @@ namespace MazeMaker
                         ReplaceFiles();
                     }
 
-                    if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
-                        break;
-                    if (!MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles))
-                        break;
+                    if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles) || !MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles))
+                    {
+                        MazeListBuilder.ShowPM(mazPath, "\nPackage failed.", copiedFiles);
+                        return;
+                    }
                 }
 
                 foreach (DynamicObject dynamicObject in curMaze.cDynamicObjects)
                 {
-                    string copiedFile0 = "no new file";
-                    string copiedFile1 = "no new file";
-                    string copiedFile2 = "no new file";
-                    string copiedFile3 = "no new file";
+                    copiedFile0 = "no new file";
+                    copiedFile1 = "no new file";
+                    copiedFile2 = "no new file";
+                    copiedFile3 = "no new file";
 
                     if (dynamicObject.Phase1HighlightAudio != "")
                     {
@@ -3765,19 +3777,19 @@ namespace MazeMaker
                         ReplaceFiles();
                     }
 
-                    if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
-                        break;
-                    if (!MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles))
-                        break;
-                    if (!MazeListBuilder.AddToLog(copiedFile2, ref copiedFiles))
-                        break;
-                    if (!MazeListBuilder.AddToLog(copiedFile3, ref copiedFiles))
-                        break;
+                    if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles) ||
+                        !MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles) ||
+                        !MazeListBuilder.AddToLog(copiedFile2, ref copiedFiles) ||
+                        !MazeListBuilder.AddToLog(copiedFile3, ref copiedFiles))
+                    {
+                        MazeListBuilder.ShowPM(mazPath, "\nPackage failed.", copiedFiles);
+                        return;
+                    }
                 }
 
                 foreach (StaticModel staticModel in curMaze.cStaticModels)
                 {
-                    string copiedFile0 = "no new file";
+                    copiedFile0 = "no new file";
 
                     if (staticModel.Model != "")
                     {
@@ -3788,15 +3800,37 @@ namespace MazeMaker
                     }
 
                     if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
-                        break;
+                    {
+                        MazeListBuilder.ShowPM(mazPath, "\nPackage failed.", copiedFiles);
+                        return;
+                    }
                 }
 
-                PackageMessage mpl = new PackageMessage
+                copiedFile0 = "no new file";
+                copiedFile1 = "no new file";
+
+                if (curMaze.SkyBoxTexture != "")
                 {
-                    status = "Maze List successfully packaged.",
-                    copiedFiles = copiedFiles,
-                };
-                mpl.ShowDialog();
+                    string oldFilePath = ImagePathConverter.Paths[curMaze.SkyBoxTexture];
+                    string newFilePath = mazPath + "_assets\\image\\" + curMaze.SkyBoxTexture;
+                    copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "image", newFilePath, ref replaceOrder);
+                    ReplaceFiles();
+                }
+                if (curMaze.AvatarModel != "")
+                {
+                    string oldFilePath = ModelPathConverter.Paths[curMaze.AvatarModel];
+                    string newFilePath = mazPath + "_assets\\model\\" + curMaze.AvatarModel;
+                    copiedFile1 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "model", newFilePath, ref replaceOrder);
+                    ReplaceFiles();
+                }
+
+                if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles) || !MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles))
+                {
+                    MazeListBuilder.ShowPM(mazPath, "\nPackage failed.", copiedFiles);
+                    return;
+                }
+
+                MazeListBuilder.ShowPM(mazPath, "\nPackage successfully generated", copiedFiles);
             }
         }
 

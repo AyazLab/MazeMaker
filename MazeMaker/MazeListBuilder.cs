@@ -547,7 +547,9 @@ namespace MazeMaker
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 madeChanges = false;
+
                 string melxPath = sfd.FileName;
+                WriteToMelx(melxPath);
 
                 if (Directory.Exists(melxPath + "_assets"))
                     Directory.Delete(melxPath + "_assets", true);
@@ -557,7 +559,6 @@ namespace MazeMaker
                 Directory.CreateDirectory(melxPath + "_assets\\audio");
 
                 string copiedFiles = "";
-
                 foreach (ListItem item in mazeList)
                 {
                     string copiedFile0 = "no new file";
@@ -630,21 +631,36 @@ namespace MazeMaker
 
                     ReplaceFiles();
 
-                    if (!AddToLog(copiedFile0, ref copiedFiles))
-                        break;
-                    if (!AddToLog(copiedFile1, ref copiedFiles))
-                        break;
+                    if (!AddToLog(copiedFile0, ref copiedFiles) || !AddToLog(copiedFile1, ref copiedFiles))
+                    {
+                        ShowPM(melxPath, "\nPackage failed.", copiedFiles);
+                        return;
+                    }
                 }
 
-                WriteToMelx(melxPath);
-
-                PackageMessage mpl = new PackageMessage
-                {
-                    status = "Maze List successfully packaged.",
-                    copiedFiles = copiedFiles,
-                };
-                mpl.ShowDialog();
+                ShowPM(melxPath, "\nPackage successfully generated", copiedFiles);
             }
+        }
+
+        public static void ShowPM(string filePath, string status, string log)
+        {
+            string fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
+            if (fileName == "")
+                fileName = filePath;
+
+            if (log == "")
+                log = "No assets present in this file";
+
+            PackageMessage pm = new PackageMessage
+            {
+                status = "Generating package for " + fileName + " in " + filePath +
+                "\nCreated asset folder " + fileName + "_assets in " + filePath + "_assets" +
+                "\nCopying assets to folder..." +
+                status,
+                log = log,
+            };
+
+            pm.ShowDialog();
         }
 
         public static bool AddToLog(string copiedFile, ref string copiedFiles)
@@ -721,7 +737,6 @@ namespace MazeMaker
             }
 
             MessageBox.Show("\'" + fileName + "\' could not be found. If it can't be found, the package will be abandoned");
-            PackageMessage mpl = new PackageMessage();
             while (true)
             {
                 OpenFileDialog ofd = new OpenFileDialog();
@@ -743,9 +758,7 @@ namespace MazeMaker
                                 continue;
 
                             default:
-                                mpl.status = "Maze List package failed.";
-                                mpl.ShowDialog();
-                                return mpl.status;
+                                return "Maze List package failed.";
                         }
                     }
 
@@ -761,9 +774,7 @@ namespace MazeMaker
                     return ofd.FileName;
                 }
 
-                mpl.status = "Maze List package failed.";
-                mpl.ShowDialog();
-                return mpl.status;
+                return "Maze List package failed.";
             }
         }
 
@@ -955,7 +966,7 @@ namespace MazeMaker
                         {
                             mazeID = Convert.ToInt32(mazeLibraryItems[maze.MazeFile]);
                         }
-                        else
+                        else if (maze.MazeFile != "")
                         {
                             mazeLibraryItems[maze.MazeFile] = mazeID.ToString();
                             mazeIDCounter++;
