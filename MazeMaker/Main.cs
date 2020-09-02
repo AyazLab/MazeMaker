@@ -3442,7 +3442,8 @@ namespace MazeMaker
 
         }
 
-        private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        List<string[]> replaceOrder = new List<string[]>();
+        private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             if (e.ChangedItem.GetType() == e.ChangedItem.Label.GetType())
                 MazeChanged(true);
@@ -3498,6 +3499,8 @@ namespace MazeMaker
                 curMaze.SkyBoxTexture = ManageItems("Image", e.OldValue.ToString(), curMaze.SkyBoxTexture);
                 curMaze.AvatarModel = ManageItems("Model", e.OldValue.ToString(), curMaze.AvatarModel);
             }
+
+            ReplaceFiles();
         }
 
         string ManageItems(string type, string oldValue, string newValue)
@@ -3555,8 +3558,10 @@ namespace MazeMaker
                         case "Image":
                             List<Texture> textures = MazeListBuilder.FilesToTextures(ImagePathConverter.Paths);
                             MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref textures);
+
                             string filePath = mmce.GetTexture();
                             MazeListBuilder.TexturesToFiles(mmce.GetTextures(), ref ImagePathConverter.Paths);
+                            replaceOrder = mmce.GetReplaceOrder();
 
                             if (filePath != "")
                             {
@@ -3572,8 +3577,10 @@ namespace MazeMaker
                         case "Audio":
                             List<Audio> audios = MazeListBuilder.FilesToAudios(AudioPathConverter.Paths);
                             mmce = new MazeMakerCollectionEditor(ref audios);
+
                             filePath = mmce.GetAudio();
                             MazeListBuilder.AudiosToFiles(mmce.GetAudios(), ref AudioPathConverter.Paths);
+                            replaceOrder = mmce.GetReplaceOrder();
 
                             if (filePath != "")
                             {
@@ -3623,7 +3630,7 @@ namespace MazeMaker
             }
         }
 
-        private void packageToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Package(object sender, EventArgs e)
         {
             string mazPath = SaveAs();
 
@@ -3647,13 +3654,15 @@ namespace MazeMaker
                     {
                         string oldFilePath = ImagePathConverter.Paths[floor.FloorTexture];
                         string newFilePath = mazPath + "_assets\\image\\" + floor.FloorTexture;
-                        copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "image", newFilePath);
+                        copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "image", newFilePath, ref replaceOrder);
+                        ReplaceFiles();
                     }
                     if (floor.CeilingTexture != "")
                     {
                         string oldFilePath = ImagePathConverter.Paths[floor.CeilingTexture];
                         string newFilePath = mazPath + "_assets\\image\\" + floor.CeilingTexture;
-                        copiedFile1 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "image", newFilePath);
+                        copiedFile1 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "image", newFilePath, ref replaceOrder);
+                        ReplaceFiles();
                     }
 
                     if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
@@ -3670,7 +3679,8 @@ namespace MazeMaker
                     {
                         string oldFilePath = ImagePathConverter.Paths[curvedWall.Texture];
                         string newFilePath = mazPath + "_assets\\image\\" + curvedWall.Texture;
-                        copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "image", newFilePath);
+                        copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "image", newFilePath, ref replaceOrder);
+                        ReplaceFiles();
                     }
 
                     if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
@@ -3685,7 +3695,8 @@ namespace MazeMaker
                     {
                         string oldFilePath = ImagePathConverter.Paths[wall.Texture];
                         string newFilePath = mazPath + "_assets\\image\\" + wall.Texture;
-                        copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "image", newFilePath);
+                        copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "image", newFilePath, ref replaceOrder);
+                        ReplaceFiles();
                     }
 
                     if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
@@ -3701,13 +3712,15 @@ namespace MazeMaker
                     {
                         string oldFilePath = AudioPathConverter.Paths[activeRegion.Phase1HighlightAudio];
                         string newFilePath = mazPath + "_assets\\audio\\" + activeRegion.Phase1HighlightAudio;
-                        copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "audio", newFilePath);
+                        copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "audio", newFilePath, ref replaceOrder);
+                        ReplaceFiles();
                     }
                     if (activeRegion.Phase2EventAudio != "")
                     {
                         string oldFilePath = AudioPathConverter.Paths[activeRegion.Phase2EventAudio];
                         string newFilePath = mazPath + "_assets\\audio\\" + activeRegion.Phase2EventAudio;
-                        copiedFile1 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "audio", newFilePath);
+                        copiedFile1 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "audio", newFilePath, ref replaceOrder);
+                        ReplaceFiles();
                     }
 
                     if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
@@ -3727,25 +3740,29 @@ namespace MazeMaker
                     {
                         string oldFilePath = AudioPathConverter.Paths[dynamicObject.Phase1HighlightAudio];
                         string newFilePath = mazPath + "_assets\\audio\\" + dynamicObject.Phase1HighlightAudio;
-                        copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "audio", newFilePath);
+                        copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "audio", newFilePath, ref replaceOrder);
+                        ReplaceFiles();
                     }
                     if (dynamicObject.Phase2EventAudio != "")
                     {
                         string oldFilePath = AudioPathConverter.Paths[dynamicObject.Phase2EventAudio];
                         string newFilePath = mazPath + "_assets\\audio\\" + dynamicObject.Phase2EventAudio;
-                        copiedFile1 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "audio", newFilePath);
+                        copiedFile1 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "audio", newFilePath, ref replaceOrder);
+                        ReplaceFiles();
                     }
                     if (dynamicObject.Model != "")
                     {
                         string oldFilePath = ModelPathConverter.Paths[dynamicObject.Model];
                         string newFilePath = mazPath + "_assets\\model\\" + dynamicObject.Model;
-                        copiedFile2 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "model", newFilePath);
+                        copiedFile2 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "model", newFilePath, ref replaceOrder);
+                        ReplaceFiles();
                     }
                     if (dynamicObject.SwitchToModel != "")
                     {
                         string oldFilePath = ModelPathConverter.Paths[dynamicObject.SwitchToModel];
                         string newFilePath = mazPath + "_assets\\model\\" + dynamicObject.SwitchToModel;
-                        copiedFile3 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "model", newFilePath);
+                        copiedFile3 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "model", newFilePath, ref replaceOrder);
+                        ReplaceFiles();
                     }
 
                     if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
@@ -3761,18 +3778,16 @@ namespace MazeMaker
                 foreach (StaticModel staticModel in curMaze.cStaticModels)
                 {
                     string copiedFile0 = "no new file";
-                    string copiedFile1 = "no new file";
 
                     if (staticModel.Model != "")
                     {
                         string oldFilePath = ModelPathConverter.Paths[staticModel.Model];
                         string newFilePath = mazPath + "_assets\\model\\" + staticModel.Model;
-                        copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "model", newFilePath);
+                        copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "model", newFilePath, ref replaceOrder);
+                        ReplaceFiles();
                     }
 
                     if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
-                        break;
-                    if (!MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles))
                         break;
                 }
 
@@ -3782,6 +3797,169 @@ namespace MazeMaker
                     copiedFiles = copiedFiles,
                 };
                 mpl.ShowDialog();
+            }
+        }
+
+        void ReplaceFiles()
+        {
+            if (replaceOrder.Count != 0)
+            {
+                foreach (Floor floor in curMaze.cFloor)
+                {
+                    foreach (string[] replaceInfo in replaceOrder)
+                    {
+                        if (replaceInfo[0] == "image" && floor.FloorTexture == replaceInfo[1])
+                        {
+                            floor.FloorTexture = replaceInfo[2];
+                            if (replaceInfo[2] != "")
+                                ImagePathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
+                            ImagePathConverter.Paths.Remove(replaceInfo[1]);
+                        }
+                        if (replaceInfo[0] == "image" && floor.CeilingTexture == replaceInfo[1])
+                        {
+                            floor.CeilingTexture = replaceInfo[2];
+                            if (replaceInfo[2] != "")
+                                ImagePathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
+                            ImagePathConverter.Paths.Remove(replaceInfo[1]);
+                        }
+                    }
+                }
+
+                foreach (CurvedWall curvedWall in curMaze.cCurveWall)
+                {
+                    foreach (string[] replaceInfo in replaceOrder)
+                    {
+                        if (replaceInfo[0] == "image" && curvedWall.Texture == replaceInfo[1])
+                        {
+                            curvedWall.Texture = replaceInfo[2];
+                            if (replaceInfo[2] != "")
+                                ImagePathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
+                            ImagePathConverter.Paths.Remove(replaceInfo[1]);
+                        }
+                    }
+                }
+
+                foreach (Wall wall in curMaze.cWall)
+                {
+                    foreach (string[] replaceInfo in replaceOrder)
+                    {
+                        if (replaceInfo[0] == "image" && wall.Texture == replaceInfo[1])
+                        {
+                            wall.Texture = replaceInfo[2];
+                            if (replaceInfo[2] != "")
+                                ImagePathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
+                            ImagePathConverter.Paths.Remove(replaceInfo[1]);
+                        }
+                    }
+                }
+
+                foreach (ActiveRegion activeRegion in curMaze.cActRegions)
+                {
+                    foreach (string[] replaceInfo in replaceOrder)
+                    {
+                        if (replaceInfo[0] == "audio" && activeRegion.Phase1HighlightAudio == replaceInfo[1])
+                        {
+                            activeRegion.Phase1HighlightAudio = replaceInfo[2];
+                            if (replaceInfo[2] != "")
+                                AudioPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
+                            AudioPathConverter.Paths.Remove(replaceInfo[1]);
+                        }
+                        if (replaceInfo[0] == "audio" && activeRegion.Phase2EventAudio == replaceInfo[1])
+                        {
+                            activeRegion.Phase2EventAudio = replaceInfo[2];
+                            if (replaceInfo[2] != "")
+                                AudioPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
+                            AudioPathConverter.Paths.Remove(replaceInfo[1]);
+                        }
+                    }
+                }
+
+                foreach (DynamicObject dynamicObject in curMaze.cDynamicObjects)
+                {
+                    foreach (string[] replaceInfo in replaceOrder)
+                    {
+                        if (replaceInfo[0] == "audio" && dynamicObject.Phase1HighlightAudio == replaceInfo[1])
+                        {
+                            dynamicObject.Phase1HighlightAudio = replaceInfo[2];
+                            if (replaceInfo[2] != "")
+                                AudioPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
+                            AudioPathConverter.Paths.Remove(replaceInfo[1]);
+                        }
+                        if (replaceInfo[0] == "audio" && dynamicObject.Phase2EventAudio == replaceInfo[1])
+                        {
+                            dynamicObject.Phase2EventAudio = replaceInfo[2];
+                            if (replaceInfo[2] != "")
+                                AudioPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
+                            AudioPathConverter.Paths.Remove(replaceInfo[1]);
+                        }
+                        if (replaceInfo[0] == "model" && dynamicObject.Model == replaceInfo[1])
+                        {
+                            dynamicObject.Model = replaceInfo[2];
+                            if (replaceInfo[2] != "")
+                                ModelPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
+                            ModelPathConverter.Paths.Remove(replaceInfo[1]);
+                        }
+                        if (replaceInfo[0] == "model" && dynamicObject.SwitchToModel == replaceInfo[1])
+                        {
+                            dynamicObject.SwitchToModel = replaceInfo[2];
+                            if (replaceInfo[2] != "")
+                                ModelPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
+                            ModelPathConverter.Paths.Remove(replaceInfo[1]);
+                        }
+                    }
+                }
+
+                foreach (StaticModel staticModel in curMaze.cStaticModels)
+                {
+                    foreach (string[] replaceInfo in replaceOrder)
+                    {
+                        if (replaceInfo[0] == "model" && staticModel.Model == replaceInfo[1])
+                        {
+                            staticModel.Model = replaceInfo[2];
+                            if (replaceInfo[2] != "")
+                                ModelPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
+                            ModelPathConverter.Paths.Remove(replaceInfo[1]);
+                        }
+                    }
+                }
+
+                foreach (string[] replaceInfo in replaceOrder)
+                {
+                    if (replaceInfo[0] == "image" && curMaze.SkyBoxTexture == replaceInfo[1])
+                    {
+                        curMaze.SkyBoxTexture = replaceInfo[2];
+                        if (replaceInfo[2] != "")
+                            ImagePathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
+                        ImagePathConverter.Paths.Remove(replaceInfo[1]);
+                    }
+                    if (replaceInfo[0] == "model" && curMaze.AvatarModel == replaceInfo[1])
+                    {
+                        curMaze.AvatarModel = replaceInfo[2];
+                        if (replaceInfo[2] != "")
+                            ModelPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
+                        ModelPathConverter.Paths.Remove(replaceInfo[1]);
+                    }
+                    if (replaceInfo[0] == "image") // unused files
+                    {
+                        if (replaceInfo[2] != "")
+                            ImagePathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
+                        ImagePathConverter.Paths.Remove(replaceInfo[1]);
+                    }
+                    if (replaceInfo[0] == "audio")
+                    {
+                        if (replaceInfo[2] != "")
+                            AudioPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
+                        AudioPathConverter.Paths.Remove(replaceInfo[1]);
+                    }
+                    if (replaceInfo[0] == "model")
+                    {
+                        if (replaceInfo[2] != "")
+                            ModelPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
+                        ModelPathConverter.Paths.Remove(replaceInfo[1]);
+                    }
+                }
+
+                replaceOrder.Clear();
             }
         }
 
@@ -5737,8 +5915,11 @@ namespace MazeMaker
 
             List<Texture> textures = MazeListBuilder.FilesToTextures(ImagePathConverter.Paths);
             MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref textures);
+            
             mmce.ShowDialog();
             MazeListBuilder.TexturesToFiles(mmce.GetTextures(), ref ImagePathConverter.Paths);
+            replaceOrder = mmce.GetReplaceOrder();
+            ReplaceFiles();
         }
 
         private void modelCollectionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5747,8 +5928,11 @@ namespace MazeMaker
 
             List<Model> models = MazeListBuilder.FilesToModels(ModelPathConverter.Paths);
             MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref models);
+
             mmce.ShowDialog();
             MazeListBuilder.ModelsToFiles(mmce.GetModels(), ref ModelPathConverter.Paths);
+            replaceOrder = mmce.GetReplaceOrder();
+            ReplaceFiles();
         }
 
         private void audioCollectionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5757,11 +5941,11 @@ namespace MazeMaker
 
             List<Audio> audios = MazeListBuilder.FilesToAudios(AudioPathConverter.Paths);
             MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref audios);
+
             mmce.ShowDialog();
             MazeListBuilder.AudiosToFiles(mmce.GetAudios(), ref AudioPathConverter.Paths);
-            
-            //MazeMakerCollectionEditor a = new MazeMakerCollectionEditor(ref curMaze.cAudio);
-            //a.ShowDialog();
+            replaceOrder = mmce.GetReplaceOrder();
+            ReplaceFiles();
         }
 
         private void quickRunToolStripMenuItem_Click(object sender, EventArgs e)

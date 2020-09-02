@@ -332,7 +332,7 @@ namespace MazeMaker
             this.packageToolStripMenuItem.Name = "packageToolStripMenuItem";
             this.packageToolStripMenuItem.Size = new System.Drawing.Size(269, 26);
             this.packageToolStripMenuItem.Text = "Package";
-            this.packageToolStripMenuItem.Click += new System.EventHandler(this.packageToolStripMenuItem_Click);
+            this.packageToolStripMenuItem.Click += new System.EventHandler(this.Package);
             // 
             // toolStripSeparator9
             // 
@@ -1622,7 +1622,7 @@ namespace MazeMaker
             this.propertyGrid.Name = "propertyGrid";
             this.propertyGrid.Size = new System.Drawing.Size(327, 441);
             this.propertyGrid.TabIndex = 0;
-            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
+            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_PropertyValueChanged);
             // 
             // toolStrip_maze
             // 

@@ -345,7 +345,7 @@ namespace MazeMaker
                     break;
             }
 
-            ReplaceOrder();
+            ReplaceFiles();
             UpdateMazeList();
             switch (selectedIndex)
             {
@@ -571,7 +571,7 @@ namespace MazeMaker
                                 string oldFilePath = mazeFilePaths[maze.MazeFile];
                                 string newFilePath = melxPath + "_assets\\maze\\" + maze.MazeFile;
 
-                                copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "maze", newFilePath);
+                                copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "maze", newFilePath, ref replaceOrder);
                             }
                             break;
 
@@ -582,7 +582,7 @@ namespace MazeMaker
                                 string oldFilePath = audioFilePaths[text.AudioFile];
                                 string newFilePath = melxPath + "_assets\\audio\\" + text.AudioFile;
 
-                                copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath);
+                                copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath, ref replaceOrder);
                             }
                             break;
 
@@ -593,14 +593,14 @@ namespace MazeMaker
                                 string oldFilePath = imageFilePaths[image.ImageFile];
                                 string newFilePath = melxPath + "_assets\\image\\" + image.ImageFile;
 
-                                copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "image", newFilePath);
+                                copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "image", newFilePath, ref replaceOrder);
                             }
                             if (image.AudioFile != "")
                             {
                                 string oldFilePath = audioFilePaths[image.AudioFile];
                                 string newFilePath = melxPath + "_assets\\audio\\" + image.AudioFile;
 
-                                copiedFile1 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath);
+                                copiedFile1 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath, ref replaceOrder);
                             }
                             break;
 
@@ -611,7 +611,7 @@ namespace MazeMaker
                                 string oldFilePath = audioFilePaths[multipleChoice.AudioFile];
                                 string newFilePath = melxPath + "_assets\\audio\\" + multipleChoice.AudioFile;
 
-                                copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath);
+                                copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath, ref replaceOrder);
                             }
                             break;
 
@@ -623,12 +623,12 @@ namespace MazeMaker
                                 string oldFilePath = imageFilePaths[recordAudio.ImageFile];
                                 string newFilePath = melxPath + "_assets\\image\\" + recordAudio.ImageFile;
 
-                                copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "image", newFilePath);
+                                copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "image", newFilePath, ref replaceOrder);
                             }
                             break;
                     }
 
-                    ReplaceOrder();
+                    ReplaceFiles();
 
                     if (!AddToLog(copiedFile0, ref copiedFiles))
                         break;
@@ -663,7 +663,7 @@ namespace MazeMaker
             }
         }
 
-        public static string RecursiveFileCopy(string oldFilePath, string melxPath, string type, string newFilePath)
+        public static string RecursiveFileCopy(string oldFilePath, string melxPath, string type, string newFilePath, ref List<string[]> replaceOrder)
         {
             string fileName = oldFilePath;
             string melxDirectory = melxPath.Substring(0, melxPath.Length - melxPath.Substring(melxPath.LastIndexOf("\\") + 1).Length);
@@ -767,7 +767,7 @@ namespace MazeMaker
             }
         }
 
-        void ReplaceOrder()
+        void ReplaceFiles()
         {
             if (replaceOrder.Count != 0)
             {
@@ -784,6 +784,7 @@ namespace MazeMaker
                                     maze.MazeFile = replaceInfo[2];
                                     if (replaceInfo[2] != "")
                                         mazeFilePaths[replaceInfo[2]] = replaceInfo[3];
+                                    mazeFilePaths.Remove(replaceInfo[1]);
                                 }
                             }
                             break;
@@ -797,6 +798,7 @@ namespace MazeMaker
                                     text.AudioFile = replaceInfo[2];
                                     if (replaceInfo[2] != "")
                                         audioFilePaths[replaceInfo[2]] = replaceInfo[3];
+                                    audioFilePaths.Remove(replaceInfo[1]);
                                 }
                             }
                             break;
@@ -810,12 +812,14 @@ namespace MazeMaker
                                     image.ImageFile = replaceInfo[2];
                                     if (replaceInfo[2] != "")
                                         imageFilePaths[replaceInfo[2]] = replaceInfo[3];
+                                    imageFilePaths.Remove(replaceInfo[1]);
                                 }
                                 if (replaceInfo[0] == "audio" && image.AudioFile == replaceInfo[1])
                                 {
                                     image.AudioFile = replaceInfo[2];
                                     if (replaceInfo[2] != "")
                                         audioFilePaths[replaceInfo[2]] = replaceInfo[3];
+                                    audioFilePaths.Remove(replaceInfo[1]);
                                 }
                             }
                             break;
@@ -829,6 +833,7 @@ namespace MazeMaker
                                     multipleChoice.AudioFile = replaceInfo[2];
                                     if (replaceInfo[2] != "")
                                         audioFilePaths[replaceInfo[2]] = replaceInfo[3];
+                                    audioFilePaths.Remove(replaceInfo[1]);
                                 }
                             }
                             break;
@@ -842,6 +847,7 @@ namespace MazeMaker
                                     recordAudio.ImageFile = replaceInfo[2];
                                     if (replaceInfo[2] != "")
                                         imageFilePaths[replaceInfo[2]] = replaceInfo[3];
+                                    imageFilePaths.Remove(replaceInfo[1]);
                                 }
                             }
                             break;
