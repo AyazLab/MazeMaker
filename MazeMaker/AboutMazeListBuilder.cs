@@ -13,13 +13,13 @@ namespace MazeMaker
         public AboutMazeListBuilder()
         {
             InitializeComponent();
-            this.Text = String.Format("About {0}", AssemblyTitle);
+            //this.Text = String.Format("About {0}", AssemblyTitle);
             //this.labelProductName.Text = AssemblyProduct;
             this.labelProductName.Text = "MazeList Builder";
             this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
             this.labelCopyright.Text = AssemblyCopyright;
             this.labelCompanyName.Text = AssemblyCompany;
-            this.textBoxDescription.Text = AssemblyDescription;
+            this.textBoxDescription.Text = AssemblyDescription + "\r\n\r\nDeveloped by\r\n Adrian Curtin\r\n Henry Nguyen\r\n Michael Tran";
         }
 
         #region Assembly Attribute Accessors
