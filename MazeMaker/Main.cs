@@ -1113,26 +1113,20 @@ namespace MazeMaker
             this.Text = "MazeMaker - " + curMaze.FileName;
             CurrentSettings.AddMazeFileToPrevious(curMaze.FileName);
         }
-        public string SaveAs()
+
+        public void SaveAs()
         {
             if (curMaze == null)
-            {
-                return "";
-            }
+                return;
             if (curMaze.cStart.Count == 0)
             {
                 if (MessageBox.Show("No start location has been specified!\n\nDo you want to save without start location?", "MazeMaker", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
-                    return "";
+                    return;
             }
-
             if (isClassicFormat && MessageBox.Show("This maze was created using the old format.\nClick OK to convert and save this maze in the new format\n\nIf you would like to use the old format, select Cancel and goto File>Export To Classic Format from top menu", "MazeMaker", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
-            {
-
                 isClassicFormat = false;
-            }
-            else if(isClassicFormat)
-                return "";
-
+            else if (isClassicFormat)
+                return;
 
             SaveFileDialog a = new SaveFileDialog();
             a.Filter = "Maze files | *.maz";
@@ -1148,20 +1142,16 @@ namespace MazeMaker
             if (a.ShowDialog() == DialogResult.OK)
             {
                 if (isClassicFormat)
-                {
                     curMaze.SaveToClassicFile(a.FileName);
-                }
                 else
                     curMaze.SaveToMazeXML(a.FileName);
 
                 this.Text = "MazeMaker - " + a.FileName;
                 CurrentSettings.AddMazeFileToPrevious(a.FileName);
-
                 UpdateTree();
             }
-
-            return a.FileName;
         }
+
         public bool CloseMaze()
         {            
             if (curMaze != null)
@@ -1197,7 +1187,6 @@ namespace MazeMaker
             }
             return false;
         }
-
 
         //Also in Registry dialog/class
         ContextMenu cm = new ContextMenu();
@@ -3632,7 +3621,25 @@ namespace MazeMaker
 
         private void Package(object sender, EventArgs e)
         {
-            string mazPath = SaveAs();
+            SaveFileDialog sfd = new SaveFileDialog{ Filter = "Maze File (*.maz)|*.maz|Maze Package File (*.mazx)|*.mazx", };
+            bool zip = false;
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                if (Path.GetExtension(sfd.FileName) == ".mazx")
+                {
+                    sfd.FileName = sfd.FileName.Split('.')[0] + ".maz";
+                    zip = true;
+                }
+
+                curMaze.SaveToMazeXML(sfd.FileName);
+
+                this.Text = "MazeMaker - " + sfd.FileName;
+                CurrentSettings.AddMazeFileToPrevious(sfd.FileName);
+                UpdateTree();
+            }
+            
+            string mazPath = sfd.FileName;
 
             if (mazPath != "" && File.Exists(mazPath))
             {
@@ -3831,6 +3838,14 @@ namespace MazeMaker
                 }
 
                 MazeListBuilder.ShowPM(mazPath, "\nPackage successfully generated", copiedFiles);
+            }
+
+            if (zip)
+            {
+                string mazFile = mazPath;
+                string assetsDir = mazPath + "_assets";
+                string zipFile = mazPath.Split('.')[0] + ".mazx";
+                // TODO: shove mazFile and assetsDir into zipFile
             }
         }
 
