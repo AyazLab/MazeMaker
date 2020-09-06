@@ -740,6 +740,7 @@ namespace MazeMaker
             while (true)
             {
                 OpenFileDialog ofd = new OpenFileDialog();
+                ofd.Title = "Finding/Replacing " + fileName;
 
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {

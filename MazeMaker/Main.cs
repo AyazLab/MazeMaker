@@ -3623,7 +3623,6 @@ namespace MazeMaker
         {
             SaveFileDialog sfd = new SaveFileDialog{ Filter = "Maze File (*.maz)|*.maz|Maze Package File (*.mazx)|*.mazx", };
             bool zip = false;
-
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 if (Path.GetExtension(sfd.FileName) == ".mazx")
@@ -3640,202 +3639,59 @@ namespace MazeMaker
             }
             
             string mazPath = sfd.FileName;
-
             if (mazPath != "" && File.Exists(mazPath))
             {
                 if (Directory.Exists(mazPath + "_assets"))
                     Directory.Delete(mazPath + "_assets", true);
-
                 Directory.CreateDirectory(mazPath + "_assets\\image");
                 Directory.CreateDirectory(mazPath + "_assets\\audio");
                 Directory.CreateDirectory(mazPath + "_assets\\model");
 
-                string copiedFile0;
-                string copiedFile1;
-                string copiedFile2;
-                string copiedFile3;
                 string copiedFiles = "";
-
                 foreach (Floor floor in curMaze.cFloor)
                 {
-                    copiedFile0 = "no new file";
-                    copiedFile1 = "no new file";
-
-                    if (floor.FloorTexture != "")
-                    {
-                        string oldFilePath = ImagePathConverter.Paths[floor.FloorTexture];
-                        string newFilePath = mazPath + "_assets\\image\\" + floor.FloorTexture;
-                        copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "image", newFilePath, ref replaceOrder);
-                        ReplaceFiles();
-                    }
-                    if (floor.CeilingTexture != "")
-                    {
-                        string oldFilePath = ImagePathConverter.Paths[floor.CeilingTexture];
-                        string newFilePath = mazPath + "_assets\\image\\" + floor.CeilingTexture;
-                        copiedFile1 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "image", newFilePath, ref replaceOrder);
-                        ReplaceFiles();
-                    }
-
-                    if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles) || !MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles))
-                    {
-                        MazeListBuilder.ShowPM(mazPath, "\nPackage failed.", copiedFiles);
+                    if (!CopyFile(floor.FloorTexture, mazPath, "image", ref copiedFiles))
                         return;
-                    }
+                    if (!CopyFile(floor.CeilingTexture, mazPath, "image", ref copiedFiles))
+                        return;
                 }
-
                 foreach (CurvedWall curvedWall in curMaze.cCurveWall)
                 {
-                    copiedFile0 = "no new file";
-
-                    if (curvedWall.Texture != "")
-                    {
-                        string oldFilePath = ImagePathConverter.Paths[curvedWall.Texture];
-                        string newFilePath = mazPath + "_assets\\image\\" + curvedWall.Texture;
-                        copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "image", newFilePath, ref replaceOrder);
-                        ReplaceFiles();
-                    }
-
-                    if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
-                    {
-                        MazeListBuilder.ShowPM(mazPath, "\nPackage failed.", copiedFiles);
+                    if (!CopyFile(curvedWall.Texture, mazPath, "image", ref copiedFiles))
                         return;
-                    }
                 }
-
                 foreach (Wall wall in curMaze.cWall)
                 {
-                    copiedFile0 = "no new file";
-
-                    if (wall.Texture != "")
-                    {
-                        string oldFilePath = ImagePathConverter.Paths[wall.Texture];
-                        string newFilePath = mazPath + "_assets\\image\\" + wall.Texture;
-                        copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "image", newFilePath, ref replaceOrder);
-                        ReplaceFiles();
-                    }
-
-                    if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
-                    {
-                        MazeListBuilder.ShowPM(mazPath, "\nPackage failed.", copiedFiles);
+                    if (!CopyFile(wall.Texture, mazPath, "image", ref copiedFiles))
                         return;
-                    }
                 }
-
                 foreach (ActiveRegion activeRegion in curMaze.cActRegions)
                 {
-                    copiedFile0 = "no new file";
-                    copiedFile1 = "no new file";
-
-                    if (activeRegion.Phase1HighlightAudio != "")
-                    {
-                        string oldFilePath = AudioPathConverter.Paths[activeRegion.Phase1HighlightAudio];
-                        string newFilePath = mazPath + "_assets\\audio\\" + activeRegion.Phase1HighlightAudio;
-                        copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "audio", newFilePath, ref replaceOrder);
-                        ReplaceFiles();
-                    }
-                    if (activeRegion.Phase2EventAudio != "")
-                    {
-                        string oldFilePath = AudioPathConverter.Paths[activeRegion.Phase2EventAudio];
-                        string newFilePath = mazPath + "_assets\\audio\\" + activeRegion.Phase2EventAudio;
-                        copiedFile1 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "audio", newFilePath, ref replaceOrder);
-                        ReplaceFiles();
-                    }
-
-                    if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles) || !MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles))
-                    {
-                        MazeListBuilder.ShowPM(mazPath, "\nPackage failed.", copiedFiles);
+                    if (!CopyFile(activeRegion.Phase1HighlightAudio, mazPath, "audio", ref copiedFiles))
                         return;
-                    }
+                    if (!CopyFile(activeRegion.Phase2EventAudio, mazPath, "audio", ref copiedFiles))
+                        return;
                 }
-
                 foreach (DynamicObject dynamicObject in curMaze.cDynamicObjects)
                 {
-                    copiedFile0 = "no new file";
-                    copiedFile1 = "no new file";
-                    copiedFile2 = "no new file";
-                    copiedFile3 = "no new file";
-
-                    if (dynamicObject.Phase1HighlightAudio != "")
-                    {
-                        string oldFilePath = AudioPathConverter.Paths[dynamicObject.Phase1HighlightAudio];
-                        string newFilePath = mazPath + "_assets\\audio\\" + dynamicObject.Phase1HighlightAudio;
-                        copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "audio", newFilePath, ref replaceOrder);
-                        ReplaceFiles();
-                    }
-                    if (dynamicObject.Phase2EventAudio != "")
-                    {
-                        string oldFilePath = AudioPathConverter.Paths[dynamicObject.Phase2EventAudio];
-                        string newFilePath = mazPath + "_assets\\audio\\" + dynamicObject.Phase2EventAudio;
-                        copiedFile1 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "audio", newFilePath, ref replaceOrder);
-                        ReplaceFiles();
-                    }
-                    if (dynamicObject.Model != "")
-                    {
-                        string oldFilePath = ModelPathConverter.Paths[dynamicObject.Model];
-                        string newFilePath = mazPath + "_assets\\model\\" + dynamicObject.Model;
-                        copiedFile2 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "model", newFilePath, ref replaceOrder);
-                        ReplaceFiles();
-                    }
-                    if (dynamicObject.SwitchToModel != "")
-                    {
-                        string oldFilePath = ModelPathConverter.Paths[dynamicObject.SwitchToModel];
-                        string newFilePath = mazPath + "_assets\\model\\" + dynamicObject.SwitchToModel;
-                        copiedFile3 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "model", newFilePath, ref replaceOrder);
-                        ReplaceFiles();
-                    }
-
-                    if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles) ||
-                        !MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles) ||
-                        !MazeListBuilder.AddToLog(copiedFile2, ref copiedFiles) ||
-                        !MazeListBuilder.AddToLog(copiedFile3, ref copiedFiles))
-                    {
-                        MazeListBuilder.ShowPM(mazPath, "\nPackage failed.", copiedFiles);
+                    if (!CopyFile(dynamicObject.Phase1HighlightAudio, mazPath, "audio", ref copiedFiles))
                         return;
-                    }
+                    if (!CopyFile(dynamicObject.Phase2EventAudio, mazPath, "audio", ref copiedFiles))
+                        return;
+                    if (!CopyFile(dynamicObject.Model, mazPath, "model", ref copiedFiles))
+                        return;
+                    if (!CopyFile(dynamicObject.SwitchToModel, mazPath, "model", ref copiedFiles))
+                        return;
                 }
-
                 foreach (StaticModel staticModel in curMaze.cStaticModels)
                 {
-                    copiedFile0 = "no new file";
-
-                    if (staticModel.Model != "")
-                    {
-                        string oldFilePath = ModelPathConverter.Paths[staticModel.Model];
-                        string newFilePath = mazPath + "_assets\\model\\" + staticModel.Model;
-                        copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "model", newFilePath, ref replaceOrder);
-                        ReplaceFiles();
-                    }
-
-                    if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles))
-                    {
-                        MazeListBuilder.ShowPM(mazPath, "\nPackage failed.", copiedFiles);
+                    if (!CopyFile(staticModel.Model, mazPath, "model", ref copiedFiles))
                         return;
-                    }
                 }
-
-                copiedFile0 = "no new file";
-                copiedFile1 = "no new file";
-
-                if (curMaze.SkyBoxTexture != "")
-                {
-                    string oldFilePath = ImagePathConverter.Paths[curMaze.SkyBoxTexture];
-                    string newFilePath = mazPath + "_assets\\image\\" + curMaze.SkyBoxTexture;
-                    copiedFile0 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "image", newFilePath, ref replaceOrder);
-                    ReplaceFiles();
-                }
-                if (curMaze.AvatarModel != "")
-                {
-                    string oldFilePath = ModelPathConverter.Paths[curMaze.AvatarModel];
-                    string newFilePath = mazPath + "_assets\\model\\" + curMaze.AvatarModel;
-                    copiedFile1 = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, "model", newFilePath, ref replaceOrder);
-                    ReplaceFiles();
-                }
-
-                if (!MazeListBuilder.AddToLog(copiedFile0, ref copiedFiles) || !MazeListBuilder.AddToLog(copiedFile1, ref copiedFiles))
-                {
-                    MazeListBuilder.ShowPM(mazPath, "\nPackage failed.", copiedFiles);
+                if (!CopyFile(curMaze.SkyBoxTexture, mazPath, "image", ref copiedFiles))
                     return;
-                }
+                if (!CopyFile(curMaze.AvatarModel, mazPath, "model", ref copiedFiles))
+                    return;
 
                 MazeListBuilder.ShowPM(mazPath, "\nPackage successfully generated", copiedFiles);
             }
@@ -3847,6 +3703,42 @@ namespace MazeMaker
                 string zipFile = mazPath.Split('.')[0] + ".mazx";
                 // TODO: shove mazFile and assetsDir into zipFile
             }
+        }
+
+        bool CopyFile(string file, string mazPath, string type, ref string copiedFiles)
+        {
+            string copiedFile = "no new file";
+
+            if (file != "")
+            {
+                string oldFilePath = "should fall in one switch case or everything will break";
+                switch (type)
+                {
+                    case "image":
+                        oldFilePath = ImagePathConverter.Paths[file];
+                        break;
+
+                    case "audio":
+                        oldFilePath = AudioPathConverter.Paths[file];
+                        break;
+                    
+                    case "model":
+                        oldFilePath = ModelPathConverter.Paths[file];
+                        break;
+                }
+                string newFilePath = mazPath + "_assets\\" + type + "\\" + file;
+                
+                copiedFile = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, type, newFilePath, ref replaceOrder);
+                ReplaceFiles();
+            }
+
+            if (!MazeListBuilder.AddToLog(copiedFile, ref copiedFiles))
+            {
+                MazeListBuilder.ShowPM(mazPath, "\nPackage failed.", copiedFiles);
+                return false;
+            }
+
+            return true;
         }
 
         void ReplaceFiles()
