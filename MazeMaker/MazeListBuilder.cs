@@ -196,7 +196,7 @@ namespace MazeMaker
         private bool SaveAs()
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "MazeList File (*.melx,*.mel)|*.melx;*.mel";
+            sfd.Filter = "MazeList XML-File (*.melx)|*.melx|MazeList File (*.mel)|*.mel";
             sfd.FilterIndex = 1;
             sfd.RestoreDirectory = true;
 
