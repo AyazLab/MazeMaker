@@ -3625,9 +3625,9 @@ namespace MazeMaker
             bool zip = false;
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                if (Path.GetExtension(sfd.FileName) == ".mazx")
+                if (Path.GetExtension(sfd.FileName).ToLower() == ".mazx")
                 {
-                    sfd.FileName = sfd.FileName.Split('.')[0] + ".maz";
+                    sfd.FileName = sfd.FileName.Substring(0, sfd.FileName.Length - Path.GetExtension(sfd.FileName).Length) + ".maz";
                     zip = true;
                 }
 
@@ -3700,7 +3700,7 @@ namespace MazeMaker
             {
                 string mazFile = mazPath;
                 string assetsDir = mazPath + "_assets";
-                string zipFile = mazPath.Split('.')[0] + ".mazx";
+                string zipFile = mazPath.Substring(0, mazPath.Length - Path.GetExtension(mazPath).Length) + ".mazx";
                 // TODO: shove mazFile and assetsDir into zipFile
             }
         }

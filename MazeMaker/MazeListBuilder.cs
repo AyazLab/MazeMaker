@@ -739,7 +739,18 @@ namespace MazeMaker
             MessageBox.Show("\'" + fileName + "\' could not be found. If it can't be found, the package will be abandoned");
             while (true)
             {
+                string fileExt = Path.GetExtension(fileName).ToLower();
+                string[] imageExt = new string[] { ".bmp", ".jpg", ".jpeg", ".gif", ".png" };
+
                 OpenFileDialog ofd = new OpenFileDialog();
+                if (fileExt == ".maz")
+                    ofd.Filter = "Maze File (*.maz)|*.maz";
+                else if (imageExt.Contains(fileExt))
+                    ofd.Filter = "Image File (*.bmp,*.jpg,*.jpeg,*.gif,*.png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png";
+                else if (fileExt == ".wav" || fileExt == ".mp3")
+                    ofd.Filter = "Audio File (*.wav,*.mp3)|*.wav;*.mp3";
+                else if (fileExt == ".obj")
+                    ofd.Filter = "Model File (*.obj)|*.obj";
                 ofd.Title = "Finding/Replacing " + fileName;
 
                 if (ofd.ShowDialog() == DialogResult.OK)
