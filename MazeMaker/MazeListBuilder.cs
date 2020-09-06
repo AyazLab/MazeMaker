@@ -649,15 +649,15 @@ namespace MazeMaker
                 fileName = filePath;
 
             if (log == "")
-                log = "No assets present in this file";
+                log = "\nNo assets present in this file";
 
             PackageMessage pm = new PackageMessage
             {
-                status = "Generating package for " + fileName + " in " + filePath +
+                log = "Generating package for " + fileName + " in " + filePath +
                 "\nCreated asset folder " + fileName + "_assets in " + filePath + "_assets" +
                 "\nCopying assets to folder..." +
+                log +
                 status,
-                log = log,
             };
 
             pm.ShowDialog();
@@ -674,7 +674,7 @@ namespace MazeMaker
                     return false;
 
                 default:
-                    copiedFiles += copiedFile + "\n";
+                    copiedFiles += "\n" + copiedFile;
                     return true;
             }
         }

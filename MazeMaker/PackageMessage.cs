@@ -11,7 +11,6 @@ namespace MazeMaker
 {
     public partial class PackageMessage : Form
     {
-        public string status = "";
         public string log = "";
 
         public PackageMessage()
@@ -21,7 +20,6 @@ namespace MazeMaker
 
         private void PackageMessage_Load(object sender, EventArgs e)
         {
-            statusLabel.Text = status;
             logTextBox.Text = log;
         }
 
