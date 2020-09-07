@@ -13,6 +13,7 @@ using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.ObjectModel;
+using System.IO.Compression;
 
 namespace MazeMaker
 {
@@ -3621,14 +3622,26 @@ namespace MazeMaker
         private void Package(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog{ Filter = "Maze File (*.maz)|*.maz|Maze Package File (*.mazx)|*.mazx", };
+            
+            string directory = "";
+            string temp = "";
+            string fileExt = ".maz";
+            string fileName = "";
             bool zip = false;
+
             if (sfd.ShowDialog() == DialogResult.OK)
             {
+                directory = Path.GetDirectoryName(sfd.FileName);
                 if (Path.GetExtension(sfd.FileName).ToLower() == ".mazx")
                 {
-                    sfd.FileName = sfd.FileName.Substring(0, sfd.FileName.Length - Path.GetExtension(sfd.FileName).Length) + ".maz";
+                    temp = "Temp";
+                    if (Directory.Exists(directory + temp))
+                        Directory.Delete(directory + temp, true);
+                    Directory.CreateDirectory(directory + temp);
                     zip = true;
                 }
+                fileName = Path.GetFileName(sfd.FileName).Split('.')[0] + fileExt;
+                sfd.FileName = directory + "\\" + temp + "\\" + fileName;
 
                 curMaze.SaveToMazeXML(sfd.FileName);
 
@@ -3638,15 +3651,16 @@ namespace MazeMaker
             }
             
             string mazPath = sfd.FileName;
-            if (mazPath != "" && File.Exists(mazPath))
-            {
-                if (Directory.Exists(mazPath + "_assets"))
-                    Directory.Delete(mazPath + "_assets", true);
-                Directory.CreateDirectory(mazPath + "_assets\\image");
-                Directory.CreateDirectory(mazPath + "_assets\\audio");
-                Directory.CreateDirectory(mazPath + "_assets\\model");
+            string copiedFiles = "";
 
-                string copiedFiles = "";
+            if (File.Exists(mazPath))
+            {
+                if (Directory.Exists(directory + "\\" + temp + "\\" + fileName + "_assets"))
+                    Directory.Delete(directory + "\\" + temp + "\\" + fileName + "_assets", true);
+                Directory.CreateDirectory(directory + "\\" + temp + "\\" + fileName + "_assets\\image");
+                Directory.CreateDirectory(directory + "\\" + temp + "\\" + fileName + "_assets\\audio");
+                Directory.CreateDirectory(directory + "\\" + temp + "\\" + fileName + "_assets\\model");
+
                 foreach (Floor floor in curMaze.cFloor)
                 {
                     if (!CopyFile(floor.FloorTexture, mazPath, "image", ref copiedFiles))
@@ -3692,15 +3706,25 @@ namespace MazeMaker
                 if (!CopyFile(curMaze.AvatarModel, mazPath, "model", ref copiedFiles))
                     return;
 
-                MazeListBuilder.ShowPM(mazPath, "\nPackage successfully generated", copiedFiles);
+                if (!zip)
+                    MazeListBuilder.ShowPM(mazPath, "\nPackage successfully generated", copiedFiles);
             }
 
             if (zip)
             {
-                string mazFile = mazPath;
-                string assetsDir = mazPath + "_assets";
-                string zipFile = mazPath.Substring(0, mazPath.Length - Path.GetExtension(mazPath).Length) + ".mazx";
-                // TODO: shove mazFile and assetsDir into zipFile
+                string startPath = directory + "\\" + temp;
+                string zipPath = directory + "\\" + fileName.Substring(0, fileName.Length - fileExt.Length) + ".zip";
+                string extractPath = directory + "\\" + "extract";
+                if (File.Exists(zipPath))
+                    File.Delete(zipPath);
+                if (Directory.Exists(extractPath))
+                    Directory.Delete(extractPath, true);
+                ZipFile.CreateFromDirectory(startPath, zipPath);
+                ZipFile.ExtractToDirectory(zipPath, extractPath);
+                Directory.Delete(directory + "\\" + temp, true);
+                Directory.Delete(extractPath, true);
+
+                MazeListBuilder.ShowPM(mazPath, "\nZipping files...\n" + zipPath + "\nPackage successfully generated", copiedFiles);
             }
         }
 
