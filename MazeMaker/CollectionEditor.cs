@@ -8,7 +8,8 @@ using System.Windows.Forms;
 using System.Drawing.Imaging;
 using System.Diagnostics;
 using System.IO;
-
+using System.Linq;
+using static System.Windows.Forms.ListBox;
 
 namespace MazeMaker
 {
@@ -57,7 +58,7 @@ namespace MazeMaker
             Icon = Properties.Resources.AudioCollectionIcon;
         }
 
-        private void RefreshList()
+        private void UpdateCollection()
         {
             listBox.Items.Clear();
 
@@ -77,30 +78,32 @@ namespace MazeMaker
 
         private void MazeMakerCollectionEditor_Load(object sender, EventArgs e)
         {
-            RefreshList();
+            UpdateCollection();
+            listBox.SelectionMode = SelectionMode.MultiExtended;
         }
 
         private void Add(object sender, EventArgs e)
         {
             if (mazeFilePaths != null)
-                AddMaze();
+                AddMaze(true, "Add Maze File");
             else if (textures != null)
-                AddTexture();
+                AddTexture(true, "Add Image File");
             else if (audios != null)
-                AddAudio();
+                AddAudio(true, "Add Audio File");
             else if (models != null)
-                AddModel();
+                AddModel(true, "Add Model File");
 
-            RefreshList();
+            UpdateCollection();
             listBox.SelectedIndex = listBox.Items.Count - 1;
         }
 
-        void AddMaze()
+        List<string> AddMaze(bool multiselect, string title)
         {
             OpenFileDialog ofd = new OpenFileDialog
             {
                 Filter = "Maze File (*.maz)|*.maz",
-                Multiselect = true,
+                Multiselect = multiselect,
+                Title = title,
             };
 
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -111,16 +114,21 @@ namespace MazeMaker
                     if (fileName == "")
                         fileName = filePath;
                     mazeFilePaths[fileName] = filePath;
+
+                    if (!multiselect)
+                        return new List<string> { fileName, filePath };
                 }
             }
+            return new List<string>();
         }
 
-        private void AddTexture()
+        List<string> AddTexture(bool multiselect, string title)
         {
             OpenFileDialog ofd = new OpenFileDialog
             {
                 Filter = "Image File (*.bmp,*.jpg,*.jpeg,*.gif,*png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png",
-                Multiselect = true,
+                Multiselect = multiselect,
+                Title = title,
             };
 
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -128,7 +136,6 @@ namespace MazeMaker
                 foreach (string filePath in ofd.FileNames)
                 {
                     Texture texture = new Texture(Path.GetDirectoryName(filePath), Path.GetFileName(filePath), 0);
-                    
                     for (int i = 0; i < textures.Count; i++)
                     {
                         if (textures[i].name == texture.name)
@@ -137,18 +144,22 @@ namespace MazeMaker
                             break;
                         }
                     }
-                    
                     textures.Add(texture);
+
+                    if (!multiselect)
+                        return new List<string> { Path.GetFileName(filePath), filePath };
                 }
             }
+            return new List<string>();
         }
 
-        private void AddAudio()
+        List<string> AddAudio(bool multiselect, string title)
         {
             OpenFileDialog ofd = new OpenFileDialog
             {
                 Filter = "Audio File (*.wav,*.mp3)| *.wav;*.mp3",
-                Multiselect = true,
+                Multiselect = multiselect,
+                Title = title,
             };
 
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -156,7 +167,6 @@ namespace MazeMaker
                 foreach (string filePath in ofd.FileNames)
                 {
                     Audio audio = new Audio(Path.GetDirectoryName(filePath), Path.GetFileName(filePath), 0);
-
                     for (int i = 0; i < audios.Count; i++)
                     {
                         if (audios[i].name == audio.name)
@@ -165,18 +175,22 @@ namespace MazeMaker
                             break;
                         }
                     }
-
                     audios.Add(audio);
+
+                    if (!multiselect)
+                        return new List<string> { Path.GetFileName(filePath), filePath };
                 }
             }
+            return new List<string>();
         }
 
-        private void AddModel()
+        List<string> AddModel(bool multiselect, string title)
         {
             OpenFileDialog ofd = new OpenFileDialog
             {
                 Filter = "Model File (*.obj)|*.obj",
-                Multiselect = true,
+                Multiselect = multiselect,
+                Title = title,
             };
 
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -184,7 +198,6 @@ namespace MazeMaker
                 foreach (string filePath in ofd.FileNames)
                 {
                     Model model = new Model(Path.GetDirectoryName(filePath), Path.GetFileName(filePath), 0);
-
                     for (int i = 0; i < models.Count; i++)
                     {
                         if (models[i].name == model.name)
@@ -193,38 +206,53 @@ namespace MazeMaker
                             break;
                         }
                     }
-
                     models.Add(model);
+
+                    if (!multiselect)
+                        return new List<string> { Path.GetFileName(filePath), filePath };
                 }
             }
+            return new List<string>();
         }
 
         private void Remove(object sender, EventArgs e)
         {
             if (listBox.SelectedItem != null)
             {
-                if (mazeFilePaths != null)
+                if (listBox.SelectedItems.Count > 1)
                 {
-                    replaceOrder.Add(new string[] { "maze", (string)listBox.SelectedItem, "", "" });
-                    mazeFilePaths.Remove((string)listBox.SelectedItem);
-                }
-                else if (textures != null)
-                {
-                    replaceOrder.Add(new string[] { "image", textures[listBox.SelectedIndex].Name, "", "" });
-                    textures.RemoveAt(listBox.SelectedIndex);
-                }
-                else if (audios != null)
-                {
-                    replaceOrder.Add(new string[] { "audio", audios[listBox.SelectedIndex].Name, "", "" });
-                    audios.RemoveAt(listBox.SelectedIndex);
-                }
-                else if (models != null)
-                {
-                    replaceOrder.Add(new string[] { "model", models[listBox.SelectedIndex].Name, "", "" });
-                    models.RemoveAt(listBox.SelectedIndex);
+                    if (MessageBox.Show("You're about to remove multiple files. Are you sure?", "Removing multiple files detected!", MessageBoxButtons.OKCancel) != DialogResult.OK)
+                        return;
                 }
 
-                RefreshList();
+                for (int i = listBox.SelectedIndices.Count - 1; i >= 0; i--)
+                {
+                    string selectedItem = listBox.Items[listBox.SelectedIndices[i]].ToString();
+                    int selectedIndex = listBox.SelectedIndices[i];
+
+                    if (mazeFilePaths != null)
+                    {
+                        replaceOrder.Add(new string[] { "maze", selectedItem, "", "" });
+                        mazeFilePaths.Remove(selectedItem);
+                    }
+                    else if (textures != null)
+                    {
+                        replaceOrder.Add(new string[] { "image", textures[selectedIndex].Name, "", "" });
+                        textures.RemoveAt(selectedIndex);
+                    }
+                    else if (audios != null)
+                    {
+                        replaceOrder.Add(new string[] { "audio", audios[selectedIndex].Name, "", "" });
+                        audios.RemoveAt(selectedIndex);
+                    }
+                    else if (models != null)
+                    {
+                        replaceOrder.Add(new string[] { "model", models[selectedIndex].Name, "", "" });
+                        models.RemoveAt(selectedIndex);
+                    }
+                }
+
+                UpdateCollection();
                 listBox.SelectedIndex = -1;
             }
         }
@@ -233,64 +261,83 @@ namespace MazeMaker
         {
             if (listBox.SelectedItem != null)
             {
-                OpenFileDialog ofd = new OpenFileDialog();
-
-                if (mazeFilePaths != null)
+                if (listBox.SelectedItems.Count > 1)
                 {
-                    ofd.Filter = "Maze File (*.maz)|*.maz";
-                    string oldFileName = (string)listBox.SelectedItem;
-                    mazeFilePaths.Remove(oldFileName);
+                    if (MessageBox.Show("You're about to replace multiple files. Are you sure?", "Replacing multiple files detected!", MessageBoxButtons.OKCancel) != DialogResult.OK)
+                        return;
+                }
 
-                    if (ofd.ShowDialog() == DialogResult.OK)
+                List<string> oldFileNames = new List<string>(); // grabbing old files to be replaced
+                for (int i = listBox.SelectedIndices.Count - 1; i >= 0; i--)
+                    oldFileNames.Add(listBox.Items[listBox.SelectedIndices[i]].ToString());
+
+                string title = "Replacing "; // create a custom title for the open file dialog using the old file names
+                foreach (string oldFileName in oldFileNames)
+                    title += oldFileName + ", ";
+                title = title.Substring(0, title.Length - 2);
+
+                if (mazeFilePaths != null) // is maze collection editor?
+                {
+                    List<string> mazeFile = AddMaze(false, title); // returns file name & file path if successful
+                    if (mazeFile.Count == 2)
                     {
-                        string newFileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
-                        if (newFileName == "")
-                            newFileName = ofd.FileName;
-                        mazeFilePaths[newFileName] = ofd.FileName;
-                        replaceOrder.Add(new string[] { "maze", oldFileName, newFileName, ofd.FileName });
+                        foreach (string oldFileName in oldFileNames)
+                            replaceOrder.Add(new string[] { "maze", oldFileName, mazeFile[0], mazeFile[1] });
+                        for (int i = listBox.SelectedIndices.Count - 1; i >= 0; i--)
+                        {
+                            string selectedItem = listBox.Items[listBox.SelectedIndices[i]].ToString();
+                            if (selectedItem != mazeFile[0]) // add auto-replaces same file names so we don't need to delete it here
+                                mazeFilePaths.Remove(selectedItem);
+                        }
                     }
                 }
                 else if (textures != null)
                 {
-                    ofd.Filter = "Image File (*.bmp, *.jpg, *.jpeg, *.gif, *png)|*.bmp; *.jpg; *.jpeg; *.gif; *.png";
-
-                    string oldFileName = textures[listBox.SelectedIndex].Name;
-                    textures.RemoveAt(listBox.SelectedIndex);
-
-                    if (ofd.ShowDialog() == DialogResult.OK)
+                    List<string> imageFile = AddTexture(false, title);
+                    if (imageFile.Count == 2)
                     {
-                        textures.Add(new Texture(Path.GetDirectoryName(ofd.FileName), Path.GetFileName(ofd.FileName), 0));
-                        replaceOrder.Add(new string[] { "image", oldFileName, Path.GetFileName(ofd.FileName), ofd.FileName });
+                        foreach (string oldFileName in oldFileNames)
+                            replaceOrder.Add(new string[] { "image", oldFileName, imageFile[0], imageFile[1] });
+                        for (int i = listBox.SelectedIndices.Count - 1; i >= 0; i--)
+                        {
+                            string selectedItem = listBox.Items[listBox.SelectedIndices[i]].ToString();
+                            if (selectedItem != imageFile[0])
+                                textures.RemoveAt(listBox.SelectedIndices[i]);
+                        }
                     }
                 }
                 else if (audios != null)
                 {
-                    ofd.Filter = "Audio File (*.wav,*.mp3)|*.wav;*.mp3";
-
-                    string oldFileName = audios[listBox.SelectedIndex].Name;
-                    audios.RemoveAt(listBox.SelectedIndex);
-
-                    if (ofd.ShowDialog() == DialogResult.OK)
+                    List<string> audioFile = AddAudio(false, title);
+                    if (audioFile.Count == 2)
                     {
-                        audios.Add(new Audio(Path.GetDirectoryName(ofd.FileName), Path.GetFileName(ofd.FileName), 0));
-                        replaceOrder.Add(new string[] { "audio", oldFileName, Path.GetFileName(ofd.FileName), ofd.FileName });
+                        foreach (string oldFileName in oldFileNames)
+                            replaceOrder.Add(new string[] { "audio", oldFileName, audioFile[0], audioFile[1] });
+                        for (int i = listBox.SelectedIndices.Count - 1; i >= 0; i--)
+                        {
+                            string selectedItem = listBox.Items[listBox.SelectedIndices[i]].ToString();
+                            if (selectedItem != audioFile[0])
+                                audios.RemoveAt(listBox.SelectedIndices[i]);
+                        }
                     }
                 }
                 else if (models != null)
                 {
-                    ofd.Filter = "Model File (*.obj)|*.obj";
-
-                    string oldFileName = models[listBox.SelectedIndex].Name;
-                    models.RemoveAt(listBox.SelectedIndex);
-
-                    if (ofd.ShowDialog() == DialogResult.OK)
+                    List<string> modelFile = AddModel(false, title);
+                    if (modelFile.Count == 2)
                     {
-                        models.Add(new Model(Path.GetDirectoryName(ofd.FileName), Path.GetFileName(ofd.FileName), 0));
-                        replaceOrder.Add(new string[] { "model", oldFileName, Path.GetFileName(ofd.FileName), ofd.FileName });
+                        foreach (string oldFileName in oldFileNames)
+                            replaceOrder.Add(new string[] { "model", oldFileName, modelFile[0], modelFile[1] });
+                        for (int i = listBox.SelectedIndices.Count - 1; i >= 0; i--)
+                        {
+                            string selectedItem = listBox.Items[listBox.SelectedIndices[i]].ToString();
+                            if (selectedItem != modelFile[0])
+                                models.RemoveAt(listBox.SelectedIndices[i]);
+                        }
                     }
                 }
 
-                RefreshList();
+                UpdateCollection();
                 listBox.SelectedIndex = listBox.Items.Count - 1;
             }
         }
@@ -300,7 +347,7 @@ namespace MazeMaker
         string audioPlayer = "";
         private void listBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listBox.SelectedItem != null)
+            if (listBox.SelectedItems.Count == 1)
             {
                 propertyGrid.SelectedObject = listBox.SelectedItem;
 
@@ -336,7 +383,10 @@ namespace MazeMaker
                 }
             }
             else
+            {
+                propertyGrid.SelectedObject = null;
                 pictureBox.Image = null;
+            }
         }
 
         void StopAudio()
@@ -390,9 +440,17 @@ namespace MazeMaker
             }
         }
 
-        private void OKCancel(object sender, EventArgs e)
+        private void OK(object sender, EventArgs e)
         {
             StopAudio();
+            DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        private void Cancel(object sender, EventArgs e)
+        {
+            StopAudio();
+            DialogResult = DialogResult.Cancel;
             Close();
         }
 
@@ -405,7 +463,7 @@ namespace MazeMaker
         {
             ShowDialog();
 
-            if (listBox.SelectedItem != null)
+            if (listBox.SelectedItems.Count == 1 && DialogResult == DialogResult.OK)
                 return (string)listBox.SelectedItem;
             return "";
         }
@@ -419,7 +477,7 @@ namespace MazeMaker
         {
             ShowDialog();
 
-            if (listBox.SelectedItem != null)
+            if (listBox.SelectedItems.Count == 1 && DialogResult == DialogResult.OK)
                 return ((Texture)listBox.SelectedItem).name;
             return "";
         }
@@ -433,7 +491,7 @@ namespace MazeMaker
         {
             ShowDialog();
 
-            if (listBox.SelectedItem != null)
+            if (listBox.SelectedItems.Count == 1 && DialogResult == DialogResult.OK)
                 return ((Audio)listBox.SelectedItem).name;
             return "";
         }
@@ -447,7 +505,7 @@ namespace MazeMaker
         {
             ShowDialog();
 
-            if (listBox.SelectedItem != null)
+            if (listBox.SelectedItems.Count == 1 && DialogResult == DialogResult.OK)
                 return ((Model)listBox.SelectedItem).name;
             return "";
         }

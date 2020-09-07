@@ -858,7 +858,7 @@ namespace MazeMaker
                             RecordAudioListItem recordAudio = (RecordAudioListItem)listItem;
                             foreach (string[] replaceInfo in replaceOrder)
                             {
-                                if (replaceInfo[0] == "audio" && recordAudio.ImageFile == replaceInfo[1])
+                                if (replaceInfo[0] == "image" && recordAudio.ImageFile == replaceInfo[1])
                                 {
                                     recordAudio.ImageFile = replaceInfo[2];
                                     if (replaceInfo[2] != "")
