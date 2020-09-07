@@ -127,7 +127,18 @@ namespace MazeMaker
             {
                 foreach (string filePath in ofd.FileNames)
                 {
-                    textures.Add(new Texture(Path.GetDirectoryName(filePath), Path.GetFileName(filePath), 0));
+                    Texture texture = new Texture(Path.GetDirectoryName(filePath), Path.GetFileName(filePath), 0);
+                    
+                    for (int i = 0; i < textures.Count; i++)
+                    {
+                        if (textures[i].name == texture.name)
+                        {
+                            textures.RemoveAt(i);
+                            break;
+                        }
+                    }
+                    
+                    textures.Add(texture);
                 }
             }
         }
@@ -144,7 +155,18 @@ namespace MazeMaker
             {
                 foreach (string filePath in ofd.FileNames)
                 {
-                    audios.Add(new Audio(Path.GetDirectoryName(filePath), Path.GetFileName(filePath), 0));
+                    Audio audio = new Audio(Path.GetDirectoryName(filePath), Path.GetFileName(filePath), 0);
+
+                    for (int i = 0; i < audios.Count; i++)
+                    {
+                        if (audios[i].name == audio.name)
+                        {
+                            audios.RemoveAt(i);
+                            break;
+                        }
+                    }
+
+                    audios.Add(audio);
                 }
             }
         }
@@ -161,7 +183,18 @@ namespace MazeMaker
             {
                 foreach (string filePath in ofd.FileNames)
                 {
-                    models.Add(new Model(Path.GetDirectoryName(filePath), Path.GetFileName(filePath), 0));
+                    Model model = new Model(Path.GetDirectoryName(filePath), Path.GetFileName(filePath), 0);
+
+                    for (int i = 0; i < models.Count; i++)
+                    {
+                        if (models[i].name == model.name)
+                        {
+                            models.RemoveAt(i);
+                            break;
+                        }
+                    }
+
+                    models.Add(model);
                 }
             }
         }
