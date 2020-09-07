@@ -3635,9 +3635,9 @@ namespace MazeMaker
                 if (Path.GetExtension(sfd.FileName).ToLower() == ".mazx")
                 {
                     temp = "Temp";
-                    if (Directory.Exists(directory + temp))
-                        Directory.Delete(directory + temp, true);
-                    Directory.CreateDirectory(directory + temp);
+                    if (Directory.Exists(directory + "\\" + temp))
+                        Directory.Delete(directory + "\\" + temp, true);
+                    Directory.CreateDirectory(directory + "\\" + temp);
                     zip = true;
                 }
                 fileName = Path.GetFileName(sfd.FileName).Split('.')[0] + fileExt;
@@ -3712,17 +3712,12 @@ namespace MazeMaker
 
             if (zip)
             {
-                string startPath = directory + "\\" + temp;
-                string zipPath = directory + "\\" + fileName.Substring(0, fileName.Length - fileExt.Length) + ".zip";
-                string extractPath = directory + "\\" + "extract";
+                string tempPath = directory + "\\" + temp;
+                string zipPath = directory + "\\" + fileName.Substring(0, fileName.Length - fileExt.Length) + ".mazx.zip";
                 if (File.Exists(zipPath))
                     File.Delete(zipPath);
-                if (Directory.Exists(extractPath))
-                    Directory.Delete(extractPath, true);
-                ZipFile.CreateFromDirectory(startPath, zipPath);
-                ZipFile.ExtractToDirectory(zipPath, extractPath);
+                ZipFile.CreateFromDirectory(tempPath, zipPath);
                 Directory.Delete(directory + "\\" + temp, true);
-                Directory.Delete(extractPath, true);
 
                 MazeListBuilder.ShowPM(mazPath, "\nZipping files...\n" + zipPath + "\nPackage successfully generated", copiedFiles);
             }
