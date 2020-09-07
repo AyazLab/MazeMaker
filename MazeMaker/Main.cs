@@ -3545,12 +3545,11 @@ namespace MazeMaker
                     switch (type)
                     {
                         case "Image":
-                            List<Texture> textures = MazeListBuilder.FilesToTextures(ImagePathConverter.Paths);
-                            MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref textures);
+                            CollectionEditor collection = new CollectionEditor(MazeListBuilder.FilesToTextures(ImagePathConverter.Paths));
 
-                            string filePath = mmce.GetTexture();
-                            MazeListBuilder.TexturesToFiles(mmce.GetTextures(), ref ImagePathConverter.Paths);
-                            replaceOrder = mmce.GetReplaceOrder();
+                            string filePath = collection.GetTexture();
+                            MazeListBuilder.TexturesToFiles(collection.GetTextures(), ref ImagePathConverter.Paths);
+                            replaceOrder = collection.GetReplaceOrder();
 
                             if (filePath != "")
                             {
@@ -3564,12 +3563,11 @@ namespace MazeMaker
                             break;
 
                         case "Audio":
-                            List<Audio> audios = MazeListBuilder.FilesToAudios(AudioPathConverter.Paths);
-                            mmce = new MazeMakerCollectionEditor(ref audios);
+                            collection = new CollectionEditor(MazeListBuilder.FilesToAudios(AudioPathConverter.Paths));
 
-                            filePath = mmce.GetAudio();
-                            MazeListBuilder.AudiosToFiles(mmce.GetAudios(), ref AudioPathConverter.Paths);
-                            replaceOrder = mmce.GetReplaceOrder();
+                            filePath = collection.GetAudio();
+                            MazeListBuilder.AudiosToFiles(collection.GetAudios(), ref AudioPathConverter.Paths);
+                            replaceOrder = collection.GetReplaceOrder();
 
                             if (filePath != "")
                             {
@@ -3583,10 +3581,11 @@ namespace MazeMaker
                             break;
 
                         case "Model":
-                            List<Model> models = MazeListBuilder.FilesToModels(ModelPathConverter.Paths);
-                            mmce = new MazeMakerCollectionEditor(ref models);
-                            filePath = mmce.GetModel();
-                            MazeListBuilder.ModelsToFiles(mmce.GetModels(), ref ModelPathConverter.Paths);
+                            collection = new CollectionEditor(MazeListBuilder.FilesToModels(ModelPathConverter.Paths));
+
+                            filePath = collection.GetModel();
+                            MazeListBuilder.ModelsToFiles(collection.GetModels(), ref ModelPathConverter.Paths);
+                            replaceOrder = collection.GetReplaceOrder();
 
                             if (filePath != "")
                             {
@@ -5854,12 +5853,11 @@ namespace MazeMaker
         {
             ChangeModeTo0();
 
-            List<Texture> textures = MazeListBuilder.FilesToTextures(ImagePathConverter.Paths);
-            MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref textures);
-            
-            mmce.ShowDialog();
-            MazeListBuilder.TexturesToFiles(mmce.GetTextures(), ref ImagePathConverter.Paths);
-            replaceOrder = mmce.GetReplaceOrder();
+            CollectionEditor collection = new CollectionEditor(MazeListBuilder.FilesToTextures(ImagePathConverter.Paths));
+            collection.ShowDialog();
+
+            MazeListBuilder.TexturesToFiles(collection.GetTextures(), ref ImagePathConverter.Paths);
+            replaceOrder = collection.GetReplaceOrder();
             ReplaceFiles();
         }
 
@@ -5867,12 +5865,11 @@ namespace MazeMaker
         {
             ChangeModeTo0();
 
-            List<Model> models = MazeListBuilder.FilesToModels(ModelPathConverter.Paths);
-            MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref models);
-
-            mmce.ShowDialog();
-            MazeListBuilder.ModelsToFiles(mmce.GetModels(), ref ModelPathConverter.Paths);
-            replaceOrder = mmce.GetReplaceOrder();
+            CollectionEditor collection = new CollectionEditor(MazeListBuilder.FilesToModels(ModelPathConverter.Paths));
+            collection.ShowDialog();
+            
+            MazeListBuilder.ModelsToFiles(collection.GetModels(), ref ModelPathConverter.Paths);
+            replaceOrder = collection.GetReplaceOrder();
             ReplaceFiles();
         }
 
@@ -5880,12 +5877,11 @@ namespace MazeMaker
         {
             ChangeModeTo0();
 
-            List<Audio> audios = MazeListBuilder.FilesToAudios(AudioPathConverter.Paths);
-            MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref audios);
+            CollectionEditor collection = new CollectionEditor(MazeListBuilder.FilesToAudios(AudioPathConverter.Paths));
+            collection.ShowDialog();
 
-            mmce.ShowDialog();
-            MazeListBuilder.AudiosToFiles(mmce.GetAudios(), ref AudioPathConverter.Paths);
-            replaceOrder = mmce.GetReplaceOrder();
+            MazeListBuilder.AudiosToFiles(collection.GetAudios(), ref AudioPathConverter.Paths);
+            replaceOrder = collection.GetReplaceOrder();
             ReplaceFiles();
         }
 

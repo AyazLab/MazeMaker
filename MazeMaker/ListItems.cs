@@ -758,6 +758,7 @@ namespace MazeMaker
             if (!mazes.Contains("[Import Item]"))
             {
                 mazes.Add("[Import Item]");
+                mazes.Add("[Manage Items]");
                 mazes.Add("----------------------------------------");
             }
 

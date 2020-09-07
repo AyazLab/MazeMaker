@@ -1,6 +1,6 @@
 ﻿namespace MazeMaker
 {
-    partial class MazeMakerCollectionEditor
+    partial class CollectionEditor
     {
         /// <summary>
         /// Required designer variable.
@@ -67,7 +67,7 @@
             this.cancelButton.TabIndex = 2;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
-            this.cancelButton.Click += new System.EventHandler(this.Close);
+            this.cancelButton.Click += new System.EventHandler(this.OKCancel);
             // 
             // addButton
             // 
@@ -102,7 +102,7 @@
             this.okButton.TabIndex = 5;
             this.okButton.Text = "OK";
             this.okButton.UseVisualStyleBackColor = true;
-            this.okButton.Click += new System.EventHandler(this.okButton_Click);
+            this.okButton.Click += new System.EventHandler(this.OKCancel);
             // 
             // pictureBox
             // 
@@ -112,7 +112,7 @@
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 6;
             this.pictureBox.TabStop = false;
-            this.pictureBox.Click += new System.EventHandler(this.pictureBox_Click);
+            this.pictureBox.Click += new System.EventHandler(this.PlayPause);
             // 
             // replaceButton
             // 
@@ -126,7 +126,7 @@
             this.replaceButton.UseVisualStyleBackColor = true;
             this.replaceButton.Click += new System.EventHandler(this.Replace);
             // 
-            // MazeMakerCollectionEditor
+            // CollectionEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -145,11 +145,11 @@
             this.MaximumSize = new System.Drawing.Size(606, 500);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(606, 500);
-            this.Name = "MazeMakerCollectionEditor";
+            this.Name = "CollectionEditor";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "MazeMakerCollectionEditor";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MazeMakerCollectionEditor_FormClosed);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Close);
             this.Load += new System.EventHandler(this.MazeMakerCollectionEditor_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);

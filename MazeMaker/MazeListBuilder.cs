@@ -16,14 +16,14 @@ namespace MazeMaker
 {
     public partial class MazeListBuilder : Form
     {
-        ImageList il = new ImageList();
+        readonly ImageList il = new ImageList();
 
-        List<ListItem> mazeList = new List<ListItem>();
+        readonly List<ListItem> mazeList = new List<ListItem>();
         int selectedIndex;
 
         public static bool madeChanges = false;
 
-        string curFileName = "";
+        string mLFilePath = "";
 
         public MazeListBuilder()
         {
@@ -178,13 +178,13 @@ namespace MazeMaker
 
         private void Save(object sender, EventArgs e)
         {
-            if (curFileName == "")
+            if (mLFilePath == "")
             {
                 SaveAs();
             }
             else
             {
-                WriteToFile(curFileName);
+                WriteToFile(mLFilePath);
             }
         }
 
@@ -365,6 +365,8 @@ namespace MazeMaker
         public static List<string[]> replaceOrder = new List<string[]>();
         string ManageItems(string type, string oldValue, string newValue)
         {
+            string fileName = "";
+
             switch (newValue)
             {
                 case "[Import Item]":
@@ -387,7 +389,7 @@ namespace MazeMaker
 
                     if (type == "Maze" && dr == DialogResult.OK)
                     {
-                        string fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                        fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
                         if (fileName == "")
                             fileName = ofd.FileName;
                         mazeFilePaths[fileName] = ofd.FileName;
@@ -395,7 +397,7 @@ namespace MazeMaker
                     }
                     else if (type == "Image" && dr == DialogResult.OK)
                     {
-                        string fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                        fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
                         if (fileName == "")
                             fileName = ofd.FileName;
                         imageFilePaths[fileName] = ofd.FileName;
@@ -403,7 +405,7 @@ namespace MazeMaker
                     }
                     else if (type == "Audio" && dr == DialogResult.OK)
                     {
-                        string fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                        fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
                         if (fileName == "")
                             fileName = ofd.FileName;
                         audioFilePaths[fileName] = ofd.FileName;
@@ -415,45 +417,36 @@ namespace MazeMaker
                 case "[Manage Items]":
                     switch (type)
                     {
+                        case "Maze":
+                            CollectionEditor collection = new CollectionEditor(mazeFilePaths);
+
+                            fileName = collection.GetMaze();
+                            mazeFilePaths = collection.GetMazes();
+                            replaceOrder = collection.GetReplaceOrder();
+
+                            break;
+
                         case "Image":
-                            List<Texture> textures = FilesToTextures(imageFilePaths);
-                            MazeMakerCollectionEditor mmce = new MazeMakerCollectionEditor(ref textures);
+                            collection = new CollectionEditor(FilesToTextures(imageFilePaths));
 
-                            string filePath = mmce.GetTexture();
-                            TexturesToFiles(mmce.GetTextures(), ref imageFilePaths);
-                            replaceOrder = mmce.GetReplaceOrder();
-
-                            if (filePath != "")
-                            {
-                                string fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
-                                if (fileName == "")
-                                    fileName = filePath;
-                                imageFilePaths[fileName] = filePath;
-                                return fileName;
-                            }
+                            fileName = collection.GetTexture();
+                            TexturesToFiles(collection.GetTextures(), ref imageFilePaths);
+                            replaceOrder = collection.GetReplaceOrder();
 
                             break;
 
                         case "Audio":
-                            List<Audio> audios = FilesToAudios(audioFilePaths);
-                            mmce = new MazeMakerCollectionEditor(ref audios);
+                            collection = new CollectionEditor(FilesToAudios(audioFilePaths));
 
-                            filePath = mmce.GetAudio();
-                            AudiosToFiles(mmce.GetAudios(), ref audioFilePaths);
-                            replaceOrder = mmce.GetReplaceOrder();
-
-                            if (filePath != "")
-                            {
-                                string fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
-                                if (fileName == "")
-                                    fileName = filePath;
-                                audioFilePaths[fileName] = filePath;
-                                return fileName;
-                            }
+                            fileName = collection.GetAudio();
+                            AudiosToFiles(collection.GetAudios(), ref audioFilePaths);
+                            replaceOrder = collection.GetReplaceOrder();
 
                             break;
                     }
 
+                    if (fileName != "")
+                        return fileName;
                     return oldValue;
 
                 case "----------------------------------------":
@@ -902,7 +895,7 @@ namespace MazeMaker
             }
         }
 
-        private bool WriteToMelx(string inp)
+        private bool WriteToMelx(string mLFilePath)
         {
             XmlDocument melx = new XmlDocument();
             XmlElement mzLs = melx.CreateElement("MazeList");
@@ -988,10 +981,7 @@ namespace MazeMaker
                             string filePath = mazeFilePaths[maze.MazeFile];
                             if (filePath[1] == ':')
                             {
-                                MessageBox.Show("from: " + inp);
-                                MessageBox.Show("to: " + filePath);
-                                filePath = MakeRelativePath(inp, filePath);
-                                MessageBox.Show("rel:" + filePath);
+                                filePath = MakeRelativePath(mLFilePath, filePath);
                             }
                             mazeLibraryItem.SetAttribute("File", filePath);
 
@@ -1032,7 +1022,7 @@ namespace MazeMaker
                             string filePath = audioFilePaths[text.AudioFile];
                             if (filePath[1] == ':')
                             {
-                                filePath = MakeRelativePath(inp, filePath);
+                                filePath = MakeRelativePath(mLFilePath, filePath);
                             }
                             audioLibraryItem.SetAttribute("File", filePath);
 
@@ -1075,7 +1065,7 @@ namespace MazeMaker
                             string filePath = imageFilePaths[image.ImageFile];
                             if (filePath[1] == ':')
                             {
-                                filePath = MakeRelativePath(inp, filePath);
+                                filePath = MakeRelativePath(mLFilePath, filePath);
                             }
                             imageLibraryItem.SetAttribute("File", filePath);
 
@@ -1103,7 +1093,7 @@ namespace MazeMaker
                             string filePath = audioFilePaths[image.AudioFile];
                             if (filePath[1] == ':')
                             {
-                                filePath = MakeRelativePath(inp, filePath);
+                                filePath = MakeRelativePath(mLFilePath, filePath);
                             }
                             audioLibraryItem.SetAttribute("File", filePath);
 
@@ -1165,7 +1155,7 @@ namespace MazeMaker
                             string filePath = audioFilePaths[multipleChoice.AudioFile];
                             if (filePath[1] == ':')
                             {
-                                filePath = MakeRelativePath(inp, filePath);
+                                filePath = MakeRelativePath(mLFilePath, filePath);
                             }
                             audioLibraryItem.SetAttribute("File", filePath);
 
@@ -1205,7 +1195,7 @@ namespace MazeMaker
                             string filePath = imageFilePaths[recordAudio.ImageFile];
                             if (filePath[1] == ':')
                             {
-                                filePath = MakeRelativePath(inp, filePath);
+                                filePath = MakeRelativePath(mLFilePath, filePath);
                             }
                             imageLibraryItem.SetAttribute("File", filePath);
 
@@ -1238,7 +1228,7 @@ namespace MazeMaker
             mzLs.AppendChild(listItems);
 
             melx.AppendChild(mzLs);
-            melx.Save(inp);
+            melx.Save(mLFilePath);
 
             return true;
         }
@@ -1262,26 +1252,26 @@ namespace MazeMaker
             catch { return toPath; }
         }
 
-        private bool WriteToFile(string inp)
+        private bool WriteToFile(string mLFilePath)
         {
-            string fileExt = Path.GetExtension(inp).ToLower();
+            string fileExt = Path.GetExtension(mLFilePath).ToLower();
 
             switch (fileExt)
             {
                 case ".xml":
-                    WriteToMelx(inp);
+                    WriteToMelx(mLFilePath);
                     break;
 
                 case ".melx":
-                    WriteToMelx(inp);
+                    WriteToMelx(mLFilePath);
                     break;
 
                 case ".mel":
-                    WriteToMel(inp);
+                    WriteToMel(mLFilePath);
                     break;
 
                 default:
-                    WriteToMelx(inp);
+                    WriteToMelx(mLFilePath);
                     break;
             }
 
@@ -1289,9 +1279,9 @@ namespace MazeMaker
             return true;
         }
 
-        private bool WriteToMel(string filePath)
+        private bool WriteToMel(string mLFilePath)
         {
-            StreamWriter mel = new StreamWriter(filePath);
+            StreamWriter mel = new StreamWriter(mLFilePath);
 
             if (mel == null)
             {
@@ -1343,10 +1333,13 @@ namespace MazeMaker
             UpdateMazeList();
         }
 
-        private bool ReadFromMelx(string inp)
+        private bool ReadFromMelx(string mLFilePath)
         {
+            this.mLFilePath = mLFilePath;
+            statusLabel.Text = mLFilePath;
+
             XmlDocument melx = new XmlDocument();
-            melx.Load(inp);
+            melx.Load(mLFilePath);
             XmlElement mzLs = melx.DocumentElement;
 
             Dictionary<string, string> mazeLibraryItems = new Dictionary<string, string>();
@@ -1610,25 +1603,25 @@ namespace MazeMaker
             return true;
         }
 
-        public bool ReadFromFile(string inp, bool append)
+        public bool ReadFromFile(string mLFilePath, bool append)
         {
             if (!append)
             {
                 ClearMazeList();
             }
 
-            string fileExt = Path.GetExtension(inp).ToLower();
+            string fileExt = Path.GetExtension(mLFilePath).ToLower();
 
             switch (fileExt)
             {
                 case ".xml":
-                    return ReadFromMelx(inp);
+                    return ReadFromMelx(mLFilePath);
 
                 case ".melx":
-                    return ReadFromMelx(inp);
+                    return ReadFromMelx(mLFilePath);
 
                 case ".mel":
-                    return ReadFromMel(inp);
+                    return ReadFromMel(mLFilePath);
 
                 default:
                     MessageBox.Show("Not mel or melx file!", "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1636,9 +1629,9 @@ namespace MazeMaker
             }
         }
 
-        public bool ReadFromMel(string filePath)
+        public bool ReadFromMel(string mLFilePath)
         {
-            StreamReader mel = new StreamReader(filePath);
+            StreamReader mel = new StreamReader(mLFilePath);
             if (mel == null)
             {
                 return false;
@@ -1650,8 +1643,8 @@ namespace MazeMaker
                 MessageBox.Show("Not a Maze List File or corrupted!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            curFileName = filePath;
-            toolStrip_Status.Text = filePath;
+            this.mLFilePath = mLFilePath;
+            statusLabel.Text = mLFilePath;
             UpdateMazeList();
 
             try

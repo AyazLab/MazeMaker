@@ -37,7 +37,7 @@ namespace MazeMaker
             this.saveAsButton = new System.Windows.Forms.ToolStripButton();
             this.packageButton = new System.Windows.Forms.ToolStripButton();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.toolStrip_Status = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.panelListItems = new System.Windows.Forms.Panel();
             this.toolStripListItems = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel = new System.Windows.Forms.ToolStripLabel();
@@ -161,19 +161,18 @@ namespace MazeMaker
             this.statusStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStrip_Status});
+            this.statusLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 546);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
             this.statusStrip.Size = new System.Drawing.Size(902, 26);
             this.statusStrip.TabIndex = 11;
-            this.statusStrip.Text = "statusStrip1";
             // 
-            // toolStrip_Status
+            // statusLabel
             // 
-            this.toolStrip_Status.Name = "toolStrip_Status";
-            this.toolStrip_Status.Size = new System.Drawing.Size(276, 20);
-            this.toolStrip_Status.Text = "Open a MazeList file or start a new one...";
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(276, 20);
+            this.statusLabel.Text = "Open a MazeList file or start a new one...";
             // 
             // panelListItems
             // 
@@ -305,7 +304,7 @@ namespace MazeMaker
             // 
             this.treeView.AllowDrop = true;
             this.treeView.Location = new System.Drawing.Point(10, 30);
-            this.treeView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.treeView.Margin = new System.Windows.Forms.Padding(2);
             this.treeView.Name = "treeView";
             this.treeView.Size = new System.Drawing.Size(328, 436);
             this.treeView.TabIndex = 20;
@@ -318,7 +317,7 @@ namespace MazeMaker
             // 
             this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.closeButton.Location = new System.Drawing.Point(654, 436);
-            this.closeButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.closeButton.Margin = new System.Windows.Forms.Padding(4);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(100, 33);
             this.closeButton.TabIndex = 19;
@@ -350,7 +349,7 @@ namespace MazeMaker
             // 
             this.propertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.propertyGrid.Location = new System.Drawing.Point(394, 30);
-            this.propertyGrid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.propertyGrid.Margin = new System.Windows.Forms.Padding(4);
             this.propertyGrid.Name = "propertyGrid";
             this.propertyGrid.Size = new System.Drawing.Size(361, 395);
             this.propertyGrid.TabIndex = 16;
@@ -362,7 +361,7 @@ namespace MazeMaker
             this.deleteButton.Enabled = false;
             this.deleteButton.Image = global::MazeMaker.Properties.Resources.del;
             this.deleteButton.Location = new System.Drawing.Point(354, 133);
-            this.deleteButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.deleteButton.Margin = new System.Windows.Forms.Padding(4);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(31, 28);
             this.deleteButton.TabIndex = 15;
@@ -374,7 +373,7 @@ namespace MazeMaker
             this.downButton.Enabled = false;
             this.downButton.Image = global::MazeMaker.Properties.Resources.arr_down;
             this.downButton.Location = new System.Drawing.Point(354, 97);
-            this.downButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.downButton.Margin = new System.Windows.Forms.Padding(4);
             this.downButton.Name = "downButton";
             this.downButton.Size = new System.Drawing.Size(31, 28);
             this.downButton.TabIndex = 14;
@@ -386,7 +385,7 @@ namespace MazeMaker
             this.upButton.Enabled = false;
             this.upButton.Image = global::MazeMaker.Properties.Resources.arr_up;
             this.upButton.Location = new System.Drawing.Point(354, 61);
-            this.upButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.upButton.Margin = new System.Windows.Forms.Padding(4);
             this.upButton.Name = "upButton";
             this.upButton.Size = new System.Drawing.Size(31, 28);
             this.upButton.TabIndex = 13;
@@ -539,7 +538,7 @@ namespace MazeMaker
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(913, 579);
             this.Name = "MazeListBuilder";
@@ -575,7 +574,7 @@ namespace MazeMaker
         private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.ToolStripButton saveAsButton;
         private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel toolStrip_Status;
+        private System.Windows.Forms.ToolStripStatusLabel statusLabel;
         private System.Windows.Forms.ToolStripButton appendButton;
         private System.Windows.Forms.ToolStripButton newButton;
         private System.Windows.Forms.ToolStripButton packageButton;
