@@ -3713,7 +3713,7 @@ namespace MazeMaker
             if (zip)
             {
                 string tempPath = directory + "\\" + temp;
-                string zipPath = directory + "\\" + fileName.Substring(0, fileName.Length - fileExt.Length) + ".mazx.zip";
+                string zipPath = directory + "\\" + fileName.Substring(0, fileName.Length - fileExt.Length) + ".mazx";
                 if (File.Exists(zipPath))
                     File.Delete(zipPath);
                 ZipFile.CreateFromDirectory(tempPath, zipPath);
