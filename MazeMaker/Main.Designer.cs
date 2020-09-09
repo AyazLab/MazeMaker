@@ -180,6 +180,7 @@ namespace MazeMaker
             this.ts_core_open = new System.Windows.Forms.ToolStripButton();
             this.ts_core_save = new System.Windows.Forms.ToolStripButton();
             this.ts_core_saveas = new System.Windows.Forms.ToolStripButton();
+            this.packageButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripRun = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonQuickRun = new System.Windows.Forms.ToolStripButton();
             this.toolStripDropDownButtonRunConfig = new System.Windows.Forms.ToolStripDropDownButton();
@@ -197,7 +198,7 @@ namespace MazeMaker
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pictureBoxMainWindowRightTopLogo = new System.Windows.Forms.PictureBox();
-            this.packageButton = new System.Windows.Forms.ToolStripButton();
+            this.importmazxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -256,6 +257,7 @@ namespace MazeMaker
             this.saveasToolStripMenuItem,
             this.packageToolStripMenuItem,
             this.toolStripSeparator9,
+            this.importmazxToolStripMenuItem,
             this.exportToClassicFileToolStripMenuItem,
             this.toolStripSeparator13,
             this.recentMazeFilesToolStripMenuItem,
@@ -1060,7 +1062,7 @@ namespace MazeMaker
             // 
             this.splitContainer1.Panel2.Controls.Add(this.propertyGrid);
             this.splitContainer1.Size = new System.Drawing.Size(1660, 441);
-            this.splitContainer1.SplitterDistance = 1327;
+            this.splitContainer1.SplitterDistance = 1326;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
             this.splitContainer1.Text = "splitContainer1";
@@ -1080,7 +1082,7 @@ namespace MazeMaker
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControlMazeDisplay);
-            this.splitContainer2.Size = new System.Drawing.Size(1327, 441);
+            this.splitContainer2.Size = new System.Drawing.Size(1326, 441);
             this.splitContainer2.SplitterDistance = 200;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -1152,7 +1154,7 @@ namespace MazeMaker
             this.tabControlMazeDisplay.Multiline = true;
             this.tabControlMazeDisplay.Name = "tabControlMazeDisplay";
             this.tabControlMazeDisplay.SelectedIndex = 0;
-            this.tabControlMazeDisplay.Size = new System.Drawing.Size(1123, 441);
+            this.tabControlMazeDisplay.Size = new System.Drawing.Size(1122, 441);
             this.tabControlMazeDisplay.TabIndex = 0;
             this.tabControlMazeDisplay.SelectedIndexChanged += new System.EventHandler(this.tabControlMazeDisplay_SelectedIndexChanged);
             // 
@@ -1167,7 +1169,7 @@ namespace MazeMaker
             this.tabPageMazeEdit.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageMazeEdit.Name = "tabPageMazeEdit";
             this.tabPageMazeEdit.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageMazeEdit.Size = new System.Drawing.Size(1115, 412);
+            this.tabPageMazeEdit.Size = new System.Drawing.Size(1114, 412);
             this.tabPageMazeEdit.TabIndex = 0;
             this.tabPageMazeEdit.Text = "Maze Editor";
             this.tabPageMazeEdit.UseVisualStyleBackColor = true;
@@ -1193,7 +1195,7 @@ namespace MazeMaker
             this.navControlPanel.Controls.Add(this.buttonViewMoveLeft);
             this.navControlPanel.Controls.Add(this.buttonViewMoveDown);
             this.navControlPanel.Controls.Add(this.buttonViewMoveUp);
-            this.navControlPanel.Location = new System.Drawing.Point(1001, 0);
+            this.navControlPanel.Location = new System.Drawing.Point(1000, 0);
             this.navControlPanel.Margin = new System.Windows.Forms.Padding(4);
             this.navControlPanel.Name = "navControlPanel";
             this.navControlPanel.Size = new System.Drawing.Size(115, 106);
@@ -1621,7 +1623,7 @@ namespace MazeMaker
             this.propertyGrid.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid.Margin = new System.Windows.Forms.Padding(4);
             this.propertyGrid.Name = "propertyGrid";
-            this.propertyGrid.Size = new System.Drawing.Size(328, 441);
+            this.propertyGrid.Size = new System.Drawing.Size(329, 441);
             this.propertyGrid.TabIndex = 0;
             this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_PropertyValueChanged);
             // 
@@ -1768,7 +1770,7 @@ namespace MazeMaker
             this.packageButton});
             this.toolStrip_coreIO.Location = new System.Drawing.Point(4, 39);
             this.toolStrip_coreIO.Name = "toolStrip_coreIO";
-            this.toolStrip_coreIO.Size = new System.Drawing.Size(577, 39);
+            this.toolStrip_coreIO.Size = new System.Drawing.Size(538, 39);
             this.toolStrip_coreIO.TabIndex = 0;
             this.toolStrip_coreIO.Text = "toolStrip1";
             // 
@@ -1821,6 +1823,15 @@ namespace MazeMaker
             this.ts_core_saveas.Text = "Save As";
             this.ts_core_saveas.ToolTipText = "Save As File (Ctrl + A)";
             this.ts_core_saveas.Click += new System.EventHandler(this.ts_core_saveas_Click);
+            // 
+            // packageButton
+            // 
+            this.packageButton.Image = global::MazeMaker.Properties.Resources.PackageItemsIcon;
+            this.packageButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.packageButton.Name = "packageButton";
+            this.packageButton.Size = new System.Drawing.Size(99, 36);
+            this.packageButton.Text = "Package";
+            this.packageButton.Click += new System.EventHandler(this.Package);
             // 
             // toolStripRun
             // 
@@ -1969,14 +1980,11 @@ namespace MazeMaker
             this.pictureBoxMainWindowRightTopLogo.MouseEnter += new System.EventHandler(this.pictureBoxMainWindowRightTopLogo_MouseEnter);
             this.pictureBoxMainWindowRightTopLogo.MouseLeave += new System.EventHandler(this.pictureBoxMainWindowRightTopLogo_MouseLeave);
             // 
-            // packageButton
+            // importmazxToolStripMenuItem
             // 
-            this.packageButton.Image = global::MazeMaker.Properties.Resources.PackageItemsIcon;
-            this.packageButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.packageButton.Name = "packageButton";
-            this.packageButton.Size = new System.Drawing.Size(99, 36);
-            this.packageButton.Text = "Package";
-            this.packageButton.Click += new System.EventHandler(this.Package);
+            this.importmazxToolStripMenuItem.Name = "importmazxToolStripMenuItem";
+            this.importmazxToolStripMenuItem.Size = new System.Drawing.Size(269, 26);
+            this.importmazxToolStripMenuItem.Text = "Import MazX Package";
             // 
             // Main
             // 
@@ -2211,6 +2219,7 @@ namespace MazeMaker
         private System.Windows.Forms.Button button_NewMazeList1;
         private System.Windows.Forms.ToolStripMenuItem packageToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton packageButton;
+        private System.Windows.Forms.ToolStripMenuItem importmazxToolStripMenuItem;
     }
 }
 

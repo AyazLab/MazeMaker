@@ -18,7 +18,7 @@ namespace MazeMaker
     {
         readonly ImageList il = new ImageList();
 
-        readonly List<ListItem> mazeList = new List<ListItem>();
+        readonly List<ListItem> MazeList = new List<ListItem>();
         int selectedIndex;
 
         public static bool madeChanges = false;
@@ -47,17 +47,17 @@ namespace MazeMaker
         {
             treeView.Nodes.Clear();
 
-            if (mazeList.Count == 0)
+            if (MazeList.Count == 0)
             {
-                mazeList.Add(new MazeListOptionsListItem());
+                MazeList.Add(new MazeListOptionsListItem());
             }
 
-            for (int i = 0; i < mazeList.Count; i++)
+            for (int i = 0; i < MazeList.Count; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        treeView.Nodes.Add(mazeList[i].ToString());
+                        treeView.Nodes.Add(MazeList[i].ToString());
                         treeView.Nodes[treeView.Nodes.Count - 1].ImageKey = "MazeListOptions";
                         treeView.Nodes[treeView.Nodes.Count - 1].SelectedImageKey = "MazeListOptions";
 
@@ -67,10 +67,10 @@ namespace MazeMaker
                         break;
 
                     default:
-                        treeView.Nodes[1].Nodes.Add(i.ToString() + ") " + mazeList[i].ToString());
+                        treeView.Nodes[1].Nodes.Add(i.ToString() + ") " + MazeList[i].ToString());
 
-                        treeView.Nodes[1].Nodes[treeView.Nodes[1].Nodes.Count - 1].ImageKey = mazeList[i].Type.ToString();
-                        treeView.Nodes[1].Nodes[treeView.Nodes[1].Nodes.Count - 1].SelectedImageKey = mazeList[i].Type.ToString();
+                        treeView.Nodes[1].Nodes[treeView.Nodes[1].Nodes.Count - 1].ImageKey = MazeList[i].Type.ToString();
+                        treeView.Nodes[1].Nodes[treeView.Nodes[1].Nodes.Count - 1].SelectedImageKey = MazeList[i].Type.ToString();
                         break;
                 }
             }
@@ -109,7 +109,7 @@ namespace MazeMaker
             }
         }
 
-        private void AppendToMazeList(object sender, EventArgs e)
+        private void Append(object sender, EventArgs e)
         {
             madeChanges = true;
 
@@ -124,12 +124,12 @@ namespace MazeMaker
             }
         }
 
-        private void NewMazeList(object sender, EventArgs e)
+        private void New(object sender, EventArgs e)
         {
             if (UnsavedMessage() != DialogResult.Cancel)
             {
                 ClearMazeList();
-                mazeList.Add(new MazeListOptionsListItem());
+                MazeList.Add(new MazeListOptionsListItem());
                 UpdateMazeList();
             }
         }
@@ -172,7 +172,7 @@ namespace MazeMaker
         {
             if (UnsavedMessage() != DialogResult.Cancel)
             {
-                mazeList.Clear();
+                MazeList.Clear();
             }
         }
 
@@ -210,7 +210,7 @@ namespace MazeMaker
             return false;
         }
 
-        private void AddToMazeList(object sender, EventArgs e)
+        private void AddListItem(object sender, EventArgs e)
         {
             madeChanges = true;
             string listItem = (sender as ToolStripButton).Text;
@@ -218,59 +218,59 @@ namespace MazeMaker
             switch (listItem)
             {
                 case "Maze":
-                    mazeList.Add(new MazeListItem());
+                    MazeList.Add(new MazeListItem());
                     break;
 
                 case "Text":
-                    mazeList.Add(new TextListItem());
+                    MazeList.Add(new TextListItem());
                     break;
 
                 case "Image":
-                    mazeList.Add(new ImageListItem());
+                    MazeList.Add(new ImageListItem());
                     break;
 
                 case "Multiple\nChoice":
-                    mazeList.Add(new MultipleChoiceListItem(new ListChangedEventHandler(Updated)));
+                    MazeList.Add(new MultipleChoiceListItem(new ListChangedEventHandler(Updated)));
                     break;
 
                 case "Record\nAudio":
-                    mazeList.Add(new RecordAudioListItem());
+                    MazeList.Add(new RecordAudioListItem());
                     break;
 
                 case "Command":
-                    mazeList.Add(new CommandListItem());
+                    MazeList.Add(new CommandListItem());
                     break;
             }
 
             UpdateMazeList();
         }
 
-        private void L_Up_Click(object sender, EventArgs e)
+        private void MoveUp(object sender, EventArgs e)
         {
             madeChanges = true;
 
-            ListItem temp = mazeList[selectedIndex - 1];
-            mazeList[selectedIndex - 1] = mazeList[selectedIndex];
-            mazeList[selectedIndex] = temp;
+            ListItem temp = MazeList[selectedIndex - 1];
+            MazeList[selectedIndex - 1] = MazeList[selectedIndex];
+            MazeList[selectedIndex] = temp;
             UpdateMazeList();
             treeView.SelectedNode = treeView.Nodes[1].Nodes[selectedIndex - 2];
         }
 
-        private void L_Down_Click(object sender, EventArgs e)
+        private void MoveDown(object sender, EventArgs e)
         {
             madeChanges = true;
 
-            ListItem temp = mazeList[selectedIndex + 1];
-            mazeList[selectedIndex + 1] = mazeList[selectedIndex];
-            mazeList[selectedIndex] = temp;
+            ListItem temp = MazeList[selectedIndex + 1];
+            MazeList[selectedIndex + 1] = MazeList[selectedIndex];
+            MazeList[selectedIndex] = temp;
             UpdateMazeList();
             treeView.SelectedNode = treeView.Nodes[1].Nodes[selectedIndex];
         }
 
-        private void L_Del_Click(object sender, EventArgs e)
+        private void Delete(object sender, EventArgs e)
         {
             madeChanges = true;
-            mazeList.RemoveAt(selectedIndex);
+            MazeList.RemoveAt(selectedIndex);
             UpdateMazeList();
 
             deleteButton.Enabled = false;
@@ -299,11 +299,11 @@ namespace MazeMaker
                     downButton.Enabled = true;
                 }
 
-                propertyGrid.SelectedObject = mazeList[selectedIndex];
+                propertyGrid.SelectedObject = MazeList[selectedIndex];
             }
             else if (treeView.Nodes[0].IsSelected)
             {
-                propertyGrid.SelectedObject = mazeList[0];
+                propertyGrid.SelectedObject = MazeList[0];
             }
             else if (treeView.Nodes[1].IsSelected)
             {
@@ -552,7 +552,7 @@ namespace MazeMaker
                 Directory.CreateDirectory(melxPath + "_assets\\audio");
 
                 string copiedFiles = "";
-                foreach (ListItem item in mazeList)
+                foreach (ListItem item in MazeList)
                 {
                     string copiedFile0 = "no new file";
                     string copiedFile1 = "no new file";
@@ -787,7 +787,7 @@ namespace MazeMaker
         {
             if (replaceOrder.Count != 0)
             {
-                foreach (ListItem listItem in mazeList)
+                foreach (ListItem listItem in MazeList)
                 {
                     switch (listItem.Type)
                     {
@@ -915,7 +915,7 @@ namespace MazeMaker
 
             XmlElement listItems = melx.CreateElement("ListItems");
 
-            foreach (ListItem item in mazeList)
+            foreach (ListItem item in MazeList)
             {
                 XmlElement mz = melx.CreateElement(item.Type.ToString());
 
@@ -1290,7 +1290,7 @@ namespace MazeMaker
 
             mel.WriteLine("Maze List File 1.2");
 
-            foreach (ListItem listItem in mazeList)
+            foreach (ListItem listItem in MazeList)
             {
                 mel.Write(listItem.Type + "\t");
 
@@ -1351,7 +1351,7 @@ namespace MazeMaker
                 switch (mz.Name)
                 {
                     case "MazeListOptions":
-                        if (mazeList.Count != 0)
+                        if (MazeList.Count != 0)
                         {
                             break;
                         }
@@ -1387,7 +1387,7 @@ namespace MazeMaker
                             }
                         }
 
-                        mazeList.Add(mazeListOptions);
+                        MazeList.Add(mazeListOptions);
                         break;
 
                     case "MazeLibrary":
@@ -1437,7 +1437,7 @@ namespace MazeMaker
                                         Timeout = listItem.GetAttribute("Timeout")
                                     };
 
-                                    mazeList.Add(maze);
+                                    MazeList.Add(maze);
                                     break;
 
                                 case "Text":
@@ -1467,7 +1467,7 @@ namespace MazeMaker
                                         FontSize = Convert.ToInt32(listItem.GetAttribute("FontSize"))
                                     };
 
-                                    mazeList.Add(text);
+                                    MazeList.Add(text);
                                     break;
 
                                 case "Image":
@@ -1512,7 +1512,7 @@ namespace MazeMaker
                                         EndBehavior = listItem.GetAttribute("EndBehavior")
                                     };
 
-                                    mazeList.Add(image);
+                                    MazeList.Add(image);
                                     break;
 
                                 case "MultipleChoice":
@@ -1550,7 +1550,7 @@ namespace MazeMaker
                                         multipleChoice.Text.Add(vr);
                                     }
 
-                                    mazeList.Add(multipleChoice);
+                                    MazeList.Add(multipleChoice);
                                     break;
 
                                 case "RecordAudio":
@@ -1577,7 +1577,7 @@ namespace MazeMaker
                                         ImageFile = imageFileName,
                                     };
 
-                                    mazeList.Add(recordAudio);
+                                    MazeList.Add(recordAudio);
                                     break;
 
                                 case "Command":
@@ -1587,7 +1587,7 @@ namespace MazeMaker
                                         Wait4Complete = bool.Parse(listItem.GetAttribute("WaitForComplete")),
                                     };
 
-                                    mazeList.Add(command);
+                                    MazeList.Add(command);
                                     break;
                             }
                         }
@@ -1665,7 +1665,7 @@ namespace MazeMaker
                             MazeListItem maze = new MazeListItem();
                             maze.MazeFile = parse[1];
 
-                            mazeList.Add(maze);
+                            MazeList.Add(maze);
                             break;
 
                         case "Text":
@@ -1694,7 +1694,7 @@ namespace MazeMaker
                                 text.BackgroundImage = "";
                             }
 
-                            mazeList.Add(text);
+                            MazeList.Add(text);
                             break;
 
                         case "Image":
@@ -1723,7 +1723,7 @@ namespace MazeMaker
                                 image.ImageFile = "";
                             }
 
-                            mazeList.Add(image);
+                            MazeList.Add(image);
                             break;
 
                         case "MultipleChoice":
@@ -1752,7 +1752,7 @@ namespace MazeMaker
                                 multipleChoice.BackgroundImage = "";
                             }
 
-                            mazeList.Add(multipleChoice);
+                            MazeList.Add(multipleChoice);
                             break;
                         default:
                             break;
@@ -1795,24 +1795,80 @@ namespace MazeMaker
 
         private void treeView_DragDrop(object sender, DragEventArgs e)
         {
-            TreeNode draggedNode = (TreeNode)e.Data.GetData(typeof(TreeNode));
-
             TreeNode targetNode = treeView.GetNodeAt(treeView.PointToClient(new Point(e.X, e.Y)));
+            int targetIndex = treeView.Nodes[1].Nodes.IndexOf(targetNode) + 1;
 
-            if (!treeView.Nodes.Contains(draggedNode) && targetNode != null)
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                int draggedIndex = treeView.Nodes[1].Nodes.IndexOf(draggedNode) + 1;
-                int targetIndex = treeView.Nodes[1].Nodes.IndexOf(targetNode) + 1;
-
-                mazeList.Insert(targetIndex + 1, mazeList[draggedIndex]);
-
-                if (targetIndex <= draggedIndex)
-                    mazeList.RemoveAt(draggedIndex + 1);
-                else
-                    mazeList.RemoveAt(draggedIndex);
-
-                UpdateMazeList();
+                string[] filePaths = (string[])e.Data.GetData(DataFormats.FileDrop);
+                foreach (string filePath in filePaths)
+                    AddFile(targetIndex + 1, filePath);
             }
+            else if (e.Data.GetDataPresent(typeof(TreeNode)))
+            {
+                TreeNode draggedNode = (TreeNode)e.Data.GetData(typeof(TreeNode));
+                int draggedIndex = treeView.Nodes[1].Nodes.IndexOf(draggedNode) + 1;
+
+                if (!treeView.Nodes.Contains(draggedNode) && targetNode != null)
+                {
+                    MazeList.Insert(targetIndex + 1, MazeList[draggedIndex]);
+
+                    if (targetIndex <= draggedIndex)
+                        MazeList.RemoveAt(draggedIndex + 1);
+                    else
+                        MazeList.RemoveAt(draggedIndex);
+
+                    UpdateMazeList();
+                }
+            }
+        }
+
+        void AddFile(int insertIndex, string filePath)
+        {
+            string fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
+            if (fileName == "")
+                fileName = filePath;
+
+            string fileExt = Path.GetExtension(filePath).ToLower();
+            string[] imageExt = new string[] { ".bmp", ".jpg", ".jpeg", ".gif", ".png" };
+
+            if (fileExt == ".maz")
+            {
+                MazeListItem maze = new MazeListItem
+                {
+                    MazeFile = fileName,
+                };
+                mazeFilePaths[fileName] = filePath;
+                MazeList.Insert(insertIndex, maze);
+            }
+            else if (imageExt.Contains(fileExt))
+            {
+                ImageListItem image = new ImageListItem
+                {
+                    ImageFile = fileName,
+                };
+                imageFilePaths[fileName] = filePath;
+                MazeList.Insert(insertIndex, image);
+            }
+            else if (fileExt == ".wav" || fileExt == ".mp3")
+            {
+                ImageListItem image = new ImageListItem
+                {
+                    AudioFile = fileName,
+                };
+                audioFilePaths[fileName] = filePath;
+                MazeList.Insert(insertIndex, image);
+            }
+            else if (fileExt == ".exe")
+            {
+                CommandListItem command = new CommandListItem
+                {
+                    Text = filePath,
+                };
+                MazeList.Insert(insertIndex, command);
+            }
+
+            UpdateMazeList();
         }
 
         private void Cut(object sender, EventArgs e)
@@ -1820,7 +1876,7 @@ namespace MazeMaker
             if (treeView.SelectedNode != null && treeView.SelectedNode != treeView.Nodes[0] && treeView.SelectedNode != treeView.Nodes[1])
             {
                 Copy();
-                mazeList.RemoveAt(selectedIndex);
+                MazeList.RemoveAt(selectedIndex);
                 UpdateMazeList();
             }
         }
@@ -1837,11 +1893,11 @@ namespace MazeMaker
         {
             if (treeView.SelectedNode != null && treeView.SelectedNode != treeView.Nodes[0] && treeView.SelectedNode != treeView.Nodes[1])
             {
-                mazeList.Insert(selectedIndex + 1, copiedListItem);
+                MazeList.Insert(selectedIndex + 1, copiedListItem);
             }
             else
             {
-                mazeList.Add(copiedListItem);
+                MazeList.Add(copiedListItem);
             }
 
             UpdateMazeList();
@@ -1850,7 +1906,7 @@ namespace MazeMaker
         ListItem copiedListItem;
         void Copy()
         {
-            copiedListItem = mazeList[selectedIndex];
+            copiedListItem = MazeList[selectedIndex];
         }
     }
 }
