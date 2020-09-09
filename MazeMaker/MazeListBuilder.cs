@@ -374,15 +374,15 @@ namespace MazeMaker
                     switch (type)
                     {
                         case "Maze":
-                            ofd.Filter = "Maze File (*.maz)|*.maz";
+                            ofd.Filter = "Maze Files (*.maz;*.mazx)|*.maz;*.mazx";
                             break;
 
                         case "Image":
-                            ofd.Filter = "Image File (*.bmp,*.jpg,*.jpeg,*.gif,*.png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png";
+                            ofd.Filter = "Image Files (*.bmp;*.jpg;*.jpeg;*.gif;*.png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png";
                             break;
 
                         case "Audio":
-                            ofd.Filter = "Audio File (*.wav,*.mp3)|*.wav;*.mp3";
+                            ofd.Filter = "Audio Files (*.wav;*.mp3)|*.wav;*.mp3";
                             break;
                     }
                     DialogResult dr = ofd.ShowDialog();
@@ -736,14 +736,14 @@ namespace MazeMaker
                 string[] imageExt = new string[] { ".bmp", ".jpg", ".jpeg", ".gif", ".png" };
 
                 OpenFileDialog ofd = new OpenFileDialog();
-                if (fileExt == ".maz")
-                    ofd.Filter = "Maze File (*.maz)|*.maz";
+                if (fileExt == ".maz" || fileExt == ".mazx")
+                    ofd.Filter = "Maze Files (*.maz;*.mazx)|*.maz;*.mazx";
                 else if (imageExt.Contains(fileExt))
-                    ofd.Filter = "Image File (*.bmp,*.jpg,*.jpeg,*.gif,*.png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png";
+                    ofd.Filter = "Image Files (*.bmp;*.jpg;*.jpeg;*.gif;*.png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png";
                 else if (fileExt == ".wav" || fileExt == ".mp3")
-                    ofd.Filter = "Audio File (*.wav,*.mp3)|*.wav;*.mp3";
+                    ofd.Filter = "Audio Files (*.wav;*.mp3)|*.wav;*.mp3";
                 else if (fileExt == ".obj")
-                    ofd.Filter = "Model File (*.obj)|*.obj";
+                    ofd.Filter = "Model Files (*.obj)|*.obj";
                 ofd.Title = "Finding/Replacing " + fileName;
 
                 if (ofd.ShowDialog() == DialogResult.OK)
@@ -1832,7 +1832,7 @@ namespace MazeMaker
             string fileExt = Path.GetExtension(filePath).ToLower();
             string[] imageExt = new string[] { ".bmp", ".jpg", ".jpeg", ".gif", ".png" };
 
-            if (fileExt == ".maz")
+            if (fileExt == ".maz" || fileExt == ".mazx")
             {
                 MazeListItem maze = new MazeListItem
                 {

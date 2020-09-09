@@ -3502,15 +3502,15 @@ namespace MazeMaker
                     switch (type)
                     {
                         case "Image":
-                            ofd.Filter = "Image File (*.bmp,*.jpg,*.jpeg,*.gif,*.png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png";
+                            ofd.Filter = "Image Files (*.bmp;*.jpg;*.jpeg;*.gif;*.png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png";
                             break;
 
                         case "Audio":
-                            ofd.Filter = "Audio File (*.wav,*.mp3)|*.wav;*.mp3";
+                            ofd.Filter = "Audio Files (*.wav;*.mp3)|*.wav;*.mp3";
                             break;
 
                         case "Model":
-                            ofd.Filter = "Model File (*.obj)|*.obj";
+                            ofd.Filter = "Model Files (*.obj)|*.obj";
                             break;
                     }
                     DialogResult dr = ofd.ShowDialog();

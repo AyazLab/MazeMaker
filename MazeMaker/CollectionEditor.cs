@@ -101,7 +101,7 @@ namespace MazeMaker
         {
             OpenFileDialog ofd = new OpenFileDialog
             {
-                Filter = "Maze File (*.maz)|*.maz",
+                Filter = "Maze Files (*.maz;*.mazx)|*.maz;*.mazx",
                 Multiselect = multiselect,
                 Title = title,
             };
@@ -126,7 +126,7 @@ namespace MazeMaker
         {
             OpenFileDialog ofd = new OpenFileDialog
             {
-                Filter = "Image File (*.bmp,*.jpg,*.jpeg,*.gif,*png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png",
+                Filter = "Image Files (*.bmp;*.jpg;*.jpeg;*.gif;*png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png",
                 Multiselect = multiselect,
                 Title = title,
             };
@@ -157,7 +157,7 @@ namespace MazeMaker
         {
             OpenFileDialog ofd = new OpenFileDialog
             {
-                Filter = "Audio File (*.wav,*.mp3)| *.wav;*.mp3",
+                Filter = "Audio Files (*.wav;*.mp3)|*.wav;*.mp3",
                 Multiselect = multiselect,
                 Title = title,
             };
@@ -188,7 +188,7 @@ namespace MazeMaker
         {
             OpenFileDialog ofd = new OpenFileDialog
             {
-                Filter = "Model File (*.obj)|*.obj",
+                Filter = "Model Files (*.obj)|*.obj",
                 Multiselect = multiselect,
                 Title = title,
             };
