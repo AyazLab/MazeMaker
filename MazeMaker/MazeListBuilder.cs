@@ -112,12 +112,10 @@ namespace MazeMaker
         private void Append(object sender, EventArgs e)
         {
             madeChanges = true;
-
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "MazeList File (*.melx,*.mel)|*.melx;*.mel";
-            ofd.FilterIndex = 1;
-            ofd.RestoreDirectory = true;
-
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Filter = "MazeList Files (*.melx;*.mel)|*.melx;*.mel",
+            };
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 ReadFromFile(ofd.FileName, true);
@@ -196,7 +194,7 @@ namespace MazeMaker
         private bool SaveAs()
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "MazeList XML-File (*.melx)|*.melx|MazeList File (*.mel)|*.mel";
+            sfd.Filter = "MazeList XML-Files (*.melx)|*.melx|MazeList Files (*.mel)|*.mel";
             sfd.FilterIndex = 1;
             sfd.RestoreDirectory = true;
 
@@ -534,8 +532,10 @@ namespace MazeMaker
 
         private void Package(object sender, EventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "MazeList File (*.melx)|*.melx";
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "MazeList XML-Files (*.melx)|*.melx"
+            };
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {
@@ -674,61 +674,71 @@ namespace MazeMaker
 
         public static string RecursiveFileCopy(string oldFilePath, string melxPath, string type, string newFilePath, ref List<string[]> replaceOrder)
         {
-            string fileName = oldFilePath;
+            string fileName = oldFilePath.Substring(oldFilePath.LastIndexOf("\\") + 1);
+            if (fileName == "")
+                fileName = oldFilePath;
             string melxDirectory = melxPath.Substring(0, melxPath.Length - melxPath.Substring(melxPath.LastIndexOf("\\") + 1).Length);
-            if (oldFilePath.Contains("\\"))
-            {
-                fileName = oldFilePath.Substring(oldFilePath.LastIndexOf("\\") + 1);
-                if (fileName == "")
-                    fileName = oldFilePath;
-            }
 
+            // file already exists in assets
             if (File.Exists(newFilePath))
             {
                 return "no new file";
             }
 
+            // checks original location
+            //MessageBox.Show(oldFilePath);
             if (File.Exists(oldFilePath))
             {
                 File.Copy(oldFilePath, newFilePath);
                 return oldFilePath;
             }
 
+            // checks './fileName'
             oldFilePath = melxDirectory + fileName;
+            //MessageBox.Show(oldFilePath);
             if (File.Exists(oldFilePath))
             {
                 File.Copy(oldFilePath, newFilePath);
                 return oldFilePath;
             }
 
+            // checks './image/fileName'
             oldFilePath = melxDirectory + type + "\\" + fileName;
+            //MessageBox.Show(oldFilePath);
             if (File.Exists(oldFilePath))
             {
                 File.Copy(oldFilePath, newFilePath);
                 return oldFilePath;
             }
 
+            // checks './images/fileName'
             oldFilePath = melxDirectory + type + "s\\" + fileName;
+            //MessageBox.Show(oldFilePath);
             if (File.Exists(oldFilePath))
             {
                 File.Copy(oldFilePath, newFilePath);
                 return oldFilePath;
             }
 
+            // checks '../image/fileName'
             oldFilePath = "..\\" + type + "\\" + fileName;
+            //MessageBox.Show(oldFilePath);
             if (File.Exists(oldFilePath))
             {
                 File.Copy(oldFilePath, newFilePath);
                 return oldFilePath;
             }
 
+            // checks '../images/fileName'
             oldFilePath = "..\\" + type + "s\\" + fileName;
+            //MessageBox.Show(oldFilePath);
             if (File.Exists(oldFilePath))
             {
                 File.Copy(oldFilePath, newFilePath);
                 return oldFilePath;
             }
 
+            // give up
             MessageBox.Show("\'" + fileName + "\' could not be found. If it can't be found, the package will be abandoned");
             while (true)
             {

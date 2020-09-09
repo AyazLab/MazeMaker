@@ -85,13 +85,13 @@ namespace MazeMaker
         private void Add(object sender, EventArgs e)
         {
             if (mazeFilePaths != null)
-                AddMaze(true, "Add Maze File");
+                AddMaze(true, "Add Maze Files");
             else if (textures != null)
-                AddTexture(true, "Add Image File");
+                AddTexture(true, "Add Image Files");
             else if (audios != null)
-                AddAudio(true, "Add Audio File");
+                AddAudio(true, "Add Audio Files");
             else if (models != null)
-                AddModel(true, "Add Model File");
+                AddModel(true, "Add Model Files");
 
             UpdateCollection();
             listBox.SelectedIndex = listBox.Items.Count - 1;

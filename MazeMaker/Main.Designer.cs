@@ -42,6 +42,7 @@ namespace MazeMaker
             this.saveasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.packageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.importmazxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToClassicFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.recentMazeFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -198,7 +199,6 @@ namespace MazeMaker
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pictureBoxMainWindowRightTopLogo = new System.Windows.Forms.PictureBox();
-            this.importmazxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -341,6 +341,13 @@ namespace MazeMaker
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
             this.toolStripSeparator9.Size = new System.Drawing.Size(266, 6);
+            // 
+            // importmazxToolStripMenuItem
+            // 
+            this.importmazxToolStripMenuItem.Name = "importmazxToolStripMenuItem";
+            this.importmazxToolStripMenuItem.Size = new System.Drawing.Size(269, 26);
+            this.importmazxToolStripMenuItem.Text = "Import MazX Package";
+            this.importmazxToolStripMenuItem.Click += new System.EventHandler(this.importmazxToolStripMenuItem_Click);
             // 
             // exportToClassicFileToolStripMenuItem
             // 
@@ -1062,7 +1069,7 @@ namespace MazeMaker
             // 
             this.splitContainer1.Panel2.Controls.Add(this.propertyGrid);
             this.splitContainer1.Size = new System.Drawing.Size(1660, 441);
-            this.splitContainer1.SplitterDistance = 1326;
+            this.splitContainer1.SplitterDistance = 1325;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
             this.splitContainer1.Text = "splitContainer1";
@@ -1082,7 +1089,7 @@ namespace MazeMaker
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControlMazeDisplay);
-            this.splitContainer2.Size = new System.Drawing.Size(1326, 441);
+            this.splitContainer2.Size = new System.Drawing.Size(1325, 441);
             this.splitContainer2.SplitterDistance = 200;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -1154,7 +1161,7 @@ namespace MazeMaker
             this.tabControlMazeDisplay.Multiline = true;
             this.tabControlMazeDisplay.Name = "tabControlMazeDisplay";
             this.tabControlMazeDisplay.SelectedIndex = 0;
-            this.tabControlMazeDisplay.Size = new System.Drawing.Size(1122, 441);
+            this.tabControlMazeDisplay.Size = new System.Drawing.Size(1121, 441);
             this.tabControlMazeDisplay.TabIndex = 0;
             this.tabControlMazeDisplay.SelectedIndexChanged += new System.EventHandler(this.tabControlMazeDisplay_SelectedIndexChanged);
             // 
@@ -1169,7 +1176,7 @@ namespace MazeMaker
             this.tabPageMazeEdit.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageMazeEdit.Name = "tabPageMazeEdit";
             this.tabPageMazeEdit.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageMazeEdit.Size = new System.Drawing.Size(1114, 412);
+            this.tabPageMazeEdit.Size = new System.Drawing.Size(1113, 412);
             this.tabPageMazeEdit.TabIndex = 0;
             this.tabPageMazeEdit.Text = "Maze Editor";
             this.tabPageMazeEdit.UseVisualStyleBackColor = true;
@@ -1195,7 +1202,7 @@ namespace MazeMaker
             this.navControlPanel.Controls.Add(this.buttonViewMoveLeft);
             this.navControlPanel.Controls.Add(this.buttonViewMoveDown);
             this.navControlPanel.Controls.Add(this.buttonViewMoveUp);
-            this.navControlPanel.Location = new System.Drawing.Point(1000, 0);
+            this.navControlPanel.Location = new System.Drawing.Point(999, 0);
             this.navControlPanel.Margin = new System.Windows.Forms.Padding(4);
             this.navControlPanel.Name = "navControlPanel";
             this.navControlPanel.Size = new System.Drawing.Size(115, 106);
@@ -1623,7 +1630,7 @@ namespace MazeMaker
             this.propertyGrid.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid.Margin = new System.Windows.Forms.Padding(4);
             this.propertyGrid.Name = "propertyGrid";
-            this.propertyGrid.Size = new System.Drawing.Size(329, 441);
+            this.propertyGrid.Size = new System.Drawing.Size(330, 441);
             this.propertyGrid.TabIndex = 0;
             this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_PropertyValueChanged);
             // 
@@ -1979,12 +1986,6 @@ namespace MazeMaker
             this.pictureBoxMainWindowRightTopLogo.Click += new System.EventHandler(this.pictureBoxMainWindowRightTopLogo_Click);
             this.pictureBoxMainWindowRightTopLogo.MouseEnter += new System.EventHandler(this.pictureBoxMainWindowRightTopLogo_MouseEnter);
             this.pictureBoxMainWindowRightTopLogo.MouseLeave += new System.EventHandler(this.pictureBoxMainWindowRightTopLogo_MouseLeave);
-            // 
-            // importmazxToolStripMenuItem
-            // 
-            this.importmazxToolStripMenuItem.Name = "importmazxToolStripMenuItem";
-            this.importmazxToolStripMenuItem.Size = new System.Drawing.Size(269, 26);
-            this.importmazxToolStripMenuItem.Text = "Import MazX Package";
             // 
             // Main
             // 

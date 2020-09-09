@@ -1069,7 +1069,7 @@ namespace MazeMaker
         {
             //Open Maze...  
             OpenFileDialog a = new OpenFileDialog();
-            a.Filter = "Maze files (*.maz) |*.maz| Maze List files (*.mel) |*.mel";
+            a.Filter = "Maze Files (*.maz)|*.maz|MazeList Files (*.mel)|*.mel";
             a.FilterIndex = 1;
             a.RestoreDirectory = true;
             openDialogActive = true;
@@ -1130,7 +1130,7 @@ namespace MazeMaker
                 return;
 
             SaveFileDialog a = new SaveFileDialog();
-            a.Filter = "Maze files | *.maz";
+            a.Filter = "Maze Files (*.maz)|*.maz";
             a.FilterIndex = 1;
             a.DefaultExt = ".maz";
             a.RestoreDirectory = true;
@@ -3495,6 +3495,8 @@ namespace MazeMaker
 
         string ManageItems(string type, string oldValue, string newValue)
         {
+            string fileName = "";
+
             switch (newValue)
             {
                 case "[Import Item]":
@@ -3517,7 +3519,7 @@ namespace MazeMaker
 
                     if (type == "Image" && dr == DialogResult.OK)
                     {
-                        string fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                        fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
                         if (fileName == "")
                             fileName = ofd.FileName;
                         ImagePathConverter.Paths[fileName] = ofd.FileName;
@@ -3525,7 +3527,7 @@ namespace MazeMaker
                     }
                     else if (type == "Audio" && dr == DialogResult.OK)
                     {
-                        string fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                        fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
                         if (fileName == "")
                             fileName = ofd.FileName;
                         AudioPathConverter.Paths[fileName] = ofd.FileName;
@@ -3533,7 +3535,7 @@ namespace MazeMaker
                     }
                     else if (type == "Model" && dr == DialogResult.OK)
                     {
-                        string fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                        fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
                         if (fileName == "")
                             fileName = ofd.FileName;
                         ModelPathConverter.Paths[fileName] = ofd.FileName;
@@ -3548,58 +3550,33 @@ namespace MazeMaker
                         case "Image":
                             CollectionEditor collection = new CollectionEditor(MazeListBuilder.FilesToTextures(ImagePathConverter.Paths));
 
-                            string filePath = collection.GetTexture();
+                            fileName = collection.GetTexture();
                             MazeListBuilder.TexturesToFiles(collection.GetTextures(), ref ImagePathConverter.Paths);
                             replaceOrder = collection.GetReplaceOrder();
-
-                            if (filePath != "")
-                            {
-                                string fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
-                                if (fileName == "")
-                                    fileName = filePath;
-                                ImagePathConverter.Paths[fileName] = filePath;
-                                return fileName;
-                            }
 
                             break;
 
                         case "Audio":
                             collection = new CollectionEditor(MazeListBuilder.FilesToAudios(AudioPathConverter.Paths));
 
-                            filePath = collection.GetAudio();
+                            fileName = collection.GetAudio();
                             MazeListBuilder.AudiosToFiles(collection.GetAudios(), ref AudioPathConverter.Paths);
                             replaceOrder = collection.GetReplaceOrder();
-
-                            if (filePath != "")
-                            {
-                                string fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
-                                if (fileName == "")
-                                    fileName = filePath;
-                                AudioPathConverter.Paths[fileName] = filePath;
-                                return fileName;
-                            }
 
                             break;
 
                         case "Model":
                             collection = new CollectionEditor(MazeListBuilder.FilesToModels(ModelPathConverter.Paths));
 
-                            filePath = collection.GetModel();
+                            fileName = collection.GetModel();
                             MazeListBuilder.ModelsToFiles(collection.GetModels(), ref ModelPathConverter.Paths);
                             replaceOrder = collection.GetReplaceOrder();
-
-                            if (filePath != "")
-                            {
-                                string fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
-                                if (fileName == "")
-                                    fileName = filePath;
-                                ModelPathConverter.Paths[fileName] = filePath;
-                                return fileName;
-                            }
 
                             break;
                     }
 
+                    if (fileName != "")
+                        return fileName;
                     return oldValue;
 
                 case "----------------------------------------":
@@ -3621,7 +3598,7 @@ namespace MazeMaker
 
         private void Package(object sender, EventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog{ Filter = "Maze File (*.maz)|*.maz|Maze Package File (*.mazx)|*.mazx", };
+            SaveFileDialog sfd = new SaveFileDialog{ Filter = "Maze Files (*.maz)|*.maz|Maze Package Files (*.mazx)|*.mazx" };
             
             string directory = "";
             string temp = "";
@@ -3634,14 +3611,14 @@ namespace MazeMaker
                 directory = Path.GetDirectoryName(sfd.FileName);
                 if (Path.GetExtension(sfd.FileName).ToLower() == ".mazx")
                 {
-                    temp = "Temp";
-                    if (Directory.Exists(directory + "\\" + temp))
-                        Directory.Delete(directory + "\\" + temp, true);
-                    Directory.CreateDirectory(directory + "\\" + temp);
+                    temp = "\\Temp";
+                    if (Directory.Exists(directory + temp))
+                        Directory.Delete(directory + temp, true);
+                    Directory.CreateDirectory(directory + temp);
                     zip = true;
                 }
                 fileName = Path.GetFileName(sfd.FileName).Split('.')[0] + fileExt;
-                sfd.FileName = directory + "\\" + temp + "\\" + fileName;
+                sfd.FileName = directory + temp + "\\" + fileName;
 
                 curMaze.SaveToMazeXML(sfd.FileName);
 
@@ -3655,11 +3632,11 @@ namespace MazeMaker
 
             if (File.Exists(mazPath))
             {
-                if (Directory.Exists(directory + "\\" + temp + "\\" + fileName + "_assets"))
-                    Directory.Delete(directory + "\\" + temp + "\\" + fileName + "_assets", true);
-                Directory.CreateDirectory(directory + "\\" + temp + "\\" + fileName + "_assets\\image");
-                Directory.CreateDirectory(directory + "\\" + temp + "\\" + fileName + "_assets\\audio");
-                Directory.CreateDirectory(directory + "\\" + temp + "\\" + fileName + "_assets\\model");
+                if (Directory.Exists(directory + temp + "\\" + fileName + "_assets"))
+                    Directory.Delete(directory + temp + "\\" + fileName + "_assets", true);
+                Directory.CreateDirectory(directory + temp + "\\" + fileName + "_assets\\image");
+                Directory.CreateDirectory(directory + temp + "\\" + fileName + "_assets\\audio");
+                Directory.CreateDirectory(directory + temp + "\\" + fileName + "_assets\\model");
 
                 foreach (Floor floor in curMaze.cFloor)
                 {
@@ -3712,12 +3689,12 @@ namespace MazeMaker
 
             if (zip)
             {
-                string tempPath = directory + "\\" + temp;
+                string tempPath = directory + temp;
                 string zipPath = directory + "\\" + fileName.Substring(0, fileName.Length - fileExt.Length) + ".mazx";
                 if (File.Exists(zipPath))
                     File.Delete(zipPath);
                 ZipFile.CreateFromDirectory(tempPath, zipPath);
-                Directory.Delete(directory + "\\" + temp, true);
+                Directory.Delete(directory + temp, true);
 
                 MazeListBuilder.ShowPM(mazPath, "\nZipping files...\n" + zipPath + "\nPackage successfully generated", copiedFiles);
             }
@@ -3919,6 +3896,47 @@ namespace MazeMaker
                 }
 
                 replaceOrder.Clear();
+            }
+        }
+
+        private void importmazxToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Filter = "Maze Package Files (*.mazx)|*.mazx",
+                Title = "Open Maze Package Files",
+            };
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                SaveFileDialog sfd = new SaveFileDialog
+                {
+                    Filter = "Maze Files (*.maz)|*.maz",
+                    Title = "Save Maze Files",
+                };
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    string directory = Path.GetDirectoryName(sfd.FileName);
+                    string extractDir = directory + "\\Temp";
+
+                    if (Directory.Exists(extractDir))
+                        Directory.Delete(extractDir, true);
+                    ZipFile.ExtractToDirectory(ofd.FileName, extractDir);
+
+                    string oldFileName_NoExt = Path.GetFileName(ofd.FileName).Split('.')[0];
+                    string oldMaz = extractDir + "\\" + oldFileName_NoExt + ".maz";
+                    string oldAssets = extractDir + "\\" + oldFileName_NoExt + ".maz_assets";
+                    string newAssets = sfd.FileName + "_assets";
+
+                    if (File.Exists(sfd.FileName))
+                        File.Delete(sfd.FileName);
+                    Directory.Move(oldMaz, sfd.FileName);
+                    if (Directory.Exists(newAssets))
+                        Directory.Delete(newAssets, true);
+                    Directory.Move(oldAssets, newAssets);
+                    Directory.Delete(extractDir, true);
+
+                    OpenTheFile(sfd.FileName);
+                }
             }
         }
 
@@ -7714,7 +7732,7 @@ namespace MazeMaker
             }
 
             SaveFileDialog a = new SaveFileDialog();
-            a.Filter = "Maze files | *.maz";
+            a.Filter = "Maze Files (*.maz)|*.maz";
             a.FilterIndex = 1;
             a.DefaultExt = ".maz";
             a.RestoreDirectory = true;
