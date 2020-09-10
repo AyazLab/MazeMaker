@@ -318,28 +318,28 @@ namespace MazeMaker
             {
                 case ItemType.Maze:
                     MazeListItem maze = (MazeListItem)listItem;
-                    maze.MazeFile = ManageItems("Maze", e.OldValue.ToString(), maze.MazeFile);
+                    maze.MazeFile = ManageItems("Maze", e.OldValue, maze.MazeFile);
                     break;
 
                 case ItemType.Text:
                     TextListItem text = (TextListItem)listItem;
-                    text.AudioFile = ManageItems("Audio", e.OldValue.ToString(), text.AudioFile);
+                    text.AudioFile = ManageItems("Audio", e.OldValue, text.AudioFile);
                     break;
 
                 case ItemType.Image:
                     ImageListItem image = (ImageListItem)listItem;
-                    image.ImageFile = ManageItems("Image", e.OldValue.ToString(), image.ImageFile);
-                    image.AudioFile = ManageItems("Audio", e.OldValue.ToString(), image.AudioFile);
+                    image.ImageFile = ManageItems("Image", e.OldValue, image.ImageFile);
+                    image.AudioFile = ManageItems("Audio", e.OldValue, image.AudioFile);
                     break;
 
                 case ItemType.MultipleChoice:
                     MultipleChoiceListItem multipleChoice = (MultipleChoiceListItem)listItem;
-                    multipleChoice.AudioFile = ManageItems("Audio", e.OldValue.ToString(), multipleChoice.AudioFile);
+                    multipleChoice.AudioFile = ManageItems("Audio", e.OldValue, multipleChoice.AudioFile);
                     break;
 
                 case ItemType.RecordAudio:
                     RecordAudioListItem recordAudio = (RecordAudioListItem)listItem;
-                    recordAudio.ImageFile = ManageItems("Image", e.OldValue.ToString(), recordAudio.ImageFile);
+                    recordAudio.ImageFile = ManageItems("Image", e.OldValue, recordAudio.ImageFile);
                     break;
             }
 
@@ -361,7 +361,7 @@ namespace MazeMaker
         public static Dictionary<string, string> imageFilePaths = new Dictionary<string, string>();
         public static Dictionary<string, string> audioFilePaths = new Dictionary<string, string>();
         public static List<string[]> replaceOrder = new List<string[]>();
-        string ManageItems(string type, string oldValue, string newValue)
+        string ManageItems(string type, object oldValue, string newValue)
         {
             string fileName = "";
 
@@ -410,7 +410,7 @@ namespace MazeMaker
                         return fileName;
                     }
 
-                    return oldValue;
+                    return (string)oldValue;
 
                 case "[Manage Items]":
                     switch (type)
@@ -445,10 +445,10 @@ namespace MazeMaker
 
                     if (fileName != "")
                         return fileName;
-                    return oldValue;
+                    return (string)oldValue;
 
                 case "----------------------------------------":
-                    return oldValue;
+                    return (string)oldValue;
 
                 default:
                     if (type == "Maze" && newValue != "" && !mazeFilePaths.ContainsKey(newValue))
