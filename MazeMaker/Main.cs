@@ -3448,46 +3448,46 @@ namespace MazeMaker
                 {
                     case MazeItemType.Floor:
                         Floor floor = (Floor)mazeItem;
-                        floor.FloorTexture = ManageItems("Image", (string) e.OldValue, floor.FloorTexture);
-                        floor.CeilingTexture = ManageItems("Image", (string) e.OldValue, floor.CeilingTexture);
+                        floor.FloorTexture = ManageItems("Image", e.OldValue.ToString(), floor.FloorTexture);
+                        floor.CeilingTexture = ManageItems("Image", e.OldValue.ToString(), floor.CeilingTexture);
                         break;
 
                     case MazeItemType.CurvedWall:
                         CurvedWall curvedWall = (CurvedWall)mazeItem;
-                        curvedWall.Texture = ManageItems("Image", (string) e.OldValue, curvedWall.Texture);
+                        curvedWall.Texture = ManageItems("Image", e.OldValue.ToString(), curvedWall.Texture);
                         break;
 
                     case MazeItemType.Wall:
                         Wall wall = (Wall)mazeItem;
-                        wall.Texture = ManageItems("Image", (string) e.OldValue, wall.Texture);
+                        wall.Texture = ManageItems("Image", e.OldValue.ToString(), wall.Texture);
                         break;
 
                     case MazeItemType.ActiveRegion:
                         ActiveRegion activeRegion = (ActiveRegion)mazeItem;
-                        activeRegion.Phase1HighlightAudio = ManageItems("Audio", (string) e.OldValue, activeRegion.Phase1HighlightAudio);
-                        activeRegion.Phase2EventAudio = ManageItems("Audio", (string) e.OldValue, activeRegion.Phase2EventAudio);
+                        activeRegion.Phase1HighlightAudio = ManageItems("Audio", e.OldValue.ToString(), activeRegion.Phase1HighlightAudio);
+                        activeRegion.Phase2EventAudio = ManageItems("Audio", e.OldValue.ToString(), activeRegion.Phase2EventAudio);
                         break;
 
                     case MazeItemType.Dynamic:
                         DynamicObject dynamicObject = (DynamicObject)mazeItem;
 
-                        dynamicObject.Phase1HighlightAudio = ManageItems("Audio", (string) e.OldValue, dynamicObject.Phase1HighlightAudio);
-                        dynamicObject.Phase2EventAudio = ManageItems("Audio", (string) e.OldValue, dynamicObject.Phase2EventAudio);
+                        dynamicObject.Phase1HighlightAudio = ManageItems("Audio", e.OldValue.ToString(), dynamicObject.Phase1HighlightAudio);
+                        dynamicObject.Phase2EventAudio = ManageItems("Audio", e.OldValue.ToString(), dynamicObject.Phase2EventAudio);
 
-                        dynamicObject.Model = ManageItems("Model", (string) e.OldValue, dynamicObject.Model);
-                        dynamicObject.SwitchToModel = ManageItems("Model", (string) e.OldValue, dynamicObject.SwitchToModel);
+                        dynamicObject.Model = ManageItems("Model", e.OldValue.ToString(), dynamicObject.Model);
+                        dynamicObject.SwitchToModel = ManageItems("Model", e.OldValue.ToString(), dynamicObject.SwitchToModel);
                         break;
 
                     case MazeItemType.Static:
                         StaticModel staticModel = (StaticModel)mazeItem;
-                        staticModel.Model = ManageItems("Model", (string) e.OldValue, staticModel.Model);
+                        staticModel.Model = ManageItems("Model", e.OldValue.ToString(), staticModel.Model);
                         break;
                 }
             }
             else
             {
-                curMaze.SkyBoxTexture = ManageItems("Image", (string) e.OldValue, curMaze.SkyBoxTexture);
-                curMaze.AvatarModel = ManageItems("Model", (string) e.OldValue, curMaze.AvatarModel);
+                curMaze.SkyBoxTexture = ManageItems("Image", e.OldValue.ToString(), curMaze.SkyBoxTexture);
+                curMaze.AvatarModel = ManageItems("Model", e.OldValue.ToString(), curMaze.AvatarModel);
             }
 
             ReplaceFiles();

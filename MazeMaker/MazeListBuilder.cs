@@ -318,28 +318,28 @@ namespace MazeMaker
             {
                 case ItemType.Maze:
                     MazeListItem maze = (MazeListItem)listItem;
-                    maze.MazeFile = ManageItems("Maze", (string) e.OldValue, maze.MazeFile);
+                    maze.MazeFile = ManageItems("Maze", e.OldValue.ToString(), maze.MazeFile);
                     break;
 
                 case ItemType.Text:
                     TextListItem text = (TextListItem)listItem;
-                    text.AudioFile = ManageItems("Audio", (string) e.OldValue, text.AudioFile);
+                    text.AudioFile = ManageItems("Audio", e.OldValue.ToString(), text.AudioFile);
                     break;
 
                 case ItemType.Image:
                     ImageListItem image = (ImageListItem)listItem;
-                    image.ImageFile = ManageItems("Image", (string) e.OldValue, image.ImageFile);
-                    image.AudioFile = ManageItems("Audio", (string) e.OldValue, image.AudioFile);
+                    image.ImageFile = ManageItems("Image", e.OldValue.ToString(), image.ImageFile);
+                    image.AudioFile = ManageItems("Audio", e.OldValue.ToString(), image.AudioFile);
                     break;
 
                 case ItemType.MultipleChoice:
                     MultipleChoiceListItem multipleChoice = (MultipleChoiceListItem)listItem;
-                    multipleChoice.AudioFile = ManageItems("Audio", (string) e.OldValue, multipleChoice.AudioFile);
+                    multipleChoice.AudioFile = ManageItems("Audio", e.OldValue.ToString(), multipleChoice.AudioFile);
                     break;
 
                 case ItemType.RecordAudio:
                     RecordAudioListItem recordAudio = (RecordAudioListItem)listItem;
-                    recordAudio.ImageFile = ManageItems("Image", (string) e.OldValue, recordAudio.ImageFile);
+                    recordAudio.ImageFile = ManageItems("Image", e.OldValue.ToString(), recordAudio.ImageFile);
                     break;
             }
 
