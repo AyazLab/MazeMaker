@@ -3433,6 +3433,8 @@ namespace MazeMaker
         }
 
         List<string[]> replaceOrder = new List<string[]>();
+        bool manageItem = false;
+        string previousFile = "";
         private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             if (e.ChangedItem.GetType() == e.ChangedItem.Label.GetType())
@@ -3443,45 +3445,48 @@ namespace MazeMaker
             if (propertyGrid.SelectedObject.GetType().Name != "Maze")
             // Manage Items Dropdown
             {
-                MazeItem mazeItem = (MazeItem)propertyGrid.SelectedObject;
-                switch (mazeItem.itemType)
+                foreach (object selectedObject in propertyGrid.SelectedObjects)
                 {
-                    case MazeItemType.Floor:
-                        Floor floor = (Floor)mazeItem;
-                        floor.FloorTexture = ManageItems("Image", e.OldValue, floor.FloorTexture);
-                        floor.CeilingTexture = ManageItems("Image", e.OldValue, floor.CeilingTexture);
-                        break;
+                    MazeItem mazeItem = (MazeItem)selectedObject;
+                    switch (mazeItem.itemType)
+                    {
+                        case MazeItemType.Floor:
+                            Floor floor = (Floor)mazeItem;
+                            floor.FloorTexture = ManageItems("Image", e.OldValue, floor.FloorTexture);
+                            floor.CeilingTexture = ManageItems("Image", e.OldValue, floor.CeilingTexture);
+                            break;
 
-                    case MazeItemType.CurvedWall:
-                        CurvedWall curvedWall = (CurvedWall)mazeItem;
-                        curvedWall.Texture = ManageItems("Image", e.OldValue, curvedWall.Texture);
-                        break;
+                        case MazeItemType.CurvedWall:
+                            CurvedWall curvedWall = (CurvedWall)mazeItem;
+                            curvedWall.Texture = ManageItems("Image", e.OldValue, curvedWall.Texture);
+                            break;
 
-                    case MazeItemType.Wall:
-                        Wall wall = (Wall)mazeItem;
-                        wall.Texture = ManageItems("Image", e.OldValue, wall.Texture);
-                        break;
+                        case MazeItemType.Wall:
+                            Wall wall = (Wall)mazeItem;
+                            wall.Texture = ManageItems("Image", e.OldValue, wall.Texture);
+                            break;
 
-                    case MazeItemType.ActiveRegion:
-                        ActiveRegion activeRegion = (ActiveRegion)mazeItem;
-                        activeRegion.Phase1HighlightAudio = ManageItems("Audio", e.OldValue, activeRegion.Phase1HighlightAudio);
-                        activeRegion.Phase2EventAudio = ManageItems("Audio", e.OldValue, activeRegion.Phase2EventAudio);
-                        break;
+                        case MazeItemType.ActiveRegion:
+                            ActiveRegion activeRegion = (ActiveRegion)mazeItem;
+                            activeRegion.Phase1HighlightAudio = ManageItems("Audio", e.OldValue, activeRegion.Phase1HighlightAudio);
+                            activeRegion.Phase2EventAudio = ManageItems("Audio", e.OldValue, activeRegion.Phase2EventAudio);
+                            break;
 
-                    case MazeItemType.Dynamic:
-                        DynamicObject dynamicObject = (DynamicObject)mazeItem;
+                        case MazeItemType.Dynamic:
+                            DynamicObject dynamicObject = (DynamicObject)mazeItem;
 
-                        dynamicObject.Phase1HighlightAudio = ManageItems("Audio", e.OldValue, dynamicObject.Phase1HighlightAudio);
-                        dynamicObject.Phase2EventAudio = ManageItems("Audio", e.OldValue, dynamicObject.Phase2EventAudio);
+                            dynamicObject.Phase1HighlightAudio = ManageItems("Audio", e.OldValue, dynamicObject.Phase1HighlightAudio);
+                            dynamicObject.Phase2EventAudio = ManageItems("Audio", e.OldValue, dynamicObject.Phase2EventAudio);
 
-                        dynamicObject.Model = ManageItems("Model", e.OldValue, dynamicObject.Model);
-                        dynamicObject.SwitchToModel = ManageItems("Model", e.OldValue, dynamicObject.SwitchToModel);
-                        break;
+                            dynamicObject.Model = ManageItems("Model", e.OldValue, dynamicObject.Model);
+                            dynamicObject.SwitchToModel = ManageItems("Model", e.OldValue, dynamicObject.SwitchToModel);
+                            break;
 
-                    case MazeItemType.Static:
-                        StaticModel staticModel = (StaticModel)mazeItem;
-                        staticModel.Model = ManageItems("Model", e.OldValue, staticModel.Model);
-                        break;
+                        case MazeItemType.Static:
+                            StaticModel staticModel = (StaticModel)mazeItem;
+                            staticModel.Model = ManageItems("Model", e.OldValue, staticModel.Model);
+                            break;
+                    }
                 }
             }
             else
@@ -3491,15 +3496,21 @@ namespace MazeMaker
             }
 
             ReplaceFiles();
+            manageItem = false;
         }
 
         string ManageItems(string type, object oldValue, string newValue)
         {
-            string fileName = "";
+            if (manageItem == true && propertyGrid.SelectedObjects.Length > 1)
+                return previousFile;
 
+            string fileName = "";
+            
             switch (newValue)
             {
                 case "[Import Item]":
+                    manageItem = true;
+
                     OpenFileDialog ofd = new OpenFileDialog();
                     switch (type)
                     {
@@ -3515,36 +3526,38 @@ namespace MazeMaker
                             ofd.Filter = "Model Files (*.obj)|*.obj";
                             break;
                     }
-                    DialogResult dr = ofd.ShowDialog();
 
-                    if (type == "Image" && dr == DialogResult.OK)
+                    if (ofd.ShowDialog() == DialogResult.OK)
                     {
                         fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
                         if (fileName == "")
                             fileName = ofd.FileName;
-                        ImagePathConverter.Paths[fileName] = ofd.FileName;
-                        return fileName;
-                    }
-                    else if (type == "Audio" && dr == DialogResult.OK)
-                    {
-                        fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
-                        if (fileName == "")
-                            fileName = ofd.FileName;
-                        AudioPathConverter.Paths[fileName] = ofd.FileName;
-                        return fileName;
-                    }
-                    else if (type == "Model" && dr == DialogResult.OK)
-                    {
-                        fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
-                        if (fileName == "")
-                            fileName = ofd.FileName;
-                        ModelPathConverter.Paths[fileName] = ofd.FileName;
+
+                        switch (type)
+                        {
+                            case "Image":
+                                ImagePathConverter.Paths[fileName] = ofd.FileName;
+                                break;
+
+                            case "Audio":
+                                AudioPathConverter.Paths[fileName] = ofd.FileName;
+                                break;
+
+                            case "Model":
+                                ModelPathConverter.Paths[fileName] = ofd.FileName;
+                                break;
+                        }
+
+                        previousFile = fileName;
                         return fileName;
                     }
 
+                    previousFile = (string)oldValue;
                     return (string)oldValue;
 
                 case "[Manage Items]":
+                    manageItem = true;
+
                     switch (type)
                     {
                         case "Image":
@@ -3576,7 +3589,11 @@ namespace MazeMaker
                     }
 
                     if (fileName != "")
+                    {
+                        previousFile = fileName;
                         return fileName;
+                    }
+                    previousFile = (string)oldValue;
                     return (string)oldValue;
 
                 case "----------------------------------------":
@@ -3599,26 +3616,21 @@ namespace MazeMaker
         private void Package(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog{ Filter = "Maze Files (*.maz)|*.maz|Maze Package Files (*.mazx)|*.mazx" };
-            
-            string directory = "";
-            string temp = "";
-            string fileExt = ".maz";
-            string fileName = "";
+
             bool zip = false;
+
+            string directory = "";
+            string fileName = "";
+            string fileExt = ".maz";
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                directory = Path.GetDirectoryName(sfd.FileName);
                 if (Path.GetExtension(sfd.FileName).ToLower() == ".mazx")
-                {
-                    temp = "\\Temp";
-                    if (Directory.Exists(directory + temp))
-                        Directory.Delete(directory + temp, true);
-                    Directory.CreateDirectory(directory + temp);
                     zip = true;
-                }
+
+                directory = Path.GetDirectoryName(sfd.FileName);
                 fileName = Path.GetFileName(sfd.FileName).Split('.')[0] + fileExt;
-                sfd.FileName = directory + temp + "\\" + fileName;
+                sfd.FileName = directory + "\\" + fileName;
 
                 curMaze.SaveToMazeXML(sfd.FileName);
 
@@ -3628,15 +3640,16 @@ namespace MazeMaker
             }
             
             string mazPath = sfd.FileName;
+            string assetsPath = mazPath + "_assets";
             string copiedFiles = "";
 
             if (File.Exists(mazPath))
             {
-                if (Directory.Exists(directory + temp + "\\" + fileName + "_assets"))
-                    Directory.Delete(directory + temp + "\\" + fileName + "_assets", true);
-                Directory.CreateDirectory(directory + temp + "\\" + fileName + "_assets\\image");
-                Directory.CreateDirectory(directory + temp + "\\" + fileName + "_assets\\audio");
-                Directory.CreateDirectory(directory + temp + "\\" + fileName + "_assets\\model");
+                if (Directory.Exists(assetsPath))
+                    Directory.Delete(assetsPath, true);
+                Directory.CreateDirectory(assetsPath + "\\image");
+                Directory.CreateDirectory(assetsPath + "\\audio");
+                Directory.CreateDirectory(assetsPath + "\\model");
 
                 foreach (Floor floor in curMaze.cFloor)
                 {
@@ -3689,12 +3702,22 @@ namespace MazeMaker
 
             if (zip)
             {
-                string tempPath = directory + temp;
-                string zipPath = directory + "\\" + fileName.Substring(0, fileName.Length - fileExt.Length) + ".mazx";
+                string tempPath = directory + "\\Temp"; // make temp dir
+                if (Directory.Exists(tempPath))
+                    Directory.Delete(tempPath, true);
+                Directory.CreateDirectory(tempPath);
+
+                string newMazPath = tempPath + "\\" + fileName; // move stuff into temp dir
+                string newAssetsPath = tempPath + "\\" + fileName + "_assets";
+                Directory.Move(mazPath, newMazPath);
+                Directory.Move(assetsPath, newAssetsPath);
+
+                string zipPath = directory + "\\" + fileName.Substring(0, fileName.Length - fileExt.Length) + ".mazx"; // zip stuff in temp dir
                 if (File.Exists(zipPath))
                     File.Delete(zipPath);
                 ZipFile.CreateFromDirectory(tempPath, zipPath);
-                Directory.Delete(directory + temp, true);
+
+                Directory.Delete(tempPath, true); // delete temp dir
 
                 MazeListBuilder.ShowPM(mazPath, "\nZipping files...\n" + zipPath + "\nPackage successfully generated", copiedFiles);
             }
@@ -3899,7 +3922,7 @@ namespace MazeMaker
             }
         }
 
-        private void importmazxToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Extract(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog
             {

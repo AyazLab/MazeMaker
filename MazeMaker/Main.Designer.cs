@@ -347,7 +347,7 @@ namespace MazeMaker
             this.importmazxToolStripMenuItem.Name = "importmazxToolStripMenuItem";
             this.importmazxToolStripMenuItem.Size = new System.Drawing.Size(269, 26);
             this.importmazxToolStripMenuItem.Text = "Import MazX Package";
-            this.importmazxToolStripMenuItem.Click += new System.EventHandler(this.importmazxToolStripMenuItem_Click);
+            this.importmazxToolStripMenuItem.Click += new System.EventHandler(this.Extract);
             // 
             // exportToClassicFileToolStripMenuItem
             // 

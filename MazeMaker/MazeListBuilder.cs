@@ -674,10 +674,10 @@ namespace MazeMaker
 
         public static string RecursiveFileCopy(string oldFilePath, string melxPath, string type, string newFilePath, ref List<string[]> replaceOrder)
         {
-            string fileName = oldFilePath.Substring(oldFilePath.LastIndexOf("\\") + 1);
-            if (fileName == "")
-                fileName = oldFilePath;
-            string melxDirectory = melxPath.Substring(0, melxPath.Length - melxPath.Substring(melxPath.LastIndexOf("\\") + 1).Length);
+            string oldFileName = oldFilePath.Substring(oldFilePath.LastIndexOf("\\") + 1);
+            if (oldFileName == "")
+                oldFileName = oldFilePath;
+            string melxDirectory = Path.GetDirectoryName(melxPath);
 
             // file already exists in assets
             if (File.Exists(newFilePath))
@@ -686,6 +686,8 @@ namespace MazeMaker
             }
 
             // checks original location
+            if (oldFilePath[0] == '.' && oldFilePath[1] == '.')
+                oldFilePath = melxDirectory + "\\" + oldFilePath;
             //MessageBox.Show(oldFilePath);
             if (File.Exists(oldFilePath))
             {
@@ -694,7 +696,7 @@ namespace MazeMaker
             }
 
             // checks './fileName'
-            oldFilePath = melxDirectory + fileName;
+            oldFilePath = melxDirectory + "\\" + oldFileName;
             //MessageBox.Show(oldFilePath);
             if (File.Exists(oldFilePath))
             {
@@ -703,7 +705,7 @@ namespace MazeMaker
             }
 
             // checks './image/fileName'
-            oldFilePath = melxDirectory + type + "\\" + fileName;
+            oldFilePath = melxDirectory + "\\" + type + "\\" + oldFileName;
             //MessageBox.Show(oldFilePath);
             if (File.Exists(oldFilePath))
             {
@@ -712,7 +714,7 @@ namespace MazeMaker
             }
 
             // checks './images/fileName'
-            oldFilePath = melxDirectory + type + "s\\" + fileName;
+            oldFilePath = melxDirectory + "\\" + type + "s\\" + oldFileName;
             //MessageBox.Show(oldFilePath);
             if (File.Exists(oldFilePath))
             {
@@ -721,7 +723,7 @@ namespace MazeMaker
             }
 
             // checks '../image/fileName'
-            oldFilePath = "..\\" + type + "\\" + fileName;
+            oldFilePath = "..\\" + type + "\\" + oldFileName;
             //MessageBox.Show(oldFilePath);
             if (File.Exists(oldFilePath))
             {
@@ -730,7 +732,7 @@ namespace MazeMaker
             }
 
             // checks '../images/fileName'
-            oldFilePath = "..\\" + type + "s\\" + fileName;
+            oldFilePath = "..\\" + type + "s\\" + oldFileName;
             //MessageBox.Show(oldFilePath);
             if (File.Exists(oldFilePath))
             {
@@ -739,10 +741,10 @@ namespace MazeMaker
             }
 
             // give up
-            MessageBox.Show("\'" + fileName + "\' could not be found. If it can't be found, the package will be abandoned");
+            MessageBox.Show("\'" + oldFileName + "\' could not be found. If it can't be found, the package will be abandoned");
             while (true)
             {
-                string fileExt = Path.GetExtension(fileName).ToLower();
+                string fileExt = Path.GetExtension(oldFileName).ToLower();
                 string[] imageExt = new string[] { ".bmp", ".jpg", ".jpeg", ".gif", ".png" };
 
                 OpenFileDialog ofd = new OpenFileDialog();
@@ -754,7 +756,7 @@ namespace MazeMaker
                     ofd.Filter = "Audio Files (*.wav;*.mp3)|*.wav;*.mp3";
                 else if (fileExt == ".obj")
                     ofd.Filter = "Model Files (*.obj)|*.obj";
-                ofd.Title = "Finding/Replacing " + fileName;
+                ofd.Title = "Finding/Replacing " + oldFileName;
 
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
@@ -762,9 +764,9 @@ namespace MazeMaker
                     if (newFileName == "")
                         newFileName = ofd.FileName;
 
-                    if (newFileName.Split('.')[0] != fileName.Split('.')[0])
+                    if (newFileName.Split('.')[0] != oldFileName.Split('.')[0])
                     {
-                        switch (MessageBox.Show("The new file \'" + newFileName + "\' is different from \'" + fileName + "\'. Are you sure you want to use this file? Press \'No\' to search again! Press \'Cancel\' to abandon package!", "Are you sure?", MessageBoxButtons.YesNoCancel))
+                        switch (MessageBox.Show("The new file \'" + newFileName + "\' is different from \'" + oldFileName + "\'. Are you sure you want to use this file? Press \'No\' to search again! Press \'Cancel\' to abandon package!", "Are you sure?", MessageBoxButtons.YesNoCancel))
                         {
                             case DialogResult.Yes:
                                 break;
@@ -785,7 +787,7 @@ namespace MazeMaker
                     }
 
                     File.Copy(ofd.FileName, newFilePath);
-                    replaceOrder.Add(new string[] { type, fileName, newFileName, newFilePath });
+                    replaceOrder.Add(new string[] { type, oldFileName, newFileName, newFilePath });
                     return ofd.FileName;
                 }
 
