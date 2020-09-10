@@ -1812,21 +1812,33 @@ namespace MazeMaker
             {
                 string[] filePaths = (string[])e.Data.GetData(DataFormats.FileDrop);
                 foreach (string filePath in filePaths)
-                    AddFile(targetIndex + 1, filePath);
+                {
+                    if (targetNode == null)
+                        AddFile(MazeList.Count, filePath);
+                    else
+                        AddFile(targetIndex + 1, filePath);
+                }
             }
             else if (e.Data.GetDataPresent(typeof(TreeNode)))
             {
                 TreeNode draggedNode = (TreeNode)e.Data.GetData(typeof(TreeNode));
                 int draggedIndex = treeView.Nodes[1].Nodes.IndexOf(draggedNode) + 1;
 
-                if (!treeView.Nodes.Contains(draggedNode) && targetNode != null)
+                if (!treeView.Nodes.Contains(draggedNode) && targetNode != null) // if node isn't maze list options or list item
                 {
-                    MazeList.Insert(targetIndex + 1, MazeList[draggedIndex]);
-
                     if (targetIndex <= draggedIndex)
+                    {
+                        if (targetIndex == 0) // maze list options or list item index
+                            MazeList.Insert(targetIndex + 1, MazeList[draggedIndex]);
+                        else
+                            MazeList.Insert(targetIndex, MazeList[draggedIndex]);
                         MazeList.RemoveAt(draggedIndex + 1);
+                    }
                     else
+                    {
+                        MazeList.Insert(targetIndex + 1, MazeList[draggedIndex]);
                         MazeList.RemoveAt(draggedIndex);
+                    }
 
                     UpdateMazeList();
                 }
