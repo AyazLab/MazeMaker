@@ -482,7 +482,7 @@ namespace MazeMaker
         {
             foreach (Texture texture in textures)
             {
-                imageFilePaths[texture.name] = texture.filePath;
+                imageFilePaths[texture.Name] = texture.FilePath;
             }
         }
 
@@ -504,7 +504,7 @@ namespace MazeMaker
         {
             foreach (Audio audio in audios)
             {
-                audioFilePaths[audio.name] = audio.filePath;
+                audioFilePaths[audio.Name] = audio.FilePath;
             }
         }
         
@@ -526,7 +526,7 @@ namespace MazeMaker
         {
             foreach (Model model in models)
             {
-                modelFilePaths[model.name] = model.filePath;
+                modelFilePaths[model.Name] = model.FilePath;
             }
         }
 

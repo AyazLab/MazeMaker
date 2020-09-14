@@ -44,7 +44,7 @@ namespace MazeMaker
         {
             InitializeComponent();
             this.models = models;
-            
+
             Text = "Model/Object Collection Editor";
             Icon = Properties.Resources.ModelCollectionIcon;
         }
@@ -53,7 +53,7 @@ namespace MazeMaker
         {
             InitializeComponent();
             this.audios = audios;
-            
+
             Text = "Audio/Sound Collection Editor";
             Icon = Properties.Resources.AudioCollectionIcon;
         }
@@ -138,7 +138,7 @@ namespace MazeMaker
                     Texture texture = new Texture(Path.GetDirectoryName(filePath), Path.GetFileName(filePath), 0);
                     for (int i = 0; i < textures.Count; i++)
                     {
-                        if (textures[i].name == texture.name)
+                        if (textures[i].Name == texture.Name)
                         {
                             textures.RemoveAt(i);
                             break;
@@ -169,7 +169,7 @@ namespace MazeMaker
                     Audio audio = new Audio(Path.GetDirectoryName(filePath), Path.GetFileName(filePath), 0);
                     for (int i = 0; i < audios.Count; i++)
                     {
-                        if (audios[i].name == audio.name)
+                        if (audios[i].Name == audio.Name)
                         {
                             audios.RemoveAt(i);
                             break;
@@ -200,7 +200,7 @@ namespace MazeMaker
                     Model model = new Model(Path.GetDirectoryName(filePath), Path.GetFileName(filePath), 0);
                     for (int i = 0; i < models.Count; i++)
                     {
-                        if (models[i].name == model.name)
+                        if (models[i].Name == model.Name)
                         {
                             models.RemoveAt(i);
                             break;
@@ -343,15 +343,25 @@ namespace MazeMaker
         }
 
         System.Media.SoundPlayer sp;
-        WMPLib.WindowsMediaPlayer wmp = new WMPLib.WindowsMediaPlayer();
+        readonly WMPLib.WindowsMediaPlayer wmp = new WMPLib.WindowsMediaPlayer();
         string audioPlayer = "";
         private void listBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBox.SelectedItems.Count == 1)
             {
                 propertyGrid.SelectedObject = listBox.SelectedItem;
-
-                if (textures != null)
+                if (mazeFilePaths != null)
+                {
+                    string mazeName = (string)listBox.SelectedItem;
+                    string mazePath = mazeFilePaths[mazeName];
+                    KeyValue maze = new KeyValue
+                    {
+                        FileName = mazeName,
+                        FilePath = mazePath,
+                    };
+                    propertyGrid.SelectedObject = maze;
+                }
+                else if (textures != null)
                 {
                     pictureBox.Image = ((Texture)listBox.SelectedItem).Image;
                 }
@@ -359,7 +369,7 @@ namespace MazeMaker
                 {
                     StopAudio();
 
-                    string filePath = ((Audio)listBox.SelectedItem).filePath;
+                    string filePath = ((Audio)listBox.SelectedItem).FilePath;
                     audioPlayer = Path.GetExtension(filePath).ToLower();
 
                     switch (audioPlayer)
@@ -478,7 +488,7 @@ namespace MazeMaker
             ShowDialog();
 
             if (listBox.SelectedItems.Count == 1 && DialogResult == DialogResult.OK)
-                return ((Texture)listBox.SelectedItem).name;
+                return ((Texture)listBox.SelectedItem).Name;
             return "";
         }
 
@@ -492,7 +502,7 @@ namespace MazeMaker
             ShowDialog();
 
             if (listBox.SelectedItems.Count == 1 && DialogResult == DialogResult.OK)
-                return ((Audio)listBox.SelectedItem).name;
+                return ((Audio)listBox.SelectedItem).Name;
             return "";
         }
 
@@ -506,7 +516,7 @@ namespace MazeMaker
             ShowDialog();
 
             if (listBox.SelectedItems.Count == 1 && DialogResult == DialogResult.OK)
-                return ((Model)listBox.SelectedItem).name;
+                return ((Model)listBox.SelectedItem).Name;
             return "";
         }
 
@@ -518,6 +528,40 @@ namespace MazeMaker
         public List<string[]> GetReplaceOrder()
         {
             return replaceOrder;
+        }
+    }
+
+    public class KeyValue
+    {
+        public KeyValue()
+        {
+        }
+
+        string fileName = "";
+        [Category("File Information")]
+        [Description("Name of the Maze")]
+        [DisplayName("Name")]
+        [ReadOnly(true)]
+        public string FileName
+        {
+            get { return fileName; }
+            set{ fileName = value; }
+        }
+
+        string filePath = "";
+        [Category("File Information")]
+        [Description("File Path of the Maze")]
+        [DisplayName("File Path")]
+        [ReadOnly(true)]
+        public string FilePath
+        {
+            get { return filePath; }
+            set { filePath = value; }
+        }
+
+        public override string ToString()
+        {
+            return fileName;
         }
     }
 }

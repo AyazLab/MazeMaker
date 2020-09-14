@@ -419,20 +419,10 @@ namespace MazeMaker
             get { return fontSize; }
             set { fontSize = value; }
         }
-    }   
+    }
 
     public class TextReturn
     {
-        public override string ToString()
-        {
-            return Text;
-        }
-
-        public TextReturn()
-        {
-
-        }
-
         public TextReturn(string text)
         {
             Text = text;
@@ -442,7 +432,7 @@ namespace MazeMaker
         public string Text
         {
             get { return text; }
-            set { this.text = value; }
+            set { text = value; }
         }
 
         string ret = "";
@@ -451,6 +441,11 @@ namespace MazeMaker
         {
             get { return ret; }
             set { ret = value; }
+        }
+
+        public override string ToString()
+        {
+            return Text;
         }
     }
 
