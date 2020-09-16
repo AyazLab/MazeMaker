@@ -135,22 +135,27 @@ namespace MazeMaker
             {
                 foreach (string filePath in ofd.FileNames)
                 {
-                    Texture texture = new Texture(Path.GetDirectoryName(filePath), Path.GetFileName(filePath), 0);
-                    for (int i = 0; i < textures.Count; i++)
-                    {
-                        if (textures[i].Name == texture.Name)
-                        {
-                            textures.RemoveAt(i);
-                            break;
-                        }
-                    }
-                    textures.Add(texture);
+                    AddTexture(Path.GetDirectoryName(filePath), Path.GetFileName(filePath));
 
                     if (!multiselect)
                         return new List<string> { Path.GetFileName(filePath), filePath };
                 }
             }
             return new List<string>();
+        }
+
+        void AddTexture(string directory, string fileName)
+        {
+            Texture texture = new Texture(directory, fileName, 0);
+            for (int i = 0; i < textures.Count; i++)
+            {
+                if (textures[i].Name == texture.Name)
+                {
+                    textures.RemoveAt(i);
+                    break;
+                }
+            }
+            textures.Add(texture);
         }
 
         List<string> AddAudio(bool multiselect, string title)
@@ -166,22 +171,27 @@ namespace MazeMaker
             {
                 foreach (string filePath in ofd.FileNames)
                 {
-                    Audio audio = new Audio(Path.GetDirectoryName(filePath), Path.GetFileName(filePath), 0);
-                    for (int i = 0; i < audios.Count; i++)
-                    {
-                        if (audios[i].Name == audio.Name)
-                        {
-                            audios.RemoveAt(i);
-                            break;
-                        }
-                    }
-                    audios.Add(audio);
+                    AddAudio(Path.GetDirectoryName(filePath), Path.GetFileName(filePath));
 
                     if (!multiselect)
                         return new List<string> { Path.GetFileName(filePath), filePath };
                 }
             }
             return new List<string>();
+        }
+
+        void AddAudio(string directory, string fileName)
+        {
+            Audio audio = new Audio(directory, fileName, 0);
+            for (int i = 0; i < audios.Count; i++)
+            {
+                if (audios[i].Name == audio.Name)
+                {
+                    audios.RemoveAt(i);
+                    break;
+                }
+            }
+            audios.Add(audio);
         }
 
         List<string> AddModel(bool multiselect, string title)
@@ -197,22 +207,27 @@ namespace MazeMaker
             {
                 foreach (string filePath in ofd.FileNames)
                 {
-                    Model model = new Model(Path.GetDirectoryName(filePath), Path.GetFileName(filePath), 0);
-                    for (int i = 0; i < models.Count; i++)
-                    {
-                        if (models[i].Name == model.Name)
-                        {
-                            models.RemoveAt(i);
-                            break;
-                        }
-                    }
-                    models.Add(model);
+                    AddModel(Path.GetDirectoryName(filePath), Path.GetFileName(filePath));
 
                     if (!multiselect)
                         return new List<string> { Path.GetFileName(filePath), filePath };
                 }
             }
             return new List<string>();
+        }
+
+        void AddModel(string directory, string fileName)
+        {
+            Model model = new Model(directory, fileName, 0);
+            for (int i = 0; i < models.Count; i++)
+            {
+                if (models[i].Name == model.Name)
+                {
+                    models.RemoveAt(i);
+                    break;
+                }
+            }
+            models.Add(model);
         }
 
         private void Remove(object sender, EventArgs e)
@@ -282,12 +297,17 @@ namespace MazeMaker
                     if (mazeFile.Count == 2)
                     {
                         foreach (string oldFileName in oldFileNames)
-                            replaceOrder.Add(new string[] { "maze", oldFileName, mazeFile[0], mazeFile[1] });
-                        for (int i = listBox.SelectedIndices.Count - 1; i >= 0; i--)
                         {
-                            string selectedItem = listBox.Items[listBox.SelectedIndices[i]].ToString();
-                            if (selectedItem != mazeFile[0]) // add auto-replaces same file names so we don't need to delete it here
-                                mazeFilePaths.Remove(selectedItem);
+                            replaceOrder.Add(new string[] { "maze", oldFileName, mazeFile[0], mazeFile[1] });
+                            List<string> deadKeys = new List<string>();
+                            foreach (string key in mazeFilePaths.Keys)
+                                if (key == oldFileName && key != mazeFile[0])
+                                {
+                                    deadKeys.Add(key);
+                                    continue;
+                                }
+                            foreach (string key in deadKeys)
+                                mazeFilePaths.Remove(key);
                         }
                     }
                 }
@@ -297,12 +317,14 @@ namespace MazeMaker
                     if (imageFile.Count == 2)
                     {
                         foreach (string oldFileName in oldFileNames)
-                            replaceOrder.Add(new string[] { "image", oldFileName, imageFile[0], imageFile[1] });
-                        for (int i = listBox.SelectedIndices.Count - 1; i >= 0; i--)
                         {
-                            string selectedItem = listBox.Items[listBox.SelectedIndices[i]].ToString();
-                            if (selectedItem != imageFile[0])
-                                textures.RemoveAt(listBox.SelectedIndices[i]);
+                            replaceOrder.Add(new string[] { "image", oldFileName, imageFile[0], imageFile[1] });
+                            for (int i = 0; i < textures.Count; i++)
+                                if (textures[i].ToString() == oldFileName && textures[i].ToString() != imageFile[0])
+                                {
+                                    textures.RemoveAt(i);
+                                    continue;
+                                }
                         }
                     }
                 }
@@ -312,12 +334,14 @@ namespace MazeMaker
                     if (audioFile.Count == 2)
                     {
                         foreach (string oldFileName in oldFileNames)
-                            replaceOrder.Add(new string[] { "audio", oldFileName, audioFile[0], audioFile[1] });
-                        for (int i = listBox.SelectedIndices.Count - 1; i >= 0; i--)
                         {
-                            string selectedItem = listBox.Items[listBox.SelectedIndices[i]].ToString();
-                            if (selectedItem != audioFile[0])
-                                audios.RemoveAt(listBox.SelectedIndices[i]);
+                            replaceOrder.Add(new string[] { "audio", oldFileName, audioFile[0], audioFile[1] });
+                            for (int i = 0; i < audios.Count; i++)
+                                if (audios[i].ToString() == oldFileName && audios[i].ToString() != audioFile[0])
+                                {
+                                    audios.RemoveAt(i);
+                                    continue;
+                                }
                         }
                     }
                 }
@@ -327,12 +351,14 @@ namespace MazeMaker
                     if (modelFile.Count == 2)
                     {
                         foreach (string oldFileName in oldFileNames)
-                            replaceOrder.Add(new string[] { "model", oldFileName, modelFile[0], modelFile[1] });
-                        for (int i = listBox.SelectedIndices.Count - 1; i >= 0; i--)
                         {
-                            string selectedItem = listBox.Items[listBox.SelectedIndices[i]].ToString();
-                            if (selectedItem != modelFile[0])
-                                models.RemoveAt(listBox.SelectedIndices[i]);
+                            replaceOrder.Add(new string[] { "model", oldFileName, modelFile[0], modelFile[1] });
+                            for (int i = 0; i < models.Count; i++)
+                                if (models[i].ToString() == oldFileName && models[i].ToString() != modelFile[0])
+                                {
+                                    models.RemoveAt(i);
+                                    continue;
+                                }
                         }
                     }
                 }
@@ -450,7 +476,7 @@ namespace MazeMaker
             }
         }
 
-        private void OK(object sender, EventArgs e)
+        private void SelectFile(object sender, EventArgs e)
         {
             StopAudio();
             DialogResult = DialogResult.OK;
@@ -528,6 +554,37 @@ namespace MazeMaker
         public List<string[]> GetReplaceOrder()
         {
             return replaceOrder;
+        }
+
+        private void listBox_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+        }
+
+        private void listBox_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] filePaths = (string[])e.Data.GetData(DataFormats.FileDrop);
+                foreach (string filePath in filePaths)
+                {
+                    string fileExt = Path.GetExtension(filePath).ToLower();
+                    string[] imageExt = new string[] { ".bmp", ".jpg", ".jpeg", ".gif", ".png" };
+                    string directory = Path.GetDirectoryName(filePath);
+                    string fileName = Path.GetFileName(filePath);
+
+                    if (mazeFilePaths != null && (fileExt == ".maz" || fileExt == ".mazx"))
+                        mazeFilePaths[fileName] = filePath;
+                    else if (textures != null && imageExt.Contains(fileExt))
+                        AddTexture(directory, fileName);
+                    else if (audios != null && (fileExt == ".wav" || fileExt == ".mp3"))
+                        AddAudio(directory, fileName);
+                    else if (models != null && fileExt == ".obj")
+                        AddModel(directory, fileName);
+                }
+                UpdateCollection();
+            }
         }
     }
 

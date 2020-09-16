@@ -33,7 +33,7 @@
             this.cancelButton = new System.Windows.Forms.Button();
             this.addButton = new System.Windows.Forms.Button();
             this.removeButton = new System.Windows.Forms.Button();
-            this.okButton = new System.Windows.Forms.Button();
+            this.selectFileButton = new System.Windows.Forms.Button();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.replaceButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
@@ -41,6 +41,7 @@
             // 
             // listBox
             // 
+            this.listBox.AllowDrop = true;
             this.listBox.FormattingEnabled = true;
             this.listBox.ItemHeight = 16;
             this.listBox.Location = new System.Drawing.Point(4, 15);
@@ -49,6 +50,8 @@
             this.listBox.Size = new System.Drawing.Size(259, 340);
             this.listBox.TabIndex = 0;
             this.listBox.SelectedIndexChanged += new System.EventHandler(this.listBox_SelectedIndexChanged);
+            this.listBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.listBox_DragDrop);
+            this.listBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.listBox_DragEnter);
             // 
             // propertyGrid
             // 
@@ -93,16 +96,16 @@
             this.removeButton.UseVisualStyleBackColor = true;
             this.removeButton.Click += new System.EventHandler(this.Remove);
             // 
-            // okButton
+            // selectFileButton
             // 
-            this.okButton.Location = new System.Drawing.Point(369, 410);
-            this.okButton.Margin = new System.Windows.Forms.Padding(4);
-            this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(100, 28);
-            this.okButton.TabIndex = 5;
-            this.okButton.Text = "OK";
-            this.okButton.UseVisualStyleBackColor = true;
-            this.okButton.Click += new System.EventHandler(this.OK);
+            this.selectFileButton.Location = new System.Drawing.Point(369, 410);
+            this.selectFileButton.Margin = new System.Windows.Forms.Padding(4);
+            this.selectFileButton.Name = "selectFileButton";
+            this.selectFileButton.Size = new System.Drawing.Size(100, 28);
+            this.selectFileButton.TabIndex = 5;
+            this.selectFileButton.Text = "Select File";
+            this.selectFileButton.UseVisualStyleBackColor = true;
+            this.selectFileButton.Click += new System.EventHandler(this.SelectFile);
             // 
             // pictureBox
             // 
@@ -133,7 +136,7 @@
             this.ClientSize = new System.Drawing.Size(588, 453);
             this.Controls.Add(this.replaceButton);
             this.Controls.Add(this.pictureBox);
-            this.Controls.Add(this.okButton);
+            this.Controls.Add(this.selectFileButton);
             this.Controls.Add(this.removeButton);
             this.Controls.Add(this.addButton);
             this.Controls.Add(this.cancelButton);
@@ -163,7 +166,7 @@
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button addButton;
         private System.Windows.Forms.Button removeButton;
-        private System.Windows.Forms.Button okButton;
+        private System.Windows.Forms.Button selectFileButton;
         private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.Button replaceButton;
     }

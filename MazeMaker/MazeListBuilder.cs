@@ -623,6 +623,7 @@ namespace MazeMaker
                     }
 
                     ReplaceFiles();
+                    UpdateMazeList();
 
                     if (!AddToLog(copiedFile0, ref copiedFiles) || !AddToLog(copiedFile1, ref copiedFiles))
                     {
@@ -723,7 +724,7 @@ namespace MazeMaker
             }
 
             // checks '../image/fileName'
-            oldFilePath = "..\\" + type + "\\" + oldFileName;
+            oldFilePath = melxDirectory + "\\..\\" + type + "\\" + oldFileName;
             //MessageBox.Show(oldFilePath);
             if (File.Exists(oldFilePath))
             {
@@ -732,7 +733,7 @@ namespace MazeMaker
             }
 
             // checks '../images/fileName'
-            oldFilePath = "..\\" + type + "s\\" + oldFileName;
+            oldFilePath = melxDirectory + "\\..\\" + type + "s\\" + oldFileName;
             //MessageBox.Show(oldFilePath);
             if (File.Exists(oldFilePath))
             {
@@ -787,7 +788,7 @@ namespace MazeMaker
                     }
 
                     File.Copy(ofd.FileName, newFilePath);
-                    replaceOrder.Add(new string[] { type, oldFileName, newFileName, newFilePath });
+                    replaceOrder.Add(new string[] { type, oldFileName, newFileName, ofd.FileName });
                     return ofd.FileName;
                 }
 
@@ -809,10 +810,10 @@ namespace MazeMaker
                             {
                                 if (replaceInfo[0] == "maze" && maze.MazeFile == replaceInfo[1])
                                 {
+                                    mazeFilePaths.Remove(replaceInfo[1]);
                                     maze.MazeFile = replaceInfo[2];
                                     if (replaceInfo[2] != "")
                                         mazeFilePaths[replaceInfo[2]] = replaceInfo[3];
-                                    mazeFilePaths.Remove(replaceInfo[1]);
                                 }
                             }
                             break;
@@ -823,10 +824,10 @@ namespace MazeMaker
                             {
                                 if (replaceInfo[0] == "audio" && text.AudioFile == replaceInfo[1])
                                 {
+                                    audioFilePaths.Remove(replaceInfo[1]);
                                     text.AudioFile = replaceInfo[2];
                                     if (replaceInfo[2] != "")
                                         audioFilePaths[replaceInfo[2]] = replaceInfo[3];
-                                    audioFilePaths.Remove(replaceInfo[1]);
                                 }
                             }
                             break;
@@ -837,17 +838,17 @@ namespace MazeMaker
                             {
                                 if (replaceInfo[0] == "image" && image.ImageFile == replaceInfo[1])
                                 {
+                                    imageFilePaths.Remove(replaceInfo[1]);
                                     image.ImageFile = replaceInfo[2];
                                     if (replaceInfo[2] != "")
                                         imageFilePaths[replaceInfo[2]] = replaceInfo[3];
-                                    imageFilePaths.Remove(replaceInfo[1]);
                                 }
                                 if (replaceInfo[0] == "audio" && image.AudioFile == replaceInfo[1])
                                 {
+                                    audioFilePaths.Remove(replaceInfo[1]);
                                     image.AudioFile = replaceInfo[2];
                                     if (replaceInfo[2] != "")
                                         audioFilePaths[replaceInfo[2]] = replaceInfo[3];
-                                    audioFilePaths.Remove(replaceInfo[1]);
                                 }
                             }
                             break;
@@ -858,10 +859,10 @@ namespace MazeMaker
                             {
                                 if (replaceInfo[0] == "audio" && multipleChoice.AudioFile == replaceInfo[1])
                                 {
+                                    audioFilePaths.Remove(replaceInfo[1]);
                                     multipleChoice.AudioFile = replaceInfo[2];
                                     if (replaceInfo[2] != "")
                                         audioFilePaths[replaceInfo[2]] = replaceInfo[3];
-                                    audioFilePaths.Remove(replaceInfo[1]);
                                 }
                             }
                             break;
@@ -872,10 +873,10 @@ namespace MazeMaker
                             {
                                 if (replaceInfo[0] == "image" && recordAudio.ImageFile == replaceInfo[1])
                                 {
+                                    imageFilePaths.Remove(replaceInfo[1]);
                                     recordAudio.ImageFile = replaceInfo[2];
                                     if (replaceInfo[2] != "")
                                         imageFilePaths[replaceInfo[2]] = replaceInfo[3];
-                                    imageFilePaths.Remove(replaceInfo[1]);
                                 }
                             }
                             break;

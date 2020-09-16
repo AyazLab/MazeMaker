@@ -3769,17 +3769,17 @@ namespace MazeMaker
                     {
                         if (replaceInfo[0] == "image" && floor.FloorTexture == replaceInfo[1])
                         {
+                            ImagePathConverter.Paths.Remove(replaceInfo[1]);
                             floor.FloorTexture = replaceInfo[2];
                             if (replaceInfo[2] != "")
                                 ImagePathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
-                            ImagePathConverter.Paths.Remove(replaceInfo[1]);
                         }
                         if (replaceInfo[0] == "image" && floor.CeilingTexture == replaceInfo[1])
                         {
+                            ImagePathConverter.Paths.Remove(replaceInfo[1]);
                             floor.CeilingTexture = replaceInfo[2];
                             if (replaceInfo[2] != "")
                                 ImagePathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
-                            ImagePathConverter.Paths.Remove(replaceInfo[1]);
                         }
                     }
                 }
@@ -3790,10 +3790,10 @@ namespace MazeMaker
                     {
                         if (replaceInfo[0] == "image" && curvedWall.Texture == replaceInfo[1])
                         {
+                            ImagePathConverter.Paths.Remove(replaceInfo[1]);
                             curvedWall.Texture = replaceInfo[2];
                             if (replaceInfo[2] != "")
                                 ImagePathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
-                            ImagePathConverter.Paths.Remove(replaceInfo[1]);
                         }
                     }
                 }
@@ -3804,10 +3804,10 @@ namespace MazeMaker
                     {
                         if (replaceInfo[0] == "image" && wall.Texture == replaceInfo[1])
                         {
+                            ImagePathConverter.Paths.Remove(replaceInfo[1]);
                             wall.Texture = replaceInfo[2];
                             if (replaceInfo[2] != "")
                                 ImagePathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
-                            ImagePathConverter.Paths.Remove(replaceInfo[1]);
                         }
                     }
                 }
@@ -3818,17 +3818,17 @@ namespace MazeMaker
                     {
                         if (replaceInfo[0] == "audio" && activeRegion.Phase1HighlightAudio == replaceInfo[1])
                         {
+                            AudioPathConverter.Paths.Remove(replaceInfo[1]);
                             activeRegion.Phase1HighlightAudio = replaceInfo[2];
                             if (replaceInfo[2] != "")
                                 AudioPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
-                            AudioPathConverter.Paths.Remove(replaceInfo[1]);
                         }
                         if (replaceInfo[0] == "audio" && activeRegion.Phase2EventAudio == replaceInfo[1])
                         {
+                            AudioPathConverter.Paths.Remove(replaceInfo[1]);
                             activeRegion.Phase2EventAudio = replaceInfo[2];
                             if (replaceInfo[2] != "")
                                 AudioPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
-                            AudioPathConverter.Paths.Remove(replaceInfo[1]);
                         }
                     }
                 }
@@ -3839,31 +3839,31 @@ namespace MazeMaker
                     {
                         if (replaceInfo[0] == "audio" && dynamicObject.Phase1HighlightAudio == replaceInfo[1])
                         {
+                            AudioPathConverter.Paths.Remove(replaceInfo[1]);
                             dynamicObject.Phase1HighlightAudio = replaceInfo[2];
                             if (replaceInfo[2] != "")
                                 AudioPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
-                            AudioPathConverter.Paths.Remove(replaceInfo[1]);
                         }
                         if (replaceInfo[0] == "audio" && dynamicObject.Phase2EventAudio == replaceInfo[1])
                         {
+                            AudioPathConverter.Paths.Remove(replaceInfo[1]);
                             dynamicObject.Phase2EventAudio = replaceInfo[2];
                             if (replaceInfo[2] != "")
                                 AudioPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
-                            AudioPathConverter.Paths.Remove(replaceInfo[1]);
                         }
                         if (replaceInfo[0] == "model" && dynamicObject.Model == replaceInfo[1])
                         {
+                            ModelPathConverter.Paths.Remove(replaceInfo[1]);
                             dynamicObject.Model = replaceInfo[2];
                             if (replaceInfo[2] != "")
                                 ModelPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
-                            ModelPathConverter.Paths.Remove(replaceInfo[1]);
                         }
                         if (replaceInfo[0] == "model" && dynamicObject.SwitchToModel == replaceInfo[1])
                         {
+                            ModelPathConverter.Paths.Remove(replaceInfo[1]);
                             dynamicObject.SwitchToModel = replaceInfo[2];
                             if (replaceInfo[2] != "")
                                 ModelPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
-                            ModelPathConverter.Paths.Remove(replaceInfo[1]);
                         }
                     }
                 }
@@ -3874,10 +3874,10 @@ namespace MazeMaker
                     {
                         if (replaceInfo[0] == "model" && staticModel.Model == replaceInfo[1])
                         {
+                            ModelPathConverter.Paths.Remove(replaceInfo[1]);
                             staticModel.Model = replaceInfo[2];
                             if (replaceInfo[2] != "")
                                 ModelPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
-                            ModelPathConverter.Paths.Remove(replaceInfo[1]);
                         }
                     }
                 }
@@ -3886,35 +3886,35 @@ namespace MazeMaker
                 {
                     if (replaceInfo[0] == "image" && curMaze.SkyBoxTexture == replaceInfo[1])
                     {
+                        ImagePathConverter.Paths.Remove(replaceInfo[1]);
                         curMaze.SkyBoxTexture = replaceInfo[2];
                         if (replaceInfo[2] != "")
                             ImagePathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
-                        ImagePathConverter.Paths.Remove(replaceInfo[1]);
                     }
                     if (replaceInfo[0] == "model" && curMaze.AvatarModel == replaceInfo[1])
                     {
+                        ModelPathConverter.Paths.Remove(replaceInfo[1]);
                         curMaze.AvatarModel = replaceInfo[2];
                         if (replaceInfo[2] != "")
                             ModelPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
-                        ModelPathConverter.Paths.Remove(replaceInfo[1]);
                     }
                     if (replaceInfo[0] == "image") // unused files
                     {
+                        ImagePathConverter.Paths.Remove(replaceInfo[1]);
                         if (replaceInfo[2] != "")
                             ImagePathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
-                        ImagePathConverter.Paths.Remove(replaceInfo[1]);
                     }
                     if (replaceInfo[0] == "audio")
                     {
+                        AudioPathConverter.Paths.Remove(replaceInfo[1]);
                         if (replaceInfo[2] != "")
                             AudioPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
-                        AudioPathConverter.Paths.Remove(replaceInfo[1]);
                     }
                     if (replaceInfo[0] == "model")
                     {
+                        ModelPathConverter.Paths.Remove(replaceInfo[1]);
                         if (replaceInfo[2] != "")
                             ModelPathConverter.Paths[replaceInfo[2]] = replaceInfo[3];
-                        ModelPathConverter.Paths.Remove(replaceInfo[1]);
                     }
                 }
 
