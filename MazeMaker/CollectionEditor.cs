@@ -373,6 +373,7 @@ namespace MazeMaker
         string audioPlayer = "";
         private void listBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            previewStatusLabel.Text = "";
             if (listBox.SelectedItems.Count == 1)
             {
                 propertyGrid.SelectedObject = listBox.SelectedItem;
@@ -386,16 +387,28 @@ namespace MazeMaker
                         FilePath = mazePath,
                     };
                     propertyGrid.SelectedObject = maze;
+                    if (mazePath == mazeName)
+                        previewStatusLabel.Text = "File Location Unknown";
                 }
                 else if (textures != null)
                 {
-                    pictureBox.Image = ((Texture)listBox.SelectedItem).Image;
+                    Texture texture = (Texture)listBox.SelectedItem;
+                    pictureBox.Image = texture.Image;
+                    if (texture.FilePath == texture.Name)
+                        previewStatusLabel.Text = "File Location Unknown";
                 }
                 else if (audios != null)
                 {
+                    Audio audio = (Audio)listBox.SelectedItem;
+                    if (audio.FilePath == audio.Name)
+                    {
+                        previewStatusLabel.Text = "File Location Unknown";
+                        return;
+                    }
+
                     StopAudio();
 
-                    string filePath = ((Audio)listBox.SelectedItem).FilePath;
+                    string filePath = audio.FilePath;
                     audioPlayer = Path.GetExtension(filePath).ToLower();
 
                     switch (audioPlayer)
@@ -415,7 +428,12 @@ namespace MazeMaker
                 }
                 else if (models != null)
                 {
-                    pictureBox.Image = ((Model)listBox.SelectedItem).Image;
+                    Model model = (Model)listBox.SelectedItem;
+                    pictureBox.Image = model.Image;
+                    if (model.Image == null)
+                        previewStatusLabel.Text = "Preview File Location Unknown";
+                    if (model.FilePath == model.Name)
+                        previewStatusLabel.Text = "File Location Unknown";
                 }
             }
             else
