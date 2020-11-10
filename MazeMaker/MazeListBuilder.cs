@@ -1933,5 +1933,10 @@ namespace MazeMaker
         {
             copiedListItem = MazeList[selectedIndex];
         }
+
+        private void toolStripLabel_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
