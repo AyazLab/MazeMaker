@@ -21,7 +21,7 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <PublishUrl>C:\MMM\</PublishUrl>
     <Install>true</Install>
@@ -78,7 +78,10 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -89,7 +92,13 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="BuilderItems.cs" />
+    <Compile Include="AboutMazeListBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutMazeListBuilder.Designer.cs">
+      <DependentUpon>AboutMazeListBuilder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListItems.cs" />
     <Compile Include="CurrentSettings.cs" />
     <Compile Include="GetAngle.cs">
       <SubType>Form</SubType>
@@ -128,11 +137,17 @@
     <Compile Include="MazeListBuilder.Designer.cs">
       <DependentUpon>MazeListBuilder.cs</DependentUpon>
     </Compile>
-    <Compile Include="MazeMakerCollectionEditor.cs">
+    <Compile Include="CollectionEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MazeMakerCollectionEditor.Designer.cs">
-      <DependentUpon>MazeMakerCollectionEditor.cs</DependentUpon>
+    <Compile Include="CollectionEditor.Designer.cs">
+      <DependentUpon>CollectionEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PackageMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PackageMessage.Designer.cs">
+      <DependentUpon>PackageMessage.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -151,6 +166,9 @@
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AboutMazeListBuilder.resx">
+      <DependentUpon>AboutMazeListBuilder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GetAngle.resx">
       <SubType>Designer</SubType>
@@ -175,9 +193,12 @@
       <DependentUpon>MazeListBuilder.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MazeMakerCollectionEditor.resx">
-      <DependentUpon>MazeMakerCollectionEditor.cs</DependentUpon>
+    <EmbeddedResource Include="CollectionEditor.resx">
+      <DependentUpon>CollectionEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PackageMessage.resx">
+      <DependentUpon>PackageMessage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -297,6 +318,22 @@
     <None Include="Resources\mazeWizardIcon.png" />
     <None Include="Resources\forumicon.png" />
     <None Include="Resources\forumicon1.png" />
+    <None Include="Resources\ListItemsIcon.png" />
+    <None Include="Resources\MazeItemIcon.png" />
+    <None Include="Resources\MazeListOptionsItemIcon.png" />
+    <None Include="Resources\MultipleChoiceItemIcon.png" />
+    <None Include="Resources\RecordAudioItemIcon.png" />
+    <None Include="Resources\TextItemIcon.png" />
+    <None Include="Resources\ImageItemIcon.png" />
+    <None Include="Resources\AudioCollectionIcon.ico" />
+    <None Include="Resources\ImageCollectionIcon.ico" />
+    <None Include="Resources\ModelCollectionIcon.ico" />
+    <None Include="Resources\PauseAudioIcon.png" />
+    <None Include="Resources\PlayAudioIcon.png" />
+    <None Include="Resources\PackageItemsIcon.png" />
+    <None Include="Resources\CommandItemIcon.png" />
+    <None Include="Resources\NewMazeListIcon.png" />
+    <None Include="Resources\MazeCollectionIcon.ico" />
     <Content Include="Res\Logo.ico" />
     <None Include="Res\logo1.bmp" />
     <Content Include="Res\MazeList.ico" />
@@ -372,6 +409,25 @@
       <Project>{92c771ec-482b-4b02-9892-69a64eab9f64}</Project>
       <Name>MazeLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AxWMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

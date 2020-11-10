@@ -28,232 +28,539 @@ namespace MazeMaker
         /// </summary>
         private void InitializeComponent()
         {
-            this.toolStrip_open = new System.Windows.Forms.ToolStripButton();
-            this.toolStrip_save = new System.Windows.Forms.ToolStripButton();
+            this.openButton = new System.Windows.Forms.ToolStripButton();
+            this.saveButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStrip_SaveAs = new System.Windows.Forms.ToolStripButton();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.add = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.L_Up = new System.Windows.Forms.Button();
-            this.L_Down = new System.Windows.Forms.Button();
-            this.L_Del = new System.Windows.Forms.Button();
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.newButton = new System.Windows.Forms.ToolStripButton();
+            this.appendButton = new System.Windows.Forms.ToolStripButton();
+            this.saveAsButton = new System.Windows.Forms.ToolStripButton();
+            this.packageButton = new System.Windows.Forms.ToolStripButton();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.panelListItems = new System.Windows.Forms.Panel();
+            this.toolStripListItems = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripButtonMazeItem = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonTextItem = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonImageItem = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonMultipleChoiceItem = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonRecordAudio = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonCommand = new System.Windows.Forms.ToolStripButton();
+            this.panelProperties = new System.Windows.Forms.Panel();
+            this.treeView = new System.Windows.Forms.TreeView();
             this.closeButton = new System.Windows.Forms.Button();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStrip_Status = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStrip1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
+            this.propertiesLabel = new System.Windows.Forms.Label();
+            this.listItemsLabel = new System.Windows.Forms.Label();
+            this.propertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.deleteButton = new System.Windows.Forms.Button();
+            this.downButton = new System.Windows.Forms.Button();
+            this.upButton = new System.Windows.Forms.Button();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.appendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.packageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip.SuspendLayout();
+            this.statusStrip.SuspendLayout();
+            this.panelListItems.SuspendLayout();
+            this.toolStripListItems.SuspendLayout();
+            this.panelProperties.SuspendLayout();
+            this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // toolStrip_open
+            // openButton
             // 
-            this.toolStrip_open.Image = global::MazeMaker.Properties.Resources.open;
-            this.toolStrip_open.ImageTransparentColor = System.Drawing.Color.White;
-            this.toolStrip_open.Name = "toolStrip_open";
-            this.toolStrip_open.Size = new System.Drawing.Size(81, 36);
-            this.toolStrip_open.Text = "Open";
-            this.toolStrip_open.Click += new System.EventHandler(this.toolStrip_open_Click);
+            this.openButton.Image = global::MazeMaker.Properties.Resources.open;
+            this.openButton.ImageTransparentColor = System.Drawing.Color.White;
+            this.openButton.Name = "openButton";
+            this.openButton.Size = new System.Drawing.Size(81, 36);
+            this.openButton.Text = "Open";
+            this.openButton.Click += new System.EventHandler(this.Open);
             // 
-            // toolStrip_save
+            // saveButton
             // 
-            this.toolStrip_save.Image = global::MazeMaker.Properties.Resources.save;
-            this.toolStrip_save.ImageTransparentColor = System.Drawing.Color.White;
-            this.toolStrip_save.Name = "toolStrip_save";
-            this.toolStrip_save.Size = new System.Drawing.Size(76, 36);
-            this.toolStrip_save.Text = "Save";
-            this.toolStrip_save.Click += new System.EventHandler(this.toolStrip_save_Click);
+            this.saveButton.Image = global::MazeMaker.Properties.Resources.save;
+            this.saveButton.ImageTransparentColor = System.Drawing.Color.White;
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(76, 36);
+            this.saveButton.Text = "Save";
+            this.saveButton.Click += new System.EventHandler(this.Save);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 39);
             // 
-            // toolStrip1
+            // toolStrip
             // 
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStrip_open,
-            this.toolStrip_save,
+            this.toolStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newButton,
+            this.openButton,
+            this.appendButton,
             this.toolStripSeparator1,
-            this.toolStrip_SaveAs});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(697, 39);
-            this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip1";
+            this.saveButton,
+            this.saveAsButton,
+            this.packageButton});
+            this.toolStrip.Location = new System.Drawing.Point(0, 28);
+            this.toolStrip.Name = "toolStrip";
+            this.toolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
+            this.toolStrip.Size = new System.Drawing.Size(902, 39);
+            this.toolStrip.TabIndex = 0;
+            this.toolStrip.Text = "toolStrip1";
             // 
-            // toolStrip_SaveAs
+            // newButton
             // 
-            this.toolStrip_SaveAs.Image = global::MazeMaker.Properties.Resources.saveas;
-            this.toolStrip_SaveAs.ImageTransparentColor = System.Drawing.Color.White;
-            this.toolStrip_SaveAs.Name = "toolStrip_SaveAs";
-            this.toolStrip_SaveAs.Size = new System.Drawing.Size(96, 36);
-            this.toolStrip_SaveAs.Text = "Save As";
-            this.toolStrip_SaveAs.Click += new System.EventHandler(this.toolStrip_SaveAs_Click);
+            this.newButton.Image = global::MazeMaker.Properties.Resources.NewMazeListIcon;
+            this.newButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newButton.Name = "newButton";
+            this.newButton.Size = new System.Drawing.Size(75, 36);
+            this.newButton.Text = "New";
+            this.newButton.Click += new System.EventHandler(this.New);
             // 
-            // comboBox1
+            // appendButton
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(9, 53);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(193, 24);
-            this.comboBox1.TabIndex = 1;
+            this.appendButton.Image = global::MazeMaker.Properties.Resources.add;
+            this.appendButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.appendButton.Name = "appendButton";
+            this.appendButton.Size = new System.Drawing.Size(98, 36);
+            this.appendButton.Text = "Append";
+            this.appendButton.Click += new System.EventHandler(this.Append);
             // 
-            // add
+            // saveAsButton
             // 
-            this.add.Location = new System.Drawing.Point(216, 51);
-            this.add.Margin = new System.Windows.Forms.Padding(4);
-            this.add.Name = "add";
-            this.add.Size = new System.Drawing.Size(100, 28);
-            this.add.TabIndex = 2;
-            this.add.Text = "Add";
-            this.add.Click += new System.EventHandler(this.add_Click);
+            this.saveAsButton.Image = global::MazeMaker.Properties.Resources.saveas;
+            this.saveAsButton.ImageTransparentColor = System.Drawing.Color.White;
+            this.saveAsButton.Name = "saveAsButton";
+            this.saveAsButton.Size = new System.Drawing.Size(96, 36);
+            this.saveAsButton.Text = "Save As";
+            this.saveAsButton.Click += new System.EventHandler(this.SaveAs);
             // 
-            // listBox1
+            // packageButton
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 16;
-            this.listBox1.Location = new System.Drawing.Point(11, 103);
-            this.listBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(304, 372);
-            this.listBox1.TabIndex = 3;
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
-            this.listBox1.Leave += new System.EventHandler(this.listBox1_Leave);
+            this.packageButton.Image = global::MazeMaker.Properties.Resources.PackageItemsIcon;
+            this.packageButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.packageButton.Name = "packageButton";
+            this.packageButton.Size = new System.Drawing.Size(99, 36);
+            this.packageButton.Text = "Package";
+            this.packageButton.Click += new System.EventHandler(this.Package);
             // 
-            // L_Up
+            // statusStrip
             // 
-            this.L_Up.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Up.Enabled = false;
-            this.L_Up.Image = global::MazeMaker.Properties.Resources.arr_up;
-            this.L_Up.Location = new System.Drawing.Point(325, 140);
-            this.L_Up.Margin = new System.Windows.Forms.Padding(4);
-            this.L_Up.Name = "L_Up";
-            this.L_Up.Size = new System.Drawing.Size(31, 28);
-            this.L_Up.TabIndex = 4;
-            this.L_Up.Click += new System.EventHandler(this.L_Up_Click);
+            this.statusStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
+            this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusLabel});
+            this.statusStrip.Location = new System.Drawing.Point(0, 546);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
+            this.statusStrip.Size = new System.Drawing.Size(902, 26);
+            this.statusStrip.TabIndex = 11;
             // 
-            // L_Down
+            // statusLabel
             // 
-            this.L_Down.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Down.Enabled = false;
-            this.L_Down.Image = global::MazeMaker.Properties.Resources.arr_down;
-            this.L_Down.Location = new System.Drawing.Point(325, 176);
-            this.L_Down.Margin = new System.Windows.Forms.Padding(4);
-            this.L_Down.Name = "L_Down";
-            this.L_Down.Size = new System.Drawing.Size(31, 28);
-            this.L_Down.TabIndex = 5;
-            this.L_Down.Click += new System.EventHandler(this.L_Down_Click);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(276, 20);
+            this.statusLabel.Text = "Open a MazeList file or start a new one...";
             // 
-            // L_Del
+            // panelListItems
             // 
-            this.L_Del.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Del.Enabled = false;
-            this.L_Del.Image = global::MazeMaker.Properties.Resources.del;
-            this.L_Del.Location = new System.Drawing.Point(325, 212);
-            this.L_Del.Margin = new System.Windows.Forms.Padding(4);
-            this.L_Del.Name = "L_Del";
-            this.L_Del.Size = new System.Drawing.Size(31, 28);
-            this.L_Del.TabIndex = 6;
-            this.L_Del.Click += new System.EventHandler(this.L_Del_Click);
+            this.panelListItems.AutoScroll = true;
+            this.panelListItems.AutoScrollMinSize = new System.Drawing.Size(0, 454);
+            this.panelListItems.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelListItems.Controls.Add(this.toolStripListItems);
+            this.panelListItems.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelListItems.Location = new System.Drawing.Point(0, 67);
+            this.panelListItems.MinimumSize = new System.Drawing.Size(121, 454);
+            this.panelListItems.Name = "panelListItems";
+            this.panelListItems.Size = new System.Drawing.Size(134, 479);
+            this.panelListItems.TabIndex = 15;
             // 
-            // propertyGrid1
+            // toolStripListItems
             // 
-            this.propertyGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.propertyGrid1.Location = new System.Drawing.Point(364, 103);
-            this.propertyGrid1.Margin = new System.Windows.Forms.Padding(4);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(320, 366);
-            this.propertyGrid1.TabIndex = 7;
-            this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
+            this.toolStripListItems.CanOverflow = false;
+            this.toolStripListItems.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStripListItems.ImageScalingSize = new System.Drawing.Size(50, 50);
+            this.toolStripListItems.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel,
+            this.toolStripButtonMazeItem,
+            this.toolStripButtonTextItem,
+            this.toolStripButtonImageItem,
+            this.toolStripButtonMultipleChoiceItem,
+            this.toolStripButtonRecordAudio,
+            this.toolStripButtonCommand});
+            this.toolStripListItems.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            this.toolStripListItems.Location = new System.Drawing.Point(0, 0);
+            this.toolStripListItems.MinimumSize = new System.Drawing.Size(118, 554);
+            this.toolStripListItems.Name = "toolStripListItems";
+            this.toolStripListItems.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
+            this.toolStripListItems.Size = new System.Drawing.Size(118, 554);
+            this.toolStripListItems.Stretch = true;
+            this.toolStripListItems.TabIndex = 15;
+            this.toolStripListItems.Text = "toolStrip1";
             // 
-            // label1
+            // toolStripLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 82);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(66, 17);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Members";
+            this.toolStripLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.toolStripLabel.Name = "toolStripLabel";
+            this.toolStripLabel.Size = new System.Drawing.Size(115, 20);
+            this.toolStripLabel.Text = "Replace mee";
             // 
-            // label2
+            // toolStripButtonMazeItem
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(361, 82);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(73, 17);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "Properties";
+            this.toolStripButtonMazeItem.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.toolStripButtonMazeItem.Image = global::MazeMaker.Properties.Resources.MazeItemIcon;
+            this.toolStripButtonMazeItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonMazeItem.Name = "toolStripButtonMazeItem";
+            this.toolStripButtonMazeItem.Size = new System.Drawing.Size(115, 73);
+            this.toolStripButtonMazeItem.Text = "Maze";
+            this.toolStripButtonMazeItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButtonMazeItem.Click += new System.EventHandler(this.AddListItem);
+            // 
+            // toolStripButtonTextItem
+            // 
+            this.toolStripButtonTextItem.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.toolStripButtonTextItem.Image = global::MazeMaker.Properties.Resources.TextItemIcon;
+            this.toolStripButtonTextItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonTextItem.Name = "toolStripButtonTextItem";
+            this.toolStripButtonTextItem.Size = new System.Drawing.Size(115, 73);
+            this.toolStripButtonTextItem.Text = "Text";
+            this.toolStripButtonTextItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButtonTextItem.Click += new System.EventHandler(this.AddListItem);
+            // 
+            // toolStripButtonImageItem
+            // 
+            this.toolStripButtonImageItem.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.toolStripButtonImageItem.Image = global::MazeMaker.Properties.Resources.ImageItemIcon;
+            this.toolStripButtonImageItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonImageItem.Name = "toolStripButtonImageItem";
+            this.toolStripButtonImageItem.Size = new System.Drawing.Size(115, 73);
+            this.toolStripButtonImageItem.Text = "Image";
+            this.toolStripButtonImageItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButtonImageItem.Click += new System.EventHandler(this.AddListItem);
+            // 
+            // toolStripButtonMultipleChoiceItem
+            // 
+            this.toolStripButtonMultipleChoiceItem.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.toolStripButtonMultipleChoiceItem.Image = global::MazeMaker.Properties.Resources.MultipleChoiceItemIcon;
+            this.toolStripButtonMultipleChoiceItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonMultipleChoiceItem.Name = "toolStripButtonMultipleChoiceItem";
+            this.toolStripButtonMultipleChoiceItem.Size = new System.Drawing.Size(115, 73);
+            this.toolStripButtonMultipleChoiceItem.Text = "Multiple Choice";
+            this.toolStripButtonMultipleChoiceItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButtonMultipleChoiceItem.ToolTipText = "Multiple Choice";
+            this.toolStripButtonMultipleChoiceItem.Click += new System.EventHandler(this.AddListItem);
+            // 
+            // toolStripButtonRecordAudio
+            // 
+            this.toolStripButtonRecordAudio.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.toolStripButtonRecordAudio.Image = global::MazeMaker.Properties.Resources.RecordAudioItemIcon;
+            this.toolStripButtonRecordAudio.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonRecordAudio.Name = "toolStripButtonRecordAudio";
+            this.toolStripButtonRecordAudio.Size = new System.Drawing.Size(115, 73);
+            this.toolStripButtonRecordAudio.Text = "Record Audio";
+            this.toolStripButtonRecordAudio.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButtonRecordAudio.Click += new System.EventHandler(this.AddListItem);
+            // 
+            // toolStripButtonCommand
+            // 
+            this.toolStripButtonCommand.Font = new System.Drawing.Font("Segoe UI", 8.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolStripButtonCommand.Image = global::MazeMaker.Properties.Resources.CommandItemIcon;
+            this.toolStripButtonCommand.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonCommand.Name = "toolStripButtonCommand";
+            this.toolStripButtonCommand.Size = new System.Drawing.Size(115, 73);
+            this.toolStripButtonCommand.Text = "Command";
+            this.toolStripButtonCommand.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButtonCommand.Click += new System.EventHandler(this.AddListItem);
+            // 
+            // panelProperties
+            // 
+            this.panelProperties.Controls.Add(this.treeView);
+            this.panelProperties.Controls.Add(this.closeButton);
+            this.panelProperties.Controls.Add(this.propertiesLabel);
+            this.panelProperties.Controls.Add(this.listItemsLabel);
+            this.panelProperties.Controls.Add(this.propertyGrid);
+            this.panelProperties.Controls.Add(this.deleteButton);
+            this.panelProperties.Controls.Add(this.downButton);
+            this.panelProperties.Controls.Add(this.upButton);
+            this.panelProperties.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelProperties.Location = new System.Drawing.Point(134, 67);
+            this.panelProperties.Name = "panelProperties";
+            this.panelProperties.Size = new System.Drawing.Size(768, 479);
+            this.panelProperties.TabIndex = 16;
+            // 
+            // treeView
+            // 
+            this.treeView.AllowDrop = true;
+            this.treeView.Location = new System.Drawing.Point(10, 30);
+            this.treeView.Margin = new System.Windows.Forms.Padding(2);
+            this.treeView.Name = "treeView";
+            this.treeView.Size = new System.Drawing.Size(328, 436);
+            this.treeView.TabIndex = 20;
+            this.treeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView_ItemDrag);
+            this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMazeList_AfterSelect);
+            this.treeView.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeView_DragDrop);
+            this.treeView.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeView_DragEnter);
             // 
             // closeButton
             // 
             this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.closeButton.Location = new System.Drawing.Point(584, 474);
+            this.closeButton.Location = new System.Drawing.Point(654, 436);
             this.closeButton.Margin = new System.Windows.Forms.Padding(4);
             this.closeButton.Name = "closeButton";
-            this.closeButton.Size = new System.Drawing.Size(100, 28);
-            this.closeButton.TabIndex = 10;
+            this.closeButton.Size = new System.Drawing.Size(100, 33);
+            this.closeButton.TabIndex = 19;
             this.closeButton.Text = "Close";
-            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
+            this.closeButton.Click += new System.EventHandler(this.Close);
             // 
-            // statusStrip1
+            // propertiesLabel
             // 
-            this.statusStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStrip_Status});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 510);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(697, 25);
-            this.statusStrip1.TabIndex = 11;
-            this.statusStrip1.Text = "statusStrip1";
+            this.propertiesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.propertiesLabel.AutoSize = true;
+            this.propertiesLabel.Location = new System.Drawing.Point(390, 11);
+            this.propertiesLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.propertiesLabel.Name = "propertiesLabel";
+            this.propertiesLabel.Size = new System.Drawing.Size(73, 17);
+            this.propertiesLabel.TabIndex = 18;
+            this.propertiesLabel.Text = "Properties";
             // 
-            // toolStrip_Status
+            // listItemsLabel
             // 
-            this.toolStrip_Status.Name = "toolStrip_Status";
-            this.toolStrip_Status.Size = new System.Drawing.Size(276, 20);
-            this.toolStrip_Status.Text = "Open a MazeList file or start a new one...";
+            this.listItemsLabel.AutoSize = true;
+            this.listItemsLabel.Location = new System.Drawing.Point(7, 11);
+            this.listItemsLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.listItemsLabel.Name = "listItemsLabel";
+            this.listItemsLabel.Size = new System.Drawing.Size(101, 17);
+            this.listItemsLabel.TabIndex = 17;
+            this.listItemsLabel.Text = "MazeList Items";
+            // 
+            // propertyGrid
+            // 
+            this.propertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.propertyGrid.Location = new System.Drawing.Point(394, 30);
+            this.propertyGrid.Margin = new System.Windows.Forms.Padding(4);
+            this.propertyGrid.Name = "propertyGrid";
+            this.propertyGrid.Size = new System.Drawing.Size(361, 395);
+            this.propertyGrid.TabIndex = 16;
+            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_PropertyValueChanged);
+            // 
+            // deleteButton
+            // 
+            this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteButton.Enabled = false;
+            this.deleteButton.Image = global::MazeMaker.Properties.Resources.del;
+            this.deleteButton.Location = new System.Drawing.Point(354, 133);
+            this.deleteButton.Margin = new System.Windows.Forms.Padding(4);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(31, 28);
+            this.deleteButton.TabIndex = 15;
+            this.deleteButton.Click += new System.EventHandler(this.Delete);
+            // 
+            // downButton
+            // 
+            this.downButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.downButton.Enabled = false;
+            this.downButton.Image = global::MazeMaker.Properties.Resources.arr_down;
+            this.downButton.Location = new System.Drawing.Point(354, 97);
+            this.downButton.Margin = new System.Windows.Forms.Padding(4);
+            this.downButton.Name = "downButton";
+            this.downButton.Size = new System.Drawing.Size(31, 28);
+            this.downButton.TabIndex = 14;
+            this.downButton.Click += new System.EventHandler(this.MoveDown);
+            // 
+            // upButton
+            // 
+            this.upButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.upButton.Enabled = false;
+            this.upButton.Image = global::MazeMaker.Properties.Resources.arr_up;
+            this.upButton.Location = new System.Drawing.Point(354, 61);
+            this.upButton.Margin = new System.Windows.Forms.Padding(4);
+            this.upButton.Name = "upButton";
+            this.upButton.Size = new System.Drawing.Size(31, 28);
+            this.upButton.TabIndex = 13;
+            this.upButton.Click += new System.EventHandler(this.MoveUp);
+            // 
+            // menuStrip
+            // 
+            this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.editToolStripMenuItem,
+            this.helpToolStripMenuItem});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(902, 28);
+            this.menuStrip.TabIndex = 17;
+            this.menuStrip.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
+            this.openToolStripMenuItem,
+            this.appendToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.saveAsToolStripMenuItem,
+            this.packageToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Image = global::MazeMaker.Properties.Resources.NewMazeListIcon;
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
+            this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.New);
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Image = global::MazeMaker.Properties.Resources.open;
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
+            this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.Open);
+            // 
+            // appendToolStripMenuItem
+            // 
+            this.appendToolStripMenuItem.Image = global::MazeMaker.Properties.Resources.add;
+            this.appendToolStripMenuItem.Name = "appendToolStripMenuItem";
+            this.appendToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
+            this.appendToolStripMenuItem.Text = "Append";
+            this.appendToolStripMenuItem.Click += new System.EventHandler(this.Append);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Image = global::MazeMaker.Properties.Resources.save;
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.Save);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Image = global::MazeMaker.Properties.Resources.saveas;
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
+            this.saveAsToolStripMenuItem.Text = "Save As";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAs);
+            // 
+            // packageToolStripMenuItem
+            // 
+            this.packageToolStripMenuItem.Image = global::MazeMaker.Properties.Resources.PackageItemsIcon;
+            this.packageToolStripMenuItem.Name = "packageToolStripMenuItem";
+            this.packageToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.packageToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
+            this.packageToolStripMenuItem.Text = "Package";
+            this.packageToolStripMenuItem.Click += new System.EventHandler(this.Package);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.Close);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cutToolStripMenuItem,
+            this.copyToolStripMenuItem,
+            this.pasteToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // cutToolStripMenuItem
+            // 
+            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+            this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.cutToolStripMenuItem.Text = "Cut";
+            this.cutToolStripMenuItem.Click += new System.EventHandler(this.Cut);
+            // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.copyToolStripMenuItem.Text = "Copy";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.Copy);
+            // 
+            // pasteToolStripMenuItem
+            // 
+            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.pasteToolStripMenuItem.Text = "Paste";
+            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.Paste);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(133, 26);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // MazeListBuilder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(697, 535);
-            this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.closeButton);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.propertyGrid1);
-            this.Controls.Add(this.L_Del);
-            this.Controls.Add(this.L_Down);
-            this.Controls.Add(this.L_Up);
-            this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.add);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.toolStrip1);
+            this.ClientSize = new System.Drawing.Size(902, 572);
+            this.Controls.Add(this.panelProperties);
+            this.Controls.Add(this.panelListItems);
+            this.Controls.Add(this.statusStrip);
+            this.Controls.Add(this.toolStrip);
+            this.Controls.Add(this.menuStrip);
+            this.MainMenuStrip = this.menuStrip;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(913, 579);
             this.Name = "MazeListBuilder";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "MazeListBuilder";
+            this.Text = "MazeList Builder";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MazeListBuilder_FormClosing);
             this.Load += new System.EventHandler(this.MazeListBuilder_Load);
             this.Resize += new System.EventHandler(this.MazeListBuilder_Resize);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.toolStrip.ResumeLayout(false);
+            this.toolStrip.PerformLayout();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
+            this.panelListItems.ResumeLayout(false);
+            this.panelListItems.PerformLayout();
+            this.toolStripListItems.ResumeLayout(false);
+            this.toolStripListItems.PerformLayout();
+            this.panelProperties.ResumeLayout(false);
+            this.panelProperties.PerformLayout();
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -261,22 +568,48 @@ namespace MazeMaker
 
         #endregion
 
-        private System.Windows.Forms.ToolStripButton toolStrip_open;
-        private System.Windows.Forms.ToolStripButton toolStrip_save;
+        private System.Windows.Forms.ToolStripButton openButton;
+        private System.Windows.Forms.ToolStripButton saveButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Button add;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.Button L_Up;
-        private System.Windows.Forms.Button L_Down;
-        private System.Windows.Forms.Button L_Del;
-        private System.Windows.Forms.PropertyGrid propertyGrid1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ToolStrip toolStrip;
+        private System.Windows.Forms.ToolStripButton saveAsButton;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel statusLabel;
+        private System.Windows.Forms.ToolStripButton appendButton;
+        private System.Windows.Forms.ToolStripButton newButton;
+        private System.Windows.Forms.ToolStripButton packageButton;
+        private System.Windows.Forms.Panel panelListItems;
+        private System.Windows.Forms.ToolStrip toolStripListItems;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel;
+        private System.Windows.Forms.ToolStripButton toolStripButtonMazeItem;
+        private System.Windows.Forms.ToolStripButton toolStripButtonTextItem;
+        private System.Windows.Forms.ToolStripButton toolStripButtonImageItem;
+        private System.Windows.Forms.ToolStripButton toolStripButtonMultipleChoiceItem;
+        private System.Windows.Forms.ToolStripButton toolStripButtonRecordAudio;
+        private System.Windows.Forms.Panel panelProperties;
+        private System.Windows.Forms.TreeView treeView;
         private System.Windows.Forms.Button closeButton;
-        private System.Windows.Forms.ToolStripButton toolStrip_SaveAs;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStrip_Status;
+        private System.Windows.Forms.Label propertiesLabel;
+        private System.Windows.Forms.Label listItemsLabel;
+        private System.Windows.Forms.PropertyGrid propertyGrid;
+        private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.Button downButton;
+        private System.Windows.Forms.Button upButton;
+        private System.Windows.Forms.ToolStripButton toolStripButtonCommand;
+        private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem appendToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem packageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
     }
 }
