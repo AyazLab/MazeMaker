@@ -71,6 +71,8 @@ namespace MazeMaker
         Maze curMaze = null;
         Maze preChangeMaze = null;// for undo
 
+        string prevSaveDirMaze = "";
+
         PointF tempPoint1, tempPoint2,tempPoint3,tempPoint4;
         bool hotpoint = false;
 
@@ -1133,20 +1135,26 @@ namespace MazeMaker
             a.Filter = "Maze Files (*.maz)|*.maz";
             a.FilterIndex = 1;
             a.DefaultExt = ".maz";
-            a.RestoreDirectory = true;
+            //a.RestoreDirectory = true;
+            if (prevSaveDirMaze != "")
+            {
+                a.InitialDirectory = prevSaveDirMaze;
+            }
 
             if (this.Text[this.Text.Length - 1] != '*')
                 a.FileName = this.Text.Substring(12);
             else
                 a.FileName = this.Text.Substring(12, this.Text.Length - 13);
-
+            
             if (a.ShowDialog() == DialogResult.OK)
             {
+
                 if (isClassicFormat)
                     curMaze.SaveToClassicFile(a.FileName);
                 else
                     curMaze.SaveToMazeXML(a.FileName);
 
+                prevSaveDirMaze = Path.GetDirectoryName(a.FileName); 
                 this.Text = "MazeMaker - " + a.FileName;
                 CurrentSettings.AddMazeFileToPrevious(a.FileName);
                 UpdateTree();
@@ -3696,6 +3704,27 @@ namespace MazeMaker
                 if (!CopyFile(curMaze.AvatarModel, mazPath, "model", ref copiedFiles))
                     return;
 
+                /*  foreach (string image in ImagePathConverter.Paths)
+                {
+                    if (!CopyFile(image, mazPath, "image", ref copiedFiles))
+                        return;
+                }
+
+                foreach (string audio in AudioPathConverter.Paths)
+                {
+                    if (!CopyFile(audio, mazPath, "audio", ref copiedFiles))
+                        return;
+                }
+
+                foreach (string model in ModelPathConverter.Paths)
+                {
+                    if (!CopyFile(model, mazPath, "model", ref copiedFiles))
+                        return;
+                }
+
+
+            }
+            curMaze.SaveToMazeXML(sfd.FileName);*/
                 if (!zip)
                     MazeListBuilder.ShowPM(mazPath, "\nPackage successfully generated", copiedFiles);
             }
