@@ -20,6 +20,8 @@ namespace MazeMaker
         readonly List<Audio> audios;
         readonly List<Model> models;
 
+        string prevCollectionDir = "";
+
         readonly List<string[]> replaceOrder = new List<string[]>();
 
         public CollectionEditor(Dictionary<string, string> mazeFilePaths)
@@ -129,6 +131,7 @@ namespace MazeMaker
                 Filter = "Image Files (*.bmp;*.jpg;*.jpeg;*.gif;*png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png",
                 Multiselect = multiselect,
                 Title = title,
+                InitialDirectory = prevCollectionDir,
             };
 
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -136,7 +139,7 @@ namespace MazeMaker
                 foreach (string filePath in ofd.FileNames)
                 {
                     AddTexture(Path.GetDirectoryName(filePath), Path.GetFileName(filePath));
-
+                    prevCollectionDir = Path.GetDirectoryName(filePath);
                     if (!multiselect)
                         return new List<string> { Path.GetFileName(filePath), filePath };
                 }

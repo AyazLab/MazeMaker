@@ -1135,7 +1135,6 @@ namespace MazeMaker
             a.Filter = "Maze Files (*.maz)|*.maz";
             a.FilterIndex = 1;
             a.DefaultExt = ".maz";
-            //a.RestoreDirectory = true;
             if (prevSaveDirMaze != "")
             {
                 a.InitialDirectory = prevSaveDirMaze;

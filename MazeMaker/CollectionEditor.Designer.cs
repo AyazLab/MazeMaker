@@ -30,7 +30,7 @@
         {
             this.listBox = new System.Windows.Forms.ListBox();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
-            this.cancelButton = new System.Windows.Forms.Button();
+            this.closeButton = new System.Windows.Forms.Button();
             this.addButton = new System.Windows.Forms.Button();
             this.removeButton = new System.Windows.Forms.Button();
             this.selectFileButton = new System.Windows.Forms.Button();
@@ -62,16 +62,17 @@
             this.propertyGrid.Size = new System.Drawing.Size(305, 229);
             this.propertyGrid.TabIndex = 1;
             // 
-            // cancelButton
+            // closeButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(477, 439);
-            this.cancelButton.Margin = new System.Windows.Forms.Padding(4);
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(100, 28);
-            this.cancelButton.TabIndex = 2;
-            this.cancelButton.Text = "Cancel";
-            this.cancelButton.UseVisualStyleBackColor = true;
-            this.cancelButton.Click += new System.EventHandler(this.Cancel);
+            this.closeButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.closeButton.Location = new System.Drawing.Point(477, 439);
+            this.closeButton.Margin = new System.Windows.Forms.Padding(4);
+            this.closeButton.Name = "closeButton";
+            this.closeButton.Size = new System.Drawing.Size(100, 28);
+            this.closeButton.TabIndex = 2;
+            this.closeButton.Text = "Close";
+            this.closeButton.UseVisualStyleBackColor = true;
+            this.closeButton.Click += new System.EventHandler(this.Cancel);
             // 
             // addButton
             // 
@@ -149,7 +150,7 @@
             this.Controls.Add(this.selectFileButton);
             this.Controls.Add(this.removeButton);
             this.Controls.Add(this.addButton);
-            this.Controls.Add(this.cancelButton);
+            this.Controls.Add(this.closeButton);
             this.Controls.Add(this.propertyGrid);
             this.Controls.Add(this.listBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -174,7 +175,7 @@
 
         private System.Windows.Forms.ListBox listBox;
         private System.Windows.Forms.PropertyGrid propertyGrid;
-        private System.Windows.Forms.Button cancelButton;
+        private System.Windows.Forms.Button closeButton;
         private System.Windows.Forms.Button addButton;
         private System.Windows.Forms.Button removeButton;
         private System.Windows.Forms.Button selectFileButton;

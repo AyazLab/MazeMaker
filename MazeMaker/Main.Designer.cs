@@ -241,7 +241,7 @@ namespace MazeMaker
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1660, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1660, 30);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -264,7 +264,7 @@ namespace MazeMaker
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             this.fileToolStripMenuItem.Click += new System.EventHandler(this.fileToolStripMenuItem_Click);
             // 
@@ -408,7 +408,7 @@ namespace MazeMaker
             this.audioCollectionToolStripMenuItem1});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 26);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.DropDownOpening += new System.EventHandler(this.editToolStripMenuItem_DropDownOpening);
             // 
@@ -564,7 +564,7 @@ namespace MazeMaker
             this.staticModelToolStripMenuItem,
             this.dynamicModelToolStripMenuItem});
             this.modeToolStripMenuItem.Name = "modeToolStripMenuItem";
-            this.modeToolStripMenuItem.Size = new System.Drawing.Size(62, 24);
+            this.modeToolStripMenuItem.Size = new System.Drawing.Size(62, 26);
             this.modeToolStripMenuItem.Text = "Mode";
             this.modeToolStripMenuItem.DropDownOpening += new System.EventHandler(this.modeToolStripMenuItem_DropDownOpening);
             // 
@@ -661,7 +661,7 @@ namespace MazeMaker
             this.zoomOutToolStripMenuItem,
             this.resetZoomToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
             this.viewToolStripMenuItem.Text = "View";
             // 
             // baseToolbarToolStripMenuItem
@@ -782,7 +782,7 @@ namespace MazeMaker
             this.scrollRightToolStripMenuItem,
             this.scrollDownToolStripMenuItem});
             this.canvasToolStripMenuItem.Name = "canvasToolStripMenuItem";
-            this.canvasToolStripMenuItem.Size = new System.Drawing.Size(69, 24);
+            this.canvasToolStripMenuItem.Size = new System.Drawing.Size(69, 26);
             this.canvasToolStripMenuItem.Text = "Canvas";
             // 
             // scrollUpToolStripMenuItem
@@ -826,7 +826,7 @@ namespace MazeMaker
             this.toolStripSeparator3,
             this.autoPlaceToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(75, 24);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(75, 26);
             this.optionsToolStripMenuItem.Text = "Options";
             // 
             // enlargeToolStripMenuItem
@@ -877,7 +877,7 @@ namespace MazeMaker
             this.quickRunToolStripMenuItem1,
             this.quickRunConfigurationToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 26);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // mazeListBuilderToolStripMenuItem
@@ -926,7 +926,7 @@ namespace MazeMaker
             this.toolStripMenuItem1,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // userManualToolStripMenuItem
@@ -1034,12 +1034,12 @@ namespace MazeMaker
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
             this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(4);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1660, 441);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1660, 439);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolStripContainer1.Location = new System.Drawing.Point(0, 28);
+            this.toolStripContainer1.Location = new System.Drawing.Point(0, 30);
             this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(1660, 597);
+            this.toolStripContainer1.Size = new System.Drawing.Size(1660, 595);
             this.toolStripContainer1.TabIndex = 5;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -1068,8 +1068,8 @@ namespace MazeMaker
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.propertyGrid);
-            this.splitContainer1.Size = new System.Drawing.Size(1660, 441);
-            this.splitContainer1.SplitterDistance = 1325;
+            this.splitContainer1.Size = new System.Drawing.Size(1660, 439);
+            this.splitContainer1.SplitterDistance = 1324;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
             this.splitContainer1.Text = "splitContainer1";
@@ -1089,7 +1089,7 @@ namespace MazeMaker
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControlMazeDisplay);
-            this.splitContainer2.Size = new System.Drawing.Size(1325, 441);
+            this.splitContainer2.Size = new System.Drawing.Size(1324, 439);
             this.splitContainer2.SplitterDistance = 200;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -1100,7 +1100,7 @@ namespace MazeMaker
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(200, 441);
+            this.treeView1.Size = new System.Drawing.Size(200, 439);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
@@ -1161,7 +1161,7 @@ namespace MazeMaker
             this.tabControlMazeDisplay.Multiline = true;
             this.tabControlMazeDisplay.Name = "tabControlMazeDisplay";
             this.tabControlMazeDisplay.SelectedIndex = 0;
-            this.tabControlMazeDisplay.Size = new System.Drawing.Size(1121, 441);
+            this.tabControlMazeDisplay.Size = new System.Drawing.Size(1120, 439);
             this.tabControlMazeDisplay.TabIndex = 0;
             this.tabControlMazeDisplay.SelectedIndexChanged += new System.EventHandler(this.tabControlMazeDisplay_SelectedIndexChanged);
             // 
@@ -1176,7 +1176,7 @@ namespace MazeMaker
             this.tabPageMazeEdit.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageMazeEdit.Name = "tabPageMazeEdit";
             this.tabPageMazeEdit.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageMazeEdit.Size = new System.Drawing.Size(1113, 412);
+            this.tabPageMazeEdit.Size = new System.Drawing.Size(1112, 410);
             this.tabPageMazeEdit.TabIndex = 0;
             this.tabPageMazeEdit.Text = "Maze Editor";
             this.tabPageMazeEdit.UseVisualStyleBackColor = true;
@@ -1202,7 +1202,7 @@ namespace MazeMaker
             this.navControlPanel.Controls.Add(this.buttonViewMoveLeft);
             this.navControlPanel.Controls.Add(this.buttonViewMoveDown);
             this.navControlPanel.Controls.Add(this.buttonViewMoveUp);
-            this.navControlPanel.Location = new System.Drawing.Point(999, 0);
+            this.navControlPanel.Location = new System.Drawing.Point(998, 0);
             this.navControlPanel.Margin = new System.Windows.Forms.Padding(4);
             this.navControlPanel.Name = "navControlPanel";
             this.navControlPanel.Size = new System.Drawing.Size(115, 106);
@@ -1383,7 +1383,7 @@ namespace MazeMaker
             this.XYZ_axisImagebox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.XYZ_axisImagebox.BackgroundImage = global::MazeMaker.Properties.Resources.XYZ_grid;
             this.XYZ_axisImagebox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.XYZ_axisImagebox.Location = new System.Drawing.Point(20, 323);
+            this.XYZ_axisImagebox.Location = new System.Drawing.Point(20, 321);
             this.XYZ_axisImagebox.Margin = new System.Windows.Forms.Padding(4);
             this.XYZ_axisImagebox.Name = "XYZ_axisImagebox";
             this.XYZ_axisImagebox.Size = new System.Drawing.Size(103, 78);
@@ -1630,7 +1630,7 @@ namespace MazeMaker
             this.propertyGrid.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid.Margin = new System.Windows.Forms.Padding(4);
             this.propertyGrid.Name = "propertyGrid";
-            this.propertyGrid.Size = new System.Drawing.Size(330, 441);
+            this.propertyGrid.Size = new System.Drawing.Size(331, 439);
             this.propertyGrid.TabIndex = 0;
             this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_PropertyValueChanged);
             // 
@@ -1907,7 +1907,7 @@ namespace MazeMaker
             this.toolStripButtonItems});
             this.toolStripCollections.Location = new System.Drawing.Point(106, 117);
             this.toolStripCollections.Name = "toolStripCollections";
-            this.toolStripCollections.Size = new System.Drawing.Size(141, 39);
+            this.toolStripCollections.Size = new System.Drawing.Size(247, 39);
             this.toolStripCollections.TabIndex = 4;
             // 
             // toolStripCollectionsDropDownButton
@@ -1925,21 +1925,21 @@ namespace MazeMaker
             // textureCollectionToolStripMenuItem1
             // 
             this.textureCollectionToolStripMenuItem1.Name = "textureCollectionToolStripMenuItem1";
-            this.textureCollectionToolStripMenuItem1.Size = new System.Drawing.Size(211, 26);
+            this.textureCollectionToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.textureCollectionToolStripMenuItem1.Text = "Texture Collection";
             this.textureCollectionToolStripMenuItem1.Click += new System.EventHandler(this.textureCollectionToolStripMenuItem_Click);
             // 
             // modelCollectionToolStripMenuItem1
             // 
             this.modelCollectionToolStripMenuItem1.Name = "modelCollectionToolStripMenuItem1";
-            this.modelCollectionToolStripMenuItem1.Size = new System.Drawing.Size(211, 26);
+            this.modelCollectionToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.modelCollectionToolStripMenuItem1.Text = "Model Collection";
             this.modelCollectionToolStripMenuItem1.Click += new System.EventHandler(this.modelCollectionToolStripMenuItem_Click);
             // 
             // audioCollectionToolStripMenuItem
             // 
             this.audioCollectionToolStripMenuItem.Name = "audioCollectionToolStripMenuItem";
-            this.audioCollectionToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.audioCollectionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.audioCollectionToolStripMenuItem.Text = "Audio Collection";
             this.audioCollectionToolStripMenuItem.Click += new System.EventHandler(this.audioCollectionToolStripMenuItem_Click);
             // 
