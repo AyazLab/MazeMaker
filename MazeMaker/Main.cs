@@ -1073,11 +1073,15 @@ namespace MazeMaker
             OpenFileDialog a = new OpenFileDialog();
             a.Filter = "Maze Files (*.maz)|*.maz|MazeList Files (*.mel)|*.mel";
             a.FilterIndex = 1;
-            a.RestoreDirectory = true;
+            if (prevSaveDirMaze != "")
+            {
+                a.InitialDirectory = prevSaveDirMaze;
+            }
             openDialogActive = true;
             if (a.ShowDialog() == DialogResult.OK)
             {
-                OpenTheFile(a.FileName);
+                prevSaveDirMaze = Path.GetDirectoryName(a.FileName);
+                OpenTheFile(a.FileName);                
             }
            
         }
@@ -3624,6 +3628,11 @@ namespace MazeMaker
         {
             SaveFileDialog sfd = new SaveFileDialog{ Filter = "Maze Files (*.maz)|*.maz|Maze Package Files (*.mazx)|*.mazx" };
 
+            if (prevSaveDirMaze != "")
+            {
+                sfd.InitialDirectory = prevSaveDirMaze;
+            }
+
             bool zip = false;
 
             string directory = "";
@@ -3640,7 +3649,7 @@ namespace MazeMaker
                 sfd.FileName = directory + "\\" + fileName;
 
                 curMaze.SaveToMazeXML(sfd.FileName);
-
+                prevSaveDirMaze = Path.GetDirectoryName(sfd.FileName);
                 this.Text = "MazeMaker - " + sfd.FileName;
                 CurrentSettings.AddMazeFileToPrevious(sfd.FileName);
                 UpdateTree();
@@ -3956,6 +3965,7 @@ namespace MazeMaker
             {
                 Filter = "Maze Package Files (*.mazx)|*.mazx",
                 Title = "Open Maze Package Files",
+                InitialDirectory = prevSaveDirMaze,
             };
             if (ofd.ShowDialog() == DialogResult.OK)
             {
@@ -3963,6 +3973,7 @@ namespace MazeMaker
                 {
                     Filter = "Maze Files (*.maz)|*.maz",
                     Title = "Save Maze Files",
+                    InitialDirectory = prevSaveDirMaze,
                 };
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
@@ -3985,7 +3996,7 @@ namespace MazeMaker
                         Directory.Delete(newAssets, true);
                     Directory.Move(oldAssets, newAssets);
                     Directory.Delete(extractDir, true);
-
+                    prevSaveDirMaze = Path.GetDirectoryName(sfd.FileName);
                     OpenTheFile(sfd.FileName);
                 }
             }
