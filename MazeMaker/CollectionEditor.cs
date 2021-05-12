@@ -168,6 +168,7 @@ namespace MazeMaker
                 Filter = "Audio Files (*.wav;*.mp3)|*.wav;*.mp3",
                 Multiselect = multiselect,
                 Title = title,
+                InitialDirectory = prevCollectionDir,
             };
 
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -175,7 +176,7 @@ namespace MazeMaker
                 foreach (string filePath in ofd.FileNames)
                 {
                     AddAudio(Path.GetDirectoryName(filePath), Path.GetFileName(filePath));
-
+                    prevCollectionDir = Path.GetDirectoryName(filePath);
                     if (!multiselect)
                         return new List<string> { Path.GetFileName(filePath), filePath };
                 }
@@ -204,6 +205,7 @@ namespace MazeMaker
                 Filter = "Model Files (*.obj)|*.obj",
                 Multiselect = multiselect,
                 Title = title,
+                InitialDirectory = prevCollectionDir,
             };
 
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -211,7 +213,7 @@ namespace MazeMaker
                 foreach (string filePath in ofd.FileNames)
                 {
                     AddModel(Path.GetDirectoryName(filePath), Path.GetFileName(filePath));
-
+                    prevCollectionDir = Path.GetDirectoryName(filePath);
                     if (!multiselect)
                         return new List<string> { Path.GetFileName(filePath), filePath };
                 }

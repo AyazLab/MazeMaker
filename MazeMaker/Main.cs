@@ -1081,7 +1081,7 @@ namespace MazeMaker
             if (a.ShowDialog() == DialogResult.OK)
             {
                 prevSaveDirMaze = Path.GetDirectoryName(a.FileName);
-                OpenTheFile(a.FileName);                
+                OpenTheFile(a.FileName);
             }
            
         }
@@ -3648,7 +3648,7 @@ namespace MazeMaker
                 fileName = Path.GetFileName(sfd.FileName).Split('.')[0] + fileExt;
                 sfd.FileName = directory + "\\" + fileName;
 
-                curMaze.SaveToMazeXML(sfd.FileName);
+                //curMaze.SaveToMazeXML(sfd.FileName);  
                 prevSaveDirMaze = Path.GetDirectoryName(sfd.FileName);
                 this.Text = "MazeMaker - " + sfd.FileName;
                 CurrentSettings.AddMazeFileToPrevious(sfd.FileName);
@@ -3661,8 +3661,9 @@ namespace MazeMaker
 
             if (File.Exists(mazPath))
             {
-                if (Directory.Exists(assetsPath))
-                    Directory.Delete(assetsPath, true);
+                string tempPath = directory + "\\Temp";
+                if (Directory.Exists(tempPath))
+                    Directory.Delete(tempPath, true);
                 Directory.CreateDirectory(assetsPath + "\\image");
                 Directory.CreateDirectory(assetsPath + "\\audio");
                 Directory.CreateDirectory(assetsPath + "\\model");
@@ -3733,6 +3734,7 @@ namespace MazeMaker
 
             }
             curMaze.SaveToMazeXML(sfd.FileName);*/
+                curMaze.SaveToMazeXML(sfd.FileName);
                 if (!zip)
                     MazeListBuilder.ShowPM(mazPath, "\nPackage successfully generated", copiedFiles);
             }
@@ -3767,21 +3769,25 @@ namespace MazeMaker
             if (file != "")
             {
                 string oldFilePath = "should fall in one switch case or everything will break";
+                string newFilePath = mazPath + "_assets\\" + type + "\\" + file;
                 switch (type)
                 {
                     case "image":
                         oldFilePath = ImagePathConverter.Paths[file];
+                        ImagePathConverter.Paths[file] = newFilePath;
                         break;
 
                     case "audio":
                         oldFilePath = AudioPathConverter.Paths[file];
+                        AudioPathConverter.Paths[file] = newFilePath;
                         break;
                     
                     case "model":
                         oldFilePath = ModelPathConverter.Paths[file];
+                        ModelPathConverter.Paths[file] = newFilePath;
                         break;
                 }
-                string newFilePath = mazPath + "_assets\\" + type + "\\" + file;
+                //string newFilePath = mazPath + "_assets\\" + type + "\\" + file;
                 
                 copiedFile = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, type, newFilePath, ref replaceOrder);
                 ReplaceFiles();
