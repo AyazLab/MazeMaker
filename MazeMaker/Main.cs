@@ -3626,8 +3626,8 @@ namespace MazeMaker
 
         private void Package(object sender, EventArgs e)
         {
+            SaveAs();
             SaveFileDialog sfd = new SaveFileDialog{ Filter = "Maze Files (*.maz)|*.maz|Maze Package Files (*.mazx)|*.mazx" };
-
             if (prevSaveDirMaze != "")
             {
                 sfd.InitialDirectory = prevSaveDirMaze;
@@ -3659,8 +3659,13 @@ namespace MazeMaker
             string assetsPath = mazPath + "_assets";
             string copiedFiles = "";
 
-            if (File.Exists(mazPath))
+
+            //Instead of everything below, use Package from mazelib, maze.cs
+
+            if (File.Exists(mazPath))   //TODO: save maze
             {
+
+                //curMaze.Package(mazPath, zip);   //Make Package function in maze.cs with everything below here
                 string tempPath = directory + "\\Temp";
                 if (Directory.Exists(tempPath))
                     Directory.Delete(tempPath, true);
@@ -3787,7 +3792,6 @@ namespace MazeMaker
                         ModelPathConverter.Paths[file] = newFilePath;
                         break;
                 }
-                //string newFilePath = mazPath + "_assets\\" + type + "\\" + file;
                 
                 copiedFile = MazeListBuilder.RecursiveFileCopy(oldFilePath, mazPath, type, newFilePath, ref replaceOrder);
                 ReplaceFiles();

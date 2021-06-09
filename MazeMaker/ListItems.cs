@@ -706,6 +706,7 @@ namespace MazeMaker
         public CommandListItem()
         {
             Type = ItemType.Command;
+            
         }
 
         protected new string text = "";
@@ -736,6 +737,15 @@ namespace MazeMaker
         public override string ToString()
         {
             return "[" + Type + "] - " + Command;
+        }
+
+        private bool hideCommand = false;
+        [Description("Show/Hide Command Options")]
+        [DisplayName("Hide Command")]
+        public bool HideCommand
+        {
+            get { return hideCommand; }
+            set { hideCommand = value; }
         }
     }
 

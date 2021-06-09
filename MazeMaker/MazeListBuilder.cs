@@ -543,9 +543,9 @@ namespace MazeMaker
 
                 string melxPath = sfd.FileName;
                 WriteToMelx(melxPath);
-
-                if (Directory.Exists(melxPath + "_assets"))
-                    Directory.Delete(melxPath + "_assets", true);
+                string tempPath = Path.GetDirectoryName(sfd.FileName) + "\\Temp";
+                if (Directory.Exists(tempPath + "_assets"))
+                    Directory.Delete(tempPath + "_assets", true);
 
                 Directory.CreateDirectory(melxPath + "_assets\\maze");
                 Directory.CreateDirectory(melxPath + "_assets\\image");
