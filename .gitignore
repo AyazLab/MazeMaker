@@ -10,3 +10,6 @@ MazeMaker/bin/*
 .vs/MazeMaker/v16/.suo
 *.pdb
 *.exe
+*.vsidx
+*.lock
+.vs/MazeMaker/v17/.suo

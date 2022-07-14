@@ -4282,7 +4282,26 @@ namespace MazeMaker
                         ChangeMode(Mode.wall0);
                     }
                     break;
-                case Mode.curveWall1:
+                case Mode.curveWall0:
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        if (curMaze.CheckForClosePoint(e.X, e.Y, ref tempPoint1, iViewOffsetX, iViewOffsetY) == false)
+                        {
+                            tempPoint1 = new PointF(e.X, e.Y);
+
+                            tempPoint1.X = ((int)(tempPoint1.X / GridStepX)) * GridStepX;
+                            tempPoint1.Y = ((int)(tempPoint1.Y / GridStepY)) * GridStepY;
+
+                        }
+                        else
+                        {
+                            tempPoint1 = new PointF(e.X, e.Y);
+                        }
+                        tempPoint2 = tempPoint1;
+                        ChangeMode(Mode.curveWall1);
+                    }
+                    break;
+                case Mode.curveWall1: //set point 1 and 2
                     if (e.Button == MouseButtons.Left && dist2FromLast > minDist2)
                     {
                         if (curMaze.CheckForClosePoint(e.X, e.Y, ref tempPoint2, iViewOffsetX, iViewOffsetY) == false)
@@ -4291,6 +4310,10 @@ namespace MazeMaker
 
                             tempPoint2.X = ((int)(tempPoint2.X / GridStepX)) * GridStepX;
                             tempPoint2.Y = ((int)(tempPoint2.Y / GridStepY)) * GridStepY;
+                        }
+                        else
+                        {
+                            tempPoint2 = new PointF(e.X, e.Y);
                         }
 
                         ChangeMode(Mode.curveWall2);
@@ -4323,7 +4346,7 @@ namespace MazeMaker
                         ChangeMode(Mode.curveWall0);
                     }
                     break;
-                case Mode.curveWall2:
+                case Mode.curveWall2: // set angle
                     if (e.Button == MouseButtons.Left)
                     {
                         if (curMaze.CheckForClosePoint(e.X, e.Y, ref tempPoint3, iViewOffsetX, iViewOffsetY) == false)
@@ -4332,6 +4355,10 @@ namespace MazeMaker
 
                             tempPoint3.X = ((int)(tempPoint3.X / GridStepX)) * GridStepX;
                             tempPoint3.Y = ((int)(tempPoint3.Y / GridStepY)) * GridStepY;
+                        }
+                        else
+                        {
+                            tempPoint3 = new PointF(e.X, e.Y);
                         }
 
                         CurvedWall temp = new CurvedWall(curMaze.Scale);
@@ -4687,21 +4714,7 @@ namespace MazeMaker
                     }
                     break;
 
-                case Mode.curveWall0:
-                    if (e.Button == MouseButtons.Left)
-                    {
-                        if (curMaze.CheckForClosePoint(e.X, e.Y, ref tempPoint1, iViewOffsetX, iViewOffsetY) == false)
-                        {
-                            tempPoint1 = new PointF(e.X, e.Y);
-
-                            tempPoint1.X = ((int)(tempPoint1.X / GridStepX)) * GridStepX;
-                            tempPoint1.Y = ((int)(tempPoint1.Y / GridStepY)) * GridStepY;
-
-                        }
-                        tempPoint2 = tempPoint1;
-                        ChangeMode(Mode.curveWall1);
-                    }
-                    break;
+                
 
                 case Mode.floor0:
                     if (e.Button == MouseButtons.Left)
