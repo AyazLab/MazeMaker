@@ -1,15 +1,10 @@
 
-.vs/MazeMaker/v15/.suo
-.vs/MazeMaker/v15/Server/sqlite3/db.lock
-.vs/MazeMaker/v15/Server/sqlite3/storage.ide
-.vs/MazeMaker/v15/Server/sqlite3/storage.ide-shm
-.vs/MazeMaker/v15/Server/sqlite3/storage.ide-wal
-MazeMaker/obj/*
-MazeMaker/bin/*
+.vs/
+.vs
+MazeMaker/obj/
+MazeMaker/bin/
 *.cache
-.vs/MazeMaker/v16/.suo
 *.pdb
 *.exe
 *.vsidx
 *.lock
-.vs/MazeMaker/v17/.suo
