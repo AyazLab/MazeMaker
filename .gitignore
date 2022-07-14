@@ -8,3 +8,4 @@ MazeMaker/bin/
 *.exe
 *.vsidx
 *.lock
+*.suo
