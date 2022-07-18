@@ -1008,7 +1008,14 @@ namespace MazeMaker
 
                         mz.SetAttribute("StartPosition", maze.StartPosition);
                         mz.SetAttribute("StartMessage", maze.StartMessage);
-                        mz.SetAttribute("Timeout", maze.Timeout);
+
+                        mz.SetAttribute("InitialPoints", maze.InitialPoints.ToString());
+                        mz.SetAttribute("InitialPointsMode", maze.InitialPointsMode.ToString());
+
+                        mz.SetAttribute("StartTime", maze.StartTime.ToString());
+                        mz.SetAttribute("InitialTimeMode", maze.InitialTimeMode.ToString());
+                        mz.SetAttribute("Timeout", maze.Timeout.ToString());
+
                         break;
 
                     case ItemType.Text:
@@ -1447,7 +1454,11 @@ namespace MazeMaker
                                         MazeFile = mazeFileName,
                                         StartPosition = listItem.GetAttribute("StartPosition"),
                                         StartMessage = listItem.GetAttribute("StartMessage"),
-                                        Timeout = listItem.GetAttribute("Timeout")
+                                        //InitialPoints = int.Parse(listItem.GetAttribute("InitialPoints"));
+                                        //InitialPointsMode = listItem.GetAttribute("InitialPointsMode"),
+                                        //StartTime = listItem.GetAttribute("StartTime"),
+                                        //Timeout = double.TryParse(listItem.GetAttribute("Timeout"),0);
+                                        Timeout = double.Parse(listItem.GetAttribute("Timeout"))
                                     };
 
                                     MazeList.Add(maze);

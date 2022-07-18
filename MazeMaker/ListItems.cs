@@ -23,6 +23,19 @@ namespace MazeMaker
         MazeListOptions, Maze, Text, Image, MultipleChoice, RecordAudio, Command
     }
 
+
+    public enum PointsMode
+    {
+        Add, SetTo
+    }
+
+    public enum TimeMode
+    {
+        StartAt, Continue
+    }
+
+
+
     public class ListItem : Object
     {
         protected string text = "";
@@ -166,13 +179,49 @@ namespace MazeMaker
             set { startMessage = value; }
         }
 
-        private string timeout = "";
+        private int initialPoints = 0;
+        [Category("MazePoints")]
+        [DisplayName("Initial Points")]
+        public int InitialPoints
+        {
+            get { return initialPoints; }
+            set { initialPoints = value; }
+        }
+
+        private PointsMode initialPointsMode = PointsMode.SetTo;
+        [Category("MazePoints")]
+        [DisplayName("Initial Points Mode")]
+        public PointsMode InitialPointsMode
+        {
+            get { return initialPointsMode; }
+            set { initialPointsMode = value; }
+        }
+
+        private double timeout = 0;
         [Category("Timing")]
         [DisplayName("Timeout")]
-        public string Timeout
+        public double Timeout
         {
             get { return timeout; }
             set { timeout = value; }
+        }
+
+        private double startTime = 0;
+        [Category("Timing")]
+        [DisplayName("Start Time")]
+        public double StartTime
+        {
+            get { return startTime; }
+            set { startTime = value; }
+        }
+
+        private TimeMode startTimeMode = TimeMode.StartAt;
+        [Category("Timing")]
+        [DisplayName("Initial Time Mode")]
+        public TimeMode InitialTimeMode
+        {
+            get { return startTimeMode; }
+            set { startTimeMode = value; }
         }
 
         public override string ToString()
