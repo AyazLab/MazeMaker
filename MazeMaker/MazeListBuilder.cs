@@ -1234,7 +1234,7 @@ namespace MazeMaker
                         mz.SetAttribute("WaitForComplete", command.WaitForComplete.ToString());
                         mz.SetAttribute("HideWindow", command.HideCommand.ToString());
                         mz.SetAttribute("Program", command.Command);
-                        mz.InnerText = command.CommandParams;
+                        mz.InnerText = command.CommandParameters;
                    
                         break;
                 }
