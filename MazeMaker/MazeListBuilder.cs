@@ -1055,7 +1055,7 @@ namespace MazeMaker
                         }
 
                         mz.SetAttribute("Loop", text.Loop.ToString());
-                        mz.SetAttribute("AudioBehavior", text.AudioBehavior);
+                        //mz.SetAttribute("AudioBehavior", text.AudioBehavior);
                         mz.SetAttribute("EndBehavior", text.EndBehavior);
                         mz.SetAttribute("FontSize", text.FontSize.ToString());
                         break;
@@ -1126,7 +1126,7 @@ namespace MazeMaker
                         }
 
                         mz.SetAttribute("Loop", image.Loop.ToString());
-                        mz.SetAttribute("AudioBehavior", image.AudioBehavior);
+                        //mz.SetAttribute("AudioBehavior", image.AudioBehavior);
                         mz.SetAttribute("EndBehavior", image.EndBehavior);
                         break;
 
@@ -1188,7 +1188,7 @@ namespace MazeMaker
                         }
 
                         mz.SetAttribute("Loop", multipleChoice.Loop.ToString());
-                        mz.SetAttribute("AudioBehavior", multipleChoice.AudioBehavior);
+                        //mz.SetAttribute("AudioBehavior", multipleChoice.AudioBehavior);
                         mz.SetAttribute("EndBehavior", multipleChoice.EndBehavior);
                         break;
 
@@ -1486,7 +1486,7 @@ namespace MazeMaker
 
                                         AudioFile = audioFileName,
                                         Loop = bool.Parse(listItem.GetAttribute("Loop")),
-                                        AudioBehavior = listItem.GetAttribute("AudioBehavior"),
+                                        //AudioBehavior = listItem.GetAttribute("AudioBehavior"),
                                         EndBehavior = listItem.GetAttribute("EndBehavior"),
                                         FontSize = Convert.ToInt32(listItem.GetAttribute("FontSize"))
                                     };
@@ -1532,7 +1532,7 @@ namespace MazeMaker
 
                                         AudioFile = audioFileName,
                                         Loop = bool.Parse(listItem.GetAttribute("Loop")),
-                                        AudioBehavior = listItem.GetAttribute("AudioBehavior"),
+                                        //AudioBehavior = listItem.GetAttribute("AudioBehavior"),
                                         EndBehavior = listItem.GetAttribute("EndBehavior")
                                     };
 
@@ -1560,7 +1560,7 @@ namespace MazeMaker
 
                                         AudioFile = audioFileName,
                                         Loop = bool.Parse(listItem.GetAttribute("Loop")),
-                                        AudioBehavior = listItem.GetAttribute("AudioBehavior"),
+                                        //AudioBehavior = listItem.GetAttribute("AudioBehavior"),
                                         EndBehavior = listItem.GetAttribute("EndBehavior")
                                     };
 
