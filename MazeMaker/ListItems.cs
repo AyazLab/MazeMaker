@@ -40,7 +40,7 @@ namespace MazeMaker
     {
         protected string text = "";
         [Category("Text Display")]
-        [Description("Text")]
+        [Description("Text to display on screen")]
         public string Text
         {
             get { return text; }
@@ -336,7 +336,7 @@ namespace MazeMaker
 
         private int fontSize = 12;
         [Category("Text Display")]
-        [Description("Specify an font size to be displayed")]
+        [Description("Specify the font size to be displayed")]
         [DisplayName("Font Size")]
         public int FontSize
         {
@@ -461,7 +461,7 @@ namespace MazeMaker
 
         private int fontSize = 12;
         [Category("Text Display")]
-        [Description("Specify an font size to be displayed")]
+        [Description("Specify the font size to be displayed")]
         [DisplayName("Font Size")]
         public int FontSize
         {
@@ -568,7 +568,7 @@ namespace MazeMaker
 
         BindingList<TextReturn> items = new BindingList<TextReturn>(); 
         [Category("Text Display")]
-        [Description("Text")]
+        [Description("Collection of menu choices")]
         public new BindingList<TextReturn> Text
         {
             get 
@@ -686,14 +686,14 @@ namespace MazeMaker
             Type = ItemType.RecordAudio;
         }
 
-        protected new string text = "";
-        [Browsable(false)]
+        /*protected new string text = "";
+        
 
         public new string Text
         {
             get { return text; }
             set { text = value; }
-        }
+        }*/
 
         public override string ToString()
         {
@@ -741,7 +741,7 @@ namespace MazeMaker
 
         private int fontSize = 12;
         [Category("Text Display")]
-        [Description("Specify an font size to be displayed")]
+        [Description("Specify the font size to be displayed")]
         [DisplayName("Font Size")]
         public int FontSize
         {
