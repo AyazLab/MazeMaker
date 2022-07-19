@@ -770,20 +770,28 @@ namespace MazeMaker
         }
 
         private string command = "";
-        [Description("Windows Shell Command")]
+        [Description("Shell Command")]
         public string Command
         {
             get { return command; }
             set { command = value; }
         }
 
-        private bool wait4Complete = true;
+        private string commandParameters = "";
+        [Description("Shell Parameters")]
+        public string CommandParameters
+        {
+            get { return commandParameters; }
+            set { commandParameters = value; }
+        }
+
+        private bool waitForComplete = true;
         [Description("Wait for shell program to exit before continuing maze list")]
         [DisplayName("Wait For Complete")]
-        public bool Wait4Complete
+        public bool WaitForComplete
         {
-            get { return wait4Complete; }
-            set { wait4Complete = value; }
+            get { return waitForComplete; }
+            set { waitForComplete = value; }
         }
         
         public override string ToString()
@@ -793,7 +801,7 @@ namespace MazeMaker
 
         private bool hideCommand = false;
         [Description("Show/Hide Command Options")]
-        [DisplayName("Hide Command")]
+        [DisplayName("Hide Command Window")]
         public bool HideCommand
         {
             get { return hideCommand; }

@@ -1230,8 +1230,12 @@ namespace MazeMaker
 
                     case ItemType.Command:
                         CommandListItem command = (CommandListItem)item;
-                        mz.InnerText = command.Command;
-                        mz.SetAttribute("WaitForComplete", command.Wait4Complete.ToString());
+                        
+                        mz.SetAttribute("WaitForComplete", command.WaitForComplete.ToString());
+                        mz.SetAttribute("HideWindow", command.HideCommand.ToString());
+                        mz.SetAttribute("Program", command.Command);
+                        mz.InnerText = command.CommandParams;
+                   
                         break;
                 }
 
@@ -1607,8 +1611,11 @@ namespace MazeMaker
                                 case "Command":
                                     CommandListItem command = new CommandListItem
                                     {
-                                        Command = listItem.InnerText,
-                                        Wait4Complete = bool.Parse(listItem.GetAttribute("WaitForComplete")),
+                                        Command = listItem.GetAttribute("Program"),
+                                        CommandParameters = listItem.InnerText,
+
+                                        WaitForComplete = bool.Parse(listItem.GetAttribute("WaitForComplete")),
+                                        HideCommand = bool.Parse(listItem.GetAttribute("HideWindow")),
                                     };
 
                                     MazeList.Add(command);
