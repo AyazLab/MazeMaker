@@ -566,6 +566,7 @@ namespace MazeMaker
                                 string newFilePath = melxPath + "_assets\\maze\\" + maze.MazeFile;
 
                                 copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "maze", newFilePath, ref replaceOrder);
+                                
                             }
                             break;
 

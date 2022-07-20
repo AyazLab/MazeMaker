@@ -3652,6 +3652,7 @@ namespace MazeMaker
                 if (Path.GetExtension(sfd.FileName).ToLower() == ".mazx")
                     zip = true;
 
+
                 directory = Path.GetDirectoryName(sfd.FileName);
                 fileName = Path.GetFileName(sfd.FileName).Split('.')[0] + fileExt;
                 sfd.FileName = directory + "\\" + fileName;
@@ -3662,47 +3663,28 @@ namespace MazeMaker
                 CurrentSettings.AddMazeFileToPrevious(sfd.FileName);
                 UpdateTree();
             }
-            
+
             string mazPath = sfd.FileName;
-            string assetsPath = mazPath + "_assets";
+       
             string copiedFiles = "";
 
 
             //Instead of everything below, use Package from mazelib, maze.cs
 
-            bool successPackage=curMaze.Package(mazPath, out copiedFiles, replaceOrder);//, zip);
+            bool successPackage=curMaze.Package(mazPath, out copiedFiles, replaceOrder, zip);//, zip);
 
             
                 //curMaze.SaveToMazeXML(sfd.FileName);
-            if (!zip)
-            { 
-                if(successPackage)
-                    MazeListBuilder.ShowPM(mazPath, "\nPackage successfully generated", copiedFiles);
-                else
-                    MazeListBuilder.ShowPM(mazPath, "\nPackage failed!", copiedFiles);
-            }
 
-
-            if (zip)
+            if(!successPackage)
+                MazeListBuilder.ShowPM(mazPath, "\nPackage failed!", copiedFiles);
+            else if (zip)
             {
-                string tempPath = directory + "\\Temp"; // make temp dir
-                if (Directory.Exists(tempPath))
-                    Directory.Delete(tempPath, true);
-                Directory.CreateDirectory(tempPath);
-
-                string newMazPath = tempPath + "\\" + fileName; // move stuff into temp dir
-                string newAssetsPath = tempPath + "\\" + fileName + "_assets";
-                Directory.Move(mazPath, newMazPath);
-                Directory.Move(assetsPath, newAssetsPath);
-
-                string zipPath = directory + "\\" + fileName.Substring(0, fileName.Length - fileExt.Length) + ".mazx"; // zip stuff in temp dir
-                if (File.Exists(zipPath))
-                    File.Delete(zipPath);
-                ZipFile.CreateFromDirectory(tempPath, zipPath);
-
-                Directory.Delete(tempPath, true); // delete temp dir
-
-                MazeListBuilder.ShowPM(mazPath, "\nZipping files...\n" + zipPath + "\nPackage successfully generated", copiedFiles);
+                MazeListBuilder.ShowPM(mazPath, "\nZipping files...\n" + mazPath + "\nPackage successfully generated", copiedFiles);
+            }
+            else
+            {
+                MazeListBuilder.ShowPM(mazPath, "\nPackage successfully generated", copiedFiles);
             }
         }
 
