@@ -244,10 +244,11 @@ namespace MazeMaker
 
             M = new autoMaze(X, Y, thickness, length, ceilingOpt);
 
-            outMazeText.Rtf =  M.ToString(true);
             outMazeText.AutoWordSelection = false;
             outMazeText.ZoomFactor = 0.5f;
-   
+
+            outMazeText.Rtf =  M.ToString(true);
+           
             //outMazeText.Font = SystemFonts.GetFontByName("Cascadia Code Extralight");
 
         }
