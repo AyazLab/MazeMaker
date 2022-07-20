@@ -1078,6 +1078,9 @@ namespace MazeMaker
                         mz.SetAttribute("InitialPoints", maze.InitialPoints.ToString());
                         mz.SetAttribute("InitialPointsMode", maze.InitialPointsMode.ToString());
 
+                        mz.SetAttribute("ExitPointThreshold", maze.ExitPointsThreshold.ToString());
+                        mz.SetAttribute("ExitPointThresholdMode", maze.ExitPointsThresholdMode.ToString());
+
                         mz.SetAttribute("StartTime", maze.StartTime.ToString());
                         mz.SetAttribute("InitialTimeMode", maze.InitialTimeMode.ToString());
                         mz.SetAttribute("Timeout", maze.Timeout.ToString());
@@ -1519,15 +1522,23 @@ namespace MazeMaker
                                     }
                                     mazeFilePaths[mazeFileName] = mazeFilePath;
 
+                                    PointsMode iPointsMode;
+                                    Enum.TryParse(Tools.getStringFromAttribute(listItem, "InitialPointsMode", "SetTo"), out iPointsMode);
+                                    PointsMode ePointsMode;
+                                    Enum.TryParse(Tools.getStringFromAttribute(listItem, "ExitPointsThresholdMode", "SetTo"), out ePointsMode);
+                                    
+
                                     MazeListItem maze = new MazeListItem
                                     {
                                         MazeFile = mazeFileName,
                                         StartPosition = listItem.GetAttribute("StartPosition"),
                                         StartMessage = listItem.GetAttribute("StartMessage"),
-                                        //InitialPoints = int.Parse(listItem.GetAttribute("InitialPoints"));
-                                        //InitialPointsMode = listItem.GetAttribute("InitialPointsMode"),
-                                        //StartTime = listItem.GetAttribute("StartTime"),
-                                        //Timeout = double.TryParse(listItem.GetAttribute("Timeout"),0);
+                                        InitialPoints = int.Parse(listItem.GetAttribute("InitialPoints")),
+                                        InitialPointsMode = iPointsMode,
+                                        ExitPointsThreshold = int.Parse(listItem.GetAttribute("ExitPointsThreshold")),
+                                        ExitPointsThresholdMode = ePointsMode,
+                                        StartTime = double.Parse(listItem.GetAttribute("StartTime")),
+                                        
                                         Timeout = double.Parse(listItem.GetAttribute("Timeout"))
                                     };
 

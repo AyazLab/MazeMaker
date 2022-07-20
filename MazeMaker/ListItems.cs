@@ -196,6 +196,23 @@ namespace MazeMaker
             get { return initialPointsMode; }
             set { initialPointsMode = value; }
         }
+        private int exitPointsThreshold = 0;
+        [Category("MazePoints")]
+        [DisplayName("Threshold Exit Points")]
+        public int ExitPointsThreshold
+        {
+            get { return exitPointsThreshold; }
+            set { exitPointsThreshold = value; }
+        }
+
+        private PointsMode exitPointsThresholdMode = PointsMode.SetTo;
+        [Category("MazePoints")]
+        [DisplayName("Threshold Exit Points Mode")]
+        public PointsMode ExitPointsThresholdMode
+        {
+            get { return exitPointsThresholdMode; }
+            set { exitPointsThresholdMode = value; }
+        }
 
         private double timeout = 0;
         [Category("Timing")]
