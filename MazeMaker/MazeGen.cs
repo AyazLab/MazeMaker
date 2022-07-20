@@ -47,7 +47,7 @@ namespace MazeMaker
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
-            if(i==3)
+            if (i == 3)
             {
                 generateCircularMaze();
                 this.DialogResult = DialogResult.OK;
@@ -60,15 +60,15 @@ namespace MazeMaker
 
         public List<Wall> GetWalls(double scale)
         {
-            List<mazeWall> myList= M.maze2coords();
+            List<mazeWall> myList = M.maze2coords();
             List<Wall> newList = new List<Wall>();
-            
+
             foreach (mazeWall w in myList)
             {
-                newList.AddRange(w.ThickWallToWalls(scale,comboBoxColor.Text));
+                newList.AddRange(w.ThickWallToWalls(scale, comboBoxColor.Text));
             }
 
-            if(M.circularMaze)
+            if (M.circularMaze)
             {
                 List<mazeCurve> myListCurve = M.maze2coordsCurve();
                 foreach (mazeCurve w in myListCurve)
@@ -90,8 +90,8 @@ namespace MazeMaker
             List<mazeCurve> myList = M.maze2coordsCurve();
             List<CurvedWall> newList = new List<CurvedWall>();
 
-            if(M.circularMaze)
-            { 
+            if (M.circularMaze)
+            {
                 foreach (mazeCurve w in myList)
                 {
                     newList.AddRange(w.ThickCurveToCurves(scale, comboBoxColor.Text));
@@ -109,11 +109,11 @@ namespace MazeMaker
         {
             StartPos s = new StartPos(scale);
             MPoint p = new MPoint();
-            p.X = 1 * (M.length + M.length* M.thickness) / 2; 
+            p.X = 1 * (M.length + M.length * M.thickness) / 2;
             p.Y = 0;
             p.Z = 1 * (M.length + M.length * M.thickness) / 2;
 
-            if(M.circularMaze)
+            if (M.circularMaze)
             {
                 p.X = M.offset;
                 p.Z = M.offset;
@@ -127,12 +127,12 @@ namespace MazeMaker
             List<Floor> newList = new List<Floor>();
             Floor f = new Floor(scale);
             if (!M.circularMaze)
-            { 
+            {
                 f.MzPoint1.X = 0;
                 f.MzPoint1.Y = -1;
                 f.MzPoint1.Z = 0;
 
-                f.MzPoint2.X = M.X * M.length*(M.thickness+1);
+                f.MzPoint2.X = M.X * M.length * (M.thickness + 1);
                 f.MzPoint2.Y = -1;
                 f.MzPoint2.Z = 0;
 
@@ -237,14 +237,19 @@ namespace MazeMaker
         {
             int X = (int)heightNumeric.Value;
             int Y = (int)widthNumeric.Value;
-            double thickness = (double)thickNumeric.Value/100;
+            double thickness = (double)thickNumeric.Value / 100;
             double length = (double)lengthNumeric.Value;
             int ceilingOpt = comboBoxCeiling.SelectedIndex;
 
-        
-             M = new autoMaze(X, Y, thickness, length, ceilingOpt);
 
-            outMazeText.Text = M.ToString();
+            M = new autoMaze(X, Y, thickness, length, ceilingOpt);
+
+            outMazeText.Rtf =  M.ToString(true);
+            outMazeText.AutoWordSelection = false;
+            outMazeText.ZoomFactor = 0.5f;
+   
+            //outMazeText.Font = SystemFonts.GetFontByName("Cascadia Code Extralight");
+
         }
 
         private void generateCircularMaze()
@@ -627,14 +632,31 @@ namespace MazeMaker
                     mazeArr[x, y].IsIn = true;
             }
 
-            public override String ToString()
+            public override string ToString()
+            {
+                return ToString(false);
+            }
+
+            public String ToString(bool toRTF=false)
             {
                 String output = "";
                 String output2 = "";
 
-                String blockChar=" ";
+                String blockChar = " ";
                 String emptyChar = "█";
                 String borderChar = " ";
+                String lineBreakChar = "\n";
+
+                if (toRTF)
+                {
+                    blockChar = "\\highlight1   ";
+                    emptyChar = "\\highlight2   ";
+                    borderChar = "\\highlight1   ";
+                    lineBreakChar = "\\line\r\n\\highlight2 ";
+                    output2= "{\\rtf1\\ansi\\ansicpg1252\\deff0\\nouicompat\\deflang1033{\\fonttbl{\\f0\\fmodern\\fprq0\\fcharset0 Cascadia Code SemiBold; }}";
+                    output2 += "{\\colortbl ;\\red255\\green255\\blue255;\\red0\\green0\\blue0;}\\pard\r\n\\viewkind4\\uc1\\par\r\n\\widctlpar\\sl0\\slmult0\\f0\\cf1\\noextrasprl\\nosupersub\\kerning0\\fs24\\truncex";
+                }
+                
 
                 for (int y = 0; y < Y; y++)
                 {
@@ -655,7 +677,7 @@ namespace MazeMaker
                         
                     }
                     output += "\n";
-                    output2 += blockChar+"\n";
+                    output2 += blockChar+ lineBreakChar;
                     for (int x = 0; x < X; x++)
                     {
                         if (mazeArr[x, y].leftWall)
@@ -672,13 +694,16 @@ namespace MazeMaker
                         output2 += emptyChar;
                     }
                     output += "\n";
-                    output2 += blockChar+"\n";
+                    output2 += blockChar+ lineBreakChar;
                 }
 
                 for (int x = 0; x < X*2+1; x++)
                 {
                     output2 += blockChar;
                 }
+
+                if(toRTF)
+                    output2 += "}";
 
                 return output2;
             } 
