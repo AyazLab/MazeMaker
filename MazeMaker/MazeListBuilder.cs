@@ -593,7 +593,15 @@ namespace MazeMaker
                                 if(packageMaze)
                                 { 
                                     Maze tempMaze = new Maze();
-                                    if(tempMaze.ReadFromFileXML(oldFilePath))
+
+                                    Dictionary<string,string> tempPathsModels=ModelPathConverter.Paths;
+                                    Dictionary<string, string> tempPathsAudio = AudioPathConverter.Paths;
+                                    Dictionary<string, string> tempPathsImage = ImagePathConverter.Paths;
+                                    ModelPathConverter.Paths.Clear();
+                                    AudioPathConverter.Paths.Clear();
+                                    ImagePathConverter.Paths.Clear();
+
+                                    if (tempMaze.ReadFromFileXML(oldFilePath))
                                     {
                                         tempMaze.Package(newFilePath, out copiedFiles, replaceOrder, zipMode);
                                     
@@ -603,6 +611,10 @@ namespace MazeMaker
                                         copiedFiles = copiedFiles + "\nUnable to package " + oldFilePath;
                                         MessageBox.Show("Not a maze file or corrupted maze file", "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     }
+
+                                    ModelPathConverter.Paths = tempPathsModels;
+                                    AudioPathConverter.Paths = tempPathsAudio;
+                                    ImagePathConverter.Paths = tempPathsImage;
                                 }
 
 
