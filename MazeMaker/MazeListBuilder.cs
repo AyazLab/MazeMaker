@@ -551,6 +551,8 @@ namespace MazeMaker
                 Directory.CreateDirectory(melxPath + "_assets\\image");
                 Directory.CreateDirectory(melxPath + "_assets\\audio");
 
+ 
+
                 string copiedFiles = "";
                 foreach (ListItem item in MazeList)
                 {
@@ -565,8 +567,48 @@ namespace MazeMaker
                                 string oldFilePath = mazeFilePaths[maze.MazeFile];
                                 string newFilePath = melxPath + "_assets\\maze\\" + maze.MazeFile;
 
+                                bool zipMode = true;
+                                bool packageMaze = true;
+
+                                mazeFilePaths[maze.MazeFile] = newFilePath;
+
+                                string extOrig = Path.GetExtension(newFilePath);
+
+                                if(extOrig.ToLower().EndsWith("x"))
+                                {
+                                    packageMaze = false;
+                                }
+                                else if(zipMode)
+                                {
+                                    mazeFilePaths[maze.MazeFile] = mazeFilePaths[maze.MazeFile] + "x";
+                                }
+
                                 copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "maze", newFilePath, ref replaceOrder);
-                                
+
+                                if(!oldFilePath.Contains(":"))
+                                {
+                                    oldFilePath = Path.GetDirectoryName(melxPath) + "\\" + oldFilePath;
+                                }
+
+                                if(packageMaze)
+                                { 
+                                    Maze tempMaze = new Maze();
+                                    if(tempMaze.ReadFromFileXML(oldFilePath))
+                                    {
+                                        tempMaze.Package(newFilePath, out copiedFiles, replaceOrder, zipMode);
+                                    
+                                    }
+                                    else
+                                        {
+                                        copiedFiles = copiedFiles + "\nUnable to package " + oldFilePath;
+                                        MessageBox.Show("Not a maze file or corrupted maze file", "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    }
+                                }
+
+
+
+
+
                             }
                             break;
 
@@ -576,6 +618,8 @@ namespace MazeMaker
                             {
                                 string oldFilePath = audioFilePaths[text.AudioFile];
                                 string newFilePath = melxPath + "_assets\\audio\\" + text.AudioFile;
+
+                                audioFilePaths[text.AudioFile] = newFilePath;
 
                                 copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath, ref replaceOrder);
                             }
@@ -588,12 +632,16 @@ namespace MazeMaker
                                 string oldFilePath = imageFilePaths[image.ImageFile];
                                 string newFilePath = melxPath + "_assets\\image\\" + image.ImageFile;
 
+                                imageFilePaths[image.ImageFile] = newFilePath;
+
                                 copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "image", newFilePath, ref replaceOrder);
+
                             }
                             if (image.AudioFile != "")
                             {
                                 string oldFilePath = audioFilePaths[image.AudioFile];
                                 string newFilePath = melxPath + "_assets\\audio\\" + image.AudioFile;
+                                audioFilePaths[image.AudioFile] = newFilePath;
 
                                 copiedFile1 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath, ref replaceOrder);
                             }
@@ -605,6 +653,7 @@ namespace MazeMaker
                             {
                                 string oldFilePath = audioFilePaths[multipleChoice.AudioFile];
                                 string newFilePath = melxPath + "_assets\\audio\\" + multipleChoice.AudioFile;
+                                audioFilePaths[multipleChoice.AudioFile] = newFilePath;
 
                                 copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath, ref replaceOrder);
                             }
@@ -618,6 +667,8 @@ namespace MazeMaker
                                 string oldFilePath = imageFilePaths[recordAudio.ImageFile];
                                 string newFilePath = melxPath + "_assets\\image\\" + recordAudio.ImageFile;
 
+                                imageFilePaths[recordAudio.ImageFile] = newFilePath;
+
                                 copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "image", newFilePath, ref replaceOrder);
                             }
                             break;
@@ -625,6 +676,7 @@ namespace MazeMaker
 
                     ReplaceFiles();
                     UpdateMazeList();
+                    
 
                     if (!AddToLog(copiedFile0, ref copiedFiles) || !AddToLog(copiedFile1, ref copiedFiles))
                     {
@@ -633,6 +685,7 @@ namespace MazeMaker
                     }
                 }
 
+                WriteToMelx(melxPath);
                 ShowPM(melxPath, "\nPackage successfully generated", copiedFiles);
             }
         }
