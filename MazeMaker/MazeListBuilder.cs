@@ -1078,8 +1078,8 @@ namespace MazeMaker
                         mz.SetAttribute("InitialPoints", maze.InitialPoints.ToString());
                         mz.SetAttribute("InitialPointsMode", maze.InitialPointsMode.ToString());
 
-                        mz.SetAttribute("ExitPointThreshold", maze.ExitPointsThreshold.ToString());
-                        mz.SetAttribute("ExitPointThresholdMode", maze.ExitPointsThresholdMode.ToString());
+                        mz.SetAttribute("ExitPointsThreshold", maze.ExitPointsThreshold.ToString());
+                        mz.SetAttribute("ExitPointsThresholdMode", maze.ExitPointsThresholdMode.ToString());
 
                         mz.SetAttribute("StartTime", maze.StartTime.ToString());
                         mz.SetAttribute("InitialTimeMode", maze.InitialTimeMode.ToString());
