@@ -3478,6 +3478,7 @@ namespace MazeMaker
                     {
                         case MazeItemType.Floor:
                             Floor floor = (Floor)mazeItem;
+                            floor.ConvertFromMazeCoordinates();
                             if(fieldModifiedFull == "4.FloorProperties.FloorTexture")
                                 floor.FloorTexture = ManageItems("Image", e.OldValue, floor.FloorTexture);
                             if (fieldModifiedFull == "5.CeilingProperties.CeilingTexture")
@@ -3486,18 +3487,21 @@ namespace MazeMaker
 
                         case MazeItemType.CurvedWall:
                             CurvedWall curvedWall = (CurvedWall)mazeItem;
+                            curvedWall.ConvertFromMazeCoordinates();
                             if (fieldModifiedFull == "3.Texture.Texture")
                                 curvedWall.Texture = ManageItems("Image", e.OldValue, curvedWall.Texture);
                             break;
 
                         case MazeItemType.Wall:
                             Wall wall = (Wall)mazeItem;
+                            wall.ConvertFromMazeCoordinates();
                             if (fieldModifiedFull == "3.Texture.Texture")
                                 wall.Texture = ManageItems("Image", e.OldValue, wall.Texture);
                             break;
 
                         case MazeItemType.ActiveRegion:
                             ActiveRegion activeRegion = (ActiveRegion)mazeItem;
+                            activeRegion.ConvertFromMazeCoordinates();
                             if (fieldModifiedFull == "4.Phase1:Highlight.Audio")
                                 activeRegion.Phase1HighlightAudio = ManageItems("Audio", e.OldValue, activeRegion.Phase1HighlightAudio);
                             if (fieldModifiedFull == "5.Phase2:Event.Audio")
@@ -3506,7 +3510,7 @@ namespace MazeMaker
 
                         case MazeItemType.Dynamic:
                             DynamicObject dynamicObject = (DynamicObject)mazeItem;
-
+                            dynamicObject.ConvertFromMazeCoordinates();
                             if (fieldModifiedFull == "5.Phase1:Highlight.Audio")
                                 dynamicObject.Phase1HighlightAudio = ManageItems("Audio", e.OldValue, dynamicObject.Phase1HighlightAudio);
                             if (fieldModifiedFull == "6.Phase2:Event.Audio")
@@ -3520,6 +3524,7 @@ namespace MazeMaker
 
                         case MazeItemType.Static:
                             StaticModel staticModel = (StaticModel)mazeItem;
+                            staticModel.ConvertFromMazeCoordinates();
                             if (fieldModifiedFull == "3.Model.Model")
                                 staticModel.Model = ManageItems("Model", e.OldValue, staticModel.Model);
                             break;
