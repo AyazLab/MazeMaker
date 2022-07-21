@@ -3296,6 +3296,7 @@ namespace MazeMaker
                 preChangeMaze.cWall = new List<Wall>();
                 preChangeMaze.cCurveWall = new List<CurvedWall>();
                 preChangeMaze.cFloor = new List<Floor>();
+                preChangeMaze.cActRegions = new List<ActiveRegion>();
                 preChangeMaze.cEndRegions = new List<EndRegion>();
                 preChangeMaze.cObject = new List<CustomObject>();
                 preChangeMaze.cStaticModels = new List<StaticModel>();
@@ -3309,6 +3310,7 @@ namespace MazeMaker
             preChangeMaze.cWall = curMaze.cWall.ConvertAll(wall => wall.Clone());
             preChangeMaze.cCurveWall = curMaze.cCurveWall.ConvertAll(wall => wall.Clone());
             preChangeMaze.cFloor = curMaze.cFloor.ConvertAll(floor => floor.Clone());
+            preChangeMaze.cActRegions = curMaze.cActRegions.ConvertAll(actRegion => actRegion.Clone());
             preChangeMaze.cEndRegions = curMaze.cEndRegions.ConvertAll(endRegion => endRegion.Clone());
             preChangeMaze.cObject = curMaze.cObject.ConvertAll(cObject => cObject.Clone());
             preChangeMaze.cStaticModels = curMaze.cStaticModels.ConvertAll(staticModel => staticModel.Clone());
