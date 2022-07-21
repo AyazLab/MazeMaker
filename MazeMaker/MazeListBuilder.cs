@@ -1526,20 +1526,27 @@ namespace MazeMaker
                                     Enum.TryParse(Tools.getStringFromAttribute(listItem, "InitialPointsMode", "SetTo"), out iPointsMode);
                                     PointsMode ePointsMode;
                                     Enum.TryParse(Tools.getStringFromAttribute(listItem, "ExitPointsThresholdMode", "SetTo"), out ePointsMode);
-                                    
+                                    int initPoints = 0;
+                                    int exitPoints = 0;
+                                    double startTime = 0;
+                                    double timeOut = 0;
+
+                                    int.TryParse(listItem.GetAttribute("InitialPoints"), out initPoints);
+                                    int.TryParse(listItem.GetAttribute("ExitPointsThreshold"), out exitPoints);
+                                    double.TryParse(listItem.GetAttribute("StartTime"), out startTime);
+                                    double.TryParse(listItem.GetAttribute("Timeout"), out timeOut);
 
                                     MazeListItem maze = new MazeListItem
                                     {
                                         MazeFile = mazeFileName,
                                         StartPosition = listItem.GetAttribute("StartPosition"),
                                         StartMessage = listItem.GetAttribute("StartMessage"),
-                                        InitialPoints = int.Parse(listItem.GetAttribute("InitialPoints")),
+                                        InitialPoints = initPoints,
                                         InitialPointsMode = iPointsMode,
-                                        ExitPointsThreshold = int.Parse(listItem.GetAttribute("ExitPointsThreshold")),
+                                        ExitPointsThreshold = exitPoints,
                                         ExitPointsThresholdMode = ePointsMode,
-                                        StartTime = double.Parse(listItem.GetAttribute("StartTime")),
-                                        
-                                        Timeout = double.Parse(listItem.GetAttribute("Timeout"))
+                                        StartTime = startTime,
+                                        Timeout = timeOut
                                     };
 
                                     MazeList.Add(maze);
