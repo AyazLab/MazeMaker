@@ -1182,7 +1182,8 @@ namespace MazeMaker
                     ResetCanvasOffset();
                     curMaze = null;
                     toogleElementsToolStrip(false);
-                    
+
+              
                     ts_delete.Enabled = false;
                     RedrawFrame();
                     propertyGrid.SelectedObject = null;
@@ -2248,6 +2249,7 @@ namespace MazeMaker
 
         private void ChangeModeTo0()
         {
+            
             if (ts_maze_wall.Enabled == false)
                 return;
             ts_delete.Enabled = false;
@@ -3441,6 +3443,12 @@ namespace MazeMaker
                 toolStripCollectionsDropDownButton.Enabled = inp;
                 toolStripButtonItems.Enabled = inp;
 
+ 
+                ts_core_save.Enabled = inp;
+                ts_core_saveas.Enabled = inp;
+                packageButton.Enabled = inp;
+
+            
         }
 
         List<string[]> replaceOrder = new List<string[]>();
@@ -3453,57 +3461,75 @@ namespace MazeMaker
             else
                 MazeChanged(false);
 
+            string fieldModifiedFull = e.ChangedItem.Parent.Label + "." + e.ChangedItem.Label;
+
             if (propertyGrid.SelectedObject.GetType().Name != "Maze")
             // Manage Items Dropdown
             {
+                
+
                 foreach (object selectedObject in propertyGrid.SelectedObjects)
                 {
                     MazeItem mazeItem = (MazeItem)selectedObject;
+
                     switch (mazeItem.itemType)
                     {
                         case MazeItemType.Floor:
                             Floor floor = (Floor)mazeItem;
-                            floor.FloorTexture = ManageItems("Image", e.OldValue, floor.FloorTexture);
-                            floor.CeilingTexture = ManageItems("Image", e.OldValue, floor.CeilingTexture);
-                            break;
+                            if(fieldModifiedFull == "4.FloorProperties.FloorTexture")
+                                floor.FloorTexture = ManageItems("Image", e.OldValue, floor.FloorTexture);
+                            if (fieldModifiedFull == "5.CeilingProperties.CeilingTexture")
+                                floor.CeilingTexture = ManageItems("Image", e.OldValue, floor.CeilingTexture);
+                            break; 
 
                         case MazeItemType.CurvedWall:
                             CurvedWall curvedWall = (CurvedWall)mazeItem;
-                            curvedWall.Texture = ManageItems("Image", e.OldValue, curvedWall.Texture);
+                            if (fieldModifiedFull == "3.Texture.Texture")
+                                curvedWall.Texture = ManageItems("Image", e.OldValue, curvedWall.Texture);
                             break;
 
                         case MazeItemType.Wall:
                             Wall wall = (Wall)mazeItem;
-                            wall.Texture = ManageItems("Image", e.OldValue, wall.Texture);
+                            if (fieldModifiedFull == "3.Texture.Texture")
+                                wall.Texture = ManageItems("Image", e.OldValue, wall.Texture);
                             break;
 
                         case MazeItemType.ActiveRegion:
                             ActiveRegion activeRegion = (ActiveRegion)mazeItem;
-                            activeRegion.Phase1HighlightAudio = ManageItems("Audio", e.OldValue, activeRegion.Phase1HighlightAudio);
-                            activeRegion.Phase2EventAudio = ManageItems("Audio", e.OldValue, activeRegion.Phase2EventAudio);
+                            if (fieldModifiedFull == "4.Phase1:Highlight.Audio")
+                                activeRegion.Phase1HighlightAudio = ManageItems("Audio", e.OldValue, activeRegion.Phase1HighlightAudio);
+                            if (fieldModifiedFull == "5.Phase2:Event.Audio")
+                                activeRegion.Phase2EventAudio = ManageItems("Audio", e.OldValue, activeRegion.Phase2EventAudio);
                             break;
 
                         case MazeItemType.Dynamic:
                             DynamicObject dynamicObject = (DynamicObject)mazeItem;
 
-                            dynamicObject.Phase1HighlightAudio = ManageItems("Audio", e.OldValue, dynamicObject.Phase1HighlightAudio);
-                            dynamicObject.Phase2EventAudio = ManageItems("Audio", e.OldValue, dynamicObject.Phase2EventAudio);
+                            if (fieldModifiedFull == "5.Phase1:Highlight.Audio")
+                                dynamicObject.Phase1HighlightAudio = ManageItems("Audio", e.OldValue, dynamicObject.Phase1HighlightAudio);
+                            if (fieldModifiedFull == "6.Phase2:Event.Audio")
+                                dynamicObject.Phase2EventAudio = ManageItems("Audio", e.OldValue, dynamicObject.Phase2EventAudio);
 
-                            dynamicObject.Model = ManageItems("Model", e.OldValue, dynamicObject.Model);
-                            dynamicObject.SwitchToModel = ManageItems("Model", e.OldValue, dynamicObject.SwitchToModel);
+                            if (fieldModifiedFull == "3.Model.Model")
+                                dynamicObject.Model = ManageItems("Model", e.OldValue, dynamicObject.Model);
+                            if (fieldModifiedFull == "6.Phase2:Event.SwitchToModel")
+                                dynamicObject.SwitchToModel = ManageItems("Model", e.OldValue, dynamicObject.SwitchToModel);
                             break;
 
                         case MazeItemType.Static:
                             StaticModel staticModel = (StaticModel)mazeItem;
-                            staticModel.Model = ManageItems("Model", e.OldValue, staticModel.Model);
+                            if (fieldModifiedFull == "3.Model.Model")
+                                staticModel.Model = ManageItems("Model", e.OldValue, staticModel.Model);
                             break;
                     }
                 }
             }
             else
             {
-                curMaze.SkyBoxTexture = ManageItems("Image", e.OldValue, curMaze.SkyBoxTexture);
-                curMaze.AvatarModel = ManageItems("Model", e.OldValue, curMaze.AvatarModel);
+                if (fieldModifiedFull == "6.Skybox.SkyBoxTexture")
+                    curMaze.SkyBoxTexture = ManageItems("Image", e.OldValue, curMaze.SkyBoxTexture);
+                if (fieldModifiedFull == "X.Avatar Options.Avatar Model")
+                    curMaze.AvatarModel = ManageItems("Model", e.OldValue, curMaze.AvatarModel);
             }
 
            
