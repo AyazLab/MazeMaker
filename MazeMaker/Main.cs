@@ -3556,14 +3556,17 @@ namespace MazeMaker
                     {
                         case "Image":
                             ofd.Filter = "Image Files (*.bmp;*.jpg;*.jpeg;*.gif;*.png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png";
+                            ofd.InitialDirectory = CollectionEditor.prevCollectionDir_tex;
                             break;
 
                         case "Audio":
                             ofd.Filter = "Audio Files (*.wav;*.mp3)|*.wav;*.mp3";
+                            ofd.InitialDirectory = CollectionEditor.prevCollectionDir_audio;
                             break;
 
                         case "Model":
                             ofd.Filter = "Model Files (*.obj)|*.obj";
+                            ofd.InitialDirectory = CollectionEditor.prevCollectionDir_model;
                             break;
                     }
 
@@ -3573,18 +3576,23 @@ namespace MazeMaker
                         if (fileName == "")
                             fileName = ofd.FileName;
 
+                        string newPath=Path.GetDirectoryName(ofd.FileName);
+
                         switch (type)
                         {
                             case "Image":
                                 ImagePathConverter.Paths[fileName] = ofd.FileName;
+                                CollectionEditor.prevCollectionDir_tex = newPath;
                                 break;
 
                             case "Audio":
                                 AudioPathConverter.Paths[fileName] = ofd.FileName;
+                                CollectionEditor.prevCollectionDir_audio = newPath;
                                 break;
 
                             case "Model":
                                 ModelPathConverter.Paths[fileName] = ofd.FileName;
+                                CollectionEditor.prevCollectionDir_model = newPath;
                                 break;
                         }
 
@@ -3601,7 +3609,7 @@ namespace MazeMaker
                     switch (type)
                     {
                         case "Image":
-                            CollectionEditor collection = new CollectionEditor(MazeListBuilder.FilesToTextures(ImagePathConverter.Paths));
+                            CollectionEditor collection = new CollectionEditor(MazeListBuilder.FilesToTextures(ImagePathConverter.Paths),true);
 
                             fileName = collection.GetTexture();
                             MazeListBuilder.TexturesToFiles(collection.GetTextures(), ref ImagePathConverter.Paths);
@@ -3610,7 +3618,7 @@ namespace MazeMaker
                             break;
 
                         case "Audio":
-                            collection = new CollectionEditor(MazeListBuilder.FilesToAudios(AudioPathConverter.Paths));
+                            collection = new CollectionEditor(MazeListBuilder.FilesToAudios(AudioPathConverter.Paths),true);
 
                             fileName = collection.GetAudio();
                             MazeListBuilder.AudiosToFiles(collection.GetAudios(), ref AudioPathConverter.Paths);
@@ -3619,7 +3627,7 @@ namespace MazeMaker
                             break;
 
                         case "Model":
-                            collection = new CollectionEditor(MazeListBuilder.FilesToModels(ModelPathConverter.Paths));
+                            collection = new CollectionEditor(MazeListBuilder.FilesToModels(ModelPathConverter.Paths),true);
 
                             fileName = collection.GetModel();
                             MazeListBuilder.ModelsToFiles(collection.GetModels(), ref ModelPathConverter.Paths);

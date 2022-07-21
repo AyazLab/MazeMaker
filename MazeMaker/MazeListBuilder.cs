@@ -373,41 +373,52 @@ namespace MazeMaker
                     {
                         case "Maze":
                             ofd.Filter = "Maze Files (*.maz;*.mazx)|*.maz;*.mazx";
+                            ofd.InitialDirectory = CollectionEditor.prevCollectionDir_maze;
                             break;
 
                         case "Image":
                             ofd.Filter = "Image Files (*.bmp;*.jpg;*.jpeg;*.gif;*.png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png";
+                            ofd.InitialDirectory = CollectionEditor.prevCollectionDir_tex;
                             break;
 
                         case "Audio":
                             ofd.Filter = "Audio Files (*.wav;*.mp3)|*.wav;*.mp3";
+                            ofd.InitialDirectory = CollectionEditor.prevCollectionDir_audio;
                             break;
                     }
                     DialogResult dr = ofd.ShowDialog();
 
-                    if (type == "Maze" && dr == DialogResult.OK)
+                    if (dr == DialogResult.OK)
                     {
-                        fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
-                        if (fileName == "")
-                            fileName = ofd.FileName;
-                        mazeFilePaths[fileName] = ofd.FileName;
-                        return fileName;
-                    }
-                    else if (type == "Image" && dr == DialogResult.OK)
-                    {
-                        fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
-                        if (fileName == "")
-                            fileName = ofd.FileName;
-                        imageFilePaths[fileName] = ofd.FileName;
-                        return fileName;
-                    }
-                    else if (type == "Audio" && dr == DialogResult.OK)
-                    {
-                        fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
-                        if (fileName == "")
-                            fileName = ofd.FileName;
-                        audioFilePaths[fileName] = ofd.FileName;
-                        return fileName;
+                        string newPath = Path.GetDirectoryName(ofd.FileName);
+
+                        if (type == "Maze")
+                        {
+                            fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                            if (fileName == "")
+                                fileName = ofd.FileName;
+                            mazeFilePaths[fileName] = ofd.FileName;
+                            CollectionEditor.prevCollectionDir_maze = newPath;
+                            return fileName;
+                        }
+                        else if (type == "Image")
+                        {
+                            fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                            if (fileName == "")
+                                fileName = ofd.FileName;
+                            imageFilePaths[fileName] = ofd.FileName;
+                            CollectionEditor.prevCollectionDir_tex = newPath;
+                            return fileName;
+                        }
+                        else if (type == "Audio")
+                        {
+                            fileName = ofd.FileName.Substring(ofd.FileName.LastIndexOf("\\") + 1);
+                            if (fileName == "")
+                                fileName = ofd.FileName;
+                            audioFilePaths[fileName] = ofd.FileName;
+                            CollectionEditor.prevCollectionDir_audio = newPath;
+                            return fileName;
+                        }
                     }
 
                     return (string)oldValue;
@@ -416,7 +427,7 @@ namespace MazeMaker
                     switch (type)
                     {
                         case "Maze":
-                            CollectionEditor collection = new CollectionEditor(mazeFilePaths);
+                            CollectionEditor collection = new CollectionEditor(mazeFilePaths,true);
 
                             fileName = collection.GetMaze();
                             mazeFilePaths = collection.GetMazes();
@@ -425,7 +436,7 @@ namespace MazeMaker
                             break;
 
                         case "Image":
-                            collection = new CollectionEditor(FilesToTextures(imageFilePaths));
+                            collection = new CollectionEditor(FilesToTextures(imageFilePaths),true);
 
                             fileName = collection.GetTexture();
                             TexturesToFiles(collection.GetTextures(), ref imageFilePaths);
@@ -434,7 +445,7 @@ namespace MazeMaker
                             break;
 
                         case "Audio":
-                            collection = new CollectionEditor(FilesToAudios(audioFilePaths));
+                            collection = new CollectionEditor(FilesToAudios(audioFilePaths),true);
 
                             fileName = collection.GetAudio();
                             AudiosToFiles(collection.GetAudios(), ref audioFilePaths);

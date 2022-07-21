@@ -20,44 +20,60 @@ namespace MazeMaker
         readonly List<Audio> audios;
         readonly List<Model> models;
 
-        string prevCollectionDir = "";
+        public static string prevCollectionDir_maze = Settings.userLibraryFolder+"\\..\\";
+        public static string prevCollectionDir_tex = Settings.userLibraryFolder;
+        public static string prevCollectionDir_audio = Settings.userLibraryFolder+"\\audio";
+        public static string prevCollectionDir_model = Settings.userLibraryFolder + "\\objs";
 
         readonly List<string[]> replaceOrder = new List<string[]>();
 
-        public CollectionEditor(Dictionary<string, string> mazeFilePaths)
+        bool showSelectItem = false;
+
+        public CollectionEditor(Dictionary<string, string> mazeFilePaths,bool showSelectItem = false)
         {
             InitializeComponent();
             this.mazeFilePaths = mazeFilePaths;
 
+            this.showSelectItem = showSelectItem;
+
             Text = "Maze Collection Editor";
             Icon = Properties.Resources.MazeCollectionIcon;
+            selectFileButton.Visible = showSelectItem;
         }
 
-        public CollectionEditor(List<Texture> textures)
+        public CollectionEditor(List<Texture> textures, bool showSelectItem = false)
         {
             InitializeComponent();
             this.textures = textures;
 
             Text = "Texture/Image Collection Editor";
             Icon = Properties.Resources.ImageCollectionIcon;
+            this.showSelectItem = showSelectItem;
+            selectFileButton.Visible = showSelectItem;
         }
 
-        public CollectionEditor(List<Model> models)
+        public CollectionEditor(List<Model> models, bool showSelectItem = false)
         {
             InitializeComponent();
             this.models = models;
 
             Text = "Model/Object Collection Editor";
             Icon = Properties.Resources.ModelCollectionIcon;
+            this.showSelectItem = showSelectItem;
+            selectFileButton.Visible = showSelectItem;
         }
 
-        public CollectionEditor(List<Audio> audios)
+        public CollectionEditor(List<Audio> audios, bool showSelectItem = false)
         {
             InitializeComponent();
             this.audios = audios;
 
             Text = "Audio/Sound Collection Editor";
             Icon = Properties.Resources.AudioCollectionIcon;
+            this.showSelectItem = showSelectItem;
+            selectFileButton.Visible = showSelectItem;
+
+
         }
 
         private void UpdateCollection()
@@ -99,6 +115,9 @@ namespace MazeMaker
             listBox.SelectedIndex = listBox.Items.Count - 1;
         }
 
+
+
+
         List<string> AddMaze(bool multiselect, string title)
         {
             OpenFileDialog ofd = new OpenFileDialog
@@ -106,6 +125,7 @@ namespace MazeMaker
                 Filter = "Maze Files (*.maz;*.mazx)|*.maz;*.mazx",
                 Multiselect = multiselect,
                 Title = title,
+                InitialDirectory = prevCollectionDir_maze,
             };
 
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -116,6 +136,7 @@ namespace MazeMaker
                     if (fileName == "")
                         fileName = filePath;
                     mazeFilePaths[fileName] = filePath;
+                    prevCollectionDir_maze = Path.GetDirectoryName(filePath);
 
                     if (!multiselect)
                         return new List<string> { fileName, filePath };
@@ -131,7 +152,7 @@ namespace MazeMaker
                 Filter = "Image Files (*.bmp;*.jpg;*.jpeg;*.gif;*png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png",
                 Multiselect = multiselect,
                 Title = title,
-                InitialDirectory = prevCollectionDir,
+                InitialDirectory = prevCollectionDir_tex,
             };
 
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -139,7 +160,7 @@ namespace MazeMaker
                 foreach (string filePath in ofd.FileNames)
                 {
                     AddTexture(Path.GetDirectoryName(filePath), Path.GetFileName(filePath));
-                    prevCollectionDir = Path.GetDirectoryName(filePath);
+                    prevCollectionDir_tex = Path.GetDirectoryName(filePath);
                     if (!multiselect)
                         return new List<string> { Path.GetFileName(filePath), filePath };
                 }
@@ -168,7 +189,7 @@ namespace MazeMaker
                 Filter = "Audio Files (*.wav;*.mp3)|*.wav;*.mp3",
                 Multiselect = multiselect,
                 Title = title,
-                InitialDirectory = prevCollectionDir,
+                InitialDirectory = prevCollectionDir_audio,
             };
 
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -176,7 +197,7 @@ namespace MazeMaker
                 foreach (string filePath in ofd.FileNames)
                 {
                     AddAudio(Path.GetDirectoryName(filePath), Path.GetFileName(filePath));
-                    prevCollectionDir = Path.GetDirectoryName(filePath);
+                    prevCollectionDir_audio = Path.GetDirectoryName(filePath);
                     if (!multiselect)
                         return new List<string> { Path.GetFileName(filePath), filePath };
                 }
@@ -207,7 +228,7 @@ namespace MazeMaker
                 Filter = "Model Files (*.obj)|*.obj",
                 Multiselect = multiselect,
                 Title = title,
-                InitialDirectory = prevCollectionDir,
+                InitialDirectory = prevCollectionDir_model,
             };
 
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -215,7 +236,7 @@ namespace MazeMaker
                 foreach (string filePath in ofd.FileNames)
                 {
                     AddModel(Path.GetDirectoryName(filePath), Path.GetFileName(filePath));
-                    prevCollectionDir = Path.GetDirectoryName(filePath);
+                    prevCollectionDir_model = Path.GetDirectoryName(filePath);
                     if (!multiselect)
                         return new List<string> { Path.GetFileName(filePath), filePath };
                 }
