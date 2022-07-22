@@ -2661,7 +2661,7 @@ namespace MazeMaker
                             numAdded++;
                         }
                     }
-                    else //otherwise select
+                    else if(!sPos.ItemLocked&&sPos.ItemVisible) //otherwise select
                     {
                         sPos.Select(true);
                         numAdded++;
@@ -2681,7 +2681,7 @@ namespace MazeMaker
                             numAdded++;
                         }
                     }
-                    else
+                    else if (!l.ItemLocked && l.ItemVisible)
                     {
                         l.Select(true);
                         numAdded++;
@@ -2701,7 +2701,7 @@ namespace MazeMaker
                             numAdded++;
                         }
                     }
-                    else
+                    else if(!l.ItemLocked && l.ItemVisible)
                     {
                         l.Select(true);
                         numAdded++;
@@ -2721,7 +2721,7 @@ namespace MazeMaker
                             numAdded++;
                         }
                     }
-                    else
+                    else if (!l.ItemLocked && l.ItemVisible)
                     {
                         l.Select(true);
                         numAdded++;
@@ -2784,7 +2784,7 @@ namespace MazeMaker
                             w.Select(false);
                         }
                     }
-                    else
+                    else if (!w.ItemLocked && w.ItemVisible)
                     {
                         w.Select(true);
                         numAdded++;
@@ -2805,7 +2805,7 @@ namespace MazeMaker
                             w.Select(false);
                         }
                     }
-                    else
+                    else if (!w.ItemLocked && w.ItemVisible)
                     {
                         w.Select(true);
                         numAdded++;
@@ -2834,7 +2834,7 @@ namespace MazeMaker
                             numAdded++;
                         }
                     }
-                    else
+                    else// if (!c.ItemLocked && c.ItemVisible)
                     {
                         c.Select(true);
                         numAdded++;
@@ -2861,7 +2861,7 @@ namespace MazeMaker
                             numAdded++;
                         }
                     }
-                    else
+                    else if (!en.ItemLocked && en.ItemVisible)
                     {
                         en.Select(true);
                         numAdded++;
@@ -2887,7 +2887,7 @@ namespace MazeMaker
                             numAdded++;
                         }
                     }
-                    else
+                    else if (!en.ItemLocked && en.ItemVisible)
                     { 
                         en.Select(true);
                         numAdded++;
@@ -2916,7 +2916,7 @@ namespace MazeMaker
                             numAdded++;
                         }
                     }
-                    else
+                    else if (!f.ItemLocked && f.ItemVisible)
                     {
                         f.Select(true);
                         numAdded++;
@@ -3330,45 +3330,55 @@ namespace MazeMaker
             {
                 foreach (StartPos sPos in curMaze.cStart)
                 {
-                    sPos.Select(true);
+                    if(!sPos.ItemLocked&&!sPos.ItemVisible)
+                        sPos.Select(true);
                 }
                 //if (curMaze.cEnd != null)
                 //    curMaze.cEnd.Select(true);
                 foreach (EndRegion en in curMaze.cEndRegions)
                 {
-                    en.Select(true);
+                    if (!en.ItemLocked && en.ItemVisible)
+                        en.Select(true);
                 }
                 foreach (ActiveRegion en in curMaze.cActRegions)
                 {
-                    en.Select(true);
+                    if (!en.ItemLocked && en.ItemVisible)
+                        en.Select(true);
                 }
                 foreach (Wall w in curMaze.cWall)
                 {
-                    w.Select(true);
+                    if (!w.ItemLocked && w.ItemVisible)
+                        w.Select(true);
                 }
                 foreach (CurvedWall w in curMaze.cCurveWall)
                 {
-                    w.Select(true);
+                    if (!w.ItemLocked && w.ItemVisible)
+                        w.Select(true);
                 }
                 foreach (CustomObject c in curMaze.cObject)
                 {
-                    c.Select(true);
+                    //if (!c.ItemLocked && !c.ItemVisible)
+                        c.Select(true);
                 }
                 foreach (Floor f in curMaze.cFloor)
                 {
-                    f.Select(true);
+                    if (!f.ItemLocked && f.ItemVisible)
+                        f.Select(true);
                 }
                 foreach (Light s in curMaze.cLight)
                 {
-                    s.Select(true);
+                    if (!s.ItemLocked && s.ItemVisible)
+                        s.Select(true);
                 }
                 foreach (StaticModel s in curMaze.cStaticModels)
                 {
-                    s.Select(true);
+                    if (!s.ItemLocked && s.ItemVisible)
+                        s.Select(true);
                 }
                 foreach (DynamicObject d in curMaze.cDynamicObjects)
                 {
-                    d.Select(true);
+                    if (!d.ItemLocked && d.ItemVisible)
+                        d.Select(true);
                 }
             }
             SyncSelections();
