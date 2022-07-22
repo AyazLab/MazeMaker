@@ -1326,16 +1326,22 @@ namespace MazeMaker
             return numSelected;
         }
 
-        private void SelectItems(List<object> mazeItems, bool invertSelection = false, bool clearSelection = false)
+        private void SelectItems(List<object> mazeItems, bool invertSelection = false, bool clearSelection = false, bool includeHiddenLocked = true)
         {
             if (clearSelection)
                 UnSelect();
             foreach (object mazeItem in mazeItems)
             {
-                if (invertSelection&&((MazeItem)mazeItem).IsSelected())
-                    ((MazeItem)mazeItem).Select(false);
-                else
-                    ((MazeItem)mazeItem).Select(true);
+                MazeItem mzItem = (MazeItem)mazeItem;
+                if (includeHiddenLocked || (mzItem.ItemVisible && !mzItem.ItemLocked)) { 
+                    if (invertSelection&& mzItem.IsSelected())
+                            mzItem.Select(false);
+                    else
+                            mzItem.Select(true);
+                }else if (invertSelection && mzItem.IsSelected())
+                {
+                    mzItem.Select(false);
+                }
             }
         }
 
@@ -1350,7 +1356,7 @@ namespace MazeMaker
             int numSelectedInContext = CountNumSelected(ItemsInContext);
 
             if (selected.Count == 0 || numSelectedInContext == 0) //Only re-select if no items are selected or if no items in area are selected
-                SelectItems(ItemsInContext, false, true);
+                SelectItems(ItemsInContext, false, true,false);
             SyncSelections();
             RedrawFrame();
             
