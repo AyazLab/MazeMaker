@@ -1335,7 +1335,8 @@ namespace MazeMaker
             foreach (object mazeItem in mazeItems)
             {
                 MazeItem mzItem = (MazeItem)mazeItem;
-                if (includeHiddenLocked || (mzItem.ItemVisible && !mzItem.ItemLocked)) { 
+
+                if (includeHiddenLocked || (mzItem.ItemVisible && !mzItem.ItemLocked&& checkedGroupNames.Contains(mzItem.Group))) { 
                     if (invertSelection&& mzItem.IsSelected())
                             mzItem.Select(false);
                     else
@@ -2657,81 +2658,81 @@ namespace MazeMaker
             int numAdded = 0; //Floors and Regions underlying regions are selected last, then walls, models and individual points are selected first
             //both unselect and select count as adding
 
-            foreach (StartPos sPos in curMaze.cStart)
+            foreach (StartPos mzItem in curMaze.cStart)
             { 
-                if (sPos.InRegion(x, y, x2, y2)) //If its in the region
+                if (mzItem.InRegion(x, y, x2, y2)) //If its in the region
                 {
-                    if (sPos.IsSelected()) //and it is selected
+                    if (mzItem.IsSelected()) //and it is selected
                     {
                         if (allowUnselect) //trash it or do nothing
                         {
-                            sPos.Select(false);
+                            mzItem.Select(false);
                             numAdded++;
                         }
                     }
-                    else if(!sPos.ItemLocked&&sPos.ItemVisible) //otherwise select
+                    else if(!mzItem.ItemLocked&& mzItem.ItemVisible&&checkedGroupNames.Contains(mzItem.Group)) //otherwise select
                     {
-                        sPos.Select(true);
+                        mzItem.Select(true);
                         numAdded++;
                     }                   
                 }
             }
 
-            foreach (Light l in curMaze.cLight)
+            foreach (Light mzItem in curMaze.cLight)
             {
-                if (l.InRegion(x, y, x2, y2))
+                if (mzItem.InRegion(x, y, x2, y2))
                 {
-                    if (l.IsSelected())
+                    if (mzItem.IsSelected())
                     {
                         if (allowUnselect)
                         {
-                            l.Select(false);
+                            mzItem.Select(false);
                             numAdded++;
                         }
                     }
-                    else if (!l.ItemLocked && l.ItemVisible)
+                    else if (!mzItem.ItemLocked && mzItem.ItemVisible && checkedGroupNames.Contains(mzItem.Group))
                     {
-                        l.Select(true);
+                        mzItem.Select(true);
                         numAdded++;
                     }
                 }
             }
 
-            foreach (StaticModel l in curMaze.cStaticModels)
+            foreach (StaticModel mzItem in curMaze.cStaticModels)
             {
-                if (l.InRegion(x, y, x2, y2))
+                if (mzItem.InRegion(x, y, x2, y2))
                 {
-                    if (l.IsSelected())
+                    if (mzItem.IsSelected())
                     {
                         if (allowUnselect)
                         {
-                            l.Select(false);
+                            mzItem.Select(false);
                             numAdded++;
                         }
                     }
-                    else if(!l.ItemLocked && l.ItemVisible)
+                    else if(!mzItem.ItemLocked && mzItem.ItemVisible && checkedGroupNames.Contains(mzItem.Group))
                     {
-                        l.Select(true);
+                        mzItem.Select(true);
                         numAdded++;
                     }
                 }
             }
 
-            foreach (DynamicObject l in curMaze.cDynamicObjects)
+            foreach (DynamicObject mzItem in curMaze.cDynamicObjects)
             {
-                if (l.InRegion(x, y, x2, y2))
+                if (mzItem.InRegion(x, y, x2, y2))
                 {
-                    if (l.IsSelected())
+                    if (mzItem.IsSelected())
                     {
                         if (allowUnselect)
-                        { 
-                            l.Select(false);
+                        {
+                            mzItem.Select(false);
                             numAdded++;
                         }
                     }
-                    else if (!l.ItemLocked && l.ItemVisible)
+                    else if (!mzItem.ItemLocked && mzItem.ItemVisible && checkedGroupNames.Contains(mzItem.Group))
                     {
-                        l.Select(true);
+                        mzItem.Select(true);
                         numAdded++;
                     }
                 }
@@ -2743,79 +2744,43 @@ namespace MazeMaker
                 return numAdded;
             }
 
-            //if (!regionSelect)
-            //{ 
-            //    double value = 0, minValue = 0;
-            //    Wall bestFit = null;
-            //    foreach (Wall w in curMaze.cWall)
-            //    {
-            //        if (w.IfSelected(x, y, ref value))
-            //        {
-            //            if (value < minValue)
-            //            {
-            //                minValue = value;
-            //                bestFit = w;
-            //            }
-            //        }
-            //    }
-            //    if (bestFit != null)
-            //    {
-            //        if (bestFit.IsSelected())
-            //        {
-            //            if (allowUnselect)
-            //            { 
-            //                bestFit.Select(false);
-            //                numAdded++;
-            //            }
-            //        }
-            //        else
-            //        {
-            //            bestFit.Select(true);
-            //            numAdded++;
-            //            //selected.Add(bestFit);
-            //        }
-            //    }
-
-            //}
-            //else
-            //{
-
-            foreach (Wall w in curMaze.cWall)
+           
+            foreach (Wall mzItem in curMaze.cWall)
             {
-                if (w.InRegion(x, y, x2, y2))
+                if (mzItem.InRegion(x, y, x2, y2))
                 {
-                    if (w.IsSelected())
+                    if (mzItem.IsSelected())
                     {
                         if (allowUnselect)
                         {
                             numAdded++;
-                            w.Select(false);
+                            mzItem.Select(false);
                         }
                     }
-                    else if (!w.ItemLocked && w.ItemVisible)
+                    else if (!mzItem.ItemLocked && mzItem.ItemVisible && checkedGroupNames.Contains(mzItem.Group))
                     {
-                        w.Select(true);
+                        mzItem.Select(true);
                         numAdded++;
                     }
                 }
             }
 
            
-            foreach (CurvedWall w in curMaze.cCurveWall)
+            foreach (CurvedWall mzItem in curMaze.cCurveWall)
             {
-                if (w.InRegion(x, y, x2, y2))
+                if (mzItem.InRegion(x, y, x2, y2))
                 {
-                    if (w.IsSelected())
+                    if (mzItem.IsSelected())
                     {
                         if (allowUnselect)
                         {
                             numAdded++;
-                            w.Select(false);
+                            mzItem.Select(false);
                         }
                     }
-                    else if (!w.ItemLocked && w.ItemVisible)
+                    else if (!mzItem.ItemLocked && mzItem.ItemVisible && checkedGroupNames.Contains(mzItem.Group))
                     {
-                        w.Select(true);
+                        mzItem.Select(true);
                         numAdded++;
                     }
                 }
@@ -2857,21 +2822,21 @@ namespace MazeMaker
                 return numAdded;
             }
 
-            foreach (ActiveRegion en in curMaze.cActRegions)
+            foreach (ActiveRegion mzItem in curMaze.cActRegions)
             {
-                if (en.InRegion(x, y, x2, y2))
+                if (mzItem.InRegion(x, y, x2, y2))
                 {
-                    if (en.IsSelected())
+                    if (mzItem.IsSelected())
                     {
                         if (allowUnselect)
                         {
-                            en.Select(false);
+                            mzItem.Select(false);
                             numAdded++;
                         }
                     }
-                    else if (!en.ItemLocked && en.ItemVisible)
+                    else if (!mzItem.ItemLocked && mzItem.ItemVisible && checkedGroupNames.Contains(mzItem.Group))
                     {
-                        en.Select(true);
+                        mzItem.Select(true);
                         numAdded++;
                     }
                 }
@@ -2883,21 +2848,21 @@ namespace MazeMaker
                 return numAdded;
             }
 
-            foreach (EndRegion en in curMaze.cEndRegions)
+            foreach (EndRegion mzItem in curMaze.cEndRegions)
             {
-                if (en.InRegion(x, y,x2,y2))
+                if (mzItem.InRegion(x, y,x2,y2))
                 {
-                    if (en.IsSelected())
+                    if (mzItem.IsSelected())
                     {
                         if (allowUnselect)
                         {
-                            en.Select(false);
+                            mzItem.Select(false);
                             numAdded++;
                         }
                     }
-                    else if (!en.ItemLocked && en.ItemVisible)
-                    { 
-                        en.Select(true);
+                    else if (!mzItem.ItemLocked && mzItem.ItemVisible && checkedGroupNames.Contains(mzItem.Group))
+                    {
+                        mzItem.Select(true);
                         numAdded++;
                     }
                 }
@@ -2912,21 +2877,21 @@ namespace MazeMaker
             }
 
             //check for floor if we don't have any fit before...
-            foreach (Floor f in curMaze.cFloor)
+            foreach (Floor mzItem in curMaze.cFloor)
             {
-                if (f.InRegion(x, y,x2,y2))
+                if (mzItem.InRegion(x, y,x2,y2))
                 {
-                    if (f.IsSelected())
+                    if (mzItem.IsSelected())
                     {
                         if (allowUnselect)
                         {
-                            f.Select(false);
+                            mzItem.Select(false);
                             numAdded++;
                         }
                     }
-                    else if (!f.ItemLocked && f.ItemVisible)
+                    else if (!mzItem.ItemLocked && mzItem.ItemVisible && checkedGroupNames.Contains(mzItem.Group))
                     {
-                        f.Select(true);
+                        mzItem.Select(true);
                         numAdded++;
                         //selected.Add(f);
                     }
@@ -3336,57 +3301,57 @@ namespace MazeMaker
         {
             if (curMaze != null)
             {
-                foreach (StartPos sPos in curMaze.cStart)
+                foreach (StartPos mzItem in curMaze.cStart)
                 {
-                    if(!sPos.ItemLocked&&sPos.ItemVisible)
-                        sPos.Select(true);
+                    if(!mzItem.ItemLocked&& mzItem.ItemVisible&&checkedGroupNames.Contains(mzItem.Group))
+                        mzItem.Select(true);
                 }
                 //if (curMaze.cEnd != null)
                 //    curMaze.cEnd.Select(true);
-                foreach (EndRegion en in curMaze.cEndRegions)
+                foreach (EndRegion mzItem in curMaze.cEndRegions)
                 {
-                    if (!en.ItemLocked && en.ItemVisible)
-                        en.Select(true);
+                    if (!mzItem.ItemLocked && mzItem.ItemVisible && checkedGroupNames.Contains(mzItem.Group))
+                        mzItem.Select(true);
                 }
-                foreach (ActiveRegion en in curMaze.cActRegions)
+                foreach (ActiveRegion mzItem in curMaze.cActRegions)
                 {
-                    if (!en.ItemLocked && en.ItemVisible)
-                        en.Select(true);
+                    if (!mzItem.ItemLocked && mzItem.ItemVisible && checkedGroupNames.Contains(mzItem.Group))
+                        mzItem.Select(true);
                 }
-                foreach (Wall w in curMaze.cWall)
+                foreach (Wall mzItem in curMaze.cWall)
                 {
-                    if (!w.ItemLocked && w.ItemVisible)
-                        w.Select(true);
+                    if (!mzItem.ItemLocked && mzItem.ItemVisible && checkedGroupNames.Contains(mzItem.Group))
+                        mzItem.Select(true);
                 }
-                foreach (CurvedWall w in curMaze.cCurveWall)
+                foreach (CurvedWall mzItem in curMaze.cCurveWall)
                 {
-                    if (!w.ItemLocked && w.ItemVisible)
-                        w.Select(true);
+                    if (!mzItem.ItemLocked && mzItem.ItemVisible && checkedGroupNames.Contains(mzItem.Group))
+                        mzItem.Select(true);
                 }
-                foreach (CustomObject c in curMaze.cObject)
+                foreach (CustomObject mzItem in curMaze.cObject)
                 {
                     //if (!c.ItemLocked && !c.ItemVisible)
-                        c.Select(true);
+                    mzItem.Select(true);
                 }
-                foreach (Floor f in curMaze.cFloor)
+                foreach (Floor mzItem in curMaze.cFloor)
                 {
-                    if (!f.ItemLocked && f.ItemVisible)
-                        f.Select(true);
+                    if (!mzItem.ItemLocked && mzItem.ItemVisible && checkedGroupNames.Contains(mzItem.Group))
+                        mzItem.Select(true);
                 }
-                foreach (Light s in curMaze.cLight)
+                foreach (Light mzItem in curMaze.cLight)
                 {
-                    if (!s.ItemLocked && s.ItemVisible)
-                        s.Select(true);
+                    if (!mzItem.ItemLocked && mzItem.ItemVisible && checkedGroupNames.Contains(mzItem.Group))
+                        mzItem.Select(true);
                 }
-                foreach (StaticModel s in curMaze.cStaticModels)
+                foreach (StaticModel mzItem in curMaze.cStaticModels)
                 {
-                    if (!s.ItemLocked && s.ItemVisible)
-                        s.Select(true);
+                    if (!mzItem.ItemLocked && mzItem.ItemVisible && checkedGroupNames.Contains(mzItem.Group))
+                        mzItem.Select(true);
                 }
-                foreach (DynamicObject d in curMaze.cDynamicObjects)
+                foreach (DynamicObject mzItem in curMaze.cDynamicObjects)
                 {
-                    if (!d.ItemLocked && d.ItemVisible)
-                        d.Select(true);
+                    if (!mzItem.ItemLocked && mzItem.ItemVisible && checkedGroupNames.Contains(mzItem.Group))
+                        mzItem.Select(true);
                 }
             }
             SyncSelections();
