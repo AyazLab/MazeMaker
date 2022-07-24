@@ -3462,9 +3462,9 @@ namespace MazeMaker
                         case MazeItemType.Floor:
                             Floor floor = (Floor)mazeItem;
                             floor.ConvertFromMazeCoordinates();
-                            if(fieldModifiedFull == "4.FloorProperties.FloorTexture")
+                            if(fieldModifiedFull == "4.Floor Properties.FloorTexture")
                                 floor.FloorTexture = ManageItems("Image", e.OldValue, floor.FloorTexture);
-                            if (fieldModifiedFull == "5.CeilingProperties.CeilingTexture")
+                            if (fieldModifiedFull == "5.Ceiling Properties.CeilingTexture")
                                 floor.CeilingTexture = ManageItems("Image", e.OldValue, floor.CeilingTexture);
                             break; 
 
