@@ -40,6 +40,8 @@ namespace MazeMaker
         int iViewOffsetY = 0;
         int iViewOffsetStep = 17 * 6;
 
+        float iCurFloor = 0; // y offset for all new maze objects
+
         Pen myDashedPen = new Pen(Color.Black);
 
         int mazeNumber = 0;
@@ -1448,7 +1450,7 @@ namespace MazeMaker
            SplashScreen.SetStatus("Reading settings");
 
            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-           splitContainer2.Panel1Collapsed = false;
+           splitContainer_LeftPaneAndMaze.Panel1Collapsed = false;
            leftPaneToolStripMenuItem.Checked = true;
            rightPaneToolStripMenuItem.Checked = true;
            toogleElementsToolStrip(false);
@@ -3336,7 +3338,7 @@ namespace MazeMaker
             {
                 foreach (StartPos sPos in curMaze.cStart)
                 {
-                    if(!sPos.ItemLocked&&!sPos.ItemVisible)
+                    if(!sPos.ItemLocked&&sPos.ItemVisible)
                         sPos.Select(true);
                 }
                 //if (curMaze.cEnd != null)
@@ -4032,6 +4034,7 @@ namespace MazeMaker
                         }
 
                         Wall temp = new Wall(curMaze.Scale);
+                        temp.SetElevation(iCurFloor,true);
                         tempPoint1.X -= iViewOffsetX;
                         tempPoint1.Y -= iViewOffsetY;
                         tempPoint2.X -= iViewOffsetX;
@@ -4140,6 +4143,7 @@ namespace MazeMaker
                         }
 
                         CurvedWall temp = new CurvedWall(curMaze.Scale);
+                        temp.SetElevation(iCurFloor, true);
                         tempPoint1.X -= iViewOffsetX;
                         tempPoint1.Y -= iViewOffsetY;
                         tempPoint2.X -= iViewOffsetX;
@@ -4180,6 +4184,7 @@ namespace MazeMaker
                     if (e.Button == MouseButtons.Left && dist2FromLast > minDist2)
                     {
                         Floor temp2 = new Floor(curMaze.Scale);
+                        temp2.SetElevation(iCurFloor, true);
                         tempPoint1.X -= iViewOffsetX;
                         tempPoint1.Y -= iViewOffsetY;
                         tempPoint2.X -= iViewOffsetX;
@@ -4207,6 +4212,7 @@ namespace MazeMaker
                         //MazeChanged();
                         //UpdateTree();
                         EndRegion a = new EndRegion(curMaze.Scale);
+                        a.SetElevation(iCurFloor);
                         tempPoint1.X -= iViewOffsetX;
                         tempPoint1.Y -= iViewOffsetY;
                         tempPoint2.X -= iViewOffsetX;
@@ -4232,6 +4238,7 @@ namespace MazeMaker
                         //MazeChanged();
                         //UpdateTree();
                         ActiveRegion a = new ActiveRegion(curMaze.Scale);
+                        a.SetElevation(iCurFloor);
                         tempPoint1.X -= iViewOffsetX;
                         tempPoint1.Y -= iViewOffsetY;
                         tempPoint2.X -= iViewOffsetX;
@@ -4365,6 +4372,7 @@ namespace MazeMaker
                             tempPoint1.X = e.X - iViewOffsetX;
                             tempPoint1.Y = e.Y - iViewOffsetY;
                             Light t = new Light(curMaze.Scale);
+                            t.SetElevation(iCurFloor, true);
                             t.ScrPoint = tempPoint1;
                             curMaze.cLight.Add(t);
                             MazeChanged(true);
@@ -4383,6 +4391,7 @@ namespace MazeMaker
                             tempPoint1.X = e.X - iViewOffsetX;
                             tempPoint1.Y = e.Y - iViewOffsetY;
                             StaticModel t = new StaticModel(curMaze.Scale);
+                            t.SetElevation(iCurFloor);
                             t.ScrPoint = tempPoint1;
                             curMaze.cStaticModels.Add(t);
                             MazeChanged(true);
@@ -4403,6 +4412,7 @@ namespace MazeMaker
                             tempPoint1.Y = e.Y - iViewOffsetY;
 
                             DynamicObject t = new DynamicObject(curMaze.Scale);
+                            t.SetElevation(iCurFloor,true);
                             t.ScrPoint = tempPoint1;
                             curMaze.cDynamicObjects.Add(t);
                             MazeChanged(true);
@@ -5316,6 +5326,8 @@ namespace MazeMaker
             }
         }
 
+        float iCurFloorCopy = 0;
+
         private void Copy()
         {
             if (curMaze == null)
@@ -5334,7 +5346,8 @@ namespace MazeMaker
 
                 // Put data into clipboard
                 Clipboard.SetDataObject(dataObject, false);
-                
+
+                iCurFloorCopy = iCurFloor;
 
                 tabPageMazeEdit.Focus();
                 foreach (Wall w in curMaze.cWall)
@@ -5462,6 +5475,8 @@ namespace MazeMaker
                     
                 int offsetX, offsetY;
 
+                float offsetElevation = iCurFloor-iCurFloorCopy;
+
                 if (defaultOffset)
                 {
                     offsetX = 15;
@@ -5483,6 +5498,7 @@ namespace MazeMaker
                         Wall w = (Wall)mazeItem;
 
                         Wall temp = w.Copy(false,offsetX,offsetY);
+                        temp.SetElevation(offsetElevation, true);
 
                         curMaze.cWall.Add(temp);
 
@@ -5493,6 +5509,7 @@ namespace MazeMaker
                         CurvedWall w = (CurvedWall)mazeItem;
 
                         CurvedWall temp = w.Copy(false, offsetX, offsetY);
+                        temp.SetElevation(offsetElevation, true);
 
                         curMaze.cCurveWall.Add(temp);
 
@@ -5512,6 +5529,7 @@ namespace MazeMaker
                     {
                         Floor f = (Floor)mazeItem;
                         Floor temp = f.Copy(false,offsetX,offsetY);
+                        temp.SetElevation(offsetElevation, true);
 
                         //temp.Rect = new RectangleF(temp.Rect.Left + 25, temp.Rect.Top + 25, temp.Rect.Width, temp.Rect.Height);
                         //temp.SetID();
@@ -5522,6 +5540,7 @@ namespace MazeMaker
                     {
                         Light l = (Light)mazeItem;
                         Light temp = l.Copy(false,offsetX,offsetY);
+                        temp.SetElevation(offsetElevation, true);
                         //temp.SetID();
                         //temp.ScrPoint = new PointF(temp.ScrPoint.X + 15, temp.ScrPoint.Y + 15);
 
@@ -5537,6 +5556,7 @@ namespace MazeMaker
                     {
                         StaticModel s = (StaticModel)mazeItem;
                         StaticModel temp = s.Copy(false,offsetX,offsetY);
+                        temp.SetElevation(offsetElevation, true);
                         //temp.SetID();
                         //temp.ScrPoint = new PointF(temp.ScrPoint.X + 15, temp.ScrPoint.Y + 15);
                         curMaze.cStaticModels.Add(temp);
@@ -5546,6 +5566,7 @@ namespace MazeMaker
                     {
                         DynamicObject d = (DynamicObject)mazeItem;
                         DynamicObject temp = d.Copy(false,offsetX,offsetY);
+                        temp.SetElevation(offsetElevation, true);
                         //emp.SetID();
                         //temp.ScrPoint = new PointF(temp.ScrPoint.X + 15, temp.ScrPoint.Y + 15);
                         curMaze.cDynamicObjects.Add(temp);
@@ -5555,9 +5576,10 @@ namespace MazeMaker
                     {
                         EndRegion en = (EndRegion)mazeItem;
                         EndRegion temp = en.Copy(false,offsetX,offsetY);
+                        temp.SetElevation(offsetElevation, true);
                         //emp.Rect = new RectangleF(temp.Rect.Left + 25, temp.Rect.Top + 25, temp.Rect.Width, temp.Rect.Height);
                         //emp.SetID();
-                        
+
                         curMaze.cEndRegions.Add(temp);
                         temp.Select(true);
                     }
@@ -5565,6 +5587,7 @@ namespace MazeMaker
                     {
                         ActiveRegion en = (ActiveRegion)mazeItem;
                         ActiveRegion temp = en.Copy(false, offsetX, offsetY);
+                        temp.SetElevation(offsetElevation, true);
                         //emp.Rect = new RectangleF(temp.Rect.Left + 25, temp.Rect.Top + 25, temp.Rect.Width, temp.Rect.Height);
                         //emp.SetID();
 
@@ -5575,6 +5598,7 @@ namespace MazeMaker
                     {
                         StartPos sPos = (StartPos)mazeItem;
                         StartPos temp = sPos.Copy(false, offsetX, offsetY);
+                        temp.SetElevation(offsetElevation, true);
                         //emp.Rect = new RectangleF(temp.Rect.Left + 25, temp.Rect.Top + 25, temp.Rect.Width, temp.Rect.Height);
                         //emp.SetID();
 
@@ -5876,7 +5900,7 @@ namespace MazeMaker
         private void toolStripButtonItems_Click(object sender, EventArgs e)
         {
             ChangeModeTo0();
-            splitContainer2.Panel1Collapsed = !splitContainer2.Panel1Collapsed;
+            splitContainer_LeftPaneAndMaze.Panel1Collapsed = !splitContainer_LeftPaneAndMaze.Panel1Collapsed;
             UpdateTree();
             RedrawFrame();
         }
@@ -5885,7 +5909,7 @@ namespace MazeMaker
         {
             ChangeModeTo0();
             leftPaneToolStripMenuItem.Checked = !leftPaneToolStripMenuItem.Checked;
-            splitContainer2.Panel1Collapsed = !splitContainer2.Panel1Collapsed;
+            splitContainer_LeftPaneAndMaze.Panel1Collapsed = !splitContainer_LeftPaneAndMaze.Panel1Collapsed;
 
             if (curMaze!=null)
             {                
@@ -5894,6 +5918,296 @@ namespace MazeMaker
             }
         }
 
+        private void UpdateGroupTree()
+        {
+            if (curMaze == null) return;
+
+            List<string> groupNames=new List<string> ();
+
+
+
+            //reset groupings for mazegroups
+
+            foreach (string mgKey in curMaze.mazeGroups.Keys)
+            {
+                groupNames.Add(mgKey);
+            }
+
+
+            foreach (string mgKey in groupNames)
+            {
+                Maze.MazeItemGroup mg = curMaze.mazeGroups[mgKey];
+                mg.groupItems.Clear();
+             
+
+                curMaze.mazeGroups[mgKey] = mg;
+
+            }
+
+            string curGroup;
+
+            int i;
+
+            for (i = 0; i < curMaze.cWall.Count; i++)
+            {
+                curGroup=curMaze.cWall[i].Group;
+
+                if(curMaze.mazeGroups.ContainsKey(curGroup))
+                {
+                    //continue;
+                }
+                else
+                {
+                    curMaze.mazeGroups.Add(curGroup,new Maze.MazeItemGroup(curGroup));
+                    
+                }
+
+               
+                Maze.MazeItemGroup mg = curMaze.mazeGroups[curGroup];
+                mg.groupItems.Add(curMaze.cWall[i]);
+                curMaze.mazeGroups[curGroup] = mg;
+
+            }
+
+            for (i = 0; i < curMaze.cCurveWall.Count; i++)
+            {
+                curGroup = curMaze.cCurveWall[i].Group;
+
+                if (curMaze.mazeGroups.ContainsKey(curGroup))
+                {
+                    //continue;
+                }
+                else
+                {
+                    curMaze.mazeGroups.Add(curGroup, new Maze.MazeItemGroup(curGroup));
+
+                }
+
+                
+                Maze.MazeItemGroup mg = curMaze.mazeGroups[curGroup];
+                mg.groupItems.Add(curMaze.cCurveWall[i]);
+                curMaze.mazeGroups[curGroup] = mg;
+
+            }
+            for (i = 0; i < curMaze.cFloor.Count; i++)
+            {
+                curGroup = curMaze.cFloor[i].Group;
+
+                if (curMaze.mazeGroups.ContainsKey(curGroup))
+                {
+                    //continue;
+                }
+                else
+                {
+                    curMaze.mazeGroups.Add(curGroup, new Maze.MazeItemGroup(curGroup));
+
+                }
+
+           
+                Maze.MazeItemGroup mg = curMaze.mazeGroups[curGroup];
+                mg.groupItems.Add(curMaze.cFloor[i]);
+                curMaze.mazeGroups[curGroup] = mg;
+
+            }
+
+            for (i = 0; i < curMaze.cLight.Count; i++)
+            {
+                curGroup = curMaze.cLight[i].Group;
+
+                if (curMaze.mazeGroups.ContainsKey(curGroup))
+                {
+                    //continue;
+                }
+                else
+                {
+                    curMaze.mazeGroups.Add(curGroup, new Maze.MazeItemGroup(curGroup));
+
+                }
+
+                
+                Maze.MazeItemGroup mg = curMaze.mazeGroups[curGroup];
+                mg.groupItems.Add(curMaze.cLight[i]);
+                curMaze.mazeGroups[curGroup] = mg;
+
+            }
+
+            for (i = 0; i < curMaze.cStaticModels.Count; i++)
+            {
+                curGroup = curMaze.cStaticModels[i].Group;
+
+                if (curMaze.mazeGroups.ContainsKey(curGroup))
+                {
+                    //continue;
+                }
+                else
+                {
+                    curMaze.mazeGroups.Add(curGroup, new Maze.MazeItemGroup(curGroup));
+
+                }
+
+               
+                Maze.MazeItemGroup mg = curMaze.mazeGroups[curGroup];
+                mg.groupItems.Add(curMaze.cStaticModels[i]);
+                curMaze.mazeGroups[curGroup] = mg;
+
+            }
+
+            for (i = 0; i < curMaze.cDynamicObjects.Count; i++)
+            {
+                curGroup = curMaze.cDynamicObjects[i].Group;
+
+                if (curMaze.mazeGroups.ContainsKey(curGroup))
+                {
+                    //;
+                }
+                else
+                {
+                    curMaze.mazeGroups.Add(curGroup, new Maze.MazeItemGroup(curGroup));
+
+                }
+
+               
+                Maze.MazeItemGroup mg = curMaze.mazeGroups[curGroup];
+                mg.groupItems.Add(curMaze.cDynamicObjects[i]);
+                curMaze.mazeGroups[curGroup] = mg;
+
+            }
+
+            for (i = 0; i < curMaze.cActRegions.Count; i++)
+            {
+                curGroup = curMaze.cActRegions[i].Group;
+
+                if (curMaze.mazeGroups.ContainsKey(curGroup))
+                {
+                    //continue;
+                }
+                else
+                {
+                    curMaze.mazeGroups.Add(curGroup, new Maze.MazeItemGroup(curGroup));
+
+                }
+
+              
+                Maze.MazeItemGroup mg = curMaze.mazeGroups[curGroup];
+                mg.groupItems.Add(curMaze.cActRegions[i]);
+                curMaze.mazeGroups[curGroup] = mg;
+
+            }
+
+            for (i = 0; i < curMaze.cEndRegions.Count; i++)
+            {
+                curGroup = curMaze.cEndRegions[i].Group;
+
+                if (curMaze.mazeGroups.ContainsKey(curGroup))
+                {
+                    //continue;
+                }
+                else
+                {
+                    curMaze.mazeGroups.Add(curGroup, new Maze.MazeItemGroup(curGroup));
+
+                }
+
+                
+                Maze.MazeItemGroup mg = curMaze.mazeGroups[curGroup];
+                mg.groupItems.Add(curMaze.cEndRegions[i]);
+                curMaze.mazeGroups[curGroup] = mg;
+
+            }
+
+            for (i = 0; i < curMaze.cStart.Count; i++)
+            {
+                curGroup = curMaze.cStart[i].Group;
+
+                if (curMaze.mazeGroups.ContainsKey(curGroup))
+                {
+                    //continue;
+                }
+                else
+                {
+                    curMaze.mazeGroups.Add(curGroup, new Maze.MazeItemGroup(curGroup));
+
+                }
+
+                Maze.MazeItemGroup mg = curMaze.mazeGroups[curGroup];
+                mg.groupItems.Add(curMaze.cStart[i]);
+                curMaze.mazeGroups[curGroup] = mg;
+
+            }
+
+
+
+            foreach (string mgKey in groupNames)
+            {
+                Maze.MazeItemGroup mg=curMaze.mazeGroups[mgKey];
+                
+
+                if (mg.groupItems.Count == 0)
+                    curMaze.mazeGroups.Remove(mgKey);
+                else
+                    curMaze.mazeGroups[mgKey] = mg;
+
+            }
+
+            groupNames.Clear();
+            foreach (string mgKey in curMaze.mazeGroups.Keys)
+            {
+                groupNames.Add(mgKey);
+            }
+
+
+
+            Font parentFont = new Font(treeView_mazeItems.Font.FontFamily, treeView_mazeItems.Font.Size + 1, FontStyle.Bold);
+
+            String mzString = "Groups:";
+            TreeNode groupHead = new TreeNode("MazeGroupsHead");
+            groupHead.NodeFont = parentFont;
+            groupHead.Text = mzString;
+            groupHead.Name = "MazeGroupsHead";
+
+            checkedGroupNames.Clear();
+
+
+            int groupIdx = 0;
+            foreach (string mgKey in groupNames)
+            {
+                
+                Maze.MazeItemGroup mg = curMaze.mazeGroups[mgKey];
+              
+
+                TreeNode groupNode = new TreeNode(mgKey);
+                groupNode.NodeFont = parentFont;
+                groupNode.Name = mgKey;
+
+                groupNode.Checked = mg.isChecked;
+
+                if (mg.isChecked)
+                    checkedGroupNames.Add(mgKey);
+
+                groupNode.Text = ""+(groupIdx+1)+": "+mg.groupName+" ("+mg.groupItems.Count+")";
+
+                if (!mg.isVisible)
+                    groupNode.Text += "??";
+                if (mg.isLocked)
+                    groupNode.Text += "??";
+
+                groupHead.Nodes.Add(groupNode);
+
+                
+                groupIdx++;
+
+            }
+
+
+
+            treeView_mazeItemGroups.Nodes.Clear();
+            treeView_mazeItemGroups.CheckBoxes = true;
+            treeView_mazeItemGroups.Nodes.Add(groupHead);
+            groupHead.Expand();
+            treeView_mazeItemGroups.ExpandAll();
+        }
+
+        List<string> checkedGroupNames = new List<string>();
 
         private void UpdateTree()
         {
@@ -5901,11 +6215,16 @@ namespace MazeMaker
 
             if (curMaze == null) return;
 
+            UpdateGroupTree();
+
             //treeView1.Nodes.Clear();
             ClearTree();
 
+   
+            
+
             int i = 0;
-            Font parentFont = new Font(treeView1.Font.FontFamily,treeView1.Font.Size+1,FontStyle.Bold);
+            Font parentFont = new Font(treeView_mazeItems.Font.FontFamily,treeView_mazeItems.Font.Size+1,FontStyle.Bold);
 
             String mzString = "Maze: "+ this.curMaze.Name+"         ";
             TreeNode maze = new TreeNode("Maze Items");
@@ -5918,8 +6237,8 @@ namespace MazeMaker
             wall.Text = "Walls   ";
             for ( i = 0; i < curMaze.cWall.Count;i++ )
             {
-                //wall.Nodes.Add("Wall" + i.ToString());    
-                wall.Nodes.Add((i + 1).ToString() + ". " + curMaze.cWall[i].PrintToTreeItem());
+                if (checkedGroupNames.Contains(curMaze.cWall[i].Group))  
+                    wall.Nodes.Add((i + 1).ToString() + ". " + curMaze.cWall[i].PrintToTreeItem());
             }
             maze.Nodes.Add(wall);
 
@@ -5928,8 +6247,8 @@ namespace MazeMaker
             curveWall.Text = "Curved Walls   ";
             for (i = 0; i < curMaze.cCurveWall.Count; i++)
             {
-                //wall.Nodes.Add("Wall" + i.ToString());    
-                curveWall.Nodes.Add((i + 1).ToString() + ". " + curMaze.cCurveWall[i].PrintToTreeItem());
+                if (checkedGroupNames.Contains(curMaze.cCurveWall[i].Group))
+                    curveWall.Nodes.Add((i + 1).ToString() + ". " + curMaze.cCurveWall[i].PrintToTreeItem());
             }
             maze.Nodes.Add(curveWall);
 
@@ -5939,8 +6258,8 @@ namespace MazeMaker
             floor.Text = "Floors   ";
             for (i = 0; i < curMaze.cFloor.Count; i++)
             {
-                //floor.Nodes.Add("Floor" + i.ToString());
-                floor.Nodes.Add((i + 1).ToString() + ". " + curMaze.cFloor[i].PrintToTreeItem());
+                if (checkedGroupNames.Contains(curMaze.cFloor[i].Group))
+                    floor.Nodes.Add((i + 1).ToString() + ". " + curMaze.cFloor[i].PrintToTreeItem());
             }
             maze.Nodes.Add(floor);
 
@@ -5950,8 +6269,8 @@ namespace MazeMaker
             lights.Text = "Lights";
             for (i = 0; i < curMaze.cLight.Count; i++)
             {
-                //lights.Nodes.Add("Light" + i.ToString());
-                lights.Nodes.Add((i + 1).ToString() + ". " + curMaze.cLight[i].PrintToTreeItem());
+                if (checkedGroupNames.Contains(curMaze.cLight[i].Group))
+                    lights.Nodes.Add((i + 1).ToString() + ". " + curMaze.cLight[i].PrintToTreeItem());
             }
             maze.Nodes.Add(lights);
 
@@ -5961,8 +6280,8 @@ namespace MazeMaker
             staticModels.Text = "Models";
             for (i = 0; i < curMaze.cStaticModels.Count; i++)
             {
-                //staticModels.Nodes.Add("Static" + i.ToString());
-                staticModels.Nodes.Add((i + 1).ToString() + ". " + curMaze.cStaticModels[i].PrintToTreeItem());
+                if (checkedGroupNames.Contains(curMaze.cStaticModels[i].Group))
+                    staticModels.Nodes.Add((i + 1).ToString() + ". " + curMaze.cStaticModels[i].PrintToTreeItem());
             }
             maze.Nodes.Add(staticModels);
 
@@ -5971,8 +6290,8 @@ namespace MazeMaker
             dynamicModels.Text = "Dynamic Objects";
             for (i = 0; i < curMaze.cDynamicObjects.Count; i++)
             {
-                //dynamicModels.Nodes.Add("Dynamic" + i.ToString());
-                dynamicModels.Nodes.Add((i + 1).ToString() + ". " + curMaze.cDynamicObjects[i].PrintToTreeItem());
+                if (checkedGroupNames.Contains(curMaze.cDynamicObjects[i].Group))
+                    dynamicModels.Nodes.Add((i + 1).ToString() + ". " + curMaze.cDynamicObjects[i].PrintToTreeItem());
             }
             maze.Nodes.Add(dynamicModels);
 
@@ -5981,8 +6300,8 @@ namespace MazeMaker
             activeRegionsNode.Text = "Active Regions";
             for (i = 0; i < curMaze.cActRegions.Count; i++)
             {
-                //dynamicModels.Nodes.Add("Dynamic" + i.ToString());
-                activeRegionsNode.Nodes.Add((i + 1).ToString() + ". " + curMaze.cActRegions[i].PrintToTreeItem());
+                if (checkedGroupNames.Contains(curMaze.cActRegions[i].Group))
+                    activeRegionsNode.Nodes.Add((i + 1).ToString() + ". " + curMaze.cActRegions[i].PrintToTreeItem());
             }
             maze.Nodes.Add(activeRegionsNode);
 
@@ -5991,8 +6310,8 @@ namespace MazeMaker
             ends.Text = "End Regions";
             for (i = 0; i < curMaze.cEndRegions.Count; i++)
             {
-                //ends.Nodes.Add("End" + i.ToString());
-                ends.Nodes.Add((i + 1).ToString() + ". " + curMaze.cEndRegions[i].PrintToTreeItem());
+                if (checkedGroupNames.Contains(curMaze.cEndRegions[i].Group))
+                    ends.Nodes.Add((i + 1).ToString() + ". " + curMaze.cEndRegions[i].PrintToTreeItem());
             }
             maze.Nodes.Add(ends);
 
@@ -6001,19 +6320,19 @@ namespace MazeMaker
             starts.Text = "Start Positions";
             for (i = 0; i < curMaze.cStart.Count; i++)
             {
-                //ends.Nodes.Add("End" + i.ToString());
-                starts.Nodes.Add((i + 1).ToString() + ". " + curMaze.cStart[i].PrintToTreeItem());
+                if (checkedGroupNames.Contains(curMaze.cStart[i].Group))
+                    starts.Nodes.Add((i + 1).ToString() + ". " + curMaze.cStart[i].PrintToTreeItem());
             }
             maze.Nodes.Add(starts);
 
-            treeView1.Nodes.Add(maze);
+            treeView_mazeItems.Nodes.Add(maze);
             maze.Expand();
-            treeView1.ExpandAll();
+            treeView_mazeItems.ExpandAll();
         }
 
         private void ClearTree()
         {
-            treeView1.Nodes.Clear();
+            treeView_mazeItems.Nodes.Clear();
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -6577,15 +6896,15 @@ namespace MazeMaker
         private bool CheckIfValidSelectedTreeItem()
         {
             //child item should be selected for context menu
-            if (curMaze == null || treeView1.SelectedNode == null)
+            if (curMaze == null || treeView_mazeItems.SelectedNode == null)
             {
                 return false;
             }
-            if (treeView1.SelectedNode.Parent == null || treeView1.SelectedNode.Parent.Text == treeView1.Nodes[0].Text)
+            if (treeView_mazeItems.SelectedNode.Parent == null || treeView_mazeItems.SelectedNode.Parent.Text == treeView_mazeItems.Nodes[0].Text)
             {
                 return false;
             }
-            if (treeView1.SelectedNode.Text.Contains(".") == false)
+            if (treeView_mazeItems.SelectedNode.Text.Contains(".") == false)
             {
                 return false;
             }
@@ -6600,15 +6919,15 @@ namespace MazeMaker
                 return;
             }
 
-            if (treeView1.SelectedNode.Index == 0)
+            if (treeView_mazeItems.SelectedNode.Index == 0)
             {
                 //already at top
                 return;
             }
             int index=0;
-            if (treeView1.SelectedNode.Text.Contains("Wall"))
+            if (treeView_mazeItems.SelectedNode.Text.Contains("Wall"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.')))-1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.')))-1;
                 MazeItem b = (MazeItem) curMaze.cWall[index];
                 curMaze.DeleteItemInCollection(b);
                 curMaze.AddItemToCollection(b, 0);
@@ -6617,9 +6936,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("Curved"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("Curved"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.'))) - 1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.'))) - 1;
                 MazeItem b = (MazeItem)curMaze.cCurveWall[index];
                 curMaze.DeleteItemInCollection(b);
                 curMaze.AddItemToCollection(b, 0);
@@ -6628,9 +6947,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("Floor"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("Floor"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.')))-1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.')))-1;
                 MazeItem b = (MazeItem)curMaze.cFloor[index];
                 curMaze.DeleteItemInCollection(b);
                 curMaze.AddItemToCollection(b, 0);
@@ -6639,9 +6958,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("EndRegion"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("EndRegion"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.'))) - 1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.'))) - 1;
                 MazeItem b = (MazeItem)curMaze.cEndRegions[index];
                 curMaze.DeleteItemInCollection(b);
                 curMaze.AddItemToCollection(b, 0);
@@ -6650,9 +6969,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("ActiveRegion"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("ActiveRegion"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.'))) - 1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.'))) - 1;
                 MazeItem b = (MazeItem)curMaze.cActRegions[index];
                 curMaze.DeleteItemInCollection(b);
                 curMaze.AddItemToCollection(b, 0);
@@ -6661,9 +6980,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("StartPosition"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("StartPosition"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.'))) - 1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.'))) - 1;
                 MazeItem b = (MazeItem)curMaze.cStart[index];
                 curMaze.DeleteItemInCollection(b);
                 curMaze.AddItemToCollection(b, 0);
@@ -6672,9 +6991,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("StaticModel"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("StaticModel"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.'))) - 1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.'))) - 1;
                 MazeItem b = (MazeItem)curMaze.cStaticModels[index];
                 curMaze.DeleteItemInCollection(b);
                 curMaze.AddItemToCollection(b, 0);
@@ -6683,9 +7002,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("DynamicObject"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("DynamicObject"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.'))) - 1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.'))) - 1;
                 MazeItem b = (MazeItem)curMaze.cDynamicObjects[index];
                 curMaze.DeleteItemInCollection(b);
                 curMaze.AddItemToCollection(b, 0);
@@ -6694,9 +7013,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("Light"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("Light"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.'))) - 1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.'))) - 1;
                 MazeItem b = (MazeItem)curMaze.cLight[index];
                 curMaze.DeleteItemInCollection(b);
                 curMaze.AddItemToCollection(b, 0);
@@ -6714,15 +7033,15 @@ namespace MazeMaker
             {
                 return;
             }
-            if (treeView1.SelectedNode.Index == 0)
+            if (treeView_mazeItems.SelectedNode.Index == 0)
             {
                 //already at top
                 return;
             }
             int index = 0;
-            if (treeView1.SelectedNode.Text.Contains("Wall"))
+            if (treeView_mazeItems.SelectedNode.Text.Contains("Wall"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.')))-1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.')))-1;
                 Wall a = curMaze.cWall[index];
                 curMaze.cWall.RemoveAt(index);
                 index--;
@@ -6731,9 +7050,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("Curved Wall"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("Curved Wall"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.'))) - 1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.'))) - 1;
                 CurvedWall a = curMaze.cCurveWall[index];
                 curMaze.cCurveWall.RemoveAt(index);
                 index--;
@@ -6742,9 +7061,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("Floor"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("Floor"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.')))-1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.')))-1;
                 Floor a = curMaze.cFloor[index];
                 curMaze.cFloor.RemoveAt(index);
                 index--;
@@ -6761,15 +7080,15 @@ namespace MazeMaker
             {
                 return;
             }
-            if (treeView1.SelectedNode.Index == treeView1.SelectedNode.Parent.Nodes.Count-1)
+            if (treeView_mazeItems.SelectedNode.Index == treeView_mazeItems.SelectedNode.Parent.Nodes.Count-1)
             {
                 //already at bottom
                 return;
             }
             int index = 0;
-            if (treeView1.SelectedNode.Text.Contains("Wall"))
+            if (treeView_mazeItems.SelectedNode.Text.Contains("Wall"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.')))-1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.')))-1;
                 Wall a = curMaze.cWall[index];
                 curMaze.cWall.RemoveAt(index);
                 index++;
@@ -6778,9 +7097,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("Curved Wall"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("Curved Wall"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.'))) - 1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.'))) - 1;
                 CurvedWall a = curMaze.cCurveWall[index];
                 curMaze.cCurveWall.RemoveAt(index);
                 index++;
@@ -6789,9 +7108,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("Floor"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("Floor"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.')))-1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.')))-1;
                 Floor a = curMaze.cFloor[index];
                 curMaze.cFloor.RemoveAt(index);
                 index++;
@@ -6809,15 +7128,15 @@ namespace MazeMaker
             {
                 return;
             }
-            if (treeView1.SelectedNode.Index == treeView1.SelectedNode.Parent.Nodes.Count - 1)
+            if (treeView_mazeItems.SelectedNode.Index == treeView_mazeItems.SelectedNode.Parent.Nodes.Count - 1)
             {
                 //already at bottom
                 return;
             }
             int index = 0;
-            if (treeView1.SelectedNode.Text.Contains("Wall"))
+            if (treeView_mazeItems.SelectedNode.Text.Contains("Wall"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.'))) - 1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.'))) - 1;
                 MazeItem b = (MazeItem)curMaze.cWall[index];
                 curMaze.DeleteItemInCollection(b);
                 curMaze.AddItemToCollection(b);
@@ -6826,9 +7145,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("Curved"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("Curved"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.'))) - 1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.'))) - 1;
                 MazeItem b = (MazeItem)curMaze.cCurveWall[index];
                 curMaze.DeleteItemInCollection(b);
                 curMaze.AddItemToCollection(b);
@@ -6837,9 +7156,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("Floor"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("Floor"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.'))) - 1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.'))) - 1;
                 MazeItem b = (MazeItem)curMaze.cFloor[index];
                 curMaze.DeleteItemInCollection(b);
                 curMaze.AddItemToCollection(b);
@@ -6848,9 +7167,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("EndRegion"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("EndRegion"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.'))) - 1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.'))) - 1;
                 MazeItem b = (MazeItem)curMaze.cEndRegions[index];
                 curMaze.DeleteItemInCollection(b);
                 curMaze.AddItemToCollection(b);
@@ -6859,9 +7178,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("ActiveRegion"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("ActiveRegion"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.'))) - 1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.'))) - 1;
                 MazeItem b = (MazeItem)curMaze.cActRegions[index];
                 curMaze.DeleteItemInCollection(b);
                 curMaze.AddItemToCollection(b);
@@ -6870,9 +7189,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("StartPosition"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("StartPosition"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.'))) - 1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.'))) - 1;
                 MazeItem b = (MazeItem)curMaze.cStart[index];
                 curMaze.DeleteItemInCollection(b);
                 curMaze.AddItemToCollection(b);
@@ -6881,9 +7200,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("StaticModel"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("StaticModel"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.'))) - 1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.'))) - 1;
                 MazeItem b = (MazeItem)curMaze.cStaticModels[index];
                 curMaze.DeleteItemInCollection(b);
                 curMaze.AddItemToCollection(b);
@@ -6892,9 +7211,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("DynamicObject"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("DynamicObject"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.'))) - 1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.'))) - 1;
                 MazeItem b = (MazeItem)curMaze.cDynamicObjects[index];
                 curMaze.DeleteItemInCollection(b);
                 curMaze.AddItemToCollection(b);
@@ -6903,9 +7222,9 @@ namespace MazeMaker
                 UnSelect();
                 //treeView1.SelectedNode = null;
             }
-            else if (treeView1.SelectedNode.Text.Contains("Light"))
+            else if (treeView_mazeItems.SelectedNode.Text.Contains("Light"))
             {
-                index = int.Parse(treeView1.SelectedNode.Text.Substring(0, treeView1.SelectedNode.Text.IndexOf('.'))) - 1;
+                index = int.Parse(treeView_mazeItems.SelectedNode.Text.Substring(0, treeView_mazeItems.SelectedNode.Text.IndexOf('.'))) - 1;
                 MazeItem b = (MazeItem)curMaze.cLight[index];
                 curMaze.DeleteItemInCollection(b);
                 curMaze.AddItemToCollection(b);
@@ -6919,19 +7238,19 @@ namespace MazeMaker
 
         private void collapseAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            treeView1.CollapseAll();
+            treeView_mazeItems.CollapseAll();
         }
 
         private void expandAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ChangeModeTo0();
-            treeView1.ExpandAll();
+            treeView_mazeItems.ExpandAll();
         }
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             ChangeModeTo0();
-            treeView1.SelectedNode = e.Node;
+            treeView_mazeItems.SelectedNode = e.Node;
         }
 
         private void buttonPanelGallery1_Click(object sender, EventArgs e)
@@ -7029,6 +7348,11 @@ namespace MazeMaker
             buttonViewZoomOut.Visible = show;
             buttonViewCenter.Visible = show;
             navControlPanel.Visible = show;
+
+            panel_floor_control.Visible = show;
+            button_floor_down.Visible = show;
+            button_floor_up.Visible = show;
+            button_floor_reset.Visible = show;
         }
 
         private void buttonViewMoveDown_MouseEnter(object sender, EventArgs e)
@@ -7575,6 +7899,179 @@ namespace MazeMaker
             MazeListBuilder mlb = new MazeListBuilder();
             mlb.Open(sender, e);
             mlb.ShowDialog();
+        }
+
+        private void button_floor_reset_Click(object sender, EventArgs e)
+        {
+            iCurFloor = 0;
+            textBox_setFloor.Text = iCurFloor.ToString();
+            RedrawFrame();
+        }
+
+        private void button_floor_up_Click(object sender, EventArgs e)
+        {
+            iCurFloor = iCurFloor + 1;
+            textBox_setFloor.Text = iCurFloor.ToString();
+        }
+
+        private void button_floor_down_Click(object sender, EventArgs e)
+        {
+            iCurFloor = iCurFloor - 1;
+            textBox_setFloor.Text = iCurFloor.ToString();
+        }
+
+        private void textBox_setFloor_TextChanged(object sender, EventArgs e)
+        {
+            float tempF;
+            bool success;
+            success=float.TryParse(textBox_setFloor.Text, out tempF);
+
+        }
+
+        private void treeView_mazeItemGroups_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+             try
+            {
+
+                int index = 0;
+                if (!bCTRLdown)
+                    UnSelect(true); //force unselect
+
+                string groupName = e.Node.Name;
+
+                bool selectAll = false;
+
+
+
+                if (groupName == "(None)")
+                    groupName = "";
+                else if (groupName == "MazeGroupsHead")
+                    selectAll = true;
+
+                foreach (Wall w in curMaze.cWall)
+                {
+                    if (groupName == w.Group || selectAll)
+                        w.Select(true);
+                }
+
+                foreach (CurvedWall w in curMaze.cCurveWall)
+                {
+                    if(groupName==w.Group||selectAll)
+                        w.Select(true);
+                }
+                  
+                
+                //parent node, select all...
+                foreach (Floor w in curMaze.cFloor)
+                {
+                    if (groupName == w.Group||selectAll)
+                        w.Select(true);
+                }
+              
+                //parent node, select all...
+                foreach (Light w in curMaze.cLight)
+                {
+                    if (groupName == w.Group||selectAll)
+                        w.Select(true);
+                }
+                  
+                //parent node, select all...
+                foreach (StaticModel w in curMaze.cStaticModels)
+                {
+                    if (groupName == w.Group||selectAll)
+                        w.Select(true);
+                }
+                  
+                //parent node, select all...
+                foreach (DynamicObject w in curMaze.cDynamicObjects)
+                {
+                    if (groupName == w.Group||selectAll)
+                        w.Select(true);
+                }
+                    
+                
+                //parent node, select all...
+                foreach (StartPos sPos in curMaze.cStart)
+                {
+                    if (groupName == sPos.Group||selectAll)
+                        sPos.Select(true);
+                }
+              
+                //parent node, select all...
+                foreach (EndRegion en in curMaze.cEndRegions)
+                {
+                    if (groupName == en.Group||selectAll)
+                        en.Select(true);
+                }
+                 
+                foreach (ActiveRegion ar in curMaze.cActRegions)
+                {
+                    if (groupName == ar.Group||selectAll)
+                        ar.Select(true);
+                }
+                    
+                SyncSelections();
+                RedrawFrame();
+                propertyGrid.Refresh();
+            }
+            catch //(System.Exception ex)
+            {
+
+            }
+            
+        }
+
+        private void treeView_mazeItemGroups_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            string nodeName = e.Node.Name;
+            bool isChecked = e.Node.Checked;
+            int numChildNodes = e.Node.Nodes.Count;
+
+            if (nodeName == "MazeGroupsHead")
+            {
+                for (int n = 0; n < numChildNodes; n++)
+                {
+                    TreeNode childNode = e.Node.Nodes[n];
+                    if (childNode.Checked != isChecked)
+                    {
+                        childNode.Checked = isChecked;
+                        e.Node.Nodes[n] = childNode;
+                    }
+                        
+                }
+                return;
+            }
+                
+
+
+            if (checkedGroupNames.Contains(nodeName) && !isChecked)
+            {
+                checkedGroupNames.Remove(nodeName);
+            }
+
+            if (!checkedGroupNames.Contains(nodeName) && isChecked)
+            {
+                checkedGroupNames.Add(nodeName);
+            }
+
+            List<string> groupNames=new List<string>();
+
+            foreach (string mgKey in curMaze.mazeGroups.Keys)
+            {
+                groupNames.Add(mgKey);
+            }
+
+            foreach (string mgKey in groupNames)
+            {
+
+                Maze.MazeItemGroup mg = curMaze.mazeGroups[mgKey];
+
+                mg.isChecked = checkedGroupNames.Contains(mgKey);
+
+                curMaze.mazeGroups[mgKey] = mg;
+            }
+
+            UpdateTree();
         }
 
         private void exportToClassicFileToolStripMenuItem_Click(object sender, EventArgs e)
