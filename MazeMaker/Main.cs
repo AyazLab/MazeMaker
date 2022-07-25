@@ -1002,6 +1002,7 @@ namespace MazeMaker
             toogleElementsToolStrip(true);
             ChangeMode(Mode.none);
             RedrawFrame();
+            iCurFloor = 0;
             mazeNumber++;
             this.Text = "MazeMaker - Maze" + mazeNumber.ToString();
             curMaze.Name = "Maze" + mazeNumber.ToString();
@@ -4544,14 +4545,15 @@ namespace MazeMaker
 
                 }
 
-
-
-
+                float yDiff = 0;
 
                 foreach (Floor f in curMaze.cFloor)
                 {
                     curMazeTheme.SetColor(f);
-                    f.Paint(ref gr);
+                    
+                    yDiff = (float)Math.Min(Math.Abs(((double)iCurFloor) - f.getMaxY()), Math.Abs(((double)iCurFloor) - f.getMinY()));
+                    yDiff = 1 / (1 + yDiff* yDiff);
+                    f.Paint(ref gr, yDiff);
                 }
                 foreach (MazeItem mItem in selected)
                 {
@@ -4561,7 +4563,9 @@ namespace MazeMaker
                 foreach (EndRegion en in curMaze.cEndRegions)
                 {
                     curMazeTheme.SetColor(en);
-                    en.Paint(ref gr);
+                    yDiff = (float)Math.Min(Math.Abs(((double)iCurFloor) - en.getMaxY()), Math.Abs(((double)iCurFloor) - en.getMinY()));
+                    yDiff = 1 / (1 + yDiff * yDiff);
+                    en.Paint(ref gr,yDiff);
                 }
                 foreach (MazeItem mItem in selected)
                 {
@@ -4571,7 +4575,9 @@ namespace MazeMaker
                 foreach (ActiveRegion actR in curMaze.cActRegions)
                 {
                     curMazeTheme.SetColor(actR);
-                    actR.Paint(ref gr);
+                    yDiff = (float)Math.Min(Math.Abs(((double)iCurFloor) - actR.getMaxY()), Math.Abs(((double)iCurFloor) - actR.getMinY()));
+                    yDiff = 1 / (1 + yDiff * yDiff);
+                    actR.Paint(ref gr,yDiff);
                 }
                 foreach (MazeItem mItem in selected)
                 {
@@ -4581,24 +4587,34 @@ namespace MazeMaker
                 foreach (Wall w in curMaze.cWall)
                 {
                     curMazeTheme.SetColor(w);
-                    w.Paint(ref gr);
+                    yDiff = (float)Math.Min(Math.Abs(((double)iCurFloor) - w.getMaxY()), Math.Abs(((double)iCurFloor) - w.getMinY()));
+                    yDiff = 1 / (1 + yDiff * yDiff);
+                    w.Paint(ref gr,yDiff);
                 }
                 foreach (CurvedWall w in curMaze.cCurveWall)
                 {
                     curMazeTheme.SetColor(w);
-                    w.Paint(ref gr);
+                    yDiff = (float)Math.Min(Math.Abs(((double)iCurFloor) - w.getMaxY()), Math.Abs(((double)iCurFloor) - w.getMinY()));
+                    yDiff = 1 / (1 + yDiff * yDiff);
+                    w.Paint(ref gr,yDiff);
                 }
                 foreach (Light l in curMaze.cLight)
                 {
-                    l.Paint(ref gr);
+                    yDiff = (float)Math.Min(Math.Abs(((double)iCurFloor) - l.getY()+1), Math.Abs(((double)iCurFloor) - l.getY()-1));
+                    yDiff = 1 / (1 + yDiff * yDiff);
+                    l.Paint(ref gr,yDiff);
                 }
                 foreach (StaticModel c in curMaze.cStaticModels)
                 {
-                    c.Paint(ref gr);
+                    yDiff = (float)Math.Min(Math.Abs(((double)iCurFloor) - c.getY() + 1), Math.Abs(((double)iCurFloor) - c.getY() - 1));
+                    yDiff = 1 / (1 + yDiff * yDiff);
+                    c.Paint(ref gr,yDiff);
                 }
                 foreach (DynamicObject c in curMaze.cDynamicObjects)
                 {
-                    c.Paint(ref gr);
+                    yDiff = (float)Math.Min(Math.Abs(((double)iCurFloor) - c.getY() + 1), Math.Abs(((double)iCurFloor) - c.getY() - 1));
+                    yDiff = 1 / (1 + yDiff * yDiff);
+                    c.Paint(ref gr,yDiff);
                 }
                 foreach (CustomObject c in curMaze.cObject)
                 {
@@ -4606,7 +4622,9 @@ namespace MazeMaker
                 }
                 foreach (StartPos sPos in curMaze.cStart)
                 {
-                    sPos.Paint(ref gr);
+                    yDiff = (float)Math.Min(Math.Abs(((double)iCurFloor) - sPos.getY() + 1), Math.Abs(((double)iCurFloor) - sPos.getY() - 1));
+                    yDiff = 1 / (1 + yDiff * yDiff);
+                    sPos.Paint(ref gr,yDiff);
                 }
 
                 foreach (MazeItem mItem in selected)
@@ -7877,12 +7895,14 @@ namespace MazeMaker
         {
             iCurFloor = iCurFloor + 1;
             textBox_setFloor.Text = iCurFloor.ToString();
+            RedrawFrame();
         }
 
         private void button_floor_down_Click(object sender, EventArgs e)
         {
             iCurFloor = iCurFloor - 1;
             textBox_setFloor.Text = iCurFloor.ToString();
+            RedrawFrame();
         }
 
         private void textBox_setFloor_TextChanged(object sender, EventArgs e)
@@ -7890,6 +7910,7 @@ namespace MazeMaker
             float tempF;
             bool success;
             success=float.TryParse(textBox_setFloor.Text, out tempF);
+            RedrawFrame();
 
         }
 
