@@ -4504,6 +4504,7 @@ namespace MazeMaker
         {
             Image buffer = new Bitmap(tabPageMazeEdit.Width, tabPageMazeEdit.Height); //I usually use 32BppARGB as my color depth
             Graphics gr = Graphics.FromImage(buffer);
+            
 
             gr.SmoothingMode =
                      System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
@@ -7693,6 +7694,7 @@ namespace MazeMaker
             markAllThemesFalse();
 
             curMazeTheme = mazeThemeLibrary.GetThemeByIndex(index);
+            tabPageMazeEdit.BackColor = curMazeTheme.bgColor;
             RedrawFrame();
             CurrentSettings.themeIndex = curMazeTheme.themeIndex;
             CurrentSettings.SaveSettings();
