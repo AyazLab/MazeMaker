@@ -201,6 +201,7 @@ namespace MazeMaker
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 madeChanges = false;
+                this.mLFilePath = sfd.FileName;
                 WriteToFile(sfd.FileName);
                 return true;
             }
@@ -552,6 +553,7 @@ namespace MazeMaker
             {
                 madeChanges = false;
 
+                string origPath = Path.GetDirectoryName(this.mLFilePath)+"\\";
                 string melxPath = sfd.FileName;
                 WriteToMelx(melxPath);
                 string tempPath = Path.GetDirectoryName(sfd.FileName) + "\\Temp";
@@ -575,7 +577,7 @@ namespace MazeMaker
                             MazeListItem maze = (MazeListItem)item;
                             if (maze.MazeFile != "")
                             {
-                                string oldFilePath = mazeFilePaths[maze.MazeFile];
+                                string oldFilePath = origPath+mazeFilePaths[maze.MazeFile];
                                 string newFilePath = melxPath + "_assets\\maze\\" + maze.MazeFile;
 
                                 bool zipMode = true;
@@ -639,7 +641,7 @@ namespace MazeMaker
                             TextListItem text = (TextListItem)item;
                             if (text.AudioFile != "")
                             {
-                                string oldFilePath = audioFilePaths[text.AudioFile];
+                                string oldFilePath = origPath + audioFilePaths[text.AudioFile];
                                 string newFilePath = melxPath + "_assets\\audio\\" + text.AudioFile;
 
                                 audioFilePaths[text.AudioFile] = newFilePath;
@@ -652,7 +654,7 @@ namespace MazeMaker
                             ImageListItem image = (ImageListItem)item;
                             if (image.ImageFile != "")
                             {
-                                string oldFilePath = imageFilePaths[image.ImageFile];
+                                string oldFilePath = origPath + imageFilePaths[image.ImageFile];
                                 string newFilePath = melxPath + "_assets\\image\\" + image.ImageFile;
 
                                 imageFilePaths[image.ImageFile] = newFilePath;
@@ -662,7 +664,7 @@ namespace MazeMaker
                             }
                             if (image.AudioFile != "")
                             {
-                                string oldFilePath = audioFilePaths[image.AudioFile];
+                                string oldFilePath = origPath + audioFilePaths[image.AudioFile];
                                 string newFilePath = melxPath + "_assets\\audio\\" + image.AudioFile;
                                 audioFilePaths[image.AudioFile] = newFilePath;
 
@@ -674,7 +676,7 @@ namespace MazeMaker
                             MultipleChoiceListItem multipleChoice = (MultipleChoiceListItem)item;
                             if (multipleChoice.AudioFile != "")
                             {
-                                string oldFilePath = audioFilePaths[multipleChoice.AudioFile];
+                                string oldFilePath = origPath + audioFilePaths[multipleChoice.AudioFile];
                                 string newFilePath = melxPath + "_assets\\audio\\" + multipleChoice.AudioFile;
                                 audioFilePaths[multipleChoice.AudioFile] = newFilePath;
 
@@ -687,7 +689,7 @@ namespace MazeMaker
                             RecordAudioListItem recordAudio = (RecordAudioListItem)item;
                             if (recordAudio.ImageFile != "")
                             {
-                                string oldFilePath = imageFilePaths[recordAudio.ImageFile];
+                                string oldFilePath = origPath + imageFilePaths[recordAudio.ImageFile];
                                 string newFilePath = melxPath + "_assets\\image\\" + recordAudio.ImageFile;
 
                                 imageFilePaths[recordAudio.ImageFile] = newFilePath;
