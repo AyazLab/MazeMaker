@@ -1145,6 +1145,7 @@ namespace MazeMaker
                     case ItemType.Image:
                         ImageListItem image = (ImageListItem)item;
                         mz.InnerText = image.Text;
+                        mz.SetAttribute("ImageDisplayType", image.ImageDisplayStyle.ToString());
                         mz.SetAttribute("TextDisplayType", image.TextDisplayType.ToString());
                         mz.SetAttribute("Duration", image.Duration.ToString());
                         mz.SetAttribute("X", image.X.ToString());
@@ -1277,6 +1278,7 @@ namespace MazeMaker
                     case ItemType.RecordAudio:
                         RecordAudioListItem recordAudio = (RecordAudioListItem)item;
                         mz.InnerText = recordAudio.Text;
+                        mz.SetAttribute("ImageDisplayType", recordAudio.ImageDisplayStyle.ToString());
                         mz.SetAttribute("TextDisplayType", recordAudio.TextDisplayType.ToString());
                         mz.SetAttribute("Duration", recordAudio.Duration.ToString());
                         mz.SetAttribute("BackgroundColor", string.Format("{0}, {1}, {2}, {3}", recordAudio.BackgroundColor.A, recordAudio.BackgroundColor.R, recordAudio.BackgroundColor.G, recordAudio.BackgroundColor.B));
@@ -1520,6 +1522,9 @@ namespace MazeMaker
                     case "ListItems":
                         foreach (XmlElement listItem in mz.ChildNodes)
                         {
+                            ListItem.ImageDisplayType imageDisplayStyle = ListItem.ImageDisplayType.Fit;
+                            string displayStyleString = "";
+
                             UpdateMazeList();
                             switch (listItem.Name)
                             {
@@ -1620,6 +1625,15 @@ namespace MazeMaker
                                     }
                                     audioFilePaths[audioFileName] = audioFilePath;
 
+                                    imageDisplayStyle = ListItem.ImageDisplayType.Fit;
+                                    displayStyleString = listItem.GetAttribute("ImageDisplayType");
+                                    if (displayStyleString.Length > 0)
+                                    {
+                                        imageDisplayStyle = (ListItem.ImageDisplayType)Enum.Parse(typeof(ListItem.ImageDisplayType), displayStyleString);
+                                    }
+
+
+
                                     ImageListItem image = new ImageListItem
                                     {
                                         Text = listItem.InnerText,
@@ -1630,6 +1644,7 @@ namespace MazeMaker
 
                                         BackgroundColor = Color.FromArgb(Convert.ToByte(backgroundColor[0]), Convert.ToByte(backgroundColor[1]), Convert.ToByte(backgroundColor[2]), Convert.ToByte(backgroundColor[3])),
                                         ImageFile = imageFileName,
+                                        ImageDisplayStyle = imageDisplayStyle,
 
                                         AudioFile = audioFileName,
                                         Loop = bool.Parse(listItem.GetAttribute("Loop")),
@@ -1692,6 +1707,14 @@ namespace MazeMaker
                                     }
                                     imageFilePaths[imageFileName] = imageFilePath;
 
+                                    imageDisplayStyle = ListItem.ImageDisplayType.Fit;
+                                    displayStyleString = listItem.GetAttribute("ImageDisplayType");
+                                    if (displayStyleString.Length > 0)
+                                    {
+                                        imageDisplayStyle = (ListItem.ImageDisplayType)Enum.Parse(typeof(ListItem.ImageDisplayType), displayStyleString);
+                                    }
+
+
                                     RecordAudioListItem recordAudio = new RecordAudioListItem
                                     {
                                         Text = listItem.InnerText,
@@ -1700,6 +1723,7 @@ namespace MazeMaker
 
                                         BackgroundColor = Color.FromArgb(Convert.ToByte(backgroundColor[0]), Convert.ToByte(backgroundColor[1]), Convert.ToByte(backgroundColor[2]), Convert.ToByte(backgroundColor[3])),
                                         ImageFile = imageFileName,
+                                        ImageDisplayStyle = imageDisplayStyle,
                                     };
 
                                     MazeList.Add(recordAudio);

@@ -13,6 +13,7 @@ using System.ComponentModel.Design;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security.AccessControl;
+using static MazeMaker.TextListItem;
 
 #endregion
 
@@ -38,6 +39,17 @@ namespace MazeMaker
 
     public class ListItem : Object
     {
+
+        public enum DisplayType
+        {
+            OnFramedDialog, OnBackground
+        }
+
+        public enum ImageDisplayType
+        {
+            Fit, Stretch, Center, Tile
+        }
+
         protected string text = "";
         [Category("Text Display")]
         [Description("Text to display on screen")]
@@ -254,6 +266,8 @@ namespace MazeMaker
             OnFramedDialog, OnBackground
         }
 
+        
+
         public TextListItem()
         {
            this.Text = "Enter message here!..";
@@ -308,6 +322,8 @@ namespace MazeMaker
             get { return backgroundImage; }
             set { backgroundImage = value; }
         }
+
+
 
         private string audioFile = "";
         [Category("Audio")]
@@ -364,10 +380,7 @@ namespace MazeMaker
 
     public class ImageListItem : ListItem
     {
-        public enum DisplayType
-        {
-            OnFramedDialog, OnBackground
-        }
+        
 
         public ImageListItem()
         {
@@ -432,6 +445,16 @@ namespace MazeMaker
         {
             get { return imageFile; }
             set { imageFile = value; }
+        }
+
+        private ImageDisplayType bgShowLike = ImageDisplayType.Fit;
+        [Category("Display")]
+        [Description("Image Style")]
+
+        public ImageDisplayType ImageDisplayStyle
+        {
+            get { return bgShowLike; }
+            set { bgShowLike = value; }
         }
 
         private string audioFile = "";
@@ -757,6 +780,16 @@ namespace MazeMaker
         {
             get { return imageFile; }
             set { imageFile = value; }
+        }
+
+        private ImageDisplayType bgShowLike = ImageDisplayType.Fit;
+        [Category("Display")]
+        [Description("Image Style")]
+
+        public ImageDisplayType ImageDisplayStyle
+        {
+            get { return bgShowLike; }
+            set { bgShowLike = value; }
         }
 
         private int fontSize = 12;
