@@ -566,7 +566,7 @@ namespace MazeMaker
 
  
 
-                string copiedFiles = "";
+                List <string> copiedFiles = new List<string> ();
                 foreach (ListItem item in MazeList)
                 {
                     string copiedFile0 = "no new file";
@@ -575,35 +575,42 @@ namespace MazeMaker
                     {
                         case ItemType.Maze:
                             MazeListItem maze = (MazeListItem)item;
-                            if (maze.MazeFile != "")
+                            if (maze.MazeFile != "" && !copiedFiles.Contains(maze.MazeFile))
                             {
-                                string oldFilePath = origPath+mazeFilePaths[maze.MazeFile];
+                                string oldFilePath = mazeFilePaths[maze.MazeFile];
+                                if (!oldFilePath.Contains(":"))
+                                {
+                                    oldFilePath = origPath + oldFilePath;
+                                }
                                 string newFilePath = melxPath + "_assets\\maze\\" + maze.MazeFile;
 
                                 bool zipMode = true;
                                 bool packageMaze = true;
 
-                                mazeFilePaths[maze.MazeFile] = newFilePath;
-
                                 string extOrig = Path.GetExtension(newFilePath);
 
-                                if(extOrig.ToLower().EndsWith("x"))
+                                if (extOrig.ToLower().EndsWith("x"))
                                 {
                                     packageMaze = false;
                                 }
-                                else if(zipMode)
+                                else
                                 {
-                                    mazeFilePaths[maze.MazeFile] = mazeFilePaths[maze.MazeFile] + "x";
+                                    newFilePath = newFilePath + "x";
                                 }
+
 
                                 copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "maze", newFilePath, ref replaceOrder);
 
-                                if(!oldFilePath.Contains(":"))
+                                if(copiedFile0!= "no new file")
                                 {
-                                    oldFilePath = Path.GetDirectoryName(melxPath) + "\\" + oldFilePath;
+                                    copiedFiles.Add(maze.MazeFile);
                                 }
 
-                                if(packageMaze)
+                               
+
+
+
+                                if (packageMaze)
                                 { 
                                     Maze tempMaze = new Maze();
 
@@ -621,13 +628,25 @@ namespace MazeMaker
                                     }
                                     else
                                         {
-                                        copiedFiles = copiedFiles + "\nUnable to package " + oldFilePath;
+                                        copiedFiles.Add("\nUnable to package " + oldFilePath);
                                         MessageBox.Show("Not a maze file or corrupted maze file", "MazeMaker", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     }
 
                                     ModelPathConverter.Paths = tempPathsModels;
                                     AudioPathConverter.Paths = tempPathsAudio;
                                     ImagePathConverter.Paths = tempPathsImage;
+
+                                    mazeFilePaths[maze.MazeFile] = mazeFilePaths[maze.MazeFile] + "x";
+
+                                    mazeFilePaths[maze.MazeFile+"x"] = mazeFilePaths[maze.MazeFile] + "x";
+                                    mazeFilePaths.Remove(maze.MazeFile);
+                                    maze.MazeFile = maze.MazeFile + "x";
+
+
+                                }
+                                else
+                                {
+                                    mazeFilePaths[maze.MazeFile] = newFilePath;
                                 }
 
 
@@ -639,7 +658,7 @@ namespace MazeMaker
 
                         case ItemType.Text:
                             TextListItem text = (TextListItem)item;
-                            if (text.AudioFile != "")
+                            if (text.AudioFile != "" && !copiedFiles.Contains(text.AudioFile))
                             {
                                 string oldFilePath = origPath + audioFilePaths[text.AudioFile];
                                 string newFilePath = melxPath + "_assets\\audio\\" + text.AudioFile;
@@ -647,12 +666,17 @@ namespace MazeMaker
                                 audioFilePaths[text.AudioFile] = newFilePath;
 
                                 copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath, ref replaceOrder);
+
+                                if (copiedFile0 != "no new file")
+                                {
+                                    copiedFiles.Add(text.AudioFile);
+                                }
                             }
                             break;
 
                         case ItemType.Image:
                             ImageListItem image = (ImageListItem)item;
-                            if (image.ImageFile != "")
+                            if (image.ImageFile != "" && !copiedFiles.Contains(image.ImageFile))
                             {
                                 string oldFilePath = origPath + imageFilePaths[image.ImageFile];
                                 string newFilePath = melxPath + "_assets\\image\\" + image.ImageFile;
@@ -660,6 +684,11 @@ namespace MazeMaker
                                 imageFilePaths[image.ImageFile] = newFilePath;
 
                                 copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "image", newFilePath, ref replaceOrder);
+
+                                if (copiedFile0 != "no new file")
+                                {
+                                    copiedFiles.Add(image.ImageFile);
+                                }
 
                             }
                             if (image.AudioFile != "")
@@ -669,25 +698,35 @@ namespace MazeMaker
                                 audioFilePaths[image.AudioFile] = newFilePath;
 
                                 copiedFile1 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath, ref replaceOrder);
+
+                                if (copiedFile0 != "no new file")
+                                {
+                                    copiedFiles.Add(image.AudioFile);
+                                }
                             }
                             break;
 
                         case ItemType.MultipleChoice:
                             MultipleChoiceListItem multipleChoice = (MultipleChoiceListItem)item;
-                            if (multipleChoice.AudioFile != "")
+                            if (multipleChoice.AudioFile != ""&&!copiedFiles.Contains(multipleChoice.AudioFile))
                             {
                                 string oldFilePath = origPath + audioFilePaths[multipleChoice.AudioFile];
                                 string newFilePath = melxPath + "_assets\\audio\\" + multipleChoice.AudioFile;
                                 audioFilePaths[multipleChoice.AudioFile] = newFilePath;
 
                                 copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "audio", newFilePath, ref replaceOrder);
+
+                                if (copiedFile0 != "no new file")
+                                {
+                                    copiedFiles.Add(multipleChoice.AudioFile);
+                                }
                             }
                             break;
 
 
                         case ItemType.RecordAudio:
                             RecordAudioListItem recordAudio = (RecordAudioListItem)item;
-                            if (recordAudio.ImageFile != "")
+                            if (recordAudio.ImageFile != "" && !copiedFiles.Contains(recordAudio.ImageFile))
                             {
                                 string oldFilePath = origPath + imageFilePaths[recordAudio.ImageFile];
                                 string newFilePath = melxPath + "_assets\\image\\" + recordAudio.ImageFile;
@@ -695,6 +734,11 @@ namespace MazeMaker
                                 imageFilePaths[recordAudio.ImageFile] = newFilePath;
 
                                 copiedFile0 = RecursiveFileCopy(oldFilePath, melxPath, "image", newFilePath, ref replaceOrder);
+
+                                if (copiedFile0 != "no new file")
+                                {
+                                    copiedFiles.Add(recordAudio.ImageFile);
+                                }
                             }
                             break;
                     }
@@ -705,13 +749,13 @@ namespace MazeMaker
 
                     if (!AddToLog(copiedFile0, ref copiedFiles) || !AddToLog(copiedFile1, ref copiedFiles))
                     {
-                        ShowPM(melxPath, "\nPackage failed.", copiedFiles);
+                        ShowPM(melxPath, "\nPackage failed.", string.Join(",",copiedFiles));
                         return;
                     }
                 }
 
                 WriteToMelx(melxPath);
-                ShowPM(melxPath, "\nPackage successfully generated", copiedFiles);
+                ShowPM(melxPath, "\nPackage successfully generated", string.Join(",",copiedFiles));
             }
         }
 
@@ -736,7 +780,7 @@ namespace MazeMaker
             pm.ShowDialog();
         }
 
-        public static bool AddToLog(string copiedFile, ref string copiedFiles)
+        public static bool AddToLog(string copiedFile, ref List<string> copiedFiles)
         {
             switch (copiedFile)
             {
@@ -747,7 +791,7 @@ namespace MazeMaker
                     return false;
 
                 default:
-                    copiedFiles += "\n" + copiedFile;
+                    copiedFiles.Add(copiedFile);
                     return true;
             }
         }

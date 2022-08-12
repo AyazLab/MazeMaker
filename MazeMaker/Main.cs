@@ -3691,7 +3691,7 @@ namespace MazeMaker
 
             string mazPath = sfd.FileName;
        
-            string copiedFiles = "";
+            List<string> copiedFiles = new List<string>();
 
 
             //Instead of everything below, use Package from mazelib, maze.cs
@@ -3702,14 +3702,14 @@ namespace MazeMaker
                 //curMaze.SaveToMazeXML(sfd.FileName);
 
             if(!successPackage)
-                MazeListBuilder.ShowPM(mazPath, "\nPackage failed!", copiedFiles);
+                MazeListBuilder.ShowPM(mazPath, "\nPackage failed!", string.Join(",", copiedFiles));
             else if (zip)
             {
-                MazeListBuilder.ShowPM(mazPath, "\nZipping files...\n" + mazPath + "\nPackage successfully generated", copiedFiles);
+                MazeListBuilder.ShowPM(mazPath, "\nZipping files...\n" + mazPath + "\nPackage successfully generated", string.Join(",",copiedFiles));
             }
             else
             {
-                MazeListBuilder.ShowPM(mazPath, "\nPackage successfully generated", copiedFiles);
+                MazeListBuilder.ShowPM(mazPath, "\nPackage successfully generated", string.Join(",", copiedFiles));
             }
         }
 
