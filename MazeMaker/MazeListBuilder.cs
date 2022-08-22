@@ -577,6 +577,13 @@ namespace MazeMaker
                             MazeListItem maze = (MazeListItem)item;
                             if (maze.MazeFile != "" && !copiedFiles.Contains(maze.MazeFile))
                             {
+                                if(copiedFiles.Contains(maze.MazeFile))
+                                {
+                                    copiedFiles.Add(maze.MazeFile);
+                                    maze.MazeFile=maze.MazeFile+'x';
+                                    continue;
+                                }
+                                
                                 string oldFilePath = mazeFilePaths[maze.MazeFile];
                                 if (!oldFilePath.Contains(":"))
                                 {
