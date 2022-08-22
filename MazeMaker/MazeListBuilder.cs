@@ -627,6 +627,9 @@ namespace MazeMaker
                                         tempMaze.Package(newFilePath, out mazeCopiedFiles, replaceOrder, zipMode);
                                         copiedFiles.Concat(mazeCopiedFiles);
                                     
+                                        mazeFilePaths[maze.MazeFile+"x"] = newFilePath;
+                                        mazeFilePaths.Remove(maze.MazeFile);
+                                        maze.MazeFile = maze.MazeFile + "x";
                                     }
                                     else
                                         {
@@ -637,12 +640,6 @@ namespace MazeMaker
                                     ModelPathConverter.Paths = tempPathsModels;
                                     AudioPathConverter.Paths = tempPathsAudio;
                                     ImagePathConverter.Paths = tempPathsImage;
-
-                              
-                                    mazeFilePaths[maze.MazeFile+"x"] = mazeFilePaths[maze.MazeFile]+"x";
-                                    mazeFilePaths.Remove(maze.MazeFile);
-                                    maze.MazeFile = maze.MazeFile + "x";
-
 
                                 }
                                 else
