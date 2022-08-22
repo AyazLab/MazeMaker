@@ -625,7 +625,7 @@ namespace MazeMaker
                                     {
                                         List<string> mazeCopiedFiles = new List<string>();
                                         tempMaze.Package(newFilePath, out mazeCopiedFiles, replaceOrder, zipMode);
-                                        copiedFiles.Append(mazeCopiedFiles);
+                                        copiedFiles.Concat(mazeCopiedFiles);
                                     
                                     }
                                     else
@@ -1115,7 +1115,13 @@ namespace MazeMaker
 
                             mazeLibraryItem.SetAttribute("MazeID", mazeID.ToString());
 
-                            string filePath = mazeFilePaths[maze.MazeFile];
+                            
+                            string filePath;
+                            if(mazeFilePaths.ContainsKey(maze.MazeFile))
+                                filePath= mazeFilePaths[maze.MazeFile];
+                            else
+                                filePath=mazeFilePaths[maze.MazeFile+'x'];
+                                
                             if (filePath[1] == ':')
                             {
                                 filePath = MakeRelativePath(mLFilePath, filePath);
