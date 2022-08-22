@@ -623,7 +623,9 @@ namespace MazeMaker
 
                                     if (tempMaze.ReadFromFileXML(oldFilePath))
                                     {
-                                        tempMaze.Package(newFilePath, out copiedFiles, replaceOrder, zipMode);
+                                        List<string> mazeCopiedFiles = new List<string>();
+                                        tempMaze.Package(newFilePath, out mazeCopiedFiles, replaceOrder, zipMode);
+                                        copiedFiles.Append(mazeCopiedFiles);
                                     
                                     }
                                     else
