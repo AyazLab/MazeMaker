@@ -658,7 +658,13 @@ namespace MazeMaker
                             TextListItem text = (TextListItem)item;
                             if (text.AudioFile != "" && !copiedFiles.Contains(text.AudioFile))
                             {
-                                string oldFilePath = origPath + audioFilePaths[text.AudioFile];
+          
+                                string oldFilePath;
+                                if(audioFilePaths[text.AudioFile].Contains(":")
+                                    oldFilePath= audioFilePaths[text.AudioFile];
+                                else
+                                    oldFilePath = origPath + audioFilePaths[text.AudioFile];
+                                
                                 string newFilePath = melxPath + "_assets\\audio\\" + text.AudioFile;
 
                                 audioFilePaths[text.AudioFile] = newFilePath;
@@ -676,7 +682,12 @@ namespace MazeMaker
                             ImageListItem image = (ImageListItem)item;
                             if (image.ImageFile != "" && !copiedFiles.Contains(image.ImageFile))
                             {
-                                string oldFilePath = origPath + imageFilePaths[image.ImageFile];
+                                string oldFilePath;
+                                if(imageFilePaths[image.ImageFile].Contains(":")
+                                    oldFilePath= imageFilePaths[image.ImageFile];
+                                else
+                                    oldFilePath = origPath + imageFilePaths[image.ImageFile];
+                                    
                                 string newFilePath = melxPath + "_assets\\image\\" + image.ImageFile;
 
                                 imageFilePaths[image.ImageFile] = newFilePath;
@@ -691,7 +702,12 @@ namespace MazeMaker
                             }
                             if (image.AudioFile != "")
                             {
-                                string oldFilePath = origPath + audioFilePaths[image.AudioFile];
+                                string oldFilePath;
+                                if(audioFilePaths[image.AudioFile].Contains(":")
+                                    oldFilePath= audioFilePaths[image.AudioFile];
+                                else
+                                    oldFilePath = origPath + audioFilePaths[image.AudioFile];
+                                    
                                 string newFilePath = melxPath + "_assets\\audio\\" + image.AudioFile;
                                 audioFilePaths[image.AudioFile] = newFilePath;
 
@@ -708,7 +724,12 @@ namespace MazeMaker
                             MultipleChoiceListItem multipleChoice = (MultipleChoiceListItem)item;
                             if (multipleChoice.AudioFile != ""&&!copiedFiles.Contains(multipleChoice.AudioFile))
                             {
-                                string oldFilePath = origPath + audioFilePaths[multipleChoice.AudioFile];
+                                string oldFilePath;
+                                if(audioFilePaths[multipleChoice.AudioFile].Contains(":")
+                                    oldFilePath= audioFilePaths[multipleChoice.AudioFile];
+                                else
+                                    oldFilePath = origPath + audioFilePaths[multipleChoice.AudioFile];
+                                    
                                 string newFilePath = melxPath + "_assets\\audio\\" + multipleChoice.AudioFile;
                                 audioFilePaths[multipleChoice.AudioFile] = newFilePath;
 
@@ -726,7 +747,12 @@ namespace MazeMaker
                             RecordAudioListItem recordAudio = (RecordAudioListItem)item;
                             if (recordAudio.ImageFile != "" && !copiedFiles.Contains(recordAudio.ImageFile))
                             {
-                                string oldFilePath = origPath + imageFilePaths[recordAudio.ImageFile];
+                                string oldFilePath;
+                                if(imageFilePaths[recordAudio.ImageFile].Contains(":")
+                                    oldFilePath= imageFilePaths[recordAudio.ImageFile];
+                                else
+                                    oldFilePath = origPath + imageFilePaths[recordAudio.ImageFile];
+                                    
                                 string newFilePath = melxPath + "_assets\\image\\" + recordAudio.ImageFile;
 
                                 imageFilePaths[recordAudio.ImageFile] = newFilePath;
