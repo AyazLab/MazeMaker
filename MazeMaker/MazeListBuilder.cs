@@ -636,9 +636,8 @@ namespace MazeMaker
                                     AudioPathConverter.Paths = tempPathsAudio;
                                     ImagePathConverter.Paths = tempPathsImage;
 
-                                    mazeFilePaths[maze.MazeFile] = mazeFilePaths[maze.MazeFile] + "x";
-
-                                    mazeFilePaths[maze.MazeFile+"x"] = mazeFilePaths[maze.MazeFile] + "x";
+                              
+                                    mazeFilePaths[maze.MazeFile+"x"] = mazeFilePaths[maze.MazeFile]+"x";
                                     mazeFilePaths.Remove(maze.MazeFile);
                                     maze.MazeFile = maze.MazeFile + "x";
 
