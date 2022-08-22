@@ -660,7 +660,7 @@ namespace MazeMaker
                             {
           
                                 string oldFilePath;
-                                if(audioFilePaths[text.AudioFile].Contains(":")
+                                if(audioFilePaths[text.AudioFile].Contains(":"))
                                     oldFilePath= audioFilePaths[text.AudioFile];
                                 else
                                     oldFilePath = origPath + audioFilePaths[text.AudioFile];
@@ -683,7 +683,7 @@ namespace MazeMaker
                             if (image.ImageFile != "" && !copiedFiles.Contains(image.ImageFile))
                             {
                                 string oldFilePath;
-                                if(imageFilePaths[image.ImageFile].Contains(":")
+                                if(imageFilePaths[image.ImageFile].Contains(":"))
                                     oldFilePath= imageFilePaths[image.ImageFile];
                                 else
                                     oldFilePath = origPath + imageFilePaths[image.ImageFile];
@@ -703,7 +703,7 @@ namespace MazeMaker
                             if (image.AudioFile != "")
                             {
                                 string oldFilePath;
-                                if(audioFilePaths[image.AudioFile].Contains(":")
+                                if(audioFilePaths[image.AudioFile].Contains(":"))
                                     oldFilePath= audioFilePaths[image.AudioFile];
                                 else
                                     oldFilePath = origPath + audioFilePaths[image.AudioFile];
@@ -725,7 +725,7 @@ namespace MazeMaker
                             if (multipleChoice.AudioFile != ""&&!copiedFiles.Contains(multipleChoice.AudioFile))
                             {
                                 string oldFilePath;
-                                if(audioFilePaths[multipleChoice.AudioFile].Contains(":")
+                                if(audioFilePaths[multipleChoice.AudioFile].Contains(":"))
                                     oldFilePath= audioFilePaths[multipleChoice.AudioFile];
                                 else
                                     oldFilePath = origPath + audioFilePaths[multipleChoice.AudioFile];
@@ -748,7 +748,7 @@ namespace MazeMaker
                             if (recordAudio.ImageFile != "" && !copiedFiles.Contains(recordAudio.ImageFile))
                             {
                                 string oldFilePath;
-                                if(imageFilePaths[recordAudio.ImageFile].Contains(":")
+                                if(imageFilePaths[recordAudio.ImageFile].Contains(":"))
                                     oldFilePath= imageFilePaths[recordAudio.ImageFile];
                                 else
                                     oldFilePath = origPath + imageFilePaths[recordAudio.ImageFile];
